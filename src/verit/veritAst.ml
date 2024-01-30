@@ -762,7 +762,9 @@ and process_term_aux (t : term) : bool * SmtAtom.Form.atom_form_lit (* option *)
                   apply_bdec_atom (Atom.mk_mult ra) x' y'
 
 let process_cl (c : clause) : SmtAtom.Form.t list =
-  List.map (fun x -> process_term (process_term_aux x)) c
+  List.map (fun x -> try process_term (process_term_aux x) with
+                     | Form.NotWellTyped frm -> raise (Debug ("| process_cl: formula "^
+                        (Form.pform_to_string frm)^" is not well-typed |"))) c
 
 let process_rule (r: rule) : VeritSyntax.typ =
   match r with
@@ -1004,7 +1006,8 @@ let process_cong (c : certif) : certif =
            the clause because we treat equality and iff as the same at the AST level *)
         let c' = try process_cl cl with
                  | Form.NotWellTyped frm -> raise (Debug ("| process_cong: formula "^
-                 (Form.pform_to_string frm)^" is not well-typed at id "^i^" |")) in
+                    (Form.pform_to_string frm)^" is not well-typed at id "^i^" |"))
+                 | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "^i^" |"^s)) in
         (match c' with
           | l :: _ ->
             (match cl with
@@ -2055,7 +2058,8 @@ let process_cong (c : certif) : certif =
     | (i, r, cl, p, a) :: t -> (* This is necessary to add the shared terms to the hash tables *)
                                let _ = try process_cl cl with
                                        | Form.NotWellTyped frm -> raise (Debug ("| process_cong: formula "^
-                                          (Form.pform_to_string frm)^" is not well-typed at id "^i^" |")) in
+                                          (Form.pform_to_string frm)^" is not well-typed at id "^i^" |"))
+                                       | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "^i^" |"^s)) in
                                (i, r, cl, p, a) :: process_cong_aux t cog
     | [] -> []
     in process_cong_aux c c
@@ -2080,7 +2084,8 @@ let process_trans (c : certif) : certif =
            the clause because we treat equality and iff as the same at the AST level *)
         let c' = try process_cl cl with
            | Form.NotWellTyped frm -> raise (Debug ("| process_trans: formula "^
-              (Form.pform_to_string frm)^" is not well-typed at id "^i^" |")) in
+              (Form.pform_to_string frm)^" is not well-typed at id "^i^" |"))
+           | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "^i^" |"^s)) in
         (match c' with
           | l :: _ ->
              (* get negation of premises and terms for any implicit equality *)
@@ -2232,7 +2237,8 @@ let process_trans (c : certif) : certif =
            the clause because we treat equality and iff as the same at the AST level *)
         let c' = try process_cl cl with
            | Form.NotWellTyped frm -> raise (Debug ("| process_trans: in refl rule, formula "^
-              (Form.pform_to_string frm)^" is not well-typed at id "^i^" |")) in
+              (Form.pform_to_string frm)^" is not well-typed at id "^i^" |"))
+           | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "^i^" |"^s)) in
         (match c' with
           (* We need to encode the formula case, the checker can handle the term case *)
           | l :: _ when is_iff l ->
@@ -4523,7 +4529,8 @@ let rec process_simplify (c : certif) : certif =
          let a2b = [(generate_id (), TrueAST, [rhs], [], [])] in
          let c' = try process_cl cl with
                   | Form.NotWellTyped frm -> raise (Debug ("| process_simplify: formula "^
-                       (Form.pform_to_string frm)^" is not well-typed at id "^i^" |")) in
+                       (Form.pform_to_string frm)^" is not well-typed at id "^i^" |"))
+                  | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "^i^" |"^s)) in
          let is_frm =
          (match c' with
           | l :: _ ->
@@ -4762,9 +4769,8 @@ let rec process_certif (c : certif) : VeritSyntax.id list =
       let c' = try process_cl c with
                | Form.NotWellTyped p -> raise (Debug ("VeritAst.process_certif: formula "^
                             (Form.pform_to_string p)^" is not well-typed at id "^i))
-               | Debug s -> raise (Debug 
-                  ("| VeritAst.process_certif: can't process clause at id "
-                  ^i^" |"^s)) in
+               | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "
+                            ^i^" |"^s)) in
       let p' = List.map (VeritSyntax.id_of_string) p in
       let a' = List.map (VeritSyntax.id_of_string) a in
       (* Must do this in this order to avoid side effects *)
