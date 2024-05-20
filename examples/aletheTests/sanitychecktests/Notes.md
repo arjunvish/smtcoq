@@ -1,16 +1,16 @@
 
 # Sanity Check Tests
 We have 8 sanity check tests:
-| Test | Formula                                        | veriT Proof | Comments | cvc5 Proof | Comments     | 
-|------|------------------------------------------------|-------------|----------|------------|--------------|
-|test1 |`~(T ^ ~T)`                                     | Success      |          | Success    |              |
-|test2 |`T v F`                                         | Success      |          | Success     |              |
-|test3 |`forall p, ~(p ^ ~p)`                           | Success      |          | Success     |              |
-|test4 |`forall a b c, (a v b v c) ^ (~a v ~b v ~c) ^ (~a v b) ^ (~b v c) ^ (~c v a)`    | Success      |          | Success     |              | 
-|test5 |`forall p, p v ~p`                              | Success      |          | Success     |             |
-|test6 |`forall (a b : Z) (p : Z -> bool) (f : Z -> Z), ~(f a = b) v (~ P (f a)) v P b`| Success     |          | Failure    | Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_) |
-|test7 |`(forall (x : Z) (P : Z -> bool), P x) ->  P a` | Failure      | Fails at step `t64` as a consequence of `flatten_subproof` of subproofs created by a bool_simplify (at step `t2`)  | Failure     | Failure because of step `(t7, HoleAST, (cl  ((((1 + (2 * op_2)) = (1 + (2 * op_3))) = (op_2 = op_3)))), [], [ ARITH_POLY_NORM (((1 + (2 * op_2)) = (1 + (2 * op_3))) = (op_2 = op_3))])`, Micromega cannot solve this |
-|test8 |`forall (x y: Z) (f: Z -> Z), x = y + 1 -> f y = f (x - 1)`                  | Success     |         | Failure    | Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_) |
+| Test | Formula                                        | logic | veriT Proof | Comments | cvc5 Proof | Comments     | 
+|------|------------------------------------------------|-------|-------------|----------|------------|--------------|
+|test1 |`~(T ^ ~T)`                                     | Core  | Success      |          | Success    |              |
+|test2 |`T v F`                                         | Core  | Success      |          | Success     |              |
+|test3 |`forall p, ~(p ^ ~p)`                           | Core  | Success      |          | Success     |              |
+|test4 |`forall a b c, (a v b v c) ^ (~a v ~b v ~c) ^ (~a v b) ^ (~b v c) ^ (~c v a)`    | Core  | Success      |          | Success     |              | 
+|test5 |`forall p, p v ~p`                              | Core  | Success      |          | Success     |             |
+|test6 |`forall (a b : Z) (P : Z -> bool) (f : Z -> Z), ~(f a = b) v (~ P (f a)) v P b`| QF_UFLIA | Success     |          | Failure    | Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_) |
+|test7 |`forall (a b : bool) (x y : Z) (ite a (ite b (= (+ (* 2 x) 1) (+ (* 2 y) 1)) (= (+ (* 2 x) 1) (* 2 y))) (ite b (= (* 2 x) (+ (* 2 y) 1)) (= (* 2 x) (* 2 y)))) => (and (=> a b) (=> b a) (= x y))` | QF_UFLIA | Failure      | Fails at step `t64` as a consequence of `flatten_subproof` of subproofs created by a bool_simplify (at step `t2`)  | Failure     | Failure because of step `(t7, HoleAST, (cl  ((((1 + (2 * op_2)) = (1 + (2 * op_3))) = (op_2 = op_3)))), [], [ ARITH_POLY_NORM (((1 + (2 * op_2)) = (1 + (2 * op_3))) = (op_2 = op_3))])`, Micromega cannot solve this |
+|test8 |`forall (x y: Z) (f: Z -> Z), y = x + 1 -> f x = f (y - 1)` | QF_UFLIA | Success     |         | Failure    | Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_) |
 
 ## Issues:
 
