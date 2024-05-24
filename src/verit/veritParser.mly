@@ -193,6 +193,10 @@ term:
     { NTerm (a, t) }
   | a=ATSYMBOL                              { STerm a }
 
+  (* Term with let *)
+  (*| LPAREN LET LPAREN vb=var_binding+ RPAREN t=term RPAREN
+    { Let (vb, t) }*)
+
   (* Formulas *)
   | TRUE                                    { True }
   | FALSE                                   { False }
@@ -205,7 +209,7 @@ term:
     { Ite ts }
   | LPAREN FORALL LPAREN vs=sorted_var+ RPAREN t=term RPAREN
     { Forall (vs, t) }
-  (*| LPAREN LET LPAREN vs=var_binding+ RPAREN term RPAREN
+  (*| LPAREN EXISTS LPAREN vs=sorted_var+ RPAREN term RPAREN
     { Exists (vs, t) }*)
 
   (* Atoms *)
@@ -254,6 +258,10 @@ sort:
 sorted_var:
   | LPAREN s=SYMBOL t=sort RPAREN           { (s, t) }
 ;
+
+(*var_binding:
+  | LPAREN s=SYMBOL t=term RPAREN           { (s, t) }
+;*)
 
 rulename:
   | ASSUME                                  { AssumeAST }
@@ -343,9 +351,6 @@ rulename:
   | SYMBOL LPAREN sorted_var* RPAREN sort term { "" }
 ;
 
-var_binding:
-  | LPAREN SYMBOL term RPAREN { "" }
-;
 pattern:
   | SYMBOL { "" }
   | LPAREN SYMBOL SYMBOL+ RPAREN { "" }

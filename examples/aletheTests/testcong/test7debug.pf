@@ -1,0 +1,4 @@
+(assume h1 (= (+ (* 2 x) 1) (+ 1 (* 2 x))))
+(assume h2 (not (= (= (+ (* 2 x) 1) (* 2 y)) (= (* 2 y) (+ 1 (* 2 x))))))
+(step t3 (cl (= (= (+ (* 2 x) 1) (* 2 y)) (= (* 2 y) (+ 1 (* 2 x))))) :rule cong :premises (h1))
+(step t4 (cl) :rule resolution :premises (h2 t3))

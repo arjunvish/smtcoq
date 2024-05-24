@@ -1,0 +1,8 @@
+(set-logic UFLIA)
+(declare-fun x () Int)
+(declare-fun y () Int)
+(declare-fun z () Bool)
+(declare-fun c () Bool)
+(assert (not (=  (not (=> (ite c (ite z (= (+ ( * 2 x) 1) (+ ( * 2 y) 1)) (= (+ ( * 2 x) 1) ( * 2 y))) (ite z (= ( * 2 x) (+ ( * 2 y) 1)) (= ( * 2 x) ( * 2 y)))) (and  (=> c z) (=> z c) (= x y)))) 
+        (and  (ite c (ite z (= (+ ( * 2 x) 1) (+ ( * 2 y) 1)) (= (+ ( * 2 x) 1) ( * 2 y))) (ite z (= ( * 2 x) (+ ( * 2 y) 1)) (= ( * 2 x) ( * 2 y)))) (not (and  (=> c z) (=> z c) (= x y)))))))
+(check-sat)

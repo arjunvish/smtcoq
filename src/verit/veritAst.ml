@@ -27,6 +27,7 @@ type term =
   | Var of string
   | STerm of string (* Shared term *)
   | NTerm of string * term (* Named term *)
+  (* | Let of (string * term) list * term *)
   | Int of int (* change to bigint *)
   | Lt of term * term
   | Leq of term * term
@@ -348,6 +349,8 @@ and string_of_term (t : term) : string =
   | STerm s -> (try string_of_term (get_expr t) with
                | Debug f -> s)
   | NTerm (s, t) -> "("^(string_of_term t)^" :named "^s^")"
+  (* | Let (xs, t) -> let args = List.fold_left concat_sp "" (List.map (fun (s,t) -> "(s := "^(string_of_term t)^")") xs) in 
+  "(let "^args^" in "^(string_of_term t)^")"*)
   | Int i -> string_of_int i
   | Lt (t1, t2) -> "("^(string_of_term t1)^" < "^(string_of_term t2)^")"
   | Leq (t1, t2) -> "("^(string_of_term t1)^" <= "^(string_of_term t2)^")"
@@ -377,6 +380,7 @@ let head_term (t : term) : string =
   | Var _ -> "Var _"
   | STerm _ -> "STerm _"
   | NTerm _ -> "NTerm _"
+  (* | Let _ -> "Let _" *)
   | Int _ -> "Int _"
   | Lt _ -> "Lt _"
   | Leq _ -> "Leq _"
@@ -386,6 +390,9 @@ let head_term (t : term) : string =
   | Plus _ -> "Plus _"
   | Minus _ -> "Minus _"
   | Mult _ -> "Mult _"
+
+
+(* Pass through certificate*)
 (* Pass through certificate, replace named terms with their
    aliases, and store the alias-term mapping in a hash table *)
 let rec store_shared_terms_t (t : term) : term =
@@ -404,6 +411,9 @@ let rec store_shared_terms_t (t : term) : term =
   | STerm s -> STerm s
   | NTerm (s, t') -> let t'' = store_shared_terms_t t' in
                      add_sterm s t''; STerm s
+  (*| Let (xs, t') -> 
+      let xs' = List.map (fun (x, t'') -> (x, store_shared_terms_t t'')) xs in 
+    Let (xs', (store_shared_terms_t t'))*)
   | Int i -> Int i
   | Lt (t1, t2) -> Lt ((store_shared_terms_t t1), (store_shared_terms_t t2))
   | Leq (t1, t2) -> Leq ((store_shared_terms_t t1), (store_shared_terms_t t2))
@@ -736,6 +746,7 @@ and process_term_aux (t : term) : bool * SmtAtom.Form.atom_form_lit (* option *)
                               add_solver s t''; t'')
   | NTerm (s, t) -> let t' = process_term_aux t in
                     add_solver s t'; t'
+  (* | Let _ -> raise (Debug ("| process_term_aux: lets should have been eliminated by this point |")) *)
   | Int i -> true, Form.Atom (Atom.hatom_Z_of_int ra i)
   | Lt (x,y) -> let x' = process_term_aux x in
                 let y' = process_term_aux y in 
@@ -880,6 +891,7 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
    match get_expr t with
    | True | False | Int _ -> raise (Debug ("| get_args_isfrms : attempting congruence over constants |"))
    | Forall _ -> raise (Debug ("| get_args_isfrms : congruence over forall application unsupported |"))
+   (* | Let (xs, t) -> TODO: need to look at t after let substritution raise (Debug ("| get_args_isfrms : congruence over lets unsupported |")) *)
    | Var _ -> raise (Debug ("| get_args_isfrms : attempting congruence over variable application |"))
    | Not x ->  [(x, true)]
    | UMinus x -> [(x, false)]

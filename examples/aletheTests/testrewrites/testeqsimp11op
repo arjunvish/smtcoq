@@ -1,0 +1,204 @@
+Certif after storing shared terms: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(t3, EqualsimpAST, (cl  (((x = x) = (true)))), [], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_fins: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(t3, EqualsimpAST, (cl  (((x = x) = (true)))), [], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_hole: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(t3, EqualsimpAST, (cl  (((x = x) = (true)))), [], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_notnot: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(t3, EqualsimpAST, (cl  (((x = x) = (true)))), [], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_same: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(t3, EqualsimpAST, (cl  (((x = x) = (true)))), [], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_cong: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(t3, EqualsimpAST, (cl  (((x = x) = (true)))), [], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_trans: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(t3, EqualsimpAST, (cl  (((x = x) = (true)))), [], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_simplify: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(x8, Equn1AST, (cl  (((x = x) = (true))) ((not (x = x))) ((not (true)))), [], [])
+(x13, SubproofAST
+	(x5, AssumeAST, (cl  ((x = x))), [], [])
+(x1, TrueAST, (cl  ((true))), [], [])
+(x6, DischargeAST, (cl  ((not (x = x))) ((true))), [], [])
+	, (cl ), [], [])
+(x10, ResoAST, (cl  (((x = x) = (true))) ((not (x = x)))), [ x6 x8], [])
+(x9, Equn2AST, (cl  (((x = x) = (true))) ((x = x)) ((true))), [], [])
+(x12, SubproofAST
+	(x4, AssumeAST, (cl  ((true))), [], [])
+(x2, Equn1AST, (cl  ((x = x)) ((not x))), [], [])
+(x3, Equn2AST, (cl  ((x = x)) (x)), [], [])
+(t3, ResoAST, (cl  ((x = x))), [ x2 x3], [])
+(x7, DischargeAST, (cl  ((not (true))) ((x = x))), [], [])
+	, (cl ), [], [])
+(x11, ResoAST, (cl  (((x = x) = (true))) ((x = x))), [ x7 x9], [])
+(t3, ResoAST, (cl  (((x = x) = (true)))), [ x10 x11], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_proj: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+(x8, Equn1AST, (cl  (((x = x) = (true))) ((not (x = x))) ((not (true)))), [], [])
+(x13, SubproofAST
+	(x5, AssumeAST, (cl  ((x = x))), [], [])
+(x1, TrueAST, (cl  ((true))), [], [])
+(x6, DischargeAST, (cl  ((not (x = x))) ((true))), [], [])
+	, (cl ), [], [])
+(x10, ResoAST, (cl  (((x = x) = (true))) ((not (x = x)))), [ x6 x8], [])
+(x9, Equn2AST, (cl  (((x = x) = (true))) ((x = x)) ((true))), [], [])
+(x12, SubproofAST
+	(x4, AssumeAST, (cl  ((true))), [], [])
+(x2, Equn1AST, (cl  ((x = x)) ((not x))), [], [])
+(x3, Equn2AST, (cl  ((x = x)) (x)), [], [])
+(t3, ResoAST, (cl  ((x = x))), [ x2 x3], [])
+(x7, DischargeAST, (cl  ((not (true))) ((x = x))), [], [])
+	, (cl ), [], [])
+(x11, ResoAST, (cl  (((x = x) = (true))) ((x = x))), [ x7 x9], [])
+(t3, ResoAST, (cl  (((x = x) = (true)))), [ x10 x11], [])
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+(t5, ResoAST, (cl ), [ t4 t3 h2 h1], [])
+
+Certif after process_subproof: 
+(h1, AssumeAST, (cl  ((x = x))), [], [])
+-----assume
+x = x
+(h2, AssumeAST, (cl  ((not (true)))), [], [])
+--assume
+~T
+(x8, Equn1AST, (cl  (((x = x) = (true))) ((not (x = x))) ((not (true)))), [], [])
+-------------------------eqn1
+(x = x) = T, ~(x = x), ~T
+(x6, AndnAST, (cl  ((and  (x = x) (not (true)))) ((not (x = x))) ((true))), [], [])
+------------------------andn
+x = x ^ ~T, ~(x = x), T
+(x10, ResoAST, (cl  ((and  (x = x) (not (true)))) (((x = x) = (true))) ((not (x = x)))), [ x6 x8], [])
+------------------------andn  -------------------------eqn1
+x = x ^ ~T, ~(x = x), T       (x = x) = T, ~(x = x), ~T
+--------------------------------------------------------res
+            x = x ^ ~T, (x = x) = T, ~(x = x)
+(x9, Equn2AST, (cl  (((x = x) = (true))) ((x = x)) ((true))), [], [])
+---------------------eqn2
+(x = x) = T, x = x, T
+(x7, AndnAST, (cl  ((and  (true) (not (x = x)))) ((not (true))) ((x = x))), [], [])
+------------------------andn
+T ^ ~(x = x), ~T, x = x
+(x11, ResoAST, (cl  ((and  (true) (not (x = x)))) (((x = x) = (true))) ((x = x))), [ x7 x9], [])
+------------------------andn    ---------------------eqn2
+T ^ ~(x = x), ~T, x = x         (x = x) = T, x = x, T
+-----------------------------------------------------res
+         T ^ ~(x = x), (x = x) = T, x = x
+(t3, ResoAST, (cl  ((and  (x = x) (not (true)))) ((and  (true) (not (x = x)))) (((x = x) = (true)))), [ x10 x11], [])
+---------------------------------x10    --------------------------------x11
+x = x ^ ~T, (x = x) = T, ~(x = x)       T ^ ~(x = x), (x = x) = T, x = x
+-------------------------------------------------------------------------res
+                x = x ^ ~T, T ^ ~(x = x), (x = x) = T
+(t4, Equp2AST, (cl  ((not ((x = x) = (true)))) ((not (x = x))) ((true))), [], [])
+---------------------------eqp2
+~((x = x) = T), ~(x = x), T
+(t5, ResoAST, (cl  ((and  (x = x) (not (true)))) ((and  (true) (not (x = x))))), [ t4 t3 h2 h1], [])
+---------------------------eqp2     -------------------------------------t3
+~((x = x) = T), ~(x = x), T         x = x ^ ~T, T ^ ~(x = x), (x = x) = T
+-------------------------------------------------------------------------res    --assume
+                x = x ^ ~T, T ^ ~(x = x), ~(x = x), T                           ~T
+                -------------------------------------------------------------------res  -----assume
+                                    x = x ^ ~T, T ^ ~(x = x), ~(x = x)                  x = x
+                                    ---------------------------------------------------------res
+                                                        x = x ^ ~T, T ^ ~(x = x)
+(x15, AndpAST, (cl  ((not (and  (true) (not (x = x))))) ((true))), [], [ 0])
+------------------andp
+~(T ^ ~(x = x)), T
+(x14, ResoAST, (cl  ((and  (x = x) (not (true)))) ((true))), [ t5 x15], [])
+------------------------t5  ------------------andp
+x = x ^ ~T, T ^ ~(x = x)    ~(T ^ ~(x = x)), T
+----------------------------------------------res
+                  x = x ^ ~T, T
+(x2, Equn1AST, (cl  ((x = x)) ((not x))), [], [])
+---------eqn1
+x = x, ~x
+(x3, Equn2AST, (cl  ((x = x)) (x)), [], [])
+--------eqn2
+x = x, x
+(t3, ResoAST, (cl  ((x = x))), [ x2 x3], [])
+---------eqn1   --------eqn2
+x = x, ~x       x = x, x
+-------------------------res
+           x = x
+(x16, AndpAST, (cl  ((not (and  (true) (not (x = x))))) ((not (x = x)))), [], [ 1])
+-------------------------andp
+~(T ^ ~(x = x)), ~(x = x)
+(x17, ResoAST, (cl  ((and  (x = x) (not (true)))) ((not (x = x)))), [ t5 x16], [])
+------------------------t5  -------------------------andp
+x = x ^ ~T, T ^ ~(x = x)    ~(T ^ ~(x = x)), ~(x = x)
+-----------------------------------------------------res
+                x = x ^ ~T, ~(x = x)
+(x18, ResoAST, (cl  ((and  (x = x) (not (true))))), [ t3 x17], [])
+-----t3 --------------------x17
+x = x   x = x ^ ~T, ~(x = x)
+----------------------------res
+        x = x ^ ~T
+(x20, AndpAST, (cl  ((not (and  (x = x) (not (true))))) ((x = x))), [], [ 0])
+--------------------andp
+~(x = x ^ ~T), x = x
+(x19, ResoAST, (cl  ((x = x))), [ x18 x20], [])
+----------x18   --------------------andp
+x = x ^ ~T      ~(x = x ^ ~T), x = x
+------------------------------------res
+                x = x
+(x1, TrueAST, (cl  ((true))), [], [])
+--true
+T
+(x21, AndpAST, (cl  ((not (and  (x = x) (not (true))))) ((not (true)))), [], [ 1])
+-----------------andp
+~(x = x ^ ~T), ~T
+(x22, ResoAST, (cl  ((not (true)))), [ x18 x21], [])
+----------x18   -----------------andp
+x = x ^ ~T      ~(x = x ^ ~T), ~T
+---------------------------------res
+                ~T
+(x23, ResoAST, (cl ), [ x1 x22], [])
+--true  --x22
+T       ~T
+----------res
+    []
+
+File "./coq/testeqsimp11.v", line 5, characters 2-252:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+

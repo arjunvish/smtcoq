@@ -18,6 +18,7 @@ type term =
   | Var of string
   | STerm of string (* Shared term *)
   | NTerm of string * term (* Named term *)
+  (* | Let of (string * term) list * term *)
   | Int of int (* change to bigint *)
   | Lt of term * term
   | Leq of term * term

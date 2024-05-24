@@ -1,0 +1,5 @@
+(assume h1 (= a b))
+(assume h2 (not b))
+(assume h3 a)
+(step t4 (cl (not (= a b)) (not a) b) :rule equiv_pos2)
+(step t5 (cl) :rule resolution :premises (t4 h1 h2 h3))

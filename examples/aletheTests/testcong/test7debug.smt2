@@ -1,0 +1,8 @@
+(set-logic UFLIA)
+(declare-fun x () Int)
+(declare-fun y () Int)
+(assert (= (+ (* 2 x) 1) (+ 1 (* 2 x))))
+(assert (not (= (= (+ (* 2 x) 1) (* 2 y)) (= (* 2 y) (+ 1 (* 2 x))))))
+(check-sat)
+;(t7, SumsimpAST, (cl  ((((2 * x) + 1) = (1 + (2 * x))))), [], [])
+;(t10, CongAST, (cl  (((((2 * x) + 1) = (2 * y)) = ((2 * y) = (1 + (2 * x)))))), [ t7], [])

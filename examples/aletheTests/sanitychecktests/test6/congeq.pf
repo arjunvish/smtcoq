@@ -1,0 +1,5 @@
+(assume h1 (= x (f y)))
+(assume h2 (not (= (= x (f y)) (= (f y) (f y)))))
+(step t3 (cl (= (f y) (f y))) :rule refl)
+(step t4 (cl (= (= x (f y)) (= (f y) (f y)))) :rule cong :premises (h1 t3))
+(step t5 (cl) :rule resolution :premises (h2 t4))

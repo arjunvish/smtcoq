@@ -72,3 +72,11 @@ src/extraction/smtcoq
 # proof certificates
 *.vtlog
 *.zlog
+
+# Temp - added by Arjun
+examples/QF_UF-master/*
+examples/aletheTests/DebugSmtCoq/
+examples/benchmarks-backup/*
+examples/sledgehammer-benchmarks/*
+examples/sledgehammer-benchmarks-backup/*
+examples/thesis-exp/QF_UF/*

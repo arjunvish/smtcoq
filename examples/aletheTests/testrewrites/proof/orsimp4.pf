@@ -1,0 +1,5 @@
+(assume h1 (or x y false))
+(assume h2 (not (or x y)))
+(step t3 (cl (= (or x y false) (or x y))) :rule or_simplify)
+(step t4 (cl (not (= (or x y false) (or x y))) (not (or x y false)) (or x y)) :rule equiv_pos2)
+(step t5 (cl) :rule resolution :premises (t4 t3 h2 h1))
