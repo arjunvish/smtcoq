@@ -1,0 +1,6 @@
+1:(input ((not #1:(p_d #2:(class_d #3:(pick_d #4:(class_d a_d))) #5:(class_da #6:(pick_da #7:(class_da b_d)))))))
+2:(input (#8:(p_d #4 #7)))
+3:(input (#9:(= #4 #2)))
+4:(input (#10:(= #7 #5)))
+5:(eq_congruent_pred ((not #9) (not #10) (not #8) #1))
+6:(resolution () 5 1 2 3 4)

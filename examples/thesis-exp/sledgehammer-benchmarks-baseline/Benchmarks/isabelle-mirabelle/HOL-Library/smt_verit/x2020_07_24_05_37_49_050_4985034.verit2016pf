@@ -1,0 +1,4 @@
+1:(input ((not #1:(less_eq_d #2:(fst_d x_d) #3:(fst_d y_d)))))
+2:(input (#4:(and #1 #5:(less_eq_da #6:(snd_d x_d) #7:(snd_d y_d)))))
+3:(and (#1) 2 0)
+4:(resolution () 3 1)

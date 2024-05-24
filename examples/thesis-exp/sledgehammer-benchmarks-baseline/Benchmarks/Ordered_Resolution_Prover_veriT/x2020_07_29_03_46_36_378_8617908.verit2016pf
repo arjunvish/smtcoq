@@ -1,0 +1,5 @@
+1:(input ((not #1:(= #2:(subst_cls_list_d subst_atm_d #3:(map_d s_d cAs0_d) eta_d) #4:(map_d #5:(s_M_d subst_atm_d s_d m_d) cAs_d)))))
+2:(input (#6:(= #2 #7:(subst_cls_lists_d subst_atm_d #3 eta_s0_d))))
+3:(input (#8:(= #4 #7)))
+4:(eq_transitive ((not #6) (not #8) #1))
+5:(resolution () 4 1 2 3)

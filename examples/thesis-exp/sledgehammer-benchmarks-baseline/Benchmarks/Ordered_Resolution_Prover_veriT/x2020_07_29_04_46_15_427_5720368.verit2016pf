@@ -1,0 +1,7 @@
+1:(input ((not #1:(less_eq_d #2:(fun_app_d atms_of_d #3:(sum_mset_d #4:(mset_d cs_d))) #5:(sup_d #6:(image_d atms_of_d #7:(set_d cAs_d)))))))
+2:(input (#8:(less_eq_d #2 #9:(fun_app_d atms_of_d #10:(sum_mset_d #11:(mset_d cAs_d))))))
+3:(input (#12:(= #5 #9)))
+4:(eq_congruent_pred ((not #13:(= #2 #2)) (not #12) (not #8) #1))
+5:(eq_reflexive (#13))
+6:(resolution ((not #12) (not #8) #1) 4 5)
+7:(resolution () 6 1 2 3)

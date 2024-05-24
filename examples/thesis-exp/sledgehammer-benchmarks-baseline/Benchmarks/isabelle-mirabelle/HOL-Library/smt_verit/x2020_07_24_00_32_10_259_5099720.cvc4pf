@@ -1,0 +1,44 @@
+(check
+ ;; Declarations
+(% thesis_d (term Bool)
+(% e2_d (term Int)
+(% e1_d (term Int)
+(% A2 (th_holds (impl (<=_Int e1_d e2_d)  (p_app thesis_d)))
+(% A1 (th_holds (impl (<=_Int e2_d e1_d)  (p_app thesis_d)))
+(% A3 (th_holds true)
+(% A0 (th_holds (not (p_app thesis_d)))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 thesis_d
+(@ let2 e1_d
+(@ let3 (a_int (~ 1) ) 
+(@ let4 e2_d
+(@ let5 (*_Int let3 let4) 
+(@ let6 (+_Int let2 let5) 
+(@ let7 (a_int 0) 
+(@ let8 (>=_Int let6 let7) 
+(@ let9 (a_int 1) 
+(@ let10 (>=_Int let6 let9) 
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (impl (<=_Int let2 let4)  (p_app let1)) (impl (not let10) (p_app let1))))(\ .PA282
+(th_let_pf _ (trust_f (iff (error "Internal error detected
+void CVC4::ProofManager::traceDeps(CVC4::TNode, CVC4::ExprSet*)
+../../../../src/proof/proof_manager.cpp:283:
+
+  
+Cannot trace dependence information back to input assertion:
+`(or (>= (+ e1_d (* (- 1) e2_d)) 0) (not (>= (+ e1_d (* (- 1) e2_d)) 1)))'")

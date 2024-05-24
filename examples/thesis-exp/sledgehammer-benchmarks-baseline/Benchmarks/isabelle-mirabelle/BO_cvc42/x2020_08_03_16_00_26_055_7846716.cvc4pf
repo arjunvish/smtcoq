@@ -1,0 +1,78 @@
+(check
+ ;; Declarations
+(% S_d sort
+(% S_v_tm_d sort
+(% S_v_hd_d sort
+(% g_d (term S_d)
+(% f_d (term S_d)
+(% head_d (term (arrow S_v_tm_d S_v_hd_d))
+(% sa_d (term S_v_tm_d)
+(% ta_d (term S_v_tm_d)
+(% sym_d (term (arrow S_d S_v_hd_d))
+(% A4 (th_holds true)
+(% A0 (th_holds (not (= S_v_hd_d (apply _ _ head_d ta_d) (apply _ _ head_d sa_d))))
+(% A1 (th_holds (= S_v_hd_d (apply _ _ head_d sa_d) (apply _ _ sym_d f_d)))
+(% A2 (th_holds (= S_v_hd_d (apply _ _ head_d ta_d) (apply _ _ sym_d g_d)))
+(% A3 (th_holds (= S_d g_d f_d))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 ta_d
+(@ let2 (apply _ _ head_d let1)
+(@ let3 sa_d
+(@ let4 (apply _ _ head_d let3)
+(@ let5 (= S_v_hd_d let2 let4)
+(@ let6 f_d
+(@ let7 (apply _ _ sym_d let6)
+(@ let8 (= S_v_hd_d let4 let7)
+(@ let9 g_d
+(@ let10 (apply _ _ sym_d let9)
+(@ let11 (= S_v_hd_d let2 let10)
+(@ let12 (= S_d let6 let9)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= S_d let9 let6) (= S_d let6 let9)))(\ .PA287
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let5 (\ .v2 (\ .a2
+(decl_atom let8 (\ .v3 (\ .a3
+(decl_atom let11 (\ .v4 (\ .a4
+(decl_atom let12 (\ .v5 (\ .a5
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ A1 .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ A2 .l8)))) (\ .pb6
+(satlem _ _ (asf _ _ _ .a5 (\ .l10 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A3) (iff_elim_1 _ _ .PA287)) .l10)))) (\ .pb7
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a5 (\ .l11 (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (= f_d g_d)) (not (= (head_d ta_d) (sym_d g_d))) (not (= (head_d sa_d) (sym_d f_d))) (= (head_d ta_d) (head_d sa_d)) 
+(clausify_false (contra _ (trans _ _ _ _ .l9 (symm _ _ _ (trans _ _ _ _ .l7 (symm _ _ _ (cong _ _ _ _ _ _ (refl _ sym_d) (symm _ _ _ .l11)))))) .l4))
+))))))))( \ .lemc8
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ (Q _ _ .lemc8 .pb7 .v5) .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;
+(
+a3
+a2
+a1
+a0
+)

@@ -1,0 +1,5 @@
+(assume a0 (not (= (size_d eta_s0_d) (size_da cAs_d))))
+(assume a1 (= (size_da cAs_d) n_d))
+(assume a12 (= (size_d eta_s0_d) n_d))
+(step t4 (cl (not (= (size_d eta_s0_d) n_d)) (not (= (size_da cAs_d) n_d)) (= (size_d eta_s0_d) (size_da cAs_d))) :rule eq_transitive)
+(step t5 (cl) :rule resolution :premises (t4 a0 a1 a12))

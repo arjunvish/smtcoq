@@ -1,0 +1,3 @@
+(assume a3 (less_eq_d (abs_d (a_d x_d)) (times_d c_d (abs_d (f_d x_d)))))
+(assume a0 (not (less_eq_d (abs_d (a_d x_d)) (times_d c_d (abs_d (f_d x_d))))))
+(step t3 (cl) :rule th_resolution :premises (a3 a0))

@@ -1,0 +1,75 @@
+(check
+ ;; Declarations
+(% S_v_tm_d sort
+(% S_v_hd_d sort
+(% V_s_set_fun_d sort
+(% S_s_bool_fun_fun_d sort
+(% ta_d (term S_v_tm_d)
+(% sa_d (term S_v_tm_d)
+(% ua_d (term S_v_tm_d)
+(% gt_hd_d (term (arrow S_s_bool_fun_fun_d (arrow V_s_set_fun_d (arrow S_v_hd_d (arrow S_v_hd_d Bool)))))
+(% gt_sym_d (term S_s_bool_fun_fun_d)
+(% ground_heads_var_d (term V_s_set_fun_d)
+(% head_d (term (arrow S_v_tm_d S_v_hd_d))
+(% A3 (th_holds true)
+(% A2 (th_holds (= S_v_hd_d (apply _ _ head_d ta_d) (apply _ _ head_d sa_d)))
+(% A1 (th_holds (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_hd_d gt_sym_d)ground_heads_var_d)(apply _ _ head_d ua_d))(apply _ _ head_d ta_d))))
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_hd_d gt_sym_d)ground_heads_var_d)(apply _ _ head_d ua_d))(apply _ _ head_d sa_d)))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 gt_sym_d
+(@ let2 ground_heads_var_d
+(@ let3 ua_d
+(@ let4 (apply _ _ head_d let3)
+(@ let5 sa_d
+(@ let6 (apply _ _ head_d let5)
+(@ let7 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_hd_d let1)let2)let4)let6))
+(@ let8 ta_d
+(@ let9 (apply _ _ head_d let8)
+(@ let10 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_hd_d let1)let2)let4)let9))
+(@ let11 (= S_v_hd_d let6 let9)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= S_v_hd_d let9 let6) (= S_v_hd_d let6 let9)))(\ .PA286
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let7 (\ .v2 (\ .a2
+(decl_atom let10 (\ .v3 (\ .a3
+(decl_atom let11 (\ .v4 (\ .a4
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ A1 .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A2) (iff_elim_1 _ _ .PA286)) .l8)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (= (head_d sa_d) (head_d ta_d))) (not (gt_hd_d gt_sym_d ground_heads_var_d (head_d ua_d) (head_d ta_d))) (gt_hd_d gt_sym_d ground_heads_var_d (head_d ua_d) (head_d sa_d)) 
+(clausify_false (contra _ (trans _ _ _ _ (symm _ _ _ (trans _ _ _ _ (symm _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (refl _ gt_hd_d) (refl _ let1)) (refl _ let2)) (refl _ let4)) (symm _ _ _ .l9))) (pred_eq_t _ .l7))) (pred_eq_f _ .l4)) t_t_neq_f))
+))))))( \ .lemc7
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ .lemc7 .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))))))))))))
+;;
+(
+a2
+a1
+a0
+)

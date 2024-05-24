@@ -1,0 +1,64 @@
+(check
+ ;; Declarations
+(% A_d sort
+(% B_d sort
+(% g_d (term (arrow A_d B_d))
+(% b_d (term (arrow A_d B_d))
+(% x_d (term A_d)
+(% a_d (term (arrow A_d B_d))
+(% zero_d (term B_d)
+(% abs_d (term (arrow B_d B_d))
+(% less_eq_d (term (arrow B_d (arrow B_d Bool)))
+(% f_d (term (arrow A_d B_d))
+(% times_d (term (arrow B_d (arrow B_d B_d)))
+(% c_d (term B_d)
+(% less_d (term (arrow B_d (arrow B_d Bool)))
+(% ca_d (term B_d)
+(% A5 (th_holds true)
+(% A1 (th_holds (p_app (apply _ _ (apply _ _ less_d zero_d)c_d)))
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ abs_d (apply _ _ a_d x_d)))(apply _ _ (apply _ _ times_d c_d)(apply _ _ abs_d (apply _ _ f_d x_d)))))))
+(% A2 (th_holds (p_app (apply _ _ (apply _ _ less_d zero_d)ca_d)))
+(% A4 (th_holds (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ abs_d (apply _ _ b_d x_d)))(apply _ _ (apply _ _ times_d ca_d)(apply _ _ abs_d (apply _ _ g_d x_d))))))
+(% A3 (th_holds (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ abs_d (apply _ _ a_d x_d)))(apply _ _ (apply _ _ times_d c_d)(apply _ _ abs_d (apply _ _ f_d x_d))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 x_d
+(@ let2 (apply _ _ a_d let1)
+(@ let3 (apply _ _ abs_d let2)
+(@ let4 c_d
+(@ let5 (apply _ _ f_d let1)
+(@ let6 (apply _ _ abs_d let5)
+(@ let7 (apply _ _ (apply _ _ times_d let4)let6)
+(@ let8 (p_app (apply _ _ (apply _ _ less_eq_d let3)let7))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let8 (\ .v2 (\ .a2
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ A3 .l4)))) (\ .pb7
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb7 .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))
+;;

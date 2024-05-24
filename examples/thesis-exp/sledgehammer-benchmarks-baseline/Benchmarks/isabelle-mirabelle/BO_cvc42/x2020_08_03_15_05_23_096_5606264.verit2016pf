@@ -1,0 +1,3 @@
+1:(input (#1:(fun_app_d #2:(fun_app_da #3:(fun_app_db #4:(fun_app_dc extf_d f_d) #5:(gt_d ground_heads_var_d gt_sym_d delta_d extf_d arity_sym_d wt_sym_d coef_sym_d)) nil_d) nil_d)))
+2:(input ((not #1)))
+3:(resolution () 1 2)

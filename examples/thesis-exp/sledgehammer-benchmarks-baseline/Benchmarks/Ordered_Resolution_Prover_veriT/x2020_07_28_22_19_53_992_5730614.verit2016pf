@@ -1,0 +1,8 @@
+1:(input ((not #1:(member_d c_mu_d #2:(image_d concl_of_d #3:(inferences_from_d ground_sound_Gamma_d #4:(grounding_of_clss_d subst_atm_d #5:(sup_d cc_d #6:(insert_d #7:(plus_d c_d #8:(add_mset_d l_d zero_d)) bot_d)))))))))
+2:(input (#9:(and #10:(= c_mu_d #11:(subst_cls_d subst_atm_d c_d mu_d)) #12:(is_ground_subst_d subst_atm_d mu_d))))
+3:(input (#13:(member_d #11 #2)))
+4:(and (#10) 2 0)
+5:(eq_congruent_pred ((not #10) (not #14:(= #2 #2)) (not #13) #1))
+6:(eq_reflexive (#14))
+7:(resolution ((not #10) (not #13) #1) 5 6)
+8:(resolution () 7 1 4 3)

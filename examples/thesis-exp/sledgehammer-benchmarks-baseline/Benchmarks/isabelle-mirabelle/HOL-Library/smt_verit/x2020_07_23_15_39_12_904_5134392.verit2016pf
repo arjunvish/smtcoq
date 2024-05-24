@@ -1,0 +1,5 @@
+1:(input ((not #1:(or (not #2:(= #3:(modulo_d #4:(of_nat_d #5:(suc_d ka_d)) n_d) #6:(modulo_d #7:(+ #8:(rep_d one_d) #9:(rep_d #10:(of_nat_da ka_d))) n_d))) #11:(= #12:(abs_d #3) #13:(abs_d #6))))))
+2:(not_or (#2) 1 0)
+3:(not_or ((not #11)) 1 1)
+4:(eq_congruent ((not #2) #11))
+5:(resolution () 4 2 3)

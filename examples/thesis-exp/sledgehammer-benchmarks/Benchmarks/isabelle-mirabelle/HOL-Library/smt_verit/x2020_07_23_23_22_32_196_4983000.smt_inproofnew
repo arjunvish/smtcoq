@@ -1,0 +1,7 @@
+(assume a0 (not (= (f_d m_d) (g_d n_d))))
+(assume a1 (= m_d n_d))
+(assume a2 (= (g_d n_d) (f_d n_d)))
+(step t4 (cl (not (= (f_d m_d) (f_d n_d))) (not (= (g_d n_d) (f_d n_d))) (= (f_d m_d) (g_d n_d))) :rule eq_transitive)
+(step t5 (cl (not (= m_d n_d)) (= (f_d m_d) (f_d n_d))) :rule eq_congruent)
+(step t6 (cl (not (= (g_d n_d) (f_d n_d))) (= (f_d m_d) (g_d n_d)) (not (= m_d n_d))) :rule th_resolution :premises (t4 t5))
+(step t7 (cl) :rule resolution :premises (t6 a0 a1 a2))

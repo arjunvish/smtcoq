@@ -1,0 +1,103 @@
+(check
+ ;; Declarations
+(% A_literal_multiset_d sort
+(% S_list_d sort
+(% Nat_d sort
+(% A_literal_multiset_list_d sort
+(% A_list_d sort
+(% A_multiset_list_d sort
+(% cAs0_da (term A_literal_multiset_list_d)
+(% eta_s0_da (term S_list_d)
+(% suc_d (term (arrow Nat_d Nat_d))
+(% aAs0_d (term A_multiset_list_d)
+(% cs_d (term A_literal_multiset_list_d)
+(% size_db (term (arrow S_list_d Nat_d))
+(% as0_d (term A_list_d)
+(% size_dc (term (arrow A_multiset_list_d Nat_d))
+(% size_d (term (arrow A_literal_multiset_list_d Nat_d))
+(% size_da (term (arrow A_list_d Nat_d))
+(% n_d (term Nat_d)
+(% cAs0_d (term A_literal_multiset_list_d)
+(% cAs_d (term A_literal_multiset_list_d)
+(% eta_s0_d (term S_list_d)
+(% as0_da (term A_list_d)
+(% zero_d (term Nat_d)
+(% cs0_da (term A_literal_multiset_list_d)
+(% aAs_d (term A_multiset_list_d)
+(% rho_s_d (term S_list_d)
+(% as_d (term A_list_d)
+(% aAs0_da (term A_multiset_list_d)
+(% cs0_d (term A_literal_multiset_list_d)
+(% renamings_apart_d (term (arrow A_literal_multiset_list_d S_list_d))
+(% cons_d (term (arrow A_literal_multiset_d (arrow A_literal_multiset_list_d A_literal_multiset_list_d)))
+(% dA0_d (term A_literal_multiset_d)
+(% A11 (th_holds (= Nat_d (apply _ _ size_da as0_d) n_d))
+(% A14 (th_holds (= Nat_d (apply _ _ size_da as0_da) n_d))
+(% A3 (th_holds (= Nat_d (apply _ _ size_d cs_d) n_d))
+(% A8 (th_holds (= Nat_d (apply _ _ size_d cAs0_d) n_d))
+(% A12 (th_holds (= Nat_d (apply _ _ size_dc aAs0_d) n_d))
+(% A1 (th_holds (= Nat_d (apply _ _ size_d cAs_d) n_d))
+(% A10 (th_holds (not (= Nat_d n_d zero_d)))
+(% A0 (th_holds (not (= Nat_d (apply _ _ size_d cAs0_d) (apply _ _ size_d cAs_d))))
+(% A15 (th_holds (= Nat_d (apply _ _ size_db eta_s0_d) n_d))
+(% A4 (th_holds (= Nat_d (apply _ _ size_d cs0_da) n_d))
+(% A9 (th_holds (= Nat_d (apply _ _ size_dc aAs_d) n_d))
+(% A16 (th_holds (= Nat_d (apply _ _ size_db rho_s_d) n_d))
+(% A5 (th_holds (= Nat_d (apply _ _ size_da as_d) n_d))
+(% A13 (th_holds (= Nat_d (apply _ _ size_dc aAs0_da) n_d))
+(% A2 (th_holds (= Nat_d (apply _ _ size_d cs0_d) n_d))
+(% A7 (th_holds (= Nat_d (apply _ _ size_db (apply _ _ renamings_apart_d (apply _ _ (apply _ _ cons_d dA0_d)cAs0_d))) (apply _ _ suc_d n_d)))
+(% A18 (th_holds true)
+(% A17 (th_holds (= Nat_d (apply _ _ size_db eta_s0_da) n_d))
+(% A6 (th_holds (= Nat_d (apply _ _ size_d cAs0_da) n_d))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 cAs0_d
+(@ let2 (apply _ _ size_d let1)
+(@ let3 cAs_d
+(@ let4 (apply _ _ size_d let3)
+(@ let5 (= Nat_d let2 let4)
+(@ let6 n_d
+(@ let7 (= Nat_d let6 let4)
+(@ let8 (= Nat_d let6 let2)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= Nat_d let2 let6) (= Nat_d let6 let2)))(\ .PA381
+(th_let_pf _ (trust_f (iff (= Nat_d let4 let6) (= Nat_d let6 let4)))(\ .PA375
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let5 (\ .v2 (\ .a2
+(decl_atom let7 (\ .v3 (\ .a3
+(decl_atom let8 (\ .v10 (\ .a10
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A1) (iff_elim_1 _ _ .PA375)) .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a10 (\ .l20 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A8) (iff_elim_1 _ _ .PA381)) .l20)))) (\ .pb12
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a10 (\ .l21 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (= n_d (size_d cAs0_d))) (not (= n_d (size_d cAs_d))) (= (size_d cAs0_d) (size_d cAs_d)) 
+(clausify_false (contra _ (trans _ _ _ _ (trans _ _ _ _  (symm _ _ _ .l21).l21) (symm _ _ _ (trans _ _ _ _ (symm _ _ _ .l7) .l21))) .l4))
+))))))( \ .lemc22
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ .lemc22 .pb12 .v10) .pb5 .v3) .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

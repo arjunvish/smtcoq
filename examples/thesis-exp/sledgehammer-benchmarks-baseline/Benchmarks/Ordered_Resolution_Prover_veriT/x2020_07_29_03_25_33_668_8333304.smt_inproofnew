@@ -1,0 +1,8 @@
+(assume a0 (not (subseteq_mset_d (image_mset_d pos_d aA0_d) (nth_d cAs0_d i_d))))
+(assume a1 (and (= (subst_cls_d subst_atm_d poss_AA0_d (nth_da eta_s0_d i_d)) (image_mset_d pos_d (nth_db aAs_d i_d))) (subseteq_mset_d poss_AA0_d (nth_d cAs0_d i_d))))
+(assume a2 (= (image_mset_d pos_d aA0_d) poss_AA0_d))
+(step t4 (cl (subseteq_mset_d poss_AA0_d (nth_d cAs0_d i_d))) :rule and :premises (a1))
+(step t5 (cl (not (= (image_mset_d pos_d aA0_d) poss_AA0_d)) (not (= (nth_d cAs0_d i_d) (nth_d cAs0_d i_d))) (not (subseteq_mset_d poss_AA0_d (nth_d cAs0_d i_d))) (subseteq_mset_d (image_mset_d pos_d aA0_d) (nth_d cAs0_d i_d))) :rule eq_congruent_pred)
+(step t6 (cl (= (nth_d cAs0_d i_d) (nth_d cAs0_d i_d))) :rule eq_reflexive)
+(step t7 (cl (not (= (image_mset_d pos_d aA0_d) poss_AA0_d)) (not (subseteq_mset_d poss_AA0_d (nth_d cAs0_d i_d))) (subseteq_mset_d (image_mset_d pos_d aA0_d) (nth_d cAs0_d i_d))) :rule th_resolution :premises (t5 t6))
+(step t8 (cl) :rule resolution :premises (t7 a0 t4 a2))

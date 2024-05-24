@@ -1,0 +1,5 @@
+1:(input ((not #1:(or (not #2:(= #3:(grounding_of_clss_d subst_atm_d q_d) #4:(sup_d #5:(image_d #6:(grounding_of_cls_d subst_atm_d) #7:(q_of_state_d #8:(pair_d bot_d #9:(pair_da #10:(fun_app_d #11:(sup_da p_d) #12:(insert_d c_d bot_d)) q_d))))))) #13:(= #14:(sup_da #3) #15:(sup_da #4))))))
+2:(not_or (#2) 1 0)
+3:(not_or ((not #13)) 1 1)
+4:(eq_congruent ((not #2) #13))
+5:(resolution () 4 2 3)

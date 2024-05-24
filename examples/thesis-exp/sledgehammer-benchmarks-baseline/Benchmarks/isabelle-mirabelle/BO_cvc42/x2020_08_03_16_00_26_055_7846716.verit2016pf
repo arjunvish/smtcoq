@@ -1,0 +1,8 @@
+1:(input ((not #1:(= #2:(head_d ta_d) #3:(head_d sa_d)))))
+2:(input (#4:(= #3 #5:(sym_d f_d))))
+3:(input (#6:(= #2 #7:(sym_d g_d))))
+4:(input (#8:(= f_d g_d)))
+5:(eq_transitive ((not #6) (not #9:(= #5 #7)) (not #4) #1))
+6:(eq_congruent ((not #8) #9))
+7:(resolution ((not #6) (not #4) #1 (not #8)) 5 6)
+8:(resolution () 7 1 2 3 4)

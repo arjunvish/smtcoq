@@ -1,0 +1,65 @@
+(check
+ ;; Declarations
+(% S_v_tm_d sort
+(% V_set_d sort
+(% s_d (term S_v_tm_d)
+(% t_d (term S_v_tm_d)
+(% vars_d (term (arrow S_v_tm_d V_set_d))
+(% bot_d (term V_set_d)
+(% A4 (th_holds true)
+(% A1 (th_holds (or (not (= V_set_d (apply _ _ vars_d t_d) bot_d)) (not (= V_set_d (apply _ _ vars_d s_d) bot_d))))
+(% A2 (th_holds (= V_set_d (apply _ _ vars_d t_d) bot_d))
+(% A0 (th_holds (not false))
+(% A3 (th_holds (= V_set_d (apply _ _ vars_d s_d) bot_d))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 bot_d
+(@ let2 t_d
+(@ let3 (apply _ _ vars_d let2)
+(@ let4 (= V_set_d let1 let3)
+(@ let5 s_d
+(@ let6 (apply _ _ vars_d let5)
+(@ let7 (= V_set_d let1 let6)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= V_set_d let6 let1) (= V_set_d let1 let6)))(\ .PA282
+(th_let_pf _ (trust_f (iff (or (not (= V_set_d let3 let1)) (not (= V_set_d let6 let1))) (or (not let4) (not let7))))(\ .PA284
+(th_let_pf _ (trust_f (iff (= V_set_d let3 let1) (= V_set_d let1 let3)))(\ .PA280
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let4 (\ .v2 (\ .a2
+(decl_atom let7 (\ .v3 (\ .a3
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A2) (iff_elim_1 _ _ .PA280)) .l4)))) (\ .pb5
+(satlem _ _ (ast _ _ _ .a3 (\ .l7 (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l7 (or_elim_1 _ _ (not_not_intro _ .l5) (or_elim_1 _ _ (not_not_intro _ A1) (iff_elim_1 _ _ .PA284))))))))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A3) (iff_elim_1 _ _ .PA282)) .l6)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (Q _ _ .pb4 .pb5 .v2) (\ .cl7
+(satlem_simplify _ _ _ (R _ _ .pb6 .cl7 .v3) (\ empty empty))))))))))))))))))))))))))))))))))))))))))
+;;
+(
+a3
+a1
+a2
+)

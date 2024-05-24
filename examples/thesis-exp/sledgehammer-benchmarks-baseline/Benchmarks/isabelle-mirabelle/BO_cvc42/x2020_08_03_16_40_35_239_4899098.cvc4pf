@@ -1,0 +1,79 @@
+(check
+ ;; Declarations
+(% S_v_tm_d sort
+(% Nat_d sort
+(% V_s_set_fun_d sort
+(% S_enat_fun_d sort
+(% S_nat_fun_d sort
+(% ta_d (term S_v_tm_d)
+(% sa_d (term S_v_tm_d)
+(% ua_d (term S_v_tm_d)
+(% wt_sym_d (term S_nat_fun_d)
+(% wt_d (term (arrow V_s_set_fun_d (arrow Nat_d (arrow S_enat_fun_d (arrow S_nat_fun_d (arrow S_v_tm_d Nat_d))))))
+(% ground_heads_var_d (term V_s_set_fun_d)
+(% delta_d (term Nat_d)
+(% arity_sym_d (term S_enat_fun_d)
+(% A3 (th_holds true)
+(% A2 (th_holds (= Nat_d (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d ground_heads_var_d)delta_d)arity_sym_d)wt_sym_d)ua_d) (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d ground_heads_var_d)delta_d)arity_sym_d)wt_sym_d)ta_d)))
+(% A1 (th_holds (= Nat_d (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d ground_heads_var_d)delta_d)arity_sym_d)wt_sym_d)ta_d) (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d ground_heads_var_d)delta_d)arity_sym_d)wt_sym_d)sa_d)))
+(% A0 (th_holds (not (= Nat_d (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d ground_heads_var_d)delta_d)arity_sym_d)wt_sym_d)ua_d) (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d ground_heads_var_d)delta_d)arity_sym_d)wt_sym_d)sa_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 ground_heads_var_d
+(@ let2 delta_d
+(@ let3 arity_sym_d
+(@ let4 wt_sym_d
+(@ let5 ua_d
+(@ let6 (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d let1)let2)let3)let4)let5)
+(@ let7 sa_d
+(@ let8 (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d let1)let2)let3)let4)let7)
+(@ let9 (= Nat_d let6 let8)
+(@ let10 ta_d
+(@ let11 (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ wt_d let1)let2)let3)let4)let10)
+(@ let12 (= Nat_d let6 let11)
+(@ let13 (= Nat_d let8 let11)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= Nat_d let11 let8) (= Nat_d let8 let11)))(\ .PA288
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let9 (\ .v2 (\ .a2
+(decl_atom let12 (\ .v4 (\ .a4
+(decl_atom let13 (\ .v3 (\ .a3
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A1) (iff_elim_1 _ _ .PA288)) .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ A2 .l8)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (= (wt_d ground_heads_var_d delta_d arity_sym_d wt_sym_d ua_d) (wt_d ground_heads_var_d delta_d arity_sym_d wt_sym_d ta_d))) (not (= (wt_d ground_heads_var_d delta_d arity_sym_d wt_sym_d sa_d) (wt_d ground_heads_var_d delta_d arity_sym_d wt_sym_d ta_d))) (= (wt_d ground_heads_var_d delta_d arity_sym_d wt_sym_d ua_d) (wt_d ground_heads_var_d delta_d arity_sym_d wt_sym_d sa_d)) 
+(clausify_false (contra _ (trans _ _ _ _ .l9 (symm _ _ _ .l7)) .l4))
+))))))( \ .lemc7
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ .lemc7 .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;
+(
+a2
+a1
+a0
+)

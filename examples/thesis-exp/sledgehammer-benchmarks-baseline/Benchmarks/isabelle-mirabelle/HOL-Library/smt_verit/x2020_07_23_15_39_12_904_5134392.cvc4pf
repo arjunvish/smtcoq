@@ -1,0 +1,69 @@
+(check
+ ;; Declarations
+(% A_d sort
+(% Nat_d sort
+(% abs_d (term (arrow Int A_d))
+(% of_nat_da (term (arrow Nat_d A_d))
+(% one_d (term A_d)
+(% rep_d (term (arrow A_d Int))
+(% n_d (term Int)
+(% modulo_d (term (arrow Int (arrow Int Int)))
+(% suc_d (term (arrow Nat_d Nat_d))
+(% of_nat_d (term (arrow Nat_d Int))
+(% ka_d (term Nat_d)
+(% A1 (th_holds true)
+(% A0 (th_holds (not (or (not (= Int (apply _ _ (apply _ _ modulo_d (apply _ _ of_nat_d (apply _ _ suc_d ka_d)))n_d) (apply _ _ (apply _ _ modulo_d (+_Int (apply _ _ rep_d one_d) (apply _ _ rep_d (apply _ _ of_nat_da ka_d))) )n_d))) (= A_d (apply _ _ abs_d (apply _ _ (apply _ _ modulo_d (apply _ _ of_nat_d (apply _ _ suc_d ka_d)))n_d)) (apply _ _ abs_d (apply _ _ (apply _ _ modulo_d (+_Int (apply _ _ rep_d one_d) (apply _ _ rep_d (apply _ _ of_nat_da ka_d))) )n_d))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 ka_d
+(@ let2 (apply _ _ suc_d let1)
+(@ let3 (apply _ _ of_nat_d let2)
+(@ let4 n_d
+(@ let5 (apply _ _ (apply _ _ modulo_d let3)let4)
+(@ let6 one_d
+(@ let7 (apply _ _ rep_d let6)
+(@ let8 (apply _ _ of_nat_da let1)
+(@ let9 (apply _ _ rep_d let8)
+(@ let10 (+_Int let7 let9) 
+(@ let11 (apply _ _ (apply _ _ modulo_d let10)let4)
+(@ let12 (= Int let5 let11)
+(@ let13 (apply _ _ abs_d let5)
+(@ let14 (apply _ _ abs_d let11)
+(@ let15 (= A_d let13 let14)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let12 (\ .v2 (\ .a2
+(decl_atom let15 (\ .v3 (\ .a3
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (not_not_elim _ (and_elim_1 _ _ (not_or_elim _ _ A0))) .l4)))) (\ .pb4
+(satlem _ _ (ast _ _ _ .a3 (\ .l7 (clausify_false (contra _ .l7 (and_elim_2 _ _ (not_or_elim _ _ A0)))))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (ast _ _ _ .a2 (\ .l5  ;; UF Theory Lemma 
+;;(= (abs_d (modulo_d (of_nat_d (suc_d ka_d)) n_d)) (abs_d (modulo_d (+ (rep_d one_d) (rep_d (of_nat_da ka_d))) n_d))) (not (= (modulo_d (of_nat_d (suc_d ka_d)) n_d) (modulo_d (+ (rep_d one_d) (rep_d (of_nat_da ka_d))) n_d))) 
+(clausify_false (contra _ (cong _ _ _ _ _ _ (refl _ abs_d) .l5) .l6))
+))))( \ .lemc6
+(satlem_simplify _ _ _ (Q _ _ (R _ _ .lemc6 .pb5 .v3) .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))
+;;

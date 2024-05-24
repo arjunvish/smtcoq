@@ -1,0 +1,47 @@
+(check
+ ;; Declarations
+(% A_d sort
+(% B_d sort
+(% g_d (term (arrow B_d A_d))
+(% y_d (term A_d)
+(% x_d (term A_d)
+(% f_d (term (arrow A_d B_d))
+(% A3 (th_holds true)
+(% A2 (th_holds (= A_d (apply _ _ g_d (apply _ _ f_d y_d)) y_d))
+(% A1 (th_holds (= A_d (apply _ _ g_d (apply _ _ f_d x_d)) x_d))
+(% A0 (th_holds (not (iff (= B_d (apply _ _ f_d x_d) (apply _ _ f_d y_d)) (= A_d x_d y_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 x_d
+(@ let2 (apply _ _ f_d let1)
+(@ let3 y_d
+(@ let4 (apply _ _ f_d let3)
+(@ let5 (= B_d let2 let4)
+(@ let6 (= A_d let1 let3)
+(@ let7 (iff let5 let6)
+(@ let8 (apply _ _ g_d let2)
+(@ let9 (= A_d let1 let8)
+(@ let10 (apply _ _ g_d let4)
+(@ let11 (= A_d let3 let10)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= A_d let10 let3) (= A_d let3 let10)))(\ .PA283
+(th_let_pf _ (trust_f (iff (= A_d let8 let1) (= A_d let1 let8)))(\ .PA282
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let5 (\ .v2 (\ .a2
+(decl_atom let6 (\ .v3 (\ .a3
+(decl_atom 

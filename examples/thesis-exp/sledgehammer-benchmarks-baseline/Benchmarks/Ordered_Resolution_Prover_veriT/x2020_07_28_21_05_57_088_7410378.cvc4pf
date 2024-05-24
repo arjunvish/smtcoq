@@ -1,0 +1,64 @@
+(check
+ ;; Declarations
+(% A_literal_multiset_d sort
+(% A_s_a_fun_fun_d sort
+(% d_da (term A_literal_multiset_d)
+(% d_d (term A_literal_multiset_d)
+(% subst_atm_d (term A_s_a_fun_fun_d)
+(% generalizes_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_d (arrow A_literal_multiset_d Bool))))
+(% A1 (th_holds true)
+(% A0 (th_holds (not (iff (and (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d subst_atm_d)d_d)d_da)) (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d subst_atm_d)d_da)d_d))) (and (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d subst_atm_d)d_da)d_d)) (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d subst_atm_d)d_d)d_da))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 subst_atm_d
+(@ let2 d_d
+(@ let3 d_da
+(@ let4 (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d let1)let2)let3))
+(@ let5 (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d let1)let3)let2))
+(@ let6 (and let4 let5)
+(@ let7 (and let5 let4)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let4 (\ .v2 (\ .a2
+(decl_atom let5 (\ .v3 (\ .a3
+(decl_atom let6 (\ .v4 (\ .a4
+(decl_atom let7 (\ .v5 (\ .a5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (ast _ _ _ .a3 (\ .l7 (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l7 (or_elim_1 _ _ (not_not_intro _ .l5) (not_and_elim _ _ .l8)))))))))) (\ .pb6
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (and_elim_1 _ _ .l9) .l4)))))) (\ .pb4
+(satlem _ _ (ast _ _ _ .a5 (\ .l11 (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (and_elim_2 _ _ .l11) .l4)))))) (\ .pb8
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (and_elim_2 _ _ .l9) .l6)))))) (\ .pb5
+(satlem _ _ (ast _ _ _ .a5 (\ .l11 (ast _ _ _ .a4 (\ .l9 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ .l9) (iff_elim_1 _ _ (not_iff_elim _ _ A0))) (not_not_intro _ .l11))))))) (\ .pb10
+(satlem _ _ (asf _ _ _ .a5 (\ .l10 (ast _ _ _ .a3 (\ .l7 (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 (or_elim_1 _ _ (not_not_intro _ .l7) (not_and_elim _ _ .l10)))))))))) (\ .pb9
+(satlem _ _ (asf _ _ _ .a5 (\ .l10 (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ (not_not_elim _ (or_elim_1 _ _ .l8 (iff_elim_2 _ _ (not_iff_elim _ _ A0)))) .l10)))))) (\ .pb11
+(satlem _ _ (ast _ _ _ .a5 (\ .l11 (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (and_elim_1 _ _ .l11) .l6)))))) (\ .pb7
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ (R _ _ .pb11 .pb8 .v5) .pb4 .v4) (\ .cl12
+(satlem_simplify _ _ _ (R _ _ (R _ _ .pb11 .pb7 .v5) .pb5 .v4) (\ .cl13
+(satlem_simplify _ _ _ (Q _ _ (Q _ _ .pb9 .cl13 .v3) .cl12 .v2) (\ .cl14
+(satlem_simplify _ _ _ (Q _ _ (Q _ _ .pb6 .cl13 .v3) .cl12 .v2) (\ .cl15
+(satlem_simplify _ _ _ (Q _ _ (Q _ _ .pb10 .cl14 .v5) .cl15 .v4) (\ empty empty)))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

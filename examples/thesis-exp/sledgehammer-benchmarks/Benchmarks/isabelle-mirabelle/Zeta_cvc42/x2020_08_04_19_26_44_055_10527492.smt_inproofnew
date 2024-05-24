@@ -1,0 +1,3 @@
+(assume a1 (= s_d r_d))
+(assume a0 (not (= s_d r_d)))
+(step t3 (cl) :rule th_resolution :premises (a1 a0))

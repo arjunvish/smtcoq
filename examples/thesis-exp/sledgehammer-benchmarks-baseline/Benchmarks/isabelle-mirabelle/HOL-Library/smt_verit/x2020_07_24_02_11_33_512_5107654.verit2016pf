@@ -1,0 +1,7 @@
+1:(input ((not #1:(or (not #2:(= #3:(suc_d #4:(suc_d zero_d)) #5:(numeral_d #6:(bit0_d one_d)))) #7:(= #8:(nsets_d a_d #3) #9:(nsets_d a_d #5))))))
+2:(not_or (#2) 1 0)
+3:(not_or ((not #7)) 1 1)
+4:(eq_congruent ((not #10:(= a_d a_d)) (not #2) #7))
+5:(eq_reflexive (#10))
+6:(resolution ((not #2) #7) 4 5)
+7:(resolution () 6 2 3)

@@ -1,0 +1,101 @@
+(check
+ ;; Declarations
+(% S_v_tm_d sort
+(% S_nat_hmultiset_fun_fun_d sort
+(% S_hmultiset_fun_d sort
+(% S_enat_fun_d sort
+(% V_s_set_fun_d sort
+(% S_s_bool_fun_fun_d sort
+(% Nat_d sort
+(% S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d sort
+(% ta_d (term S_v_tm_d)
+(% arg_d (term (arrow S_v_tm_d S_v_tm_d))
+(% gt_sym_d (term S_s_bool_fun_fun_d)
+(% delta_d (term Nat_d)
+(% ground_heads_var_d (term V_s_set_fun_d)
+(% sa_d (term S_v_tm_d)
+(% gt_d (term (arrow V_s_set_fun_d (arrow S_s_bool_fun_fun_d (arrow Nat_d (arrow S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d (arrow S_enat_fun_d (arrow S_hmultiset_fun_d (arrow S_nat_hmultiset_fun_fun_d (arrow S_v_tm_d (arrow S_v_tm_d Bool))))))))))
+(% arity_sym_d (term S_enat_fun_d)
+(% extf_d (term S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d)
+(% wt_sym_d (term S_hmultiset_fun_d)
+(% coef_sym_d (term S_nat_hmultiset_fun_fun_d)
+(% t2_d (term S_v_tm_d)
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d ground_heads_var_d)gt_sym_d)delta_d)extf_d)arity_sym_d)wt_sym_d)coef_sym_d)t2_d)sa_d))))
+(% A1 (th_holds (or (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d ground_heads_var_d)gt_sym_d)delta_d)extf_d)arity_sym_d)wt_sym_d)coef_sym_d)(apply _ _ arg_d ta_d))sa_d)) (= S_v_tm_d (apply _ _ arg_d ta_d) sa_d)))
+(% A2 (th_holds (= S_v_tm_d t2_d (apply _ _ arg_d ta_d)))
+(% A4 (th_holds true)
+(% A3 (th_holds (not (= S_v_tm_d t2_d sa_d)))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 ground_heads_var_d
+(@ let2 gt_sym_d
+(@ let3 delta_d
+(@ let4 extf_d
+(@ let5 arity_sym_d
+(@ let6 wt_sym_d
+(@ let7 coef_sym_d
+(@ let8 t2_d
+(@ let9 sa_d
+(@ let10 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d let1)let2)let3)let4)let5)let6)let7)let8)let9))
+(@ let11 ta_d
+(@ let12 (apply _ _ arg_d let11)
+(@ let13 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d let1)let2)let3)let4)let5)let6)let7)let12)let9))
+(@ let14 (= S_v_tm_d let8 let12)
+(@ let15 (= S_v_tm_d let9 let12)
+(@ let16 (= S_v_tm_d let9 let8)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (or let13 (= S_v_tm_d let12 let9)) (or let13 let15)))(\ .PA304
+(th_let_pf _ (trust_f (iff (not (= S_v_tm_d let8 let9)) (not let16)))(\ .PA306
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let10 (\ .v2 (\ .a2
+(decl_atom let13 (\ .v3 (\ .a3
+(decl_atom let14 (\ .v5 (\ .a5
+(decl_atom let15 (\ .v4 (\ .a4
+(decl_atom let16 (\ .v6 (\ .a6
+(satlem _ _ (ast _ _ _ .a6 (\ .l13 (clausify_false (contra _ .l13 (or_elim_1 _ _ (not_not_intro _ A3) (iff_elim_1 _ _ .PA306)))))) (\ .pb7
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a5 (\ .l10 (clausify_false (contra _ A2 .l10)))) (\ .pb6
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ (or_elim_1 _ _ .l6 (or_elim_1 _ _ (not_not_intro _ A1) (iff_elim_1 _ _ .PA304))) .l8)))))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (asf _ _ _ .a6 (\ .l12 (ast _ _ _ .a5 (\ .l11  ;; UF Theory Lemma 
+;;(not (= sa_d (arg_d ta_d))) (= sa_d t2_d) (not (= t2_d (arg_d ta_d))) 
+(clausify_false (contra _ (trans _ _ _ _ .l9 (symm _ _ _ .l11)) .l12))
+))))))( \ .lemc10
+(satlem _ _ (ast _ _ _ .a3 (\ .l7 (ast _ _ _ .a5 (\ .l11 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (gt_d ground_heads_var_d gt_sym_d delta_d extf_d arity_sym_d wt_sym_d coef_sym_d (arg_d ta_d) sa_d)) (not (= t2_d (arg_d ta_d))) (gt_d ground_heads_var_d gt_sym_d delta_d extf_d arity_sym_d wt_sym_d coef_sym_d t2_d sa_d) 
+(clausify_false (contra _ (trans _ _ _ _ (symm _ _ _ (trans _ _ _ _ (symm _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (refl _ gt_d) (refl _ let1)) (refl _ let2)) (refl _ let3)) (refl _ let4)) (refl _ let5)) (refl _ let6)) (refl _ let7)) (symm _ _ _ .l11)) (refl _ let9))) (pred_eq_t _ .l7))) (pred_eq_f _ .l4)) t_t_neq_f))
+))))))( \ .lemc8
+(satlem_simplify _ _ _ (R _ _ (Q _ _ .lemc8 .pb6 .v5) .pb4 .v2) (\ .cl9
+(satlem_simplify _ _ _ (Q _ _ (R _ _ .lemc10 .pb7 .v6) .pb6 .v5) (\ .cl11
+(satlem_simplify _ _ _ (R _ _ (R _ _ .pb5 .cl9 .v3) .cl11 .v4) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;
+(
+a1
+a2
+a0
+a3
+)

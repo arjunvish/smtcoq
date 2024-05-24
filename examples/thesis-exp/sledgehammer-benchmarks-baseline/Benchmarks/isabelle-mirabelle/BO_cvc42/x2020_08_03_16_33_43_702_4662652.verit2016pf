@@ -1,0 +1,7 @@
+1:(input ((not #1:(less_d zero_d delta_d))))
+2:(input (#2:(= delta_d epsilon_d)))
+3:(input (#3:(less_d zero_d epsilon_d)))
+4:(eq_congruent_pred ((not #4:(= zero_d zero_d)) (not #2) (not #3) #1))
+5:(eq_reflexive (#4))
+6:(resolution ((not #2) (not #3) #1) 4 5)
+7:(resolution () 6 1 2 3)

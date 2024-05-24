@@ -1,0 +1,8 @@
+1:(input ((not #1:(subseteq_mset_d #2:(image_mset_d pos_d aA0_d) #3:(nth_d cAs0_d i_d)))))
+2:(input (#4:(and #5:(= #6:(subst_cls_d subst_atm_d poss_AA0_d #7:(nth_da eta_s0_d i_d)) #8:(image_mset_d pos_d #9:(nth_db aAs_d i_d))) #10:(subseteq_mset_d poss_AA0_d #3))))
+3:(input (#11:(= #2 poss_AA0_d)))
+4:(and (#10) 2 1)
+5:(eq_congruent_pred ((not #11) (not #12:(= #3 #3)) (not #10) #1))
+6:(eq_reflexive (#12))
+7:(resolution ((not #11) (not #10) #1) 5 6)
+8:(resolution () 7 1 4 3)

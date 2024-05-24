@@ -1,0 +1,119 @@
+(check
+ ;; Declarations
+(% A_list_d sort
+(% A_multiset_list_d sort
+(% S_d sort
+(% A_literal_multiset_d sort
+(% S_list_d sort
+(% A_literal_multiset_list_d sort
+(% A_s_a_fun_fun_d sort
+(% A_set_set_s_option_fun_d sort
+(% A_a_bool_fun_fun_d sort
+(% A_literal_multiset_a_literal_multiset_fun_d sort
+(% hd_d (term (arrow S_list_d S_d))
+(% cons_d (term (arrow A_literal_multiset_d (arrow A_literal_multiset_list_d A_literal_multiset_list_d)))
+(% renamings_apart_d (term (arrow A_literal_multiset_list_d S_list_d))
+(% dA0_d (term A_literal_multiset_d)
+(% subst_cls_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_d (arrow S_d A_literal_multiset_d))))
+(% s_d (term A_literal_multiset_a_literal_multiset_fun_d)
+(% cAs0_d (term A_literal_multiset_list_d)
+(% ord_resolve_d (term (arrow A_s_a_fun_fun_d (arrow A_set_set_s_option_fun_d (arrow A_a_bool_fun_fun_d (arrow A_literal_multiset_a_literal_multiset_fun_d (arrow A_literal_multiset_list_d (arrow A_literal_multiset_d (arrow A_multiset_list_d (arrow A_list_d (arrow S_d (arrow A_literal_multiset_d Bool)))))))))))
+(% subst_cls_lists_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_list_d (arrow S_list_d A_literal_multiset_list_d))))
+(% mgu_d (term A_set_set_s_option_fun_d)
+(% less_atm_d (term A_a_bool_fun_fun_d)
+(% subst_atm_d (term A_s_a_fun_fun_d)
+(% rho_s_d (term S_list_d)
+(% rho_d (term S_d)
+(% subst_atm_mset_lists_d (term (arrow A_s_a_fun_fun_d (arrow A_multiset_list_d (arrow S_list_d A_multiset_list_d))))
+(% tau_d (term S_d)
+(% aAs0_d (term A_multiset_list_d)
+(% subst_atm_list_d (term (arrow A_s_a_fun_fun_d (arrow A_list_d (arrow S_d A_list_d))))
+(% as0_d (term A_list_d)
+(% e0_d (term A_literal_multiset_d)
+(% dA0_da (term A_literal_multiset_d)
+(% cAs0_da (term A_literal_multiset_list_d)
+(% as0_da (term A_list_d)
+(% aAs0_da (term A_multiset_list_d)
+(% tl_d (term (arrow S_list_d S_list_d))
+(% A8 (th_holds true)
+(% A6 (th_holds (= S_list_d rho_s_d (apply _ _ tl_d (apply _ _ renamings_apart_d (apply _ _ (apply _ _ cons_d dA0_d)cAs0_d)))))
+(% A5 (th_holds (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ ord_resolve_d subst_atm_d)mgu_d)less_atm_d)s_d)cAs0_da)dA0_da)aAs0_da)as0_da)tau_d)e0_d)))
+(% A4 (th_holds (= A_multiset_list_d aAs0_da (apply _ _ (apply _ _ (apply _ _ subst_atm_mset_lists_d subst_atm_d)aAs0_d)rho_s_d)))
+(% A7 (th_holds (= S_d rho_d (apply _ _ hd_d (apply _ _ renamings_apart_d (apply _ _ (apply _ _ cons_d dA0_d)cAs0_d)))))
+(% A1 (th_holds (= A_literal_multiset_d dA0_da (apply _ _ (apply _ _ (apply _ _ subst_cls_d subst_atm_d)dA0_d)rho_d)))
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ ord_resolve_d subst_atm_d)mgu_d)less_atm_d)s_d)(apply _ _ (apply _ _ (apply _ _ subst_cls_lists_d subst_atm_d)cAs0_d)rho_s_d))(apply _ _ (apply _ _ (apply _ _ subst_cls_d subst_atm_d)dA0_d)rho_d))(apply _ _ (apply _ _ (apply _ _ subst_atm_mset_lists_d subst_atm_d)aAs0_d)rho_s_d))(apply _ _ (apply _ _ (apply _ _ subst_atm_list_d subst_atm_d)as0_d)rho_d))tau_d)e0_d))))
+(% A2 (th_holds (= A_literal_multiset_list_d cAs0_da (apply _ _ (apply _ _ (apply _ _ subst_cls_lists_d subst_atm_d)cAs0_d)rho_s_d)))
+(% A3 (th_holds (= A_list_d as0_da (apply _ _ (apply _ _ (apply _ _ subst_atm_list_d subst_atm_d)as0_d)rho_d)))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 subst_atm_d
+(@ let2 mgu_d
+(@ let3 less_atm_d
+(@ let4 s_d
+(@ let5 cAs0_d
+(@ let6 rho_s_d
+(@ let7 (apply _ _ (apply _ _ (apply _ _ subst_cls_lists_d let1)let5)let6)
+(@ let8 dA0_d
+(@ let9 rho_d
+(@ let10 (apply _ _ (apply _ _ (apply _ _ subst_cls_d let1)let8)let9)
+(@ let11 aAs0_d
+(@ let12 (apply _ _ (apply _ _ (apply _ _ subst_atm_mset_lists_d let1)let11)let6)
+(@ let13 as0_d
+(@ let14 (apply _ _ (apply _ _ (apply _ _ subst_atm_list_d let1)let13)let9)
+(@ let15 tau_d
+(@ let16 e0_d
+(@ let17 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ ord_resolve_d let1)let2)let3)let4)let7)let10)let12)let14)let15)let16))
+(@ let18 dA0_da
+(@ let19 (= A_literal_multiset_d let18 let10)
+(@ let20 cAs0_da
+(@ let21 (= A_literal_multiset_list_d let20 let7)
+(@ let22 as0_da
+(@ let23 (= A_list_d let22 let14)
+(@ let24 aAs0_da
+(@ let25 (= A_multiset_list_d let24 let12)
+(@ let26 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ ord_resolve_d let1)let2)let3)let4)let20)let18)let24)let22)let15)let16))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let17 (\ .v2 (\ .a2
+(decl_atom let19 (\ .v3 (\ .a3
+(decl_atom let21 (\ .v4 (\ .a4
+(decl_atom let23 (\ .v5 (\ .a5
+(decl_atom let25 (\ .v6 (\ .a6
+(decl_atom let26 (\ .v7 (\ .a7
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ A1 .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a7 (\ .l14 (clausify_false (contra _ A5 .l14)))) (\ .pb9
+(satlem _ _ (asf _ _ _ .a6 (\ .l12 (clausify_false (contra _ A4 .l12)))) (\ .pb8
+(satlem _ _ (asf _ _ _ .a5 (\ .l10 (clausify_false (contra _ A3 .l10)))) (\ .pb7
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ A2 .l8)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a7 (\ .l15 (ast _ _ _ .a6 (\ .l13 (ast _ _ _ .a5 (\ .l11 (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (ord_resolve_d subst_atm_d mgu_d less_atm_d s_d cAs0_da dA0_da aAs0_da as0_da tau_d e0_d)) (not (= aAs0_da (subst_atm_mset_lists_d subst_atm_d aAs0_d rho_s_d))) (not (= as0_da (subst_atm_list_d subst_atm_d as0_d rho_d))) (not (= cAs0_da (subst_cls_lists_d subst_atm_d cAs0_d rho_s_d))) (not (= dA0_da (subst_cls_d subst_atm_d dA0_d rho_d))) (ord_resolve_d subst_atm_d mgu_d less_atm_d s_d (subst_cls_lists_d subst_atm_d cAs0_d rho_s_d) (subst_cls_d subst_atm_d dA0_d rho_d) (subst_atm_mset_lists_d subst_atm_d aAs0_d rho_s_d) (subst_atm_list_d subst_atm_d as0_d rho_d) tau_d e0_d) 
+(clausify_false (contra _ (trans _ _ _ _ (symm _ _ _ (trans _ _ _ _ (symm _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (refl _ ord_resolve_d) (refl _ let1)) (refl _ let2)) (refl _ let3)) (refl _ let4)) .l9) .l7) .l13) .l11) (refl _ let15)) (refl _ let16))) (pred_eq_t _ .l15))) (pred_eq_f _ .l4)) t_t_neq_f))
+))))))))))))( \ .lemc12
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ (Q _ _ (Q _ _ (Q _ _ .lemc12 .pb9 .v7) .pb8 .v6) .pb7 .v5) .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

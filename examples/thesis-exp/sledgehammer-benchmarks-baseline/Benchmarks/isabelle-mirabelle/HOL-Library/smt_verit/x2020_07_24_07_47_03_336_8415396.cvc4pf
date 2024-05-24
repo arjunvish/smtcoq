@@ -1,0 +1,64 @@
+(check
+ ;; Declarations
+(% Unit_d sort
+(% Color_d sort
+(% A_d sort
+(% A_a_a_fun_fun_d sort
+(% A_list_d sort
+(% A_unit_rbt_d sort
+(% x25_d (term A_unit_rbt_d)
+(% x24_d (term Unit_d)
+(% x23_d (term A_d)
+(% x22_d (term A_unit_rbt_d)
+(% keys_d (term (arrow A_unit_rbt_d A_list_d))
+(% tl_d (term (arrow A_list_d A_list_d))
+(% empty_d (term A_unit_rbt_d)
+(% min_d (term A_a_a_fun_fun_d)
+(% fold_d (term (arrow A_a_a_fun_fun_d (arrow A_list_d (arrow A_d A_d))))
+(% hd_d (term (arrow A_list_d A_d))
+(% ta_d (term A_unit_rbt_d)
+(% is_rbt_d (term (arrow A_unit_rbt_d Bool))
+(% branch_d (term (arrow Color_d (arrow A_unit_rbt_d (arrow A_d (arrow Unit_d (arrow A_unit_rbt_d A_unit_rbt_d))))))
+(% x21_d (term Color_d)
+(% A0 (th_holds (not (= A_d (apply _ _ (apply _ _ (apply _ _ fold_d min_d)(apply _ _ tl_d (apply _ _ keys_d ta_d)))(apply _ _ hd_d (apply _ _ keys_d ta_d))) (apply _ _ (apply _ _ (apply _ _ fold_d min_d)(apply _ _ tl_d (apply _ _ keys_d ta_d)))(apply _ _ hd_d (apply _ _ keys_d ta_d))))))
+(% A1 (th_holds (p_app (apply _ _ is_rbt_d ta_d)))
+(% A4 (th_holds true)
+(% A2 (th_holds (not (= A_unit_rbt_d ta_d empty_d)))
+(% A3 (th_holds (= A_unit_rbt_d ta_d (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ branch_d x21_d)x22_d)x23_d)x24_d)x25_d)))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 false
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (not (= A_d (apply _ _ (apply _ _ (apply _ _ fold_d min_d)(apply _ _ tl_d (apply _ _ keys_d ta_d)))(apply _ _ hd_d (apply _ _ keys_d ta_d))) (apply _ _ (apply _ _ (apply _ _ fold_d min_d)(apply _ _ tl_d (apply _ _ keys_d ta_d)))(apply _ _ hd_d (apply _ _ keys_d ta_d))))) false))(\ .PA235
+(th_let_pf _ (trust_f (iff true (not let1)))(\ .PA291
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let1 (\ .v1 (\ .a1
+(satlem _ _ (ast _ _ _ .a1 (\ .l3 (clausify_false (contra _ .l3 (or_elim_1 _ _ (not_not_intro _ A4) (iff_elim_1 _ _ .PA291)))))) (\ .pb1
+(satlem _ _ (asf _ _ _ .a1 (\ .l2 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A0) (iff_elim_1 _ _ .PA235)) .l2)))) (\ .pb4
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb4 .pb1 .v1) (\ empty empty)))))))))))))))))))))))))))))))))))))))))
+;;

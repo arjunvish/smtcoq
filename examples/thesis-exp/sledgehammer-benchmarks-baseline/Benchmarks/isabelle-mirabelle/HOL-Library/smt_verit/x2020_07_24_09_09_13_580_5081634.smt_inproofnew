@@ -1,0 +1,6 @@
+(assume a0 (not (p_d (class_d (pick_d (class_d a_d))) (class_da (pick_da (class_da b_d))))))
+(assume a1 (p_d (class_d a_d) (class_da b_d)))
+(assume a2 (= (class_d a_d) (class_d (pick_d (class_d a_d)))))
+(assume a3 (= (class_da b_d) (class_da (pick_da (class_da b_d)))))
+(step t5 (cl (not (= (class_d a_d) (class_d (pick_d (class_d a_d))))) (not (= (class_da b_d) (class_da (pick_da (class_da b_d))))) (not (p_d (class_d a_d) (class_da b_d))) (p_d (class_d (pick_d (class_d a_d))) (class_da (pick_da (class_da b_d))))) :rule eq_congruent_pred)
+(step t6 (cl) :rule resolution :premises (t5 a0 a1 a2 a3))

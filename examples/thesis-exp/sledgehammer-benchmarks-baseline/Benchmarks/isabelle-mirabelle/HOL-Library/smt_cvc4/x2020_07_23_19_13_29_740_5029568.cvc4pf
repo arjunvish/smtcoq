@@ -1,0 +1,48 @@
+(check
+ ;; Declarations
+(% B_set_d sort
+(% a_d (term B_set_d)
+(% finite_d (term (arrow B_set_d Bool))
+(% A2 (th_holds true)
+(% A1 (th_holds (p_app (apply _ _ finite_d a_d)))
+(% A0 (th_holds (not (p_app (apply _ _ finite_d a_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 a_d
+(@ let2 (p_app (apply _ _ finite_d let1))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let2 (\ .v2 (\ .a2
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ A1 .l4)))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb5 .pb4 .v2) (\ empty empty)))))))))))))))))))
+;;
+(
+a1
+a0
+)

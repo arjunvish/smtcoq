@@ -1,0 +1,6 @@
+(assume a0 (not (= (nth_d (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) i_d) (nth_d cs_d i_d))))
+(assume a8 (= (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) cs_d))
+(step t3 (cl (not (= (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) cs_d)) (not (= i_d i_d)) (= (nth_d (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) i_d) (nth_d cs_d i_d))) :rule eq_congruent)
+(step t4 (cl (= i_d i_d)) :rule eq_reflexive)
+(step t5 (cl (not (= (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) cs_d)) (= (nth_d (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) i_d) (nth_d cs_d i_d))) :rule th_resolution :premises (t3 t4))
+(step t6 (cl) :rule resolution :premises (t5 a0 a8))

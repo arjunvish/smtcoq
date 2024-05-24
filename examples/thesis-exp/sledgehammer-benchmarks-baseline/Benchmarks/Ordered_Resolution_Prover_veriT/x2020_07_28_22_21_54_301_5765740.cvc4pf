@@ -1,0 +1,102 @@
+(check
+ ;; Declarations
+(% A_inference_a_literal_multiset_fun_d sort
+(% A_literal_d sort
+(% A_literal_multiset_d sort
+(% A_inference_set_d sort
+(% A_literal_multiset_set_a_literal_multiset_set_fun_d sort
+(% A_s_a_fun_fun_d sort
+(% A_literal_multiset_set_d sort
+(% image_d (term (arrow A_inference_a_literal_multiset_fun_d (arrow A_inference_set_d A_literal_multiset_set_d)))
+(% fun_app_d (term (arrow A_literal_multiset_set_a_literal_multiset_set_fun_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% minus_d (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% less_eq_d (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d Bool)))
+(% bot_d (term A_literal_multiset_set_d)
+(% zero_d (term A_literal_multiset_d)
+(% add_mset_d (term (arrow A_literal_d (arrow A_literal_multiset_d A_literal_multiset_d)))
+(% grounding_of_clss_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% inferences_from_d (term (arrow A_inference_set_d (arrow A_literal_multiset_set_d A_inference_set_d)))
+(% rf_d (term A_literal_multiset_set_a_literal_multiset_set_fun_d)
+(% derive_d (term (arrow A_inference_set_d (arrow A_literal_multiset_set_a_literal_multiset_set_fun_d (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d Bool)))))
+(% sup_d (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% ground_sound_Gamma_d (term A_inference_set_d)
+(% l_d (term A_literal_d)
+(% subst_atm_d (term A_s_a_fun_fun_d)
+(% cc_d (term A_literal_multiset_set_d)
+(% insert_d (term (arrow A_literal_multiset_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% plus_d (term (arrow A_literal_multiset_d (arrow A_literal_multiset_d A_literal_multiset_d)))
+(% concl_of_d (term A_inference_a_literal_multiset_fun_d)
+(% c_d (term A_literal_multiset_d)
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ derive_d ground_sound_Gamma_d)rf_d)(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d))))(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d)))))))
+(% A1 (th_holds (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ (apply _ _ minus_d (apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d))))(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d)))))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d)))))))
+(% A4 (th_holds true)
+(% A2 (th_holds (impl (and (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ (apply _ _ minus_d (apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d))))(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d)))))(apply _ _ (apply _ _ image_d concl_of_d)(apply _ _ (apply _ _ inferences_from_d ground_sound_Gamma_d)(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d))))))) (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ (apply _ _ minus_d (apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d))))(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d)))))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d))))))) (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ derive_d ground_sound_Gamma_d)rf_d)(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d))))(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d)))))))
+(% A3 (th_holds (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ (apply _ _ minus_d (apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d c_d)bot_d))))(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d)))))(apply _ _ (apply _ _ image_d concl_of_d)(apply _ _ (apply _ _ inferences_from_d ground_sound_Gamma_d)(apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)(apply _ _ (apply _ _ sup_d cc_d)(apply _ _ (apply _ _ insert_d (apply _ _ (apply _ _ plus_d c_d)(apply _ _ (apply _ _ add_mset_d l_d)zero_d)))bot_d))))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 ground_sound_Gamma_d
+(@ let2 rf_d
+(@ let3 subst_atm_d
+(@ let4 cc_d
+(@ let5 c_d
+(@ let6 l_d
+(@ let7 zero_d
+(@ let8 (apply _ _ (apply _ _ add_mset_d let6)let7)
+(@ let9 (apply _ _ (apply _ _ plus_d let5)let8)
+(@ let10 bot_d
+(@ let11 (apply _ _ (apply _ _ insert_d let9)let10)
+(@ let12 (apply _ _ (apply _ _ sup_d let4)let11)
+(@ let13 (apply _ _ (apply _ _ grounding_of_clss_d let3)let12)
+(@ let14 (apply _ _ (apply _ _ insert_d let5)let10)
+(@ let15 (apply _ _ (apply _ _ sup_d let4)let14)
+(@ let16 (apply _ _ (apply _ _ grounding_of_clss_d let3)let15)
+(@ let17 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ derive_d let1)let2)let13)let16))
+(@ let18 (apply _ _ (apply _ _ minus_d let13)let16)
+(@ let19 (apply _ _ (apply _ _ fun_app_d let2)let16)
+(@ let20 (p_app (apply _ _ (apply _ _ less_eq_d let18)let19))
+(@ let21 (apply _ _ (apply _ _ minus_d let16)let13)
+(@ let22 concl_of_d
+(@ let23 (apply _ _ (apply _ _ inferences_from_d let1)let13)
+(@ let24 (apply _ _ (apply _ _ image_d let22)let23)
+(@ let25 (p_app (apply _ _ (apply _ _ less_eq_d let21)let24))
+(@ let26 (and let25 let20)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let17 (\ .v2 (\ .a2
+(decl_atom let20 (\ .v3 (\ .a3
+(decl_atom let25 (\ .v4 (\ .a4
+(decl_atom let26 (\ .v5 (\ .a5
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ A1 .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ A3 .l8)))) (\ .pb9
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (asf _ _ _ .a5 (\ .l10 (ast _ _ _ .a3 (\ .l7 (clausify_false (contra _ .l7 (or_elim_1 _ _ (not_not_intro _ .l9) (not_and_elim _ _ .l10)))))))))) (\ .pb7
+(satlem _ _ (ast _ _ _ .a5 (\ .l11 (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ .l11) (impl_elim _ _ A2)) .l4)))))) (\ .pb8
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb8 .pb4 .v2) (\ .cl10
+(satlem_simplify _ _ _ (Q _ _ (R _ _ .pb7 .cl10 .v5) .pb5 .v3) (\ .cl11
+(satlem_simplify _ _ _ (R _ _ .pb9 .cl11 .v4) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

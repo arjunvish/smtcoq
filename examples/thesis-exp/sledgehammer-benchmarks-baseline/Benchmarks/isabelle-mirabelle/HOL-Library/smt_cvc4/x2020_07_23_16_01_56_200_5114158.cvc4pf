@@ -1,0 +1,35 @@
+(check
+ ;; Declarations
+(% n_d (term Int)
+(% A2 (th_holds true)
+(% A1 (th_holds (<_Int (a_int 1)  n_d) )
+(% A0 (th_holds (not (<_Int (a_int 0)  n_d) ))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 n_d
+(@ let2 (a_int 1) 
+(@ let3 (>=_Int let1 let2) 
+(@ let4 (a_int 2) 
+(@ let5 (>=_Int let1 let4) 
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (error "Internal error detected
+void CVC4::ProofManager::traceDeps(CVC4::TNode, CVC4::ExprSet*)
+../../../../src/proof/proof_manager.cpp:283:
+
+  
+Cannot trace dependence information back to input assertion:
+`(or (>= n_d 1) (not (>= n_d 2)))'")

@@ -1,0 +1,60 @@
+(check
+ ;; Declarations
+(% V_s_v_tm_fun_d sort
+(% S_v_tm_d sort
+(% S_nat_fun_d sort
+(% S_enat_fun_d sort
+(% V_s_set_fun_d sort
+(% S_s_bool_fun_fun_d sort
+(% Nat_d sort
+(% S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d sort
+(% sa_d (term S_v_tm_d)
+(% gt_sym_d (term S_s_bool_fun_fun_d)
+(% ground_heads_var_d (term V_s_set_fun_d)
+(% gt_d (term (arrow V_s_set_fun_d (arrow S_s_bool_fun_fun_d (arrow Nat_d (arrow S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d (arrow S_enat_fun_d (arrow S_nat_fun_d (arrow S_v_tm_d (arrow S_v_tm_d Bool)))))))))
+(% delta_d (term Nat_d)
+(% extf_d (term S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d)
+(% arity_sym_d (term S_enat_fun_d)
+(% wt_sym_d (term S_nat_fun_d)
+(% subst_d (term (arrow V_s_v_tm_fun_d (arrow S_v_tm_d S_v_tm_d)))
+(% rho_d (term V_s_v_tm_fun_d)
+(% ta_d (term S_v_tm_d)
+(% A2 (th_holds true)
+(% A1 (th_holds (not (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d ground_heads_var_d)gt_sym_d)delta_d)extf_d)arity_sym_d)wt_sym_d)(apply _ _ (apply _ _ subst_d rho_d)ta_d))(apply _ _ (apply _ _ subst_d rho_d)sa_d)))))
+(% A0 (th_holds false)
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 false
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff true (not let1)))(\ .PA282
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let1 (\ .v1 (\ .a1
+(satlem _ _ (ast _ _ _ .a1 (\ .l3 (clausify_false (contra _ .l3 (or_elim_1 _ _ (not_not_intro _ A2) (iff_elim_1 _ _ .PA282)))))) (\ .pb1
+(satlem _ _ (asf _ _ _ .a1 (\ .l2 (clausify_false (contra _ A0 .l2)))) (\ .pb4
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb4 .pb1 .v1) (\ empty empty))))))))))))))))))))))))))))))))))))
+;;

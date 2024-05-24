@@ -1,0 +1,4 @@
+1:(input ((not #1:(is_ground_subst_d subst_atm_d tau_d))))
+2:(input (#2:(and #3:(subseteq_mset_d #4:(subst_cls_d subst_atm_d d_d tau_d) c_d) #1)))
+3:(and (#1) 2 1)
+4:(resolution () 3 1)

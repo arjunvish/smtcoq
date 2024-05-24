@@ -1,0 +1,5 @@
+1:(input ((not #1:(= #2:(size_d cAs0_d) #3:(size_d cAs_d)))))
+2:(input (#4:(= #3 n_d)))
+3:(input (#5:(= #2 n_d)))
+4:(eq_transitive ((not #5) (not #4) #1))
+5:(resolution () 4 1 2 3)

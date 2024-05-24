@@ -1,0 +1,57 @@
+(check
+ ;; Declarations
+(% A_d sort
+(% A_b_prod_d sort
+(% B_d sort
+(% fst_d (term (arrow A_b_prod_d A_d))
+(% less_eq_da (term (arrow A_d (arrow A_d Bool)))
+(% less_eq_d (term (arrow B_d (arrow B_d Bool)))
+(% snd_d (term (arrow A_b_prod_d B_d))
+(% x_d (term A_b_prod_d)
+(% y_d (term A_b_prod_d)
+(% A2 (th_holds true)
+(% A1 (th_holds (and (p_app (apply _ _ (apply _ _ less_eq_da (apply _ _ fst_d x_d))(apply _ _ fst_d y_d))) (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ snd_d x_d))(apply _ _ snd_d y_d)))))
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ snd_d x_d))(apply _ _ snd_d y_d)))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 x_d
+(@ let2 (apply _ _ snd_d let1)
+(@ let3 y_d
+(@ let4 (apply _ _ snd_d let3)
+(@ let5 (p_app (apply _ _ (apply _ _ less_eq_d let2)let4))
+(@ let6 (apply _ _ fst_d let1)
+(@ let7 (apply _ _ fst_d let3)
+(@ let8 (p_app (apply _ _ (apply _ _ less_eq_da let6)let7))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let5 (\ .v2 (\ .a2
+(decl_atom let8 (\ .v3 (\ .a3
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (and_elim_2 _ _ A1) .l4)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb6 .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))
+;;

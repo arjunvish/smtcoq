@@ -1,0 +1,5 @@
+(assume a0 (not (and (subsumes_d subst_atm_d d_d d_da) (subsumes_d subst_atm_d d_da d_d))))
+(assume a2 (subsumes_d subst_atm_d d_da d_d))
+(assume a3 (subsumes_d subst_atm_d d_d d_da))
+(step t4 (cl (not (subsumes_d subst_atm_d d_d d_da)) (not (subsumes_d subst_atm_d d_da d_d))) :rule not_and :premises (a0))
+(step t5 (cl) :rule resolution :premises (t4 a2 a3))

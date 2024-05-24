@@ -1,0 +1,564 @@
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/PNT_z32/x2020_08_04_17_45_26_739_9376730verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_05_23_096_5606264verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_04_968_5248672verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_50_546_5359382verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_43_355_6522276verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_35_149_7629076verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_06_27_504_5933684verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_15_27_694_6279318verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_12_58_132_6181512verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_28_446_6397402verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_22_36_035_6337544verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_49_644_6536112verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_08_268_5321078verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_43_615_6004000verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_42_01_808_4961238verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_14_36_388_6025794verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_06_02_107_5638220verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_49_010_6452792verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_43_702_4662652verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_07_140_4628884verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_42_034_5998320verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_55_014_5369464verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_39_113_7636710verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_41_942_6515590verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_48_855_5281470verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_48_838_5354134verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_21_12_689_9268514verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_41_03_832_8304788verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_23_22_32_196_4983000verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_10_14_273_5442982verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_33_39_249_9488436verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_50_06_230_5063492verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_17_45_18_358_5383148verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_46_56_736_8400646verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_13_554_5028546verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_47_03_336_8415396verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_47_51_743_5021316verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_45_899_5005750verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_09_13_580_5081634verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_03_14_29_526_6590820verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_10_024_5021652verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_28_08_034_7411138verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_19_224_8437724verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_52_10_754_8440880verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_27_625_8447402verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_04_464_17993960verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_04_38_502_4990434verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_06_15_118_5385958verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_35_20_861_5083584verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_16_51_570_4983100verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_10_288_8633312verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_51_42_656_5093812verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_696_4987364verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_050_4985034verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_07_259_8627852verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_32_04_209_9474402verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_08_53_363_5071014verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_00_883_17987914verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_37_53_950_9571100verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_28_18_949_9432688verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_28_01_687_5616730verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_25_289_5134680verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_44_183_5157124verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_13_29_740_5029568verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_00_870_5908880verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_33_14_874_5693428verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_31_32_094_5725034verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_15_23_16_143_4983100verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_04_536_4989628verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_09_34_799_4995700verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_42_549_5864026verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_18_31_06_963_5320700verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_28_655_5053232verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_34_486_5840566verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_23_22_38_994_4983000verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_01_29_51_707_5106282verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_08_504_5931826verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_16_11_074_5147710verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_28_06_559_5486688verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_16_01_56_200_5114158verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_32_934_5066708verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_03_628_4985034verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/Zeta_cvc42/x2020_08_04_19_26_44_055_10527492verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_17_34_35_557_9411026verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_19_07_59_455_9387134verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_46_36_378_8617908verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_19_42_14_120_5961368verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_29_35_898_5741632verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_43_975_7545750verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_19_53_992_5730614verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_21_54_301_5765740verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_42_834_7543784verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_44_56_253_5688612verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_39_123_7537830verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_05_57_088_7410378verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_47_436_7058806verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_51_54_844_7791092verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_22_19_856_8862020verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_47_44_675_8643846verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_31_31_371_7343286verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_24_40_122_5680112verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_01_16_644_5442968verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_46_15_427_5720368verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_39_24_709_8527638verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_26_46_622_8897120verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_27_449_8841898verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_03_52_352_5382930verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_29_090_8844184verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_25_33_668_8333304verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_23_25_559_8874768verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_04_807_5590668verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_01_57_407_5584508verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_46_40_335_5636392verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_52_48_419_6580796verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_42_55_636_5603382verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_50_649_7061430verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_15_13_395_5646634verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_43_29_785_5626822verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_36_57_199_5464880verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_03_707_5588814verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_20_00_872_8811318verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_25_416_8839786verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_16_516_5600148verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_40_12_306_5528196verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_40_281_7539822verit2016.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_01_007_5595370verit2016.v
+     = true
+     : bool

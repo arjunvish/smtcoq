@@ -1,0 +1,1248 @@
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_brp2_4_prop2_ab_reg_max.smt2
+nwt: op_866 (aka Smt_var_yDOLLARsDOLLAR7_op)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_brp2_4_prop2_ab_reg_max.v", line 8, characters 2-304:
+Error:
+Anomaly
+"Uncaught exception Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_needham_1_prop4_ab_reg_max.smt2
+nwt: op_1084 (aka Smt_var_yDOLLARsDOLLAR7_op)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_needham_1_prop4_ab_reg_max.v", line 8, characters 2-310:
+Error:
+Anomaly
+"Uncaught exception Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_brp2_2_prop3_ab_reg_max.smt2
+nwt: op_847 (aka Smt_var_yDOLLARsDOLLAR12_op)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_brp2_2_prop3_ab_reg_max.v", line 8, characters 2-304:
+Error:
+Anomaly
+"Uncaught exception Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_brp_5_prop1_ab_reg_max.smt2
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_pgm_protocol_4_prop6_ab_reg_max.smt2
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_elevator_3_prop1_ab_reg_max.smt2
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_iprotocol_7_prop1_ab_reg_max.smt2
+nwt: op_1812 (aka Smt_var_yDOLLARv3_1517448498_72_op)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_iprotocol_7_prop1_ab_reg_max.v", line 8, characters 2-314:
+Error:
+Anomaly
+"Uncaught exception Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_counter_v_ab_reg_max.smt2
+nwt: op_26 (aka Smt_var_yDOLLARn1s4)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_counter_v_ab_reg_max.v", line 8, characters 2-298:
+Error:
+Anomaly
+"Uncaught exception Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_lifts_3_prop1_ab_reg_max.smt2
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_resistance_1_prop2_ab_cti_max.smt2
+nwt: op_611 (aka Smt_var_yDOLLARsDOLLAR198_op)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_resistance_1_prop2_ab_cti_max.v", line 8, characters 2-316:
+Error:
+Anomaly
+"Uncaught exception Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_pouring_2_prop1_ab_reg_max.smt2
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_brp2_3_prop3_ab_reg_max.smt2
+nwt: op_849 (aka Smt_var_yDOLLARsDOLLAR12_op)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_brp2_3_prop3_ab_reg_max.v", line 8, characters 2-304:
+Error:
+Anomaly
+"Uncaught exception Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/2018-Goel-hwbench/QF_UF_elevator_2_prop1_ab_reg_max.smt2
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/SEQ/SEQ038_size7.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/SEQ/SEQ038_size7.v", line 8, characters 2-242:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/20170829-Rodin/smt249825283571301584.smt2
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl374.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl374.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl509.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl509.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl036.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl036.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd032.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd032.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd002.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd002.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1106.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1106.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl600.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl600.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn1104.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn1104.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn223.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn223.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd031.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd031.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl515.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl515.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn420.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn420.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1219.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1219.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl308.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl308.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl160.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl160.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl692.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl692.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn235.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn235.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl335.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl335.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl505.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl505.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1058.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1058.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn425.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn425.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl142.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl142.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl042.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl042.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl005.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl005.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl016.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl016.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn180.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn180.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl487.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl487.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl726.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl726.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl599.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl599.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl143.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl143.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl473.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl473.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl906.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl906.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn588.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn588.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn750.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn750.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn114.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn114.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl080.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl080.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1251.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1251.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl713.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl713.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl204.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl204.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl248.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl248.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl679.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl679.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl887.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl887.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl353.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl353.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl221.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl221.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl150.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl150.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1217.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1217.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1009.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1009.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl184.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl184.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl874.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl874.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl070.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl070.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl063.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl063.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn749.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn749.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd041.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd041.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl748.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl748.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl050.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl050.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl330.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl330.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl576.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl576.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd007.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd007.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1265.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1265.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl212.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl212.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl813.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl813.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl653.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl653.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1279.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1279.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl159.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl159.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl972.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl972.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl866.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl866.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl132.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl132.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl561.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl561.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn009.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn009.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl911.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl911.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl720.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl720.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl783.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl783.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1046.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1046.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl631.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl631.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl096.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl096.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1280.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1280.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl904.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl904.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn1231.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn1231.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1086.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1086.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl760.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl760.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1047.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1047.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl949.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl949.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl954.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl954.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl815.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl815.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl986.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl986.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl774.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl774.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl178.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl178.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl865.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl865.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl432.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl432.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl379.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl379.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn942.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn942.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl636.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl636.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1126.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1126.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl416.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl416.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl944.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl944.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl075.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl075.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1092.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1092.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn1103.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn1103.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1051.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1051.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl842.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl842.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl583.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl583.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl538.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl538.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl498.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl498.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl123.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl123.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl539.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl539.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl832.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl832.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl249.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl249.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl945.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl945.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl468.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl468.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1055.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1055.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl112.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl112.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl220.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl220.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl651.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl651.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl896.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl896.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl823.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl823.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl970.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl970.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl238.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl238.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl217.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl217.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1223.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1223.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd036.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/dead_dnd036.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1044.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1044.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn658.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn658.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1259.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1259.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn484.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn484.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn869.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn869.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn317.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn317.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1153.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1153.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn526.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn526.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1261.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1261.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl288.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl288.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn507.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn507.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl075.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl075.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl582.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl582.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn411.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn411.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn307.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn307.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1270.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1270.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl839.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl839.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl870.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl870.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn606.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn606.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1212.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1212.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl658.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl658.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl964.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl964.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl312.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl312.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl010.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl010.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl115.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl115.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn998.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn998.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl336.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl336.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl183.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl183.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn261.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn261.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl463.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl463.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1236.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1236.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl935.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl935.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl190.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl190.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl547.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl547.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1131.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl1131.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn900.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn900.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1255.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1255.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl271.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl271.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl969.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl969.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl825.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl825.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl218.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl218.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn023.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_brn023.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl353.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl353.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl299.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl299.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1097.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl1097.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl891.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/gensys_icl891.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1097.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_brn1097.v", line 8, characters 2-276:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl922.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg5/iso_icl922.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_icl002.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_icl002.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_brn004.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_brn004.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_icl_sk002.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_icl_sk002.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_brn_sk036.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_brn_sk036.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_icl_repgen_sk006.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_icl_repgen_sk006.v", line 8, characters 2-294:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_brn023.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg7/iso_brn023.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl100.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl100.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl044.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl044.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_brn005.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_brn005.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_brn028.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_brn028.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl064.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl064.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl084.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl084.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl099.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl099.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl038.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl038.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl019.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl019.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl082.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl082.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/dead_dnd016.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/dead_dnd016.v", line 8, characters 2-282:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl083.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl083.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_brn033.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_brn033.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl071.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/iso_icl071.v", line 8, characters 2-280:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_brn089.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_brn089.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl055.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/loops6/gensys_icl055.v", line 8, characters 2-286:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg6/iso_icl012.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/QG-classification/qg6/iso_icl012.v", line 8, characters 2-274:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/NEQ/NEQ033_size5.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/NEQ/NEQ033_size5.v", line 8, characters 2-242:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/NEQ/NEQ027_size8.smt2
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/QF_UF/NEQ/NEQ027_size8.v", line 8, characters 2-242:
+Error: Verit.import_trace: VeritParser.Error
+Position: Line 1 Position 19
+

@@ -1,0 +1,7 @@
+1:(input (#1:(= da_d zero_d)))
+2:(input (#2:(member_d da_d n_d)))
+3:(input ((not #3:(member_d zero_d n_d))))
+4:(eq_congruent_pred ((not #1) (not #4:(= n_d n_d)) (not #2) #3))
+5:(eq_reflexive (#4))
+6:(resolution ((not #1) (not #2) #3) 4 5)
+7:(resolution () 6 1 2 3)

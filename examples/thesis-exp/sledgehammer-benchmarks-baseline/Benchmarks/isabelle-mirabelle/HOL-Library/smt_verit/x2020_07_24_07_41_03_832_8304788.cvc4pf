@@ -1,0 +1,56 @@
+(check
+ ;; Declarations
+(% A_list_d sort
+(% A_set_d sort
+(% A_unit_rbt_d sort
+(% A_d sort
+(% keys_d (term (arrow A_unit_rbt_d A_list_d))
+(% member_d (term (arrow A_d (arrow A_set_d Bool)))
+(% less_eq_d (term (arrow A_d (arrow A_d Bool)))
+(% rbt_sorted_d (term (arrow A_unit_rbt_d Bool))
+(% y_d (term A_d)
+(% empty_d (term A_unit_rbt_d)
+(% set_d (term (arrow A_list_d A_set_d))
+(% rbt_max_opt_d (term (arrow A_unit_rbt_d A_d))
+(% A4 (th_holds true)
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ less_eq_d y_d)(apply _ _ rbt_max_opt_d empty_d)))))
+(% A1 (th_holds (not (= A_unit_rbt_d empty_d empty_d)))
+(% A2 (th_holds (p_app (apply _ _ rbt_sorted_d empty_d)))
+(% A3 (th_holds (p_app (apply _ _ (apply _ _ member_d y_d)(apply _ _ set_d (apply _ _ keys_d empty_d)))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 false
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (not (= A_unit_rbt_d empty_d empty_d)) false))(\ .PA235
+(th_let_pf _ (trust_f (iff true (not let1)))(\ .PA278
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let1 (\ .v1 (\ .a1
+(satlem _ _ (ast _ _ _ .a1 (\ .l3 (clausify_false (contra _ .l3 (or_elim_1 _ _ (not_not_intro _ A4) (iff_elim_1 _ _ .PA278)))))) (\ .pb1
+(satlem _ _ (asf _ _ _ .a1 (\ .l2 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A1) (iff_elim_1 _ _ .PA235)) .l2)))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb5 .pb1 .v1) (\ empty empty)))))))))))))))))))))))))))))))))
+;;

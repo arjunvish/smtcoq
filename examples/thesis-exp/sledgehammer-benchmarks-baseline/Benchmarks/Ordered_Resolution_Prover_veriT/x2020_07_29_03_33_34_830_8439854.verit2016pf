@@ -1,0 +1,8 @@
+1:(input ((not thesis_d)))
+2:(input (#1:(=> #2:(=> (not #3:(= #4:(s_M_d subst_atm_d s_d m_d #5:(plus_d d_d #6:(image_mset_d neg_d #7:(mset_d as_d)))) zero_d)) (not #3)) thesis_d)))
+3:(implies_neg1 (#2 (not #3)))
+4:(implies_neg2 (#2 #3))
+5:(implies ((not #2) thesis_d) 2)
+6:(resolution ((not #2)) 5 1)
+7:(resolution ((not #3)) 3 6)
+8:(resolution () 4 6 7)

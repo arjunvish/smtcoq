@@ -1,0 +1,3 @@
+(assume a2 (not (eqv_d x_d y_d)))
+(assume a1 (eqv_d x_d y_d))
+(step t3 (cl) :rule th_resolution :premises (a2 a1))

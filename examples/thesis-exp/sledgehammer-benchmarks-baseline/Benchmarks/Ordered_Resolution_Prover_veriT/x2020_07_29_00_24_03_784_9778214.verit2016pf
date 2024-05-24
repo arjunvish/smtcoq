@@ -1,0 +1,7 @@
+1:(input ((not #1:(member_d e_d #2:(n_of_state_d #3:(lnth_d sts_d j_d))))))
+2:(input (#4:(= #2 #5:(image_d concl_of_d #6:(inferences_between_d #7:(ord_FO_Gamma_d subst_atm_d renamings_apart_d mgu_d less_atm_d s_d) #8:(q_of_state_d #9:(lnth_d sts_d #10:(minus_d j_d one_d))) c_d)))))
+3:(input (#11:(member_d e_d #5)))
+4:(eq_congruent_pred ((not #12:(= e_d e_d)) (not #4) (not #11) #1))
+5:(eq_reflexive (#12))
+6:(resolution ((not #4) (not #11) #1) 4 5)
+7:(resolution () 6 1 2 3)

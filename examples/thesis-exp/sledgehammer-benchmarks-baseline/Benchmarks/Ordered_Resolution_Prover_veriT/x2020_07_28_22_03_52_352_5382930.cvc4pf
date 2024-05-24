@@ -1,0 +1,60 @@
+(check
+ ;; Declarations
+(% A_literal_multiset_set_d sort
+(% A_literal_multiset_d sort
+(% n_d (term A_literal_multiset_set_d)
+(% member_d (term (arrow A_literal_multiset_d (arrow A_literal_multiset_set_d Bool)))
+(% zero_d (term A_literal_multiset_d)
+(% c_d (term A_literal_multiset_d)
+(% A3 (th_holds true)
+(% A2 (th_holds (not (p_app (apply _ _ (apply _ _ member_d zero_d)n_d))))
+(% A1 (th_holds (p_app (apply _ _ (apply _ _ member_d c_d)n_d)))
+(% A0 (th_holds (not (not (= A_literal_multiset_d c_d zero_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 c_d
+(@ let2 zero_d
+(@ let3 (= A_literal_multiset_d let1 let2)
+(@ let4 n_d
+(@ let5 (p_app (apply _ _ (apply _ _ member_d let1)let4))
+(@ let6 (p_app (apply _ _ (apply _ _ member_d let2)let4))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (not (not let3)) (= A_literal_multiset_d let1 let2)))(\ .PA260
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let3 (\ .v2 (\ .a2
+(decl_atom let5 (\ .v3 (\ .a3
+(decl_atom let6 (\ .v4 (\ .a4
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A0) (iff_elim_1 _ _ .PA260)) .l4)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ A1 .l6)))) (\ .pb5
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (clausify_false (contra _ .l9 A2)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (ast _ _ _ .a3 (\ .l7 (ast _ _ _ .a2 (\ .l5  ;; UF Theory Lemma 
+;;(member_d zero_d n_d) (not (member_d c_d n_d)) (not (= c_d zero_d)) 
+(clausify_false (contra _ (trans _ _ _ _ (symm _ _ _ (trans _ _ _ _ (symm _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (refl _ member_d) .l5) (refl _ let4))) (pred_eq_t _ .l7))) (pred_eq_f _ .l8)) t_t_neq_f))
+))))))( \ .lemc7
+(satlem_simplify _ _ _ (Q _ _ (Q _ _ (R _ _ .lemc7 .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))
+;;

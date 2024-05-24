@@ -1,0 +1,85 @@
+(check
+ ;; Declarations
+(% A_literal_multiset_d sort
+(% A_literal_multiset_set_a_literal_multiset_set_fun_d sort
+(% A_literal_multiset_set_a_literal_multiset_set_prod_d sort
+(% A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_d sort
+(% A_literal_multiset_set_d sort
+(% A_s_a_fun_fun_d sort
+(% A_literal_multiset_set_set_d sort
+(% A_literal_multiset_a_literal_multiset_set_fun_d sort
+(% c_d (term A_literal_multiset_d)
+(% insert_d (term (arrow A_literal_multiset_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% sup_da (term (arrow A_literal_multiset_set_d A_literal_multiset_set_a_literal_multiset_set_fun_d))
+(% fun_app_d (term (arrow A_literal_multiset_set_a_literal_multiset_set_fun_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% sup_d (term (arrow A_literal_multiset_set_set_d A_literal_multiset_set_d))
+(% q_d (term A_literal_multiset_set_d)
+(% p_d (term A_literal_multiset_set_d)
+(% grounding_of_clss_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% pair_da (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d A_literal_multiset_set_a_literal_multiset_set_prod_d)))
+(% subst_atm_d (term A_s_a_fun_fun_d)
+(% pair_d (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_a_literal_multiset_set_prod_d A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_d)))
+(% image_d (term (arrow A_literal_multiset_a_literal_multiset_set_fun_d (arrow A_literal_multiset_set_d A_literal_multiset_set_set_d)))
+(% grounding_of_cls_d (term (arrow A_s_a_fun_fun_d A_literal_multiset_a_literal_multiset_set_fun_d))
+(% q_of_state_d (term (arrow A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_d A_literal_multiset_set_d))
+(% bot_d (term A_literal_multiset_set_d)
+(% A1 (th_holds true)
+(% A0 (th_holds (not (or (not (= A_literal_multiset_set_d (apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)q_d) (apply _ _ sup_d (apply _ _ (apply _ _ image_d (apply _ _ grounding_of_cls_d subst_atm_d))(apply _ _ q_of_state_d (apply _ _ (apply _ _ pair_d bot_d)(apply _ _ (apply _ _ pair_da (apply _ _ (apply _ _ fun_app_d (apply _ _ sup_da p_d))(apply _ _ (apply _ _ insert_d c_d)bot_d)))q_d))))))) (= A_literal_multiset_set_a_literal_multiset_set_fun_d (apply _ _ sup_da (apply _ _ (apply _ _ grounding_of_clss_d subst_atm_d)q_d)) (apply _ _ sup_da (apply _ _ sup_d (apply _ _ (apply _ _ image_d (apply _ _ grounding_of_cls_d subst_atm_d))(apply _ _ q_of_state_d (apply _ _ (apply _ _ pair_d bot_d)(apply _ _ (apply _ _ pair_da (apply _ _ (apply _ _ fun_app_d (apply _ _ sup_da p_d))(apply _ _ (apply _ _ insert_d c_d)bot_d)))q_d))))))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 subst_atm_d
+(@ let2 q_d
+(@ let3 (apply _ _ (apply _ _ grounding_of_clss_d let1)let2)
+(@ let4 (apply _ _ grounding_of_cls_d let1)
+(@ let5 bot_d
+(@ let6 p_d
+(@ let7 (apply _ _ sup_da let6)
+(@ let8 c_d
+(@ let9 (apply _ _ (apply _ _ insert_d let8)let5)
+(@ let10 (apply _ _ (apply _ _ fun_app_d let7)let9)
+(@ let11 (apply _ _ (apply _ _ pair_da let10)let2)
+(@ let12 (apply _ _ (apply _ _ pair_d let5)let11)
+(@ let13 (apply _ _ q_of_state_d let12)
+(@ let14 (apply _ _ (apply _ _ image_d let4)let13)
+(@ let15 (apply _ _ sup_d let14)
+(@ let16 (= A_literal_multiset_set_d let3 let15)
+(@ let17 (apply _ _ sup_da let3)
+(@ let18 (apply _ _ sup_da let15)
+(@ let19 (= A_literal_multiset_set_a_literal_multiset_set_fun_d let17 let18)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let16 (\ .v2 (\ .a2
+(decl_atom let19 (\ .v3 (\ .a3
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (not_not_elim _ (and_elim_1 _ _ (not_or_elim _ _ A0))) .l4)))) (\ .pb4
+(satlem _ _ (ast _ _ _ .a3 (\ .l7 (clausify_false (contra _ .l7 (and_elim_2 _ _ (not_or_elim _ _ A0)))))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (ast _ _ _ .a2 (\ .l5  ;; UF Theory Lemma 
+;;(= (sup_da (grounding_of_clss_d subst_atm_d q_d)) (sup_da (sup_d (image_d (grounding_of_cls_d subst_atm_d) (q_of_state_d (pair_d bot_d (pair_da (fun_app_d (sup_da p_d) (insert_d c_d bot_d)) q_d))))))) (not (= (grounding_of_clss_d subst_atm_d q_d) (sup_d (image_d (grounding_of_cls_d subst_atm_d) (q_of_state_d (pair_d bot_d (pair_da (fun_app_d (sup_da p_d) (insert_d c_d bot_d)) q_d))))))) 
+(clausify_false (contra _ (cong _ _ _ _ _ _ (refl _ sup_da) .l5) .l6))
+))))( \ .lemc6
+(satlem_simplify _ _ _ (Q _ _ (R _ _ .lemc6 .pb5 .v3) .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

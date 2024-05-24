@@ -1,0 +1,6 @@
+1:(input ((not #1:(less_eq_d #2:(fun_app_d atms_of_d e_d) #3:(sup_d #4:(sup_da #5:(image_d atms_of_d #6:(set_d cAs_d))) #7:(fun_app_d atms_of_d da_d))))))
+2:(input (#8:(=> #9:(ground_resolution_with_selection_d s_d) #1)))
+3:(input (#9))
+4:(implies ((not #9) #1) 2)
+5:(resolution ((not #9)) 4 1)
+6:(resolution () 3 5)

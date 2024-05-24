@@ -1,0 +1,4 @@
+1:(input ((not #1:(equivp_d r_d))))
+2:(input (#2:(and #1 #3:(rel_fun_d #4:(rel_d r_d) r_d eval_d eval_d))))
+3:(and (#1) 2 0)
+4:(resolution () 3 1)

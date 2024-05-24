@@ -1,0 +1,8 @@
+(assume a0 (not (not (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d))))
+(assume a1 (=> (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d) false))
+(step t2 (cl (not (not (not (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d)))) (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d)) :rule not_not)
+(step t3 (cl (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d)) :rule th_resolution :premises (t2 a0))
+(step t5 (cl (= (=> (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d) false) (not (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d)))) :rule implies_simplify)
+(step t6 (cl (not (= (=> (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d) false) (not (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d)))) (not (=> (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d) false)) (not (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d))) :rule equiv_pos2)
+(step t7 (cl (not (true_cls_d (sup_d (image_d (production_d s_d n_d) cc_d)) d_d))) :rule th_resolution :premises (a1 t5 t6))
+(step t8 (cl) :rule resolution :premises (t7 t3))

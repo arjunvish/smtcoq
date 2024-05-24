@@ -1,0 +1,5 @@
+1:(input ((not #1:(and #2:(subsumes_d subst_atm_d d_d d_da) #3:(subsumes_d subst_atm_d d_da d_d)))))
+2:(input (#3))
+3:(input (#2))
+4:(not_and ((not #2) (not #3)) 1)
+5:(resolution () 4 2 3)

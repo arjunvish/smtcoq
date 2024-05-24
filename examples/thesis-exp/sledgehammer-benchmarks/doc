@@ -1,0 +1,50 @@
+We have removed all files that contain `exists` and their proofs.
+Number of SMT files: 141
+Number of proof files: 142
+
+We have removed all files that contain the following rules:
+qnt_cnf
+sko_forall
+ac_simp
+onepoint
+bfun_elim
+qnt_simplify
+and we have removed files containing Real types and forall statements.
+
+We have no idea why there is 1 more proof file than SMT files.
+
+To get rule count,
+./countrules.sh #(outputs listOfRules)
+cat listOfRules | sort | uniq -c | sort -nr
+
+Rule Count:
+    203 rule th_resolution
+    140 rule resolution
+     77 rule eq_reflexive
+     44 rule not_not
+     29 rule equiv_pos
+     24 rule trans
+     24 rule cong
+     23 rule eq_congruent_pred
+     21 rule eq_transitive
+     21 rule eq_congruent
+     19 rule not_simplify
+     17 rule false
+     14 rule not_or
+     14 rule eq_simplify
+     14 rule and_pos
+     12 rule not_equiv
+     12 rule and
+      9 rule implies
+      8 rule and_neg
+      7 rule implies_simplify
+      6 rule and_simplify
+      4 rule or_neg
+      4 rule or
+      4 rule equiv_neg
+      3 rule la_generic
+      2 rule or_pos
+      2 rule not_and
+      2 rule equiv_simplify
+      2 rule equiv
+      1 rule ite_simplify

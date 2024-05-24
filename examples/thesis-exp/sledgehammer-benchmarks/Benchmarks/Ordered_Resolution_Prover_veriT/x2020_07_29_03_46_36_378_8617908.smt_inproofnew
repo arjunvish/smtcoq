@@ -1,0 +1,5 @@
+(assume a0 (not (= (subst_cls_list_d subst_atm_d (map_d s_d cAs0_d) eta_d) (map_d (s_M_d subst_atm_d s_d m_d) cAs_d))))
+(assume a1 (= (subst_cls_list_d subst_atm_d (map_d s_d cAs0_d) eta_d) (subst_cls_lists_d subst_atm_d (map_d s_d cAs0_d) eta_s0_d)))
+(assume a2 (= (map_d (s_M_d subst_atm_d s_d m_d) cAs_d) (subst_cls_lists_d subst_atm_d (map_d s_d cAs0_d) eta_s0_d)))
+(step t4 (cl (not (= (subst_cls_list_d subst_atm_d (map_d s_d cAs0_d) eta_d) (subst_cls_lists_d subst_atm_d (map_d s_d cAs0_d) eta_s0_d))) (not (= (map_d (s_M_d subst_atm_d s_d m_d) cAs_d) (subst_cls_lists_d subst_atm_d (map_d s_d cAs0_d) eta_s0_d))) (= (subst_cls_list_d subst_atm_d (map_d s_d cAs0_d) eta_d) (map_d (s_M_d subst_atm_d s_d m_d) cAs_d))) :rule eq_transitive)
+(step t5 (cl) :rule resolution :premises (t4 a0 a1 a2))

@@ -1,0 +1,78 @@
+(check
+ ;; Declarations
+(% S_list_d sort
+(% Nat_d sort
+(% A_literal_multiset_d sort
+(% A_literal_multiset_list_d sort
+(% S_d sort
+(% A_s_a_fun_fun_d sort
+(% eta_s0_d (term S_list_d)
+(% cs_d (term A_literal_multiset_list_d)
+(% subst_cls_lists_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_list_d (arrow S_list_d A_literal_multiset_list_d))))
+(% i_d (term Nat_d)
+(% eta_d (term S_d)
+(% nth_d (term (arrow A_literal_multiset_list_d (arrow Nat_d A_literal_multiset_d)))
+(% subst_cls_list_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_list_d (arrow S_d A_literal_multiset_list_d))))
+(% subst_atm_d (term A_s_a_fun_fun_d)
+(% cs0_d (term A_literal_multiset_list_d)
+(% A2 (th_holds (= A_literal_multiset_d (apply _ _ (apply _ _ nth_d (apply _ _ (apply _ _ (apply _ _ subst_cls_lists_d subst_atm_d)cs0_d)eta_s0_d))i_d) (apply _ _ (apply _ _ nth_d (apply _ _ (apply _ _ (apply _ _ subst_cls_list_d subst_atm_d)cs0_d)eta_d))i_d)))
+(% A3 (th_holds true)
+(% A1 (th_holds (= A_literal_multiset_d (apply _ _ (apply _ _ nth_d (apply _ _ (apply _ _ (apply _ _ subst_cls_lists_d subst_atm_d)cs0_d)eta_s0_d))i_d) (apply _ _ (apply _ _ nth_d cs_d)i_d)))
+(% A0 (th_holds (not (= A_literal_multiset_d (apply _ _ (apply _ _ nth_d (apply _ _ (apply _ _ (apply _ _ subst_cls_list_d subst_atm_d)cs0_d)eta_d))i_d) (apply _ _ (apply _ _ nth_d cs_d)i_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 subst_atm_d
+(@ let2 cs0_d
+(@ let3 eta_d
+(@ let4 (apply _ _ (apply _ _ (apply _ _ subst_cls_list_d let1)let2)let3)
+(@ let5 i_d
+(@ let6 (apply _ _ (apply _ _ nth_d let4)let5)
+(@ let7 cs_d
+(@ let8 (apply _ _ (apply _ _ nth_d let7)let5)
+(@ let9 (= A_literal_multiset_d let6 let8)
+(@ let10 eta_s0_d
+(@ let11 (apply _ _ (apply _ _ (apply _ _ subst_cls_lists_d let1)let2)let10)
+(@ let12 (apply _ _ (apply _ _ nth_d let11)let5)
+(@ let13 (= A_literal_multiset_d let8 let12)
+(@ let14 (= A_literal_multiset_d let6 let12)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= A_literal_multiset_d let12 let6) (= A_literal_multiset_d let6 let12)))(\ .PA296
+(th_let_pf _ (trust_f (iff (= A_literal_multiset_d let12 let8) (= A_literal_multiset_d let8 let12)))(\ .PA295
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let9 (\ .v2 (\ .a2
+(decl_atom let13 (\ .v3 (\ .a3
+(decl_atom let14 (\ .v4 (\ .a4
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A1) (iff_elim_1 _ _ .PA295)) .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A2) (iff_elim_1 _ _ .PA296)) .l8)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (= (nth_d (subst_cls_list_d subst_atm_d cs0_d eta_d) i_d) (nth_d (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) i_d))) (not (= (nth_d cs_d i_d) (nth_d (subst_cls_lists_d subst_atm_d cs0_d eta_s0_d) i_d))) (= (nth_d (subst_cls_list_d subst_atm_d cs0_d eta_d) i_d) (nth_d cs_d i_d)) 
+(clausify_false (contra _ (trans _ _ _ _ .l9 (symm _ _ _ .l7)) .l4))
+))))))( \ .lemc7
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ .lemc7 .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

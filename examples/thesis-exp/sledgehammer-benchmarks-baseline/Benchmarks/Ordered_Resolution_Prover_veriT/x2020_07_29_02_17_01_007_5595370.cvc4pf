@@ -1,0 +1,65 @@
+(check
+ ;; Declarations
+(% A_list_d sort
+(% A_literal_multiset_list_d sort
+(% Nat_d sort
+(% n_d (term Nat_d)
+(% size_d (term (arrow A_literal_multiset_list_d Nat_d))
+(% cAs_d (term A_literal_multiset_list_d)
+(% size_da (term (arrow A_list_d Nat_d))
+(% as_d (term A_list_d)
+(% A3 (th_holds true)
+(% A2 (th_holds (= Nat_d (apply _ _ size_da as_d) n_d))
+(% A1 (th_holds (= Nat_d (apply _ _ size_d cAs_d) n_d))
+(% A0 (th_holds (not (= Nat_d (apply _ _ size_d cAs_d) (apply _ _ size_da as_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 cAs_d
+(@ let2 (apply _ _ size_d let1)
+(@ let3 as_d
+(@ let4 (apply _ _ size_da let3)
+(@ let5 (= Nat_d let2 let4)
+(@ let6 n_d
+(@ let7 (= Nat_d let6 let2)
+(@ let8 (= Nat_d let6 let4)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (= Nat_d let2 let6) (= Nat_d let6 let2)))(\ .PA281
+(th_let_pf _ (trust_f (iff (= Nat_d let4 let6) (= Nat_d let6 let4)))(\ .PA282
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let5 (\ .v2 (\ .a2
+(decl_atom let7 (\ .v3 (\ .a3
+(decl_atom let8 (\ .v4 (\ .a4
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A1) (iff_elim_1 _ _ .PA281)) .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ A2) (iff_elim_1 _ _ .PA282)) .l8)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (= n_d (size_da as_d))) (not (= n_d (size_d cAs_d))) (= (size_d cAs_d) (size_da as_d)) 
+(clausify_false (contra _ (trans _ _ _ _ (symm _ _ _ .l7) .l9) .l4))
+))))))( \ .lemc7
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ .lemc7 .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))))))))
+;;

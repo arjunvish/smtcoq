@@ -1,0 +1,5 @@
+(assume a1 (not (= c_d zero_d)))
+(assume a0 (not (not (= c_d zero_d))))
+(step t3 (cl (not (not (not (= c_d zero_d)))) (= c_d zero_d)) :rule not_not)
+(step t4 (cl (= c_d zero_d)) :rule th_resolution :premises (t3 a0))
+(step t5 (cl) :rule th_resolution :premises (a1 t4))

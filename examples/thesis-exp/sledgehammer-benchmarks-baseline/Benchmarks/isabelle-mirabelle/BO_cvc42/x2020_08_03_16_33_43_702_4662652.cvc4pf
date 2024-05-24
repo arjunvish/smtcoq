@@ -1,0 +1,63 @@
+(check
+ ;; Declarations
+(% Nat_d sort
+(% epsilon_d (term Nat_d)
+(% delta_d (term Nat_d)
+(% zero_d (term Nat_d)
+(% less_d (term (arrow Nat_d (arrow Nat_d Bool)))
+(% A2 (th_holds (p_app (apply _ _ (apply _ _ less_d zero_d)epsilon_d)))
+(% A1 (th_holds (= Nat_d delta_d epsilon_d))
+(% A3 (th_holds true)
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ less_d zero_d)delta_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 zero_d
+(@ let2 delta_d
+(@ let3 (p_app (apply _ _ (apply _ _ less_d let1)let2))
+(@ let4 epsilon_d
+(@ let5 (= Nat_d let2 let4)
+(@ let6 (p_app (apply _ _ (apply _ _ less_d let1)let4))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let3 (\ .v2 (\ .a2
+(decl_atom let5 (\ .v3 (\ .a3
+(decl_atom let6 (\ .v4 (\ .a4
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ A1 .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ A2 .l8)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (less_d zero_d epsilon_d)) (not (= delta_d epsilon_d)) (less_d zero_d delta_d) 
+(clausify_false (contra _ (trans _ _ _ _ (symm _ _ _ (trans _ _ _ _ (symm _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (refl _ less_d) (refl _ let1)) (symm _ _ _ .l7))) (pred_eq_t _ .l9))) (pred_eq_f _ .l4)) t_t_neq_f))
+))))))( \ .lemc7
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ .lemc7 .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))))
+;;
+(
+a2
+a1
+a0
+)

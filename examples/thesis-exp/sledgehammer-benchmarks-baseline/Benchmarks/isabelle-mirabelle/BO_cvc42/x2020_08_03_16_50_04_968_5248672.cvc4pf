@@ -1,0 +1,73 @@
+(check
+ ;; Declarations
+(% S_v_tm_d sort
+(% S_nat_fun_d sort
+(% S_enat_fun_d sort
+(% V_s_set_fun_d sort
+(% S_s_bool_fun_fun_d sort
+(% Nat_d sort
+(% S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d sort
+(% sa_d (term S_v_tm_d)
+(% ua_d (term S_v_tm_d)
+(% arg_d (term (arrow S_v_tm_d S_v_tm_d))
+(% wt_sym_d (term S_nat_fun_d)
+(% arity_sym_d (term S_enat_fun_d)
+(% extf_d (term S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d)
+(% gt_d (term (arrow V_s_set_fun_d (arrow S_s_bool_fun_fun_d (arrow Nat_d (arrow S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d (arrow S_enat_fun_d (arrow S_nat_fun_d (arrow S_v_tm_d (arrow S_v_tm_d Bool)))))))))
+(% ground_heads_var_d (term V_s_set_fun_d)
+(% gt_sym_d (term S_s_bool_fun_fun_d)
+(% delta_d (term Nat_d)
+(% A2 (th_holds true)
+(% A1 (th_holds (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d ground_heads_var_d)gt_sym_d)delta_d)extf_d)arity_sym_d)wt_sym_d)(apply _ _ arg_d ua_d))sa_d)))
+(% A0 (th_holds (not (or (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d ground_heads_var_d)gt_sym_d)delta_d)extf_d)arity_sym_d)wt_sym_d)(apply _ _ arg_d ua_d))sa_d)) (= S_v_tm_d (apply _ _ arg_d ua_d) sa_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 ground_heads_var_d
+(@ let2 gt_sym_d
+(@ let3 delta_d
+(@ let4 extf_d
+(@ let5 arity_sym_d
+(@ let6 wt_sym_d
+(@ let7 ua_d
+(@ let8 (apply _ _ arg_d let7)
+(@ let9 sa_d
+(@ let10 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d let1)let2)let3)let4)let5)let6)let8)let9))
+(@ let11 (= S_v_tm_d let9 let8)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (not (or let10 (= S_v_tm_d let8 let9))) (not (or let10 let11))))(\ .PA293
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let10 (\ .v2 (\ .a2
+(decl_atom let11 (\ .v3 (\ .a3
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 (and_elim_1 _ _ (not_or_elim _ _ (or_elim_1 _ _ (not_not_intro _ A0) (iff_elim_1 _ _ .PA293)))))))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ A1 .l4)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb6 .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))))))))))
+;;
+(
+a1
+a0
+)

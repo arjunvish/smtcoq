@@ -1,0 +1,100 @@
+(check
+ ;; Declarations
+(% A_literal_multiset_a_literal_multiset_fun_d sort
+(% A_a_bool_fun_fun_d sort
+(% A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_llist_d sort
+(% Nat_d sort
+(% A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_d sort
+(% A_literal_multiset_set_d sort
+(% A_literal_multiset_d sort
+(% A_inference_a_literal_multiset_fun_d sort
+(% A_inference_set_d sort
+(% A_s_a_fun_fun_d sort
+(% A_literal_multiset_list_s_list_fun_d sort
+(% A_set_set_s_option_fun_d sort
+(% one_d (term Nat_d)
+(% minus_d (term (arrow Nat_d (arrow Nat_d Nat_d)))
+(% q_of_state_d (term (arrow A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_d A_literal_multiset_set_d))
+(% s_d (term A_literal_multiset_a_literal_multiset_fun_d)
+(% less_atm_d (term A_a_bool_fun_fun_d)
+(% mgu_d (term A_set_set_s_option_fun_d)
+(% c_d (term A_literal_multiset_d)
+(% renamings_apart_d (term A_literal_multiset_list_s_list_fun_d)
+(% subst_atm_d (term A_s_a_fun_fun_d)
+(% lnth_d (term (arrow A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_llist_d (arrow Nat_d A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_d)))
+(% n_of_state_d (term (arrow A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_d A_literal_multiset_set_d))
+(% e_d (term A_literal_multiset_d)
+(% member_d (term (arrow A_literal_multiset_d (arrow A_literal_multiset_set_d Bool)))
+(% sts_d (term A_literal_multiset_set_a_literal_multiset_set_a_literal_multiset_set_prod_prod_llist_d)
+(% inferences_between_d (term (arrow A_inference_set_d (arrow A_literal_multiset_set_d (arrow A_literal_multiset_d A_inference_set_d))))
+(% j_d (term Nat_d)
+(% image_d (term (arrow A_inference_a_literal_multiset_fun_d (arrow A_inference_set_d A_literal_multiset_set_d)))
+(% concl_of_d (term A_inference_a_literal_multiset_fun_d)
+(% ord_FO_Gamma_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_list_s_list_fun_d (arrow A_set_set_s_option_fun_d (arrow A_a_bool_fun_fun_d (arrow A_literal_multiset_a_literal_multiset_fun_d A_inference_set_d))))))
+(% A2 (th_holds (p_app (apply _ _ (apply _ _ member_d e_d)(apply _ _ (apply _ _ image_d concl_of_d)(apply _ _ (apply _ _ (apply _ _ inferences_between_d (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ ord_FO_Gamma_d subst_atm_d)renamings_apart_d)mgu_d)less_atm_d)s_d))(apply _ _ q_of_state_d (apply _ _ (apply _ _ lnth_d sts_d)(apply _ _ (apply _ _ minus_d j_d)one_d))))c_d)))))
+(% A1 (th_holds (= A_literal_multiset_set_d (apply _ _ n_of_state_d (apply _ _ (apply _ _ lnth_d sts_d)j_d)) (apply _ _ (apply _ _ image_d concl_of_d)(apply _ _ (apply _ _ (apply _ _ inferences_between_d (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ ord_FO_Gamma_d subst_atm_d)renamings_apart_d)mgu_d)less_atm_d)s_d))(apply _ _ q_of_state_d (apply _ _ (apply _ _ lnth_d sts_d)(apply _ _ (apply _ _ minus_d j_d)one_d))))c_d))))
+(% A3 (th_holds true)
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ member_d e_d)(apply _ _ n_of_state_d (apply _ _ (apply _ _ lnth_d sts_d)j_d))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 e_d
+(@ let2 sts_d
+(@ let3 j_d
+(@ let4 (apply _ _ (apply _ _ lnth_d let2)let3)
+(@ let5 (apply _ _ n_of_state_d let4)
+(@ let6 (p_app (apply _ _ (apply _ _ member_d let1)let5))
+(@ let7 concl_of_d
+(@ let8 subst_atm_d
+(@ let9 renamings_apart_d
+(@ let10 mgu_d
+(@ let11 less_atm_d
+(@ let12 s_d
+(@ let13 (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ ord_FO_Gamma_d let8)let9)let10)let11)let12)
+(@ let14 one_d
+(@ let15 (apply _ _ (apply _ _ minus_d let3)let14)
+(@ let16 (apply _ _ (apply _ _ lnth_d let2)let15)
+(@ let17 (apply _ _ q_of_state_d let16)
+(@ let18 c_d
+(@ let19 (apply _ _ (apply _ _ (apply _ _ inferences_between_d let13)let17)let18)
+(@ let20 (apply _ _ (apply _ _ image_d let7)let19)
+(@ let21 (= A_literal_multiset_set_d let5 let20)
+(@ let22 (p_app (apply _ _ (apply _ _ member_d let1)let20))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let6 (\ .v2 (\ .a2
+(decl_atom let21 (\ .v3 (\ .a3
+(decl_atom let22 (\ .v4 (\ .a4
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ A1 .l6)))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (clausify_false (contra _ A2 .l8)))) (\ .pb6
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (asf _ _ _ .a2 (\ .l4  ;; UF Theory Lemma 
+;;(not (member_d e_d (image_d concl_of_d (inferences_between_d (ord_FO_Gamma_d subst_atm_d renamings_apart_d mgu_d less_atm_d s_d) (q_of_state_d (lnth_d sts_d (minus_d j_d one_d))) c_d)))) (not (= (n_of_state_d (lnth_d sts_d j_d)) (image_d concl_of_d (inferences_between_d (ord_FO_Gamma_d subst_atm_d renamings_apart_d mgu_d less_atm_d s_d) (q_of_state_d (lnth_d sts_d (minus_d j_d one_d))) c_d)))) (member_d e_d (n_of_state_d (lnth_d sts_d j_d))) 
+(clausify_false (contra _ (trans _ _ _ _ (symm _ _ _ (trans _ _ _ _ (symm _ _ _ (cong _ _ _ _ _ _ (cong _ _ _ _ _ _ (refl _ member_d) (refl _ let1)) (symm _ _ _ .l7))) (pred_eq_t _ .l9))) (pred_eq_f _ .l4)) t_t_neq_f))
+))))))( \ .lemc7
+(satlem_simplify _ _ _ (R _ _ (Q _ _ (Q _ _ .lemc7 .pb6 .v4) .pb5 .v3) .pb4 .v2) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

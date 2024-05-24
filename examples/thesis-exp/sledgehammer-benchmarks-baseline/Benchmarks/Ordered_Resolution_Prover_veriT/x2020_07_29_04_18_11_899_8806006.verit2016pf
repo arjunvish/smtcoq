@@ -1,0 +1,8 @@
+1:(input ((not #1:(= #2:(subst_cls_d subst_atm_d #3:(plus_d #4:(sum_mset_d #5:(mset_d cs0_d)) d0_d) #6:(comp_subst_d tau_d phi_d)) #7:(subst_cls_d subst_atm_d #3 #8:(comp_subst_d eta_d sigma_d))))))
+2:(input (#9:(= #6 #8)))
+3:(eq_congruent ((not #10:(= subst_atm_d subst_atm_d)) (not #11:(= #3 #3)) (not #9) #1))
+4:(eq_reflexive (#10))
+5:(resolution ((not #11) (not #9) #1) 3 4)
+6:(eq_reflexive (#11))
+7:(resolution ((not #9) #1) 5 6)
+8:(resolution () 7 1 2)

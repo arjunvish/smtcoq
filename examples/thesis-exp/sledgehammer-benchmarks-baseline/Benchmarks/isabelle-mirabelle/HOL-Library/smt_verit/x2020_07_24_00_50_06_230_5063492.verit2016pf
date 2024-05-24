@@ -1,0 +1,6 @@
+1:(input ((not #1:(and #2:(inj_on_d f_d s_d) #3:(= #4:(image_d f_d s_d) #4)))))
+2:(input (#2))
+3:(not_and ((not #2) (not #3)) 1)
+4:(resolution ((not #3)) 3 2)
+5:(eq_reflexive (#3))
+6:(resolution () 5 4)

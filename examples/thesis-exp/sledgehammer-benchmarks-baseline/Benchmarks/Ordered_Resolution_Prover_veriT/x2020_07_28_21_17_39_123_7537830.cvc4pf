@@ -1,0 +1,47 @@
+(check
+ ;; Declarations
+(% A_literal_multiset_d sort
+(% A_s_a_fun_fun_d sort
+(% c_d (term A_literal_multiset_d)
+(% subst_atm_d (term A_s_a_fun_fun_d)
+(% generalizes_d (term (arrow A_s_a_fun_fun_d (arrow A_literal_multiset_d (arrow A_literal_multiset_d Bool))))
+(% A1 (th_holds true)
+(% A0 (th_holds (not (not (and (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d subst_atm_d)c_d)c_d)) (not (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d subst_atm_d)c_d)c_d)))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 subst_atm_d
+(@ let2 c_d
+(@ let3 (p_app (apply _ _ (apply _ _ (apply _ _ generalizes_d let1)let2)let2))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+(th_let_pf _ (trust_f (iff (not (not (and let3 (not let3)))) (and let3 (not let3))))(\ .PA261
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let3 (\ .v2 (\ .a2
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ (and_elim_1 _ _ (or_elim_1 _ _ (not_not_intro _ A0) (iff_elim_1 _ _ .PA261))) .l4)))) (\ .pb4
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 (and_elim_2 _ _ (or_elim_1 _ _ (not_not_intro _ A0) (iff_elim_1 _ _ .PA261))))))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (Q _ _ .pb5 .pb4 .v2) (\ empty empty)))))))))))))))))))))))
+;;

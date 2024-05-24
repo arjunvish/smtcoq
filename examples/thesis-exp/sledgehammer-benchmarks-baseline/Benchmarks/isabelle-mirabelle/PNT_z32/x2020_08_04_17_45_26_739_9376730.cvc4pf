@@ -1,0 +1,55 @@
+(check
+ ;; Declarations
+(% Num_d sort
+(% Nat_d sort
+(% n_d (term Nat_d)
+(% less_eq_d (term (arrow Nat_d (arrow Nat_d Bool)))
+(% numeral_d (term (arrow Num_d Nat_d))
+(% bit1_d (term (arrow Num_d Num_d))
+(% one_d (term Num_d)
+(% A2 (th_holds true)
+(% A1 (th_holds (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ numeral_d (apply _ _ bit1_d one_d)))n_d)))
+(% A0 (th_holds (not (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ numeral_d (apply _ _ bit1_d one_d)))n_d))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 one_d
+(@ let2 (apply _ _ bit1_d let1)
+(@ let3 (apply _ _ numeral_d let2)
+(@ let4 n_d
+(@ let5 (p_app (apply _ _ (apply _ _ less_eq_d let3)let4))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let5 (\ .v2 (\ .a2
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A0)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ A1 .l4)))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb5 .pb4 .v2) (\ empty empty))))))))))))))))))))))))))
+;;
+(
+a1
+a0
+)

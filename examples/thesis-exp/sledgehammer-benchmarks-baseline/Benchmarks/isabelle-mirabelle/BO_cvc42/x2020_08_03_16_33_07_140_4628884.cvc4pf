@@ -1,0 +1,82 @@
+(check
+ ;; Declarations
+(% S_v_tm_list_d sort
+(% S_nat_fun_d sort
+(% S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d sort
+(% S_d sort
+(% S_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_d sort
+(% S_v_tm_list_s_v_tm_list_bool_fun_fun_d sort
+(% S_v_tm_list_bool_fun_d sort
+(% S_v_tm_s_v_tm_bool_fun_fun_d sort
+(% V_s_set_fun_d sort
+(% S_s_bool_fun_fun_d sort
+(% Nat_d sort
+(% S_enat_fun_d sort
+(% nil_d (term S_v_tm_list_d)
+(% wt_sym_d (term S_nat_fun_d)
+(% arity_sym_d (term S_enat_fun_d)
+(% fun_app_dc (term (arrow S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d (arrow S_d S_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_d)))
+(% extf_d (term S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d)
+(% fun_app_db (term (arrow S_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_d (arrow S_v_tm_s_v_tm_bool_fun_fun_d S_v_tm_list_s_v_tm_list_bool_fun_fun_d)))
+(% gt_d (term (arrow V_s_set_fun_d (arrow S_s_bool_fun_fun_d (arrow Nat_d (arrow S_s_v_tm_s_v_tm_bool_fun_fun_s_v_tm_list_s_v_tm_list_bool_fun_fun_fun_fun_d (arrow S_enat_fun_d (arrow S_nat_fun_d S_v_tm_s_v_tm_bool_fun_fun_d)))))))
+(% fun_app_da (term (arrow S_v_tm_list_s_v_tm_list_bool_fun_fun_d (arrow S_v_tm_list_d S_v_tm_list_bool_fun_d)))
+(% f_d (term S_d)
+(% fun_app_d (term (arrow S_v_tm_list_bool_fun_d (arrow S_v_tm_list_d Bool)))
+(% ground_heads_var_d (term V_s_set_fun_d)
+(% gt_sym_d (term S_s_bool_fun_fun_d)
+(% delta_d (term Nat_d)
+(% A3 (th_holds true)
+(% A2 (th_holds (p_app (apply _ _ (apply _ _ fun_app_d (apply _ _ (apply _ _ fun_app_da (apply _ _ (apply _ _ fun_app_db (apply _ _ (apply _ _ fun_app_dc extf_d)f_d))(apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d ground_heads_var_d)gt_sym_d)delta_d)extf_d)arity_sym_d)wt_sym_d)))nil_d))nil_d)))
+(% A1 (th_holds (not (p_app (apply _ _ (apply _ _ fun_app_d (apply _ _ (apply _ _ fun_app_da (apply _ _ (apply _ _ fun_app_db (apply _ _ (apply _ _ fun_app_dc extf_d)f_d))(apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d ground_heads_var_d)gt_sym_d)delta_d)extf_d)arity_sym_d)wt_sym_d)))nil_d))nil_d))))
+(% A0 (th_holds (not false))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 extf_d
+(@ let2 f_d
+(@ let3 (apply _ _ (apply _ _ fun_app_dc let1)let2)
+(@ let4 ground_heads_var_d
+(@ let5 gt_sym_d
+(@ let6 delta_d
+(@ let7 arity_sym_d
+(@ let8 wt_sym_d
+(@ let9 (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ (apply _ _ gt_d let4)let5)let6)let1)let7)let8)
+(@ let10 (apply _ _ (apply _ _ fun_app_db let3)let9)
+(@ let11 nil_d
+(@ let12 (apply _ _ (apply _ _ fun_app_da let10)let11)
+(@ let13 (p_app (apply _ _ (apply _ _ fun_app_d let12)let11))
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let13 (\ .v2 (\ .a2
+(satlem _ _ (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ .l5 A1)))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ A2 .l4)))) (\ .pb5
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (R _ _ .pb5 .pb4 .v2) (\ empty empty)))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;
+(
+a2
+a1
+)

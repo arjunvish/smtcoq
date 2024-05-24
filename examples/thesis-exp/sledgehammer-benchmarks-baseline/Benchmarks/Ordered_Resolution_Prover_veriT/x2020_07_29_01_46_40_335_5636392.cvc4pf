@@ -1,0 +1,92 @@
+(check
+ ;; Declarations
+(% A_inference_a_literal_multiset_fun_d sort
+(% A_literal_multiset_set_d sort
+(% A_inference_set_d sort
+(% A_literal_multiset_set_a_literal_multiset_set_fun_d sort
+(% A_literal_multiset_set_a_inference_set_fun_d sort
+(% A_literal_multiset_set_llist_d sort
+(% sup_llist_d (term (arrow A_literal_multiset_set_llist_d A_literal_multiset_set_d))
+(% sup_d (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% fun_app_da (term (arrow A_literal_multiset_set_a_inference_set_fun_d (arrow A_literal_multiset_set_d A_inference_set_d)))
+(% fun_app_d (term (arrow A_literal_multiset_set_a_literal_multiset_set_fun_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% liminf_llist_d (term (arrow A_literal_multiset_set_llist_d A_literal_multiset_set_d))
+(% minus_da (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d A_literal_multiset_set_d)))
+(% ri_d (term A_literal_multiset_set_a_inference_set_fun_d)
+(% gamma_d (term A_inference_set_d)
+(% inferences_from_d (term (arrow A_inference_set_d (arrow A_literal_multiset_set_d A_inference_set_d)))
+(% rf_d (term A_literal_multiset_set_a_literal_multiset_set_fun_d)
+(% effective_redundancy_criterion_d (term (arrow A_inference_set_d (arrow A_literal_multiset_set_a_literal_multiset_set_fun_d (arrow A_literal_multiset_set_a_inference_set_fun_d Bool))))
+(% concl_of_d (term A_inference_a_literal_multiset_fun_d)
+(% fair_clss_seq_d (term (arrow A_inference_set_d (arrow A_literal_multiset_set_a_literal_multiset_set_fun_d (arrow A_literal_multiset_set_a_inference_set_fun_d (arrow A_literal_multiset_set_llist_d Bool)))))
+(% ns_d (term A_literal_multiset_set_llist_d)
+(% less_eq_d (term (arrow A_literal_multiset_set_d (arrow A_literal_multiset_set_d Bool)))
+(% image_d (term (arrow A_inference_a_literal_multiset_fun_d (arrow A_inference_set_d A_literal_multiset_set_d)))
+(% minus_d (term (arrow A_inference_set_d (arrow A_inference_set_d A_inference_set_d)))
+(% A1 (th_holds (p_app (apply _ _ (apply _ _ (apply _ _ effective_redundancy_criterion_d gamma_d)rf_d)ri_d)))
+(% A3 (th_holds true)
+(% A2 (th_holds (not (iff (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ fair_clss_seq_d gamma_d)rf_d)ri_d)ns_d)) (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ (apply _ _ image_d concl_of_d)(apply _ _ (apply _ _ minus_d (apply _ _ (apply _ _ inferences_from_d gamma_d)(apply _ _ (apply _ _ minus_da (apply _ _ liminf_llist_d ns_d))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ liminf_llist_d ns_d)))))(apply _ _ (apply _ _ fun_app_da ri_d)(apply _ _ (apply _ _ minus_da (apply _ _ liminf_llist_d ns_d))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ liminf_llist_d ns_d)))))))(apply _ _ (apply _ _ sup_d (apply _ _ sup_llist_d ns_d))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ sup_llist_d ns_d))))))))
+(% A0 (th_holds (impl (p_app (apply _ _ (apply _ _ (apply _ _ effective_redundancy_criterion_d gamma_d)rf_d)ri_d)) (iff (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ fair_clss_seq_d gamma_d)rf_d)ri_d)ns_d)) (p_app (apply _ _ (apply _ _ less_eq_d (apply _ _ (apply _ _ image_d concl_of_d)(apply _ _ (apply _ _ minus_d (apply _ _ (apply _ _ inferences_from_d gamma_d)(apply _ _ (apply _ _ minus_da (apply _ _ liminf_llist_d ns_d))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ liminf_llist_d ns_d)))))(apply _ _ (apply _ _ fun_app_da ri_d)(apply _ _ (apply _ _ minus_da (apply _ _ liminf_llist_d ns_d))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ liminf_llist_d ns_d)))))))(apply _ _ (apply _ _ sup_d (apply _ _ sup_llist_d ns_d))(apply _ _ (apply _ _ fun_app_d rf_d)(apply _ _ sup_llist_d ns_d))))))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 gamma_d
+(@ let2 rf_d
+(@ let3 ri_d
+(@ let4 (p_app (apply _ _ (apply _ _ (apply _ _ effective_redundancy_criterion_d let1)let2)let3))
+(@ let5 ns_d
+(@ let6 (p_app (apply _ _ (apply _ _ (apply _ _ (apply _ _ fair_clss_seq_d let1)let2)let3)let5))
+(@ let7 concl_of_d
+(@ let8 (apply _ _ liminf_llist_d let5)
+(@ let9 (apply _ _ (apply _ _ fun_app_d let2)let8)
+(@ let10 (apply _ _ (apply _ _ minus_da let8)let9)
+(@ let11 (apply _ _ (apply _ _ inferences_from_d let1)let10)
+(@ let12 (apply _ _ (apply _ _ fun_app_da let3)let10)
+(@ let13 (apply _ _ (apply _ _ minus_d let11)let12)
+(@ let14 (apply _ _ (apply _ _ image_d let7)let13)
+(@ let15 (apply _ _ sup_llist_d let5)
+(@ let16 (apply _ _ (apply _ _ fun_app_d let2)let15)
+(@ let17 (apply _ _ (apply _ _ sup_d let15)let16)
+(@ let18 (p_app (apply _ _ (apply _ _ less_eq_d let14)let17))
+(@ let19 (iff let6 let18)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let4 (\ .v2 (\ .a2
+(decl_atom let6 (\ .v3 (\ .a3
+(decl_atom let18 (\ .v4 (\ .a4
+(decl_atom let19 (\ .v5 (\ .a5
+(satlem _ _ (asf _ _ _ .a2 (\ .l4 (clausify_false (contra _ A1 .l4)))) (\ .pb9
+(satlem _ _ (asf _ _ _ .a5 (\ .l10 (ast _ _ _ .a2 (\ .l5 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ .l5) (impl_elim _ _ A0)) .l10)))))) (\ .pb8
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (ast _ _ _ .a3 (\ .l7 (clausify_false (contra _ (or_elim_1 _ _ (not_not_intro _ .l7) (iff_elim_1 _ _ (not_iff_elim _ _ A2))) (not_not_intro _ .l9))))))) (\ .pb10
+(satlem _ _ (ast _ _ _ .a4 (\ .l9 (asf _ _ _ .a3 (\ .l6 (ast _ _ _ .a5 (\ .l11 (clausify_false (contra _ .l11 A2)))))))) (\ .pb5
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (ast _ _ _ .a3 (\ .l7 (ast _ _ _ .a5 (\ .l11 (clausify_false (contra _ .l11 A2)))))))) (\ .pb4
+(satlem _ _ (asf _ _ _ .a4 (\ .l8 (asf _ _ _ .a3 (\ .l6 (clausify_false (contra _ (not_not_elim _ (or_elim_1 _ _ .l6 (iff_elim_2 _ _ (not_iff_elim _ _ A2)))) .l8)))))) (\ .pb11
+ ;; Theory Lemmas 
+
+;; BB atom mapping
+
+
+;; Bit-blasting definitional clauses 
+
+
+ ;; Bit-blasting learned clauses 
+
+(satlem_simplify _ _ _ (Q _ _ .pb8 .pb9 .v2) (\ .cl12
+(satlem_simplify _ _ _ (Q _ _ (R _ _ .pb11 .pb5 .v4) .cl12 .v5) (\ .cl13
+(satlem_simplify _ _ _ (Q _ _ (Q _ _ .pb4 .cl13 .v3) .cl12 .v5) (\ .cl14
+(satlem_simplify _ _ _ (Q _ _ (Q _ _ .pb10 .cl14 .v4) .cl13 .v3) (\ empty empty))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+;;

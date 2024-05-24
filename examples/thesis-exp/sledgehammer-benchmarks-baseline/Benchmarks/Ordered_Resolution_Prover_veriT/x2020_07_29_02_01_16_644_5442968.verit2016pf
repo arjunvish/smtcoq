@@ -1,0 +1,5 @@
+1:(input ((not #1:(true_clss_d #2:(i_of_d n_d) n_d))))
+2:(input (#3:(=> (not #1) false)))
+3:(false ((not false)))
+4:(implies (#1 false) 2)
+5:(resolution () 4 1 3)

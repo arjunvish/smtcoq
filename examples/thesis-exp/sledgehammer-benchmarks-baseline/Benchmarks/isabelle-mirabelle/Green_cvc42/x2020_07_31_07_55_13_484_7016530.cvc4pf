@@ -1,0 +1,48 @@
+(check
+ ;; Declarations
+(% A_set_d sort
+(% A_d sort
+(% inf_d (term (arrow A_set_d (arrow A_set_d A_set_d)))
+(% t_d (term A_set_d)
+(% islimpt_d (term (arrow A_d (arrow A_set_d Bool)))
+(% x_d (term A_d)
+(% minus_d (term (arrow A_set_d (arrow A_set_d A_set_d)))
+(% s_d (term A_set_d)
+(% A3 (th_holds true)
+(% A2 (th_holds (iff (p_app (apply _ _ (apply _ _ islimpt_d x_d)(apply _ _ (apply _ _ minus_d s_d)(apply _ _ (apply _ _ inf_d t_d)s_d)))) (p_app (apply _ _ (apply _ _ islimpt_d x_d)s_d))))
+(% A1 (th_holds (= A_set_d (apply _ _ (apply _ _ minus_d s_d)t_d) (apply _ _ (apply _ _ minus_d s_d)(apply _ _ (apply _ _ inf_d t_d)s_d))))
+(% A0 (th_holds (not (iff (p_app (apply _ _ (apply _ _ islimpt_d x_d)(apply _ _ (apply _ _ minus_d s_d)t_d))) (p_app (apply _ _ (apply _ _ islimpt_d x_d)s_d)))))
+(: (holds cln)
+
+ ;; Printing deferred declarations 
+
+
+;; BV const letification
+
+
+
+ ;; Printing the global let map
+(@ let1 x_d
+(@ let2 s_d
+(@ let3 t_d
+(@ let4 (apply _ _ (apply _ _ minus_d let2)let3)
+(@ let5 (p_app (apply _ _ (apply _ _ islimpt_d let1)let4))
+(@ let6 (p_app (apply _ _ (apply _ _ islimpt_d let1)let2))
+(@ let7 (iff let5 let6)
+(@ let8 (apply _ _ (apply _ _ inf_d let3)let2)
+(@ let9 (apply _ _ (apply _ _ minus_d let2)let8)
+(@ let10 (= A_set_d let4 let9)
+(@ let11 (p_app (apply _ _ (apply _ _ islimpt_d let1)let9))
+(@ let12 (iff let11 let6)
+
+ ;; Printing aliasing declarations 
+
+
+ ;; Rewrites for Lemmas 
+
+ ;; In the preprocessor we trust 
+
+;; Printing mapping from preprocessed assertions into atoms 
+(decl_atom let5 (\ .v2 (\ .a2
+(decl_atom let6 (\ .v3 (\ .a3
+(decl_atom 

@@ -1,0 +1,3 @@
+1:(input ((not #1:(true_cls_d #2:(interp_d s_d n_d) #3:(plus_d #4:(sum_mset_d #5:(mset_d cs_d)) d_d)))))
+2:(input (#1))
+3:(resolution () 1 2)
