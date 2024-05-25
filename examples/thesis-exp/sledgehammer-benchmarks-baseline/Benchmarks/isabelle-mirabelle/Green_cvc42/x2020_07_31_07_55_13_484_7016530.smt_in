@@ -13,4 +13,4 @@
 (assert (! (= (minus_d s_d t_d) (minus_d s_d (inf_d t_d s_d))) :named a1))
 (assert (! (= (islimpt_d x_d (minus_d s_d (inf_d t_d s_d))) (islimpt_d x_d s_d)) :named a2))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

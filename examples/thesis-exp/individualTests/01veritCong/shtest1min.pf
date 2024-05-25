@@ -1,0 +1,4 @@
+(assume h1 (= (ite p_d true q_d) (or p_d q_d)))
+(assume h2 (not (= (= (ite p_d true q_d) (or p_d q_d)) (= (or p_d q_d) (or p_d q_d)))))
+(step t3 (cl (= (= (ite p_d true q_d) (or p_d q_d)) (= (or p_d q_d) (or p_d q_d)))) :rule cong :premises (h1))
+(step t4 (cl) :rule resolution :premises (h2 t3))

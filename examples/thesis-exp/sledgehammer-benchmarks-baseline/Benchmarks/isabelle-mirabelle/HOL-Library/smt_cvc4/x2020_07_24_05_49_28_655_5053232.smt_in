@@ -9,4 +9,4 @@
 (declare-fun top_da () B_d)
 (assert (! (not (= (pair_d top_d top_da) (pair_d top_d top_da))) :named a0))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

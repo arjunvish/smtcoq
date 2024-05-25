@@ -7,4 +7,4 @@
 (assert (! (not (finite_d a_d)) :named a0))
 (assert (! (finite_d a_d) :named a1))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

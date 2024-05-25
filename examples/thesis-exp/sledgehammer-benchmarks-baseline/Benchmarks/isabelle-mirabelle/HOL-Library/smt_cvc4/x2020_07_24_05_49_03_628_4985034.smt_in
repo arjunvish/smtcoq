@@ -13,4 +13,4 @@
 (assert (! (not (less_eq_d (fst_d x_d) (fst_d y_d))) :named a0))
 (assert (! (and (less_eq_d (fst_d x_d) (fst_d y_d)) (less_eq_da (snd_d x_d) (snd_d y_d))) :named a1))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

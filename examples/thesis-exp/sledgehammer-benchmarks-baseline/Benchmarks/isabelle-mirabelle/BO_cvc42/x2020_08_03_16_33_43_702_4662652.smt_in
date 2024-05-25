@@ -10,4 +10,4 @@
 (assert (! (= delta_d epsilon_d) :named a1))
 (assert (! (less_d zero_d epsilon_d) :named a2))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

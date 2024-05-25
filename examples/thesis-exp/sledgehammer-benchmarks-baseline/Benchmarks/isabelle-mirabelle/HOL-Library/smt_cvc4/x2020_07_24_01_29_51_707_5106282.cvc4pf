@@ -48,7 +48,3 @@
 
 (satlem_simplify _ _ _ (R _ _ .pb5 .pb4 .v2) (\ empty empty))))))))))))))))))))))))))
 ;;
-(
-a1
-a0
-)

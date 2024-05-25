@@ -9,4 +9,4 @@
 (assert (! (not (not (member_d bot_d a_d))) :named a0))
 (assert (! (not (member_d bot_d a_d)) :named a1))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

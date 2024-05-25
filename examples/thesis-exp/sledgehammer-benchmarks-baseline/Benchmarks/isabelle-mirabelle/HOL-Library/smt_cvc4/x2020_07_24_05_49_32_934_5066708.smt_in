@@ -9,4 +9,4 @@
 (declare-fun pair_d (A_d B_d) A_b_prod_d)
 (assert (! (not (= (pair_d bot_d bot_da) (pair_d bot_d bot_da))) :named a0))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

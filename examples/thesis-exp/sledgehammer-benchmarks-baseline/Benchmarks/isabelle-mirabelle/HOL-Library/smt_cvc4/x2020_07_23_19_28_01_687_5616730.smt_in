@@ -11,4 +11,4 @@
 (assert (! (not (= (f_d plus_d zero_d) (sum_d plus_d zero_d))) :named a0))
 (assert (! (= (sum_d plus_d zero_d) (f_d plus_d zero_d)) :named a1))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

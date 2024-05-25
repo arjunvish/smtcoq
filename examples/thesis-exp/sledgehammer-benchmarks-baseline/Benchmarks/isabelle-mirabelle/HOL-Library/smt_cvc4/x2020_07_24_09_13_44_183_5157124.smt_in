@@ -17,4 +17,4 @@
 (assert (! (= (class_d (pick_d (class_d a_d))) (class_d a_d)) :named a2))
 (assert (! (= (class_da (pick_da (class_da b_d))) (class_da b_d)) :named a3))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

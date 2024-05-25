@@ -26,4 +26,4 @@
 (assert (! (= t2_d (arg_d ta_d)) :named a2))
 (assert (! (not (= t2_d sa_d)) :named a3))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

@@ -5,4 +5,4 @@
 (assert (! (not (< 0 n_d)) :named a0))
 (assert (! (< 1 n_d) :named a1))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

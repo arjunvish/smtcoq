@@ -236,11 +236,11 @@ Position: Line 7 Position 1
      : bool
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392cvc5.v", line 8, characters 2-412:
+nwt: (op_6 (aka Smt_var_modulo_d) (op_7 (aka Smt_var_of_nat_d) (op_5 (aka Smt_var_suc_d) op_1 (aka Smt_var_ka_d))) op_0 (aka Smt_var_n_d))File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392cvc5.v", line 8, characters 2-412:
 Error:
-Verit.import_trace: preprocessing certificate
-Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_proj: can't fetch premises to `and` at id t1.t1 |
+Verit.import_trace: preprocessing certificate 
+
+Error: Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)
 Position: Line 20 Position 1
 
 
@@ -285,11 +285,11 @@ Position: Line 21 Position 1
      : bool
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v", line 8, characters 2-412:
+nwt: op_2 (aka Smt_var_x_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v", line 8, characters 2-412:
 Error:
-Verit.import_trace: preprocessing certificate
-Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_subproof: expecting the last step of the certificate to be a discharge step at id t11 |
+Verit.import_trace: preprocessing certificate 
+
+Error: Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)
 Position: Line 82 Position 1
 
 
@@ -369,11 +369,11 @@ Position: Line 20 Position 1
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654cvc5.v", line 8, characters 2-412:
+nwt: op_0 (aka Smt_var_a_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654cvc5.v", line 8, characters 2-412:
 Error:
-Verit.import_trace: preprocessing certificate
-Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_proj: can't fetch premises to `and` at id t1.t2 |
+Verit.import_trace: preprocessing certificate 
+
+Error: Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)
 Position: Line 21 Position 1
 
 
@@ -507,11 +507,11 @@ Position: Line 23 Position 84
      : bool
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v", line 8, characters 2-392:
+nwt: op_2 (aka Smt_var_x_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v", line 8, characters 2-392:
 Error:
-Verit.import_trace: preprocessing certificate
-Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_subproof: expecting the last step of the certificate to be a discharge step at id t33 |
+Verit.import_trace: preprocessing certificate 
+
+Error: Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)
 Position: Line 121 Position 1
 
 
@@ -600,11 +600,11 @@ Position: Line 8 Position 1
      : bool
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006cvc5.v", line 8, characters 2-394:
+nwt: op_20 (aka Smt_var_subst_atm_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006cvc5.v", line 8, characters 2-394:
 Error:
-Verit.import_trace: preprocessing certificate
-Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_subproof: failed at id t1 || extend_cl : failed at id t6 || extend_cl_aux: unexpected rule ImpASTto extend_cl, or premise (cl  ((imp  ((comp_subst_d ( tau_d phi_d)) = (comp_subst_d ( eta_d sigma_d))) ((subst_cls_d ( subst_atm_d (plus_d ( (sum_mset_d ( (mset_d ( cs0_d)))) d0_d)) (comp_subst_d ( tau_d phi_d)))) = (subst_cls_d ( subst_atm_d (plus_d ( (sum_mset_d ( (mset_d ( cs0_d)))) d0_d)) (comp_subst_d ( eta_d sigma_d))))))) ((imp  ((comp_subst_d ( tau_d phi_d)) = (comp_subst_d ( eta_d sigma_d))) ((subst_cls_d ( subst_atm_d (plus_d ( (sum_mset_d ( (mset_d ( cs0_d)))) d0_d)) (comp_subst_d ( tau_d phi_d)))) = (subst_cls_d ( subst_atm_d (plus_d ( (sum_mset_d ( (mset_d ( cs0_d)))) d0_d)) (comp_subst_d ( eta_d sigma_d)))))))) to the rule at id t4 |
+Verit.import_trace: preprocessing certificate 
+
+Error: Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)
 Position: Line 18 Position 1
 
 
@@ -643,11 +643,11 @@ Position: Line 36 Position 1
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v", line 8, characters 2-394:
+nwt: op_1 (aka Smt_var_e_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v", line 8, characters 2-394:
 Error:
-Verit.import_trace: preprocessing certificate
-Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_subproof: expecting the last step of the certificate to be a discharge step at id t7 |
+Verit.import_trace: preprocessing certificate 
+
+Error: Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)
 Position: Line 46 Position 1
 
 
@@ -677,11 +677,11 @@ Position: Line 7 Position 1
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540cvc5.v", line 8, characters 2-394:
+nwt: (op_14 (aka Smt_var_grounding_of_clss_d) op_11 (aka Smt_var_subst_atm_d) op_2 (aka Smt_var_q_d))File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540cvc5.v", line 8, characters 2-394:
 Error:
-Verit.import_trace: preprocessing certificate
-Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_proj: can't fetch premises to `and` at id t1.t1 |
+Verit.import_trace: preprocessing certificate 
+
+Error: Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)
 Position: Line 20 Position 1
 
 
@@ -727,7 +727,7 @@ Position: Line 35 Position 1
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120cvc5.v
-nwt: op_0 (aka Smt_var_d_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120cvc5.v", line 8, characters 2-394:
+nwt: op_9 (aka Smt_var_d_twin_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120cvc5.v", line 8, characters 2-394:
 Error:
 Verit.import_trace: preprocessing certificate 
 

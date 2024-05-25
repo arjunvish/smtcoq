@@ -18,4 +18,4 @@
 (assert (! (rbt_sorted_d empty_d) :named a2))
 (assert (! (member_d y_d (set_d (keys_d empty_d))) :named a3))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

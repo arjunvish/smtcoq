@@ -125,6 +125,7 @@ type rule =
   | AnchorAST
   | AllsimpAST
   | SameAST
+  | ContAST
   | HoleAST
   | WeakenAST
   | FlattenAST
@@ -163,6 +164,10 @@ let rec get_cl (i : id) (c : certif) : clause optstring =
 (* Return the clause corresponding to the id from a certif *)
 let rec get_cl (i : id) (c : certif) : clause option = 
   match c with
+  | (i', SubproofAST subcl, cl, p, a) :: tl -> 
+    (match (get_cl i subcl) with 
+    | Some x -> Some x
+    | None -> get_cl i tl)
   | (i', r, c, p, a) :: t -> if i = i' then Some c else get_cl i t
   | [] -> None
 
@@ -313,6 +318,7 @@ and string_of_rule (r : rule) : string =
   | QcnfAST -> "QcnfAST"
   | AllsimpAST -> "AllsimpAST"
   | SameAST -> "SameAST"
+  | ContAST -> "ContAST"
   | HoleAST -> "HoleAST"
   | WeakenAST -> "WeakenAST"
   | FlattenAST -> "FlattenAST"
@@ -429,6 +435,8 @@ let store_shared_terms_cl (c : clause) : clause =
 
 let rec store_shared_terms (c : certif) : certif = 
   match c with
+  | (i, SubproofAST subcl, cl, p, a) :: t -> let subcl' = store_shared_terms subcl in
+    (i, SubproofAST subcl', cl, p, a) :: store_shared_terms t
   | (i, r, cl, p, a) :: t -> let cl' = (store_shared_terms_cl cl) in
                               (i, r, cl', p, a) :: store_shared_terms t
   | [] -> []
@@ -628,12 +636,16 @@ let rec process_notnot (c : certif) : certif =
          (eqn2i, Equn2AST, [Eq (x, x); x], [], []) :: 
          (i, ResoAST, [Eq (x, x)], [eqn1i; eqn2i], []) :: process_notnot (remove_res_trans_premise i tl)
       | _ -> (i, NotsimpAST, cl, p, a) :: process_notnot tl)*)
+  | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_notnot subcl in
+    (i, SubproofAST subcl', cl, p, a) :: process_notnot tl
   | h :: tl -> h :: process_notnot tl
   | [] -> []
 
 
 
-(* Remove Same rules from the certificate *)
+(* Remove Same rules (that come from Symmetry) and Cont rules (that come from Contraction) from the certificate 
+   We need to differentiate these because symmetries must be resolved before transitivity, but contraction should
+   be resolved after everything else is done *)
 (*
    For example, the following certificate:
      (step x ...)
@@ -662,9 +674,20 @@ let rec process_same (c : certif) : certif =
                                     | [p1] -> p1
                                     | _ -> raise (Debug ("| process_same : expecting a Same rule to have exactly one premise at id "^i^" |"))) in
                                     process_same (replace_prem i ogi tl)
+   | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_same subcl in
+     (i, SubproofAST subcl', cl, p, a) :: process_same tl
    | h :: tl -> h :: process_same tl
    | [] -> []
-
+(*let rec process_cont (c : certif) : certif =
+   match c with
+   | (i, ContAST, _, p, _) :: tl -> let ogi = (match p with
+                                    | [p1] -> p1
+                                    | _ -> raise (Debug ("| process_cont : expecting a Contraction rule to have exactly one premise at id "^i^" |"))) in
+                                    process_cont (replace_prem i ogi tl)
+   | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_cont subcl in
+     (i, SubproofAST subcl', cl, p, a) :: process_cont tl
+   | h :: tl -> h :: process_cont tl
+   | [] -> []*)
 
 
 (* Convert an AST to a list of clauses *)
@@ -860,6 +883,7 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | QcnfAST -> Qcnf
   | AllsimpAST -> Allsimp
   | SameAST -> Same
+  | ContAST -> Same
   | HoleAST -> Hole
   | WeakenAST -> Weaken
   | FlattenAST -> Flatten
@@ -922,10 +946,10 @@ let rec to_uniq (l : 'a list) : 'a list =
          (ii) ordered list of (prem_id, prem_eq) pairs representing the id of the premise and 
               the equality it proves (this includes implicit and explicit premises)
 *)
-let cong_find_implicit_args (ft : term) (p : params) (cog : certif) : (step list * ((id * term) list)) =
+let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (step list * ((id * term) list)) =
    match get_expr ft with
    | Eq (fx, fy) -> let n = List.length (try get_args_isfrms fx with
-                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app |"^s))) in
+                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app at id "^i^" |"^s))) in
                    (* no implicit equalities *)
                    if (n = List.length p) then
                      let ptuples = List.map (fun x -> (match (get_cl x cog) with
@@ -936,8 +960,8 @@ let cong_find_implicit_args (ft : term) (p : params) (cog : certif) : (step list
                                            | Some z -> (x, try (List.find (fun y -> match (get_expr y) with
                                                                        | Eq _ -> true
                                                                        | _ -> false) z) with
-                                                           | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities |")))
-                                           | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (no implicit equalities case) |")))) p in
+                                                           | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |")))
+                                           | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (no implicit equalities case) at id "^i^" |")))) p in
                      ([], ptuples)
                    (* at least 1 implicit equality *)
                    else
@@ -949,17 +973,17 @@ let cong_find_implicit_args (ft : term) (p : params) (cog : certif) : (step list
                                      | _, _ -> fx, fy) in
                      (* get an (argument, is_form) pair for each arg of fx and fy *)
                      let fxas_isfrms = (try get_args_isfrms fx' with
-                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app |"^s))) in
+                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app at id "^i^" |"^s))) in
                      let fyas_isfrms = (try get_args_isfrms fy' with
-                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app |"^s))) in
+                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app at id "^i^" |"^s))) in
                      (* get all equalities from params *)
                      let p_ids_eqs = List.map (fun x -> (match (get_cl x cog) with
                                              | Some c -> let eq = try (List.find (fun y -> match (get_expr y) with
                                                                             | Eq _ -> true
                                                                             | _ -> false) c) with
-                                                                  | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities |")) in
+                                                                  | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |")) in
                                                          (x, eq)
-                                             | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (implicit equalities case) |")))) p in
+                                             | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (implicit equalities case) at id "^i^" |")))) p in
                      (* function that checks pairwise equality of arguments *)
                      let rec f (fxas_isfrms : (term * bool) list) (fyas_isfrms : (term * bool) list) (p_ids_eqs : (id * term) list) : (step list * ((id * term) list)) =
                         match fxas_isfrms, fyas_isfrms, p_ids_eqs with
@@ -986,7 +1010,7 @@ let cong_find_implicit_args (ft : term) (p : params) (cog : certif) : (step list
                                            (impi, ReflAST, [Eq (fxa', fya')], [], []) :: imp) in
                               (cert, (impi, Eq (fxa', fya')) :: ptuples)
                            else
-                              raise (Debug ("| cong_find_implicit_args.f: can't find implicit premise to congr |"))
+                              raise (Debug ("| cong_find_implicit_args.f: can't find implicit premise to congr at id "^i^" |"))
                         (* implicit equalities at the end *)
                         | (fxa, fx_isfrm) :: fxat, (fya, fy_isfrm) :: fyat, [] ->
                            let fxa' = get_expr fxa in
@@ -1004,11 +1028,11 @@ let cong_find_implicit_args (ft : term) (p : params) (cog : certif) : (step list
                                            (impi, ReflAST, [Eq (fxa', fya')], [], []) :: imp) in
                               (cert, (impi, Eq (fxa', fya')) :: ptuples)
                            else
-                              raise (Debug ("| cong_find_implicit_args.f: can't find implicit premise to congr |"))
+                              raise (Debug ("| cong_find_implicit_args.f: can't find implicit premise to congr at id "^i^" |"))
                         | [], [] ,[] -> ([], [])
-                        | _ -> raise (Debug ("| cong_find_implicit_args.f: number of arguments don't match with premises |"))
+                        | _ -> raise (Debug ("| cong_find_implicit_args.f: number of arguments don't match with premises at id "^i^" |"))
                      in f fxas_isfrms fyas_isfrms p_ids_eqs
-   | _ -> raise (Debug ("| cong_find_implicit_args: expecting head of clause to be an equality |"))
+   | _ -> raise (Debug ("| cong_find_implicit_args: expecting head of clause to be an equality at id "^i^" |"))
 
 let process_cong (c : certif) : certif =
   let rec process_cong_aux (c : certif) (cog : certif) : certif = 
@@ -1049,7 +1073,7 @@ let process_cong (c : certif) : certif =
                        let p1, p2 = 
                           match get_cl p' cog with
                           | Some (Eq (x, a) :: _) -> (x, a)
-                          | _ -> raise (Debug ("| process_cong: expecting premise of cong to be an equality |")) in
+                          | _ -> raise (Debug ("| process_cong: expecting premise of cong to be an equality at id "^i^" |")) in
                        let impi = generate_id () in
                        (* find implicit premise modulo symmetry *)
                        let q1, q2, ps = 
@@ -1057,7 +1081,7 @@ let process_cong (c : certif) : certif =
                           else if (p1 = x && p2 = b) || (p1 = b && p2 = x) then (y, a, [p'; impi])
                           else if (p1 = y && p2 = a) || (p1 = a && p2 = y) then (x, b, [impi; p'])
                           else if (p1 = y && p2 = b) || (p1 = b && p2 = y) then (x, a, [impi; p'])
-                          else raise (Debug ("| process_cong: can't find implicit premise for cong over eq |")) in
+                          else raise (Debug ("| process_cong: can't find implicit premise for cong over eq at id "^i^" |")) in
                        let cert = if is_frm then
                                     let eqn1i = generate_id () in
                                     let eqn2i = generate_id () in
@@ -1079,8 +1103,8 @@ let process_cong (c : certif) : certif =
                           | Some z -> (try Not (List.find (fun y -> match (get_expr y) with
                                                    | Eq _ -> true
                                                    | _ -> false) z) with
-                                      | Not_found -> raise (Debug ("| process_cong: premise "^x^" to cong has no equalities |")))
-                          | None -> raise (Debug ("| process_cong: can't fetch premises to congr (no implicit equalities case) |")))) p in
+                                      | Not_found -> raise (Debug ("| process_cong: premise "^x^" to cong has no equalities at id "^i^" |")))
+                          | None -> raise (Debug ("| process_cong: can't fetch premises to congr (no implicit equalities case) at id "^i^" |")))) p in
                        ([], 
                         p,
                         prem_negs')
@@ -1281,7 +1305,7 @@ let process_cong (c : certif) : certif =
                      --------------------------------------------------------------res
                                            f(x,y) = f(a,b)   
                   *)
-                  let imp, ptuples = try (cong_find_implicit_args conc p cog) with 
+                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with 
                                      | Debug s -> raise (Debug ("| process_cong: can't find premise(s) to congr at id "^i^" |"^s)) in
                   let pids, peqs = List.split ptuples in
                   let prem_negs = List.map (fun x -> Not x) peqs in
@@ -1294,7 +1318,7 @@ let process_cong (c : certif) : certif =
                 (* ASSUMPTION: we're assuming that x = a is the first premise and y = b 
                           the second premise to congruence *)
                 else if is_iff l then
-                  let imp, ptuples = try (cong_find_implicit_args conc p cog) with 
+                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with 
                                      | Debug s -> raise (Debug ("| process_cong: can't find premise(s) to congr at id "^i^" |"^s)) in
                   let pids, peqs = List.split ptuples in
                   let prem_negs = List.map (fun x -> Not x) peqs in
@@ -2067,6 +2091,8 @@ let process_cong (c : certif) : certif =
                 else
                   raise (Debug ("| process_cong: expecting head of clause to be either an equality or an iff at id "^i^" |")))
           | _ -> raise (Debug ("| process_cong: expecting clause to have one literal at id "^i^" |")))
+    | (i, SubproofAST subcl, cl, p, a) :: t -> let subcl' = process_cong_aux subcl cog in
+      (i, SubproofAST subcl', cl, p, a) :: process_cong_aux t cog
     | (i, r, cl, p, a) :: t -> (* This is necessary to add the shared terms to the hash tables *)
                                let _ = try process_cl cl with
                                        | Form.NotWellTyped frm -> raise (Debug ("| process_cong: formula "^
@@ -2182,7 +2208,7 @@ let process_trans (c : certif) : certif =
                  let x1, xn = (match (get_expr eq) with
                               | Eq (x', y') -> x', y'
                               | _ -> raise (Debug ("| process_trans: expecting premise of trans to be iff at id "^i^" |"))) in
-                 (* Reorder premise equalities from p' to account for any implicit symmetries, a boolean value is set to tue if the equality has been reordered *)
+                 (* Reorder premise equalities from p' to account for any implicit symmetries, a boolean value is set to true if the equality has been reordered *)
                  let _, p' = List.fold_left 
                   (fun (t, l) (pid, (px, py)) ->
                     if t = px then 
@@ -2273,6 +2299,8 @@ let process_trans (c : certif) : certif =
                 :: process_trans_aux t cog
              | _ -> raise (Debug ("| process_trans: expecting clause for refl to be a singleton iff at id "^i^" |")))
           | _ -> (i, ReflAST, cl, p, a) :: process_trans_aux t cog)
+     | (i, SubproofAST subcl, cl, p, a) :: t -> let subcl' = process_trans_aux subcl cog in
+       (i, SubproofAST subcl', cl, p, a) :: process_trans_aux t cog
      | h :: t -> h :: (process_trans_aux t cog)
      | [] -> []
    in process_trans_aux c c
@@ -2283,7 +2311,7 @@ let process_trans (c : certif) : certif =
    Alethe doesn't specify the projection for these rules. This 
    transformation searches the clause for the projection and adds
    it as an argument *)
-let rec process_proj (c: certif): certif =
+let process_proj (c: certif): certif =
   let rec aux (c: certif) (cog: certif) : certif =
     match c with
     | (i, AndAST, cl, p, a) :: tl when a = [] ->
@@ -2310,7 +2338,7 @@ let rec process_proj (c: certif): certif =
                            | Some x' -> let x'hd = (try (List.hd x') with | Failure _ -> raise 
                                          (Debug ("| process_proj: premise "^x^" is an empty clause at id "^i^" |"))) in
                                         x'hd
-                           | None -> raise (Debug ("| process_proj: can't fetch premises to `and` at id "^i^" |")))
+                           | None -> raise (Debug ("| process_proj: can't fetch premises to `or` at id "^i^" |")))
                  p in
         (match (get_expr (try (List.hd p') with | Failure _ -> 
                          raise (Debug ("| process_proj: not_or rule has no premises at id "^i^" |")))), 
@@ -2338,7 +2366,7 @@ let rec process_proj (c: certif): certif =
               (i, AndpAST, cl, p, [(string_of_int i')]) :: aux tl cog
         |  _, _ -> raise (Debug ("| process_proj: expecting clause with `not and` and projection at id "
                    ^i^" |")))
-    | (i, SubproofAST subcl, cl, p, a) :: tl -> (i, SubproofAST (process_proj subcl), cl, p, a) :: aux tl cog
+    | (i, SubproofAST subcl, cl, p, a) :: tl -> (i, SubproofAST (aux subcl cog), cl, p, a) :: aux tl cog
     | ircpa :: tl -> ircpa :: (aux tl cog)
     | [] -> []
   in aux c c
@@ -2423,7 +2451,7 @@ let extend_cl_aux (r : rule) (p : params) (a : args) (pi3 : certif) : rule * cla
   | Nimp1AST, Some [Not (Imp xs)] -> (Impn1AST, [Imp xs; List.nth xs 0])
   | Nimp2AST, Some [Not (Imp xs)] -> (Impn2AST, [Imp xs; Not (List.nth xs 1)])
   | r, Some t -> raise (Debug ("| extend_cl_aux: unexpected rule "^(string_of_rule r)^
-                        "to extend_cl, or premise "^(string_of_clause t)^" to the rule at id "^pi3hd^" |"))
+                        " to extend_cl, or premise "^(string_of_clause t)^" to the rule at id "^pi3hd^" |"))
   | r, None -> raise (Debug ("| extend_cl_aux: rule "^(string_of_rule r)^" has no premise"^" |")) 
 let rec extend_cl (andn_id : id) (h : term) (g : term) (pi3 : certif) (pi3og : certif): certif =
   match pi3 with
@@ -4723,6 +4751,8 @@ let rec process_simplify (c : certif) : certif =
        (simplify_to_subproof i (generate_id ()) (generate_id ()) lhs rhs a2b b2a) @ process_simplify tl
       (* Assuming that we catch all rewrites except generic LIA rewrites, for which we use this catch-all LIA rule *)
       | _ -> (i, LiaRewriteAST, cl, p, a) :: process_simplify tl)
+  | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_simplify subcl in
+    (i, SubproofAST subcl', cl, p, a) :: process_simplify tl
   | h :: tl -> h :: process_simplify tl
   | nil -> nil
   
@@ -4735,6 +4765,8 @@ let rec process_hole (c : certif) : certif =
       (if (List.length a > 0) then 
         (compare_sub (String.trim (List.hd a)) "ARITH_POLY_NORM")
       else false) -> (i, ArithpolynormAST, cl, p, a) :: process_hole tl
+  | (i, SubproofAST subcl, cl, p, a) :: t -> let subcl' = process_hole subcl in
+    (i, SubproofAST subcl', cl, p, a) :: process_hole t
   | h :: tl -> h :: process_hole tl
   | [] -> []
 
@@ -4743,7 +4775,14 @@ let rec process_hole (c : certif) : certif =
 (* Ordering constraint:
    1. process_proj before process_subproof because subproof turns all projection
       rules to tautological rules and needs them to have arguments for this. To remove 
-      constraint, search for projection within `extend_cl`. *)
+      constraint, search for projection within `extend_cl`.
+   2. process_same must come at the end because it removes clauses that the Coq checker will
+      consider same, but the other transformations don't. For example, if clause c1 contains 
+      duplicates, and c2 is c1 modulo duplicate removal, c2 is the "same" as c1 for the checker
+      since it reasons modulo duplicate removal, but process_same would remove c2 and some c3 that
+      points to c2 would now point to c1; other transformations here don't reason modulo 
+      duplicate removal, so they would see the duplicate in c1, when they would be expecting
+      to have the duplicates removed *)
 let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try 

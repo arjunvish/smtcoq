@@ -12,4 +12,4 @@
 (assert (! (= (vars_d t_d) bot_d) :named a2))
 (assert (! (= (vars_d s_d) bot_d) :named a3))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

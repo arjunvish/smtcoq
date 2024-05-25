@@ -11,4 +11,4 @@
 (assert (! (not (less_eq_d (numeral_d (bit1_d one_d)) n_d)) :named a0))
 (assert (! (less_eq_d (numeral_d (bit1_d one_d)) n_d) :named a1))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

@@ -26,4 +26,4 @@
 (assert (! (not (= ta_d empty_d)) :named a2))
 (assert (! (= ta_d (branch_d x21_d x22_d x23_d x24_d x25_d)) :named a3))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

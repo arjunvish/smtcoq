@@ -17,4 +17,4 @@
 (assert (! (bij_betw_d l_d top_d top_da) :named a1))
 (assert (! (= (comp_d g_d l_d) h_d) :named a2))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

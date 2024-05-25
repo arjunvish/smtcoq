@@ -15,4 +15,4 @@
 (assert (! (= (head_d sa_d) (sym_d f_d)) :named a2))
 (assert (! (= g_d f_d) :named a3))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

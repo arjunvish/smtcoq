@@ -25,4 +25,4 @@
 (assert (! (= t2_d sa_d) :named a1))
 (assert (! (gt_d ground_heads_var_d gt_sym_d delta_d extf_d arity_sym_d wt_sym_d (subst_d rho_d ta_d) (subst_d rho_d t2_d)) :named a2))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

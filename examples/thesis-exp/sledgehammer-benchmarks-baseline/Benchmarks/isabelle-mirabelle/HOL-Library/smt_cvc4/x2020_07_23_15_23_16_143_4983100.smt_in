@@ -5,4 +5,4 @@
 (declare-fun b_d () Bool)
 (assert (! (not (= (not (= a_d b_d)) (or (and a_d (not b_d)) (and b_d (not a_d))))) :named a0))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

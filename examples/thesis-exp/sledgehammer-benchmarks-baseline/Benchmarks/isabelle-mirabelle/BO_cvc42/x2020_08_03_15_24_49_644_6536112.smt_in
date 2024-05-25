@@ -16,4 +16,4 @@
 (assert (! (gt_hd_d gt_sym_d ground_heads_var_d (head_d ua_d) (head_d ta_d)) :named a1))
 (assert (! (= (head_d ta_d) (head_d sa_d)) :named a2))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)

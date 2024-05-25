@@ -116,6 +116,7 @@ type rule =
   | AnchorAST
   | AllsimpAST
   | SameAST
+  | ContAST
   | HoleAST
   | WeakenAST
   | FlattenAST

@@ -30,4 +30,4 @@
 (assert (! (not (fun_app_d (fun_app_da (fun_app_db (fun_app_dc extf_d f_d) (gt_d ground_heads_var_d gt_sym_d delta_d extf_d arity_sym_d wt_sym_d)) nil_d) nil_d)) :named a1))
 (assert (! (fun_app_d (fun_app_da (fun_app_db (fun_app_dc extf_d f_d) (gt_d ground_heads_var_d gt_sym_d delta_d extf_d arity_sym_d wt_sym_d)) nil_d) nil_d) :named a2))
 (check-sat)
-(get-unsat-core)
+;(get-unsat-core)
