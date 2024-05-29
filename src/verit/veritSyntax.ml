@@ -85,6 +85,8 @@ type typ =
   | Larweq (* New *)
   | Arithpolynorm (* New (cvc5) *)
   | LiaRewrite (* New (cvc5) *)
+  | Lamulpos (* New (cvc5) *)
+  | Lamulneg (* New (cvc5) *)
   | Bind (* New *)
   | Fins
   | Qcnf (* New *)
@@ -575,6 +577,8 @@ let to_add = ref []
   | Larweq -> "Larweq"
   | Arithpolynorm -> "Arithpolynorm"
   | LiaRewrite -> "LiaRewrite"
+  | Lamulpos -> "Lamulpos"
+  | Lamulneg -> "Lamulneg"
   | Bind -> "Bind"
   | Fins -> "Fins"
   | Qcnf -> "Qcnf"
@@ -674,7 +678,8 @@ let mk_clause (id,typ,value,ids_params,args) =
       (* Linear integer arithmetic *)
       | Liage | Lata | Lade | Lage | Larweq
       | Divsimp | Prodsimp | Uminussimp | Minussimp 
-      | Sumsimp | Compsimp | Arithpolynorm | LiaRewrite -> mkMicromega value
+      | Sumsimp | Compsimp | Arithpolynorm | LiaRewrite 
+      | Lamulpos | Lamulneg -> mkMicromega value
       (* Holes in proofs *)
       | Hole -> Other (SmtCertif.Hole (List.map get_clause ids_params, value))
       (* Resolution *)

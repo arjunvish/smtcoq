@@ -110,6 +110,8 @@ type rule =
   | LarweqAST
   | ArithpolynormAST
   | LiaRewriteAST
+  | LamulposAST
+  | LamulnegAST
   | BindAST
   | FinsAST
   | QcnfAST

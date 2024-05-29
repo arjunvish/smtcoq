@@ -119,6 +119,8 @@ type rule =
   | LarweqAST
   | ArithpolynormAST
   | LiaRewriteAST
+  | LamulposAST
+  | LamulnegAST
   | BindAST
   | FinsAST
   | QcnfAST
@@ -313,6 +315,8 @@ and string_of_rule (r : rule) : string =
   | LarweqAST -> "LarweqAST"
   | ArithpolynormAST -> "ArithpolynormAST"
   | LiaRewriteAST -> "LiaRewriteAST"
+  | LamulposAST -> "LamulposAST"
+  | LamulnegAST -> "LamulnegAST"
   | BindAST -> "BindAST"
   | FinsAST -> "FinsAST"
   | QcnfAST -> "QcnfAST"
@@ -878,6 +882,8 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | LarweqAST -> Larweq
   | ArithpolynormAST -> Arithpolynorm
   | LiaRewriteAST -> LiaRewrite
+  | LamulposAST -> Lamulpos
+  | LamulnegAST -> Lamulneg
   | BindAST -> Bind
   | FinsAST -> Fins
   | QcnfAST -> Qcnf

@@ -79,6 +79,8 @@ type typ =
   | Larweq (* New *)
   | Arithpolynorm (* New (cvc5) *)
   | LiaRewrite (* New (cvc5) *)
+  | Lamulpos (* New (cvc5) *)
+  | Lamulneg (* New (cvc5) *)
   | Bind (* New *)
   | Fins
   | Qcnf (* New *)

@@ -73,7 +73,7 @@
 %token CONNDEF ANDSIMP ORSIMP NOTSIMP IMPSIMP
 %token EQSIMP BOOLSIMP ACSIMP ITESIMP EQUALSIMP DISTELIM
 %token EQ LT LEQ GT GEQ PLUS MINUS MULT
-%token LAGE LIAGE LATA LADE DIVSIMP PRODSIMP 
+%token LAGE LIAGE LATA LADE DIVSIMP PRODSIMP LAMULP LAMULN
 %token UMINUSSIMP MINUSSIMP SUMSIMP COMPSIMP LARWEQ
 %token FINS BIND QCNF SUBPROOF
 %token SYMM REORDR FACTR ALLSIMP
@@ -340,6 +340,8 @@ rulename:
   | SUMSIMP                                 { SumsimpAST }
   | COMPSIMP                                { CompsimpAST }
   | LARWEQ                                  { LarweqAST}
+  | LAMULP                                  { LamulposAST }
+  | LAMULN                                  { LamulnegAST }
   | BIND                                    { BindAST }
   | FINS                                    { FinsAST }
   | QCNF                                    { QcnfAST }

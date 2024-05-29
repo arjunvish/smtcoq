@@ -132,6 +132,8 @@
         "sum_simplify", SUMSIMP;
         "comp_simplify", COMPSIMP;
         "la_rw_eq", LARWEQ;
+        "la_mult_pos", LAMULP;
+        "la_mult_neg", LAMULN;
 
       (* Subproofs *)
         "subproof", SUBPROOF;

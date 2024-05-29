@@ -247,7 +247,7 @@ Position: Line 20 Position 1
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v
 File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v", line 8, characters 2-412:
 Error: Verit.import_trace: VeritParser.Error
-Position: Line 24 Position 124
+Position: Line 29 Position 51
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_47_03_336_8415396cvc5.v
@@ -324,7 +324,7 @@ Position: Line 82 Position 1
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_35_20_861_5083584cvc5.v
 File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_35_20_861_5083584cvc5.v", line 8, characters 2-412:
 Error: Verit.import_trace: VeritParser.Error
-Position: Line 23 Position 84
+Position: Line 28 Position 51
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_16_51_570_4983100cvc5.v
@@ -495,7 +495,7 @@ Position: Line 12 Position 1
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_16_01_56_200_5114158cvc5.v
 File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_16_01_56_200_5114158cvc5.v", line 8, characters 2-410:
 Error: Verit.import_trace: VeritParser.Error
-Position: Line 23 Position 84
+Position: Line 28 Position 51
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_32_934_5066708cvc5.v
