@@ -94,6 +94,7 @@
 
       (* cvc5 rules *)
         "symm", SYMM;
+        "not_symm", NSYMM;
         "reordering", REORDR;
         "factoring", FACTR;
         "all_simplify", ALLSIMP;

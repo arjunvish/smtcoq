@@ -76,7 +76,7 @@
 %token LAGE LIAGE LATA LADE DIVSIMP PRODSIMP LAMULP LAMULN
 %token UMINUSSIMP MINUSSIMP SUMSIMP COMPSIMP LARWEQ
 %token FINS BIND QCNF SUBPROOF
-%token SYMM REORDR FACTR ALLSIMP
+%token SYMM NSYMM REORDR FACTR ALLSIMP
 (*%token BBVA BBCONST BBEQ BBDIS BBOP BBNOT BBNEG BBADD
 %token BBMUL BBULT BBSLT BBCONC BBEXTR BBZEXT BBSEXT
 %token BBSHL BBSHR BVAND BVOR BVXOR BVADD BVMUL BVULT 
@@ -346,6 +346,7 @@ rulename:
   | FINS                                    { FinsAST }
   | QCNF                                    { QcnfAST }
   | SYMM                                    { SameAST }
+  | NSYMM                                    { SameAST }
   | REORDR                                  { SameAST }
   | FACTR                                   { SameAST }
   | ALLSIMP                                 { AllsimpAST }
