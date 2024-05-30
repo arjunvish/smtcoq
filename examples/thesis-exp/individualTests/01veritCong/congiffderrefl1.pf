@@ -1,0 +1,5 @@
+(assume h1 (= x a))
+(assume h2 (= x b))
+(assume h3 (not (= (= x x) (= a b))))
+(step t4 (cl (= (= x x) (= a b))) :rule cong :premises (h1 h2))
+(step t5 (cl) :rule resolution :premises (t4 h3))

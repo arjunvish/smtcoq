@@ -1,0 +1,5 @@
+1:(input ((= x x)))
+2:(input ((= x a)))
+3:(input ((not (= (= x x) (= x a)))))
+4:(not_equiv2 ((not (= x x)) (not (= x a))) 3)
+5:(resolution () 4 1 2)

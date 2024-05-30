@@ -1158,7 +1158,20 @@ let process_cong (c : certif) : certif =
                            process_cong_aux t cog)
                     (* x, y, a, b are (bool) formulas *)
                     else
-                    (* iff predicate
+                    (* iff predicate *)
+                      (* How many unique elements exist in x, y, a, b? *)
+                      let _, numdist = List.fold_left (fun (l, n) x -> if List.mem x l then (l, n)
+                                                                       else (x :: l, n + 1)) ([], 0) [x; y; a; b] in
+                      (* Case: 3 of x, y, a, b are syntactically equal *)
+                      if numdist = 2 then
+                        let eqn1i = generate_id () in
+                        imp @
+                        (eqn1i, Equn1AST, eq :: prem_negs, [], []) ::
+                        (i, ResoAST, [eq], eqn1i :: pids, []) ::
+                        process_cong_aux t cog
+                      else
+                      (* ASSUMPTION: we are not doing anything special for numdist = 3, so it fall-back to the numdist = 4 case *)
+                      (* Case: x, y, a, b are distinct
                         -----  ---------------eqp1                                                                             
                         y = b  ~(y = b), y, ~b                                                                                 
                         ----------------------res  ----------------eqp1  -----------eqn2  -------------------------------eqn2  

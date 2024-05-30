@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic AUFLIA)
+(declare-fun p_d () Bool)
+(declare-fun q_d () Bool)
+(assert (= (ite p_d true q_d) (or p_d q_d)))
+(assert (not (= (= (ite p_d true q_d) (or p_d q_d)) (= (or p_d q_d) (or p_d q_d)))))
+(check-sat)
