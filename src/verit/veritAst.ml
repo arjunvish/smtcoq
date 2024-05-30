@@ -2214,7 +2214,9 @@ let process_trans (c : certif) : certif =
                                                ----------------------------------------res
                                                               a = c, ~a   ---(2)   
                  *)
-                 let p' = List.map (fun x -> match get_cl x cog with
+                 (* p, the list of premise ids is turned into p'', a list of tuples of the form (premiseID, (x, y)) 
+                    where the premise is `x = y` *)
+                 let p'' = List.map (fun x -> match get_cl x cog with
                          | Some x' -> let x'hd = (try (List.hd x') with | Failure _ -> raise 
                                                    (Debug ("| process_trans: premise "^x^" returns an empty clause in id "^i^" |"))) in
                                       let x', y' = (match (get_expr x'hd) with
@@ -2227,7 +2229,7 @@ let process_trans (c : certif) : certif =
                  let x1, xn = (match (get_expr eq) with
                               | Eq (x', y') -> x', y'
                               | _ -> raise (Debug ("| process_trans: expecting premise of trans to be iff at id "^i^" |"))) in
-                 (* Reorder premise equalities from p' to account for any implicit symmetries, a boolean value is set to true if the equality has been reordered *)
+                 (* Reorder premise equalities from p'' to account for any implicit symmetries, a boolean value is set to true if the equality has been reordered *)
                  let _, p' = List.fold_left 
                   (fun (t, l) (pid, (px, py)) ->
                     if t = px then 
@@ -2238,19 +2240,31 @@ let process_trans (c : certif) : certif =
                        (pid, (py, px), true) :: l)
                     else 
                       raise (Debug ("| process_trans: failing to find transitive equality in premises at id "^i^" |"))) 
-                  (x1, []) p' in
+                  (x1, []) p'' in
+                 (* Equality of terms modulo double negation *)
+                 let eq_mod_dneg t1 t2 =
+                   let rec negsTerm (n : int) (t : term) :  (int * term) =
+                    (match t with
+                     | Not x -> negsTerm (n + 1) (x)
+                     | x -> (n, x)) in
+                    let t1negs, t1term = negsTerm 0 t1 in
+                    let t2negs, t2term = negsTerm 0 t2 in
+                    if ((t1term = t2term) && (t1negs mod 2 = t2negs mod 2)) then true else false in
                  (* Given conclusion `x1 = xn` and premises `x1 = x2, ..., xn-1 = xn`, *)
                  (* 1. For each premise `x = y`, generate `~(x = y), x, ~y` by `eqp1` and resolve it with 
                        `x = y` to get `x, ~y` *)
                  let eqp1is, eqp1s = List.fold_left
                    (fun (is, r) (pid, (px, py), reord) ->
-                     let i' = generate_id () in
-                     let eqpi = generate_id () in
-                     let eqstep = 
-                      if reord then (eqpi, Equp2AST, [Not (Eq (py, px)); py; Not px], [], []) 
-                      else (eqpi, Equp1AST, [Not (Eq (px, py)); px; Not py], [], []) in
-                     (i' :: is,
-                      eqstep :: (i', ResoAST, [px; Not py], [eqpi; pid], []) :: r))
+                     (* Skip the premise if it is an equality (modulo double negation) *)
+                     if eq_mod_dneg px py then (is, r)
+                     else
+                      let i' = generate_id () in
+                      let eqpi = generate_id () in
+                      let eqstep = 
+                       if reord then (eqpi, Equp2AST, [Not (Eq (py, px)); py; Not px], [], []) 
+                       else (eqpi, Equp1AST, [Not (Eq (px, py)); px; Not py], [], []) in
+                      (i' :: is,
+                       eqstep :: (i', ResoAST, [px; Not py], [eqpi; pid], []) :: r))
                    ([], []) p' in
                  (* 2. Resolve all clauses from 1. to get `x1, ~xn` *)
                  let resi1 = generate_id () in
@@ -2262,13 +2276,16 @@ let process_trans (c : certif) : certif =
                        `x = y` to get `~x, y` *)
                  let eqp2is, eqp2s = List.fold_left
                    (fun (is, r) (pid, (px, py), reord) ->
-                     let i' = generate_id () in
-                     let eqpi = generate_id () in
-                     let eqstep =
-                      if reord then (eqpi, Equp1AST, [Not (Eq (py, px)); Not py; px], [], [])
-                      else (eqpi, Equp2AST, [Not (Eq (px, py)); Not px; py], [], []) in
-                     (i' :: is,
-                      eqstep :: (i', ResoAST, [Not px; py], [eqpi; pid], []) :: r))
+                     (* Skip the premise if it is an equality (modulo double negation) *)
+                     if eq_mod_dneg px py then (is, r)
+                     else
+                      let i' = generate_id () in
+                      let eqpi = generate_id () in
+                      let eqstep =
+                       if reord then (eqpi, Equp1AST, [Not (Eq (py, px)); Not py; px], [], [])
+                       else (eqpi, Equp2AST, [Not (Eq (px, py)); Not px; py], [], []) in
+                      (i' :: is,
+                       eqstep :: (i', ResoAST, [Not px; py], [eqpi; pid], []) :: r))
                    ([], []) p' in
                  (* 6. Resolve all clauses from 5. to get `~x1, xn` *)
                  let resi3 = generate_id () in
@@ -2276,7 +2293,7 @@ let process_trans (c : certif) : certif =
                  let eqn1i = generate_id () in
                  (* 8. Resolve 6. and 7. to get `x1 = xn, ~x1`. *)
                  let resi4 = generate_id () in
-                 (* 9. resolve 4. and 8. to get `x1 = xn` *)
+                 (* 9. Resolve 4. and 8. to get `x1 = xn` *)
                  eqp1s @
                  ((resi1, ResoAST, [x1; Not xn], eqp1is, []) ::
                   (eqn2i, Equn2AST, [eq; x1; xn], [], []) ::

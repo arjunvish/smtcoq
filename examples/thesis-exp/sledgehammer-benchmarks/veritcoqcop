@@ -1,12 +1,3 @@
-
-/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/individualTests/02andproj/x2020_07_23_15_39_12_904_5134392verit.v
-     = true
-     : bool
-
-/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/individualTests/01missingDischargeStep/x2020_08_03_16_40_35_239_4899098verit.v
-     = true
-     : bool
-
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/PNT_z32/x2020_08_04_17_45_26_739_9376730verit.v
      = true
      : bool
@@ -460,7 +451,7 @@
      : bool
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_01_16_644_5442968verit.v
-     = false
+     = true
      : bool
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540verit.v
