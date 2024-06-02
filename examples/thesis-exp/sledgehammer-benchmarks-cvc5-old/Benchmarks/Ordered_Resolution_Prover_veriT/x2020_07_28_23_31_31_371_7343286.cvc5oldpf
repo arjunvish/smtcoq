@@ -1,0 +1,7 @@
+(assume a0 (not (and (subsumes_d subst_atm_d d_d d_da) (subsumes_d subst_atm_d d_da d_d))))
+(assume a1 (member_d d_da (sup_d p_d q_d)))
+(assume a2 (subsumes_d subst_atm_d d_da d_d))
+(assume a3 (subsumes_d subst_atm_d d_d d_da))
+(step t1 (cl (and (subsumes_d subst_atm_d d_d d_da) (subsumes_d subst_atm_d d_da d_d)) (not (subsumes_d subst_atm_d d_d d_da)) (not (subsumes_d subst_atm_d d_da d_d))) :rule and_neg)
+(step t2 (cl (and (subsumes_d subst_atm_d d_d d_da) (subsumes_d subst_atm_d d_da d_d))) :rule resolution :premises (t1 a3 a2))
+(step t3 (cl) :rule resolution :premises (t2 a0))

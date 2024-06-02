@@ -1,0 +1,3 @@
+(assume a0 (not (less_eq_d (numeral_d (bit1_d one_d)) n_d)))
+(assume a1 (less_eq_d (numeral_d (bit1_d one_d)) n_d))
+(step t1 (cl) :rule resolution :premises (a1 a0))

@@ -1,0 +1,4 @@
+(assume a0 (not (less_eq_d a_d (bigo_d f_d))))
+(assume a1 (less_eq_d a_d (bigo_d f_d)))
+(assume a2 (less_eq_d b_d (bigo_d f_d)))
+(step t1 (cl) :rule resolution :premises (a1 a0))

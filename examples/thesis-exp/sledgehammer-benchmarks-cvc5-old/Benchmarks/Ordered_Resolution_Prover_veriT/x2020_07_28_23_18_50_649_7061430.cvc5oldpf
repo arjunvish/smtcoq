@@ -1,0 +1,5 @@
+(assume a0 (not (member_d d_d (sup_d (sup_d (n_of_state_d (lnth_d sts_d i_d)) (p_of_state_d (lnth_d sts_d i_d))) (q_of_state_d (lnth_d sts_d i_d))))))
+(assume a1 (member_d d_d (sup_d (sup_d (n_of_state_d (lnth_d sts_d i_d)) (p_of_state_d (lnth_d sts_d i_d))) (q_of_state_d (lnth_d sts_d i_d)))))
+(assume a2 (subsumes_d subst_atm_d d_d c_d))
+(assume a3 (less_d (enat_d i_d) (llength_d sts_d)))
+(step t1 (cl) :rule resolution :premises (a1 a0))

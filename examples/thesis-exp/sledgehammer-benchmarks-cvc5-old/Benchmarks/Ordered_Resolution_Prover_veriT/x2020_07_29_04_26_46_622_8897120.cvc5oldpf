@@ -1,0 +1,3 @@
+(assume a0 (not (eligible_d s_G_d asa_d (plus_d d_d (image_mset_d neg_d (mset_d asa_d))))))
+(assume a1 (eligible_d s_G_d asa_d (plus_d d_d (image_mset_d neg_d (mset_d asa_d)))))
+(step t1 (cl) :rule resolution :premises (a1 a0))

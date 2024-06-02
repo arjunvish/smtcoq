@@ -1,0 +1,797 @@
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/PNT_z32/x2020_08_04_17_45_26_739_9376730cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_05_23_096_5606264cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716cvc5.v
+nwt: op_0 (aka Smt_var_f_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t43 || cong_find_implicit_args: can't get args to app at id t43 || process_term: formula Fatom 0 is not well-typed |
+Position: Line 84 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_04_968_5248672cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_50_546_5359382cvc5.v
+nwt: op_4 (aka Smt_var_gt_sym_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_50_546_5359382cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t13 || cong_find_implicit_args: can't get args to app at id t26.t13 || process_term: formula Fatom 4 is not well-typed |
+Position: Line 101 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_43_355_6522276cvc5.v
+nwt: op_4 (aka Smt_var_gt_sym_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_43_355_6522276cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t13 || cong_find_implicit_args: can't get args to app at id t26.t13 || process_term: formula Fatom 4 is not well-typed |
+Position: Line 101 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_35_149_7629076cvc5.v
+nwt: op_4 (aka Smt_var_rho_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_35_149_7629076cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t12 || cong_find_implicit_args: can't get args to app at id t12 || process_term: formula Fatom 4 is not well-typed |
+Position: Line 20 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_06_27_504_5933684cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_15_27_694_6279318cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_subproof: expecting the last step of the certificate to be a discharge step at id t21 |
+Position: Line 78 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_12_58_132_6181512cvc5.v
+nwt: op_0 (aka Smt_var_f_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_12_58_132_6181512cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t68 || cong_find_implicit_args: can't get args to app at id t68 || process_term: formula Fatom 0 is not well-typed |
+Position: Line 103 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_28_446_6397402cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_22_36_035_6337544cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_49_644_6536112cvc5.v
+nwt: op_5 (aka Smt_var_gt_sym_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_49_644_6536112cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t11 || cong_find_implicit_args: can't get args to app at id t26.t11 || process_term: formula Fatom 5 is not well-typed |
+Position: Line 98 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_08_268_5321078cvc5.v
+nwt: op_5 (aka Smt_var_gt_sym_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_08_268_5321078cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t14 || cong_find_implicit_args: can't get args to app at id t26.t14 || process_term: formula Fatom 5 is not well-typed |
+Position: Line 98 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_43_615_6004000cvc5.v
+nwt: op_10 (aka Smt_var_ground_heads_var_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_43_615_6004000cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t23 || cong_find_implicit_args: can't get args to app at id t23 || process_term: formula Fatom 10 is not well-typed |
+Position: Line 32 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_42_01_808_4961238cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_14_36_388_6025794cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_06_02_107_5638220cvc5.v
+nwt: op_1 (aka Smt_var_zero_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_06_02_107_5638220cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t9 || cong_find_implicit_args: can't get args to app at id t26.t9 || process_term: formula Fatom 1 is not well-typed |
+Position: Line 95 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_49_010_6452792cvc5.v
+nwt: op_5 (aka Smt_var_gt_sym_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_49_010_6452792cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t14 || cong_find_implicit_args: can't get args to app at id t26.t14 || process_term: formula Fatom 5 is not well-typed |
+Position: Line 98 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_43_702_4662652cvc5.v
+nwt: op_1 (aka Smt_var_zero_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_43_702_4662652cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t3 || cong_find_implicit_args: can't get args to app at id t3 || process_term: formula Fatom 1 is not well-typed |
+Position: Line 10 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_07_140_4628884cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_42_034_5998320cvc5.v
+nwt: op_4 (aka Smt_var_rho_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_42_034_5998320cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t11 || cong_find_implicit_args: can't get args to app at id t11 || process_term: formula Fatom 4 is not well-typed |
+Position: Line 19 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_55_014_5369464cvc5.v
+nwt: op_5 (aka Smt_var_gt_sym_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_55_014_5369464cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t11 || cong_find_implicit_args: can't get args to app at id t26.t11 || process_term: formula Fatom 5 is not well-typed |
+Position: Line 98 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_39_113_7636710cvc5.v
+nwt: op_11 (aka Smt_var_ground_heads_var_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_39_113_7636710cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t24 || cong_find_implicit_args: can't get args to app at id t24 || process_term: formula Fatom 11 is not well-typed |
+Position: Line 33 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_41_942_6515590cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_48_855_5281470cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_48_838_5354134cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_21_12_689_9268514cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_41_03_832_8304788cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_23_22_32_196_4983000cvc5.v
+nwt: op_2 (aka Smt_var_m_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_23_22_32_196_4983000cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t3 || cong_find_implicit_args: can't get args to app at id t3 || process_term: formula Fatom 2 is not well-typed |
+Position: Line 15 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_10_14_273_5442982cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_33_39_249_9488436cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_50_06_230_5063492cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_17_45_18_358_5383148cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_46_56_736_8400646cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_13_554_5028546cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392cvc5.v
+nwt: (op_6 (aka Smt_var_modulo_d) (op_7 (aka Smt_var_of_nat_d) (op_5 (aka Smt_var_suc_d) op_1 (aka Smt_var_ka_d))) op_0 (aka Smt_var_n_d))File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2.t2.t3 || cong_find_implicit_args: can't get args to app at id t2.t2.t3 || process_term: formula Fatom 6 [7 [5 [1]];0] is not well-typed |
+Position: Line 29 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t6.t13 || cong_find_implicit_args: can't get args to app at id t6.t13 || get_args_isfrms : congruence over integer predicates unsupported |
+Position: Line 110 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_47_03_336_8415396cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_47_51_743_5021316cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_45_899_5005750cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_09_13_580_5081634cvc5.v
+nwt: (op_4 (aka Smt_var_class_d) (op_3 (aka Smt_var_pick_d) (op_4 (aka Smt_var_class_d) op_0 (aka Smt_var_a_d))))File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_09_13_580_5081634cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t27.t11 || cong_find_implicit_args: can't get args to app at id t27.t11 || process_term: formula Fatom 4 [3 [4 [0]]] is not well-typed |
+Position: Line 104 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_03_14_29_526_6590820cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_10_024_5021652cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v
+nwt: op_2 (aka Smt_var_x_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2.t2.t3 || cong_find_implicit_args: can't get args to app at id t2.t2.t3 || process_term: formula Fatom 2 is not well-typed |
+Position: Line 82 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_28_08_034_7411138cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_19_224_8437724cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_52_10_754_8440880cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_27_625_8447402cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_04_464_17993960cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_04_38_502_4990434cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_06_15_118_5385958cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_35_20_861_5083584cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_35_20_861_5083584cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t6.t13 || cong_find_implicit_args: can't get args to app at id t6.t13 || get_args_isfrms : congruence over integer predicates unsupported |
+Position: Line 92 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_16_51_570_4983100cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_16_51_570_4983100cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: processing certificate 
+Error: Cerrors.UserError lia.ml: smt_Atom_to_micromega_formula was expecting an LIA formula
+Position: Line 115 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_10_288_8633312cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_51_42_656_5093812cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_696_4987364cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_050_4985034cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_07_259_8627852cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_32_04_209_9474402cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_08_53_363_5071014cvc5.v
+nwt: op_0 (aka Smt_var_a_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_08_53_363_5071014cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2 || cong_find_implicit_args: can't get args to app at id t2 || process_term: formula Fatom 0 is not well-typed |
+Position: Line 22 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654cvc5.v
+nwt: op_0 (aka Smt_var_a_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654cvc5.v", line 8, characters 2-433:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2.t2.t4 || cong_find_implicit_args: can't get args to app at id t2.t2.t4 || process_term: formula Fatom 0 is not well-typed |
+Position: Line 30 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_00_883_17987914cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_37_53_950_9571100cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_28_18_949_9432688cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_28_01_687_5616730cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_25_289_5134680cvc5.v
+nwt: op_0 (aka Smt_var_a_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_25_289_5134680cvc5.v", line 8, characters 2-431:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2 || cong_find_implicit_args: can't get args to app at id t2 || process_term: formula Fatom 0 is not well-typed |
+Position: Line 22 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_44_183_5157124cvc5.v
+nwt: (op_4 (aka Smt_var_class_d) (op_3 (aka Smt_var_pick_d) (op_4 (aka Smt_var_class_d) op_0 (aka Smt_var_a_d))))File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_44_183_5157124cvc5.v", line 8, characters 2-431:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t27.t11 || cong_find_implicit_args: can't get args to app at id t27.t11 || process_term: formula Fatom 4 [3 [4 [0]]] is not well-typed |
+Position: Line 104 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_13_29_740_5029568cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_00_870_5908880cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_33_14_874_5693428cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_31_32_094_5725034cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_15_23_16_143_4983100cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_15_23_16_143_4983100cvc5.v", line 8, characters 2-431:
+Error:
+Verit.import_trace: processing certificate 
+Error: Cerrors.UserError lia.ml: smt_Atom_to_micromega_formula was expecting an LIA formula
+Position: Line 115 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_04_536_4989628cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_09_34_799_4995700cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_42_549_5864026cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_18_31_06_963_5320700cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_28_655_5053232cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_34_486_5840566cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_23_22_38_994_4983000cvc5.v
+nwt: op_2 (aka Smt_var_m_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_23_22_38_994_4983000cvc5.v", line 8, characters 2-431:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t3 || cong_find_implicit_args: can't get args to app at id t3 || process_term: formula Fatom 2 is not well-typed |
+Position: Line 15 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_01_29_51_707_5106282cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_08_504_5931826cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_16_11_074_5147710cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_28_06_559_5486688cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_16_01_56_200_5114158cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_16_01_56_200_5114158cvc5.v", line 8, characters 2-431:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t6.t13 || cong_find_implicit_args: can't get args to app at id t6.t13 || get_args_isfrms : congruence over integer predicates unsupported |
+Position: Line 92 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_32_934_5066708cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_03_628_4985034cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v
+nwt: op_2 (aka Smt_var_x_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v", line 8, characters 2-413:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t21.t2.t5 || cong_find_implicit_args: can't get args to app at id t21.t2.t5 || process_term: formula Fatom 2 is not well-typed |
+Position: Line 134 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/Zeta_cvc42/x2020_08_04_19_26_44_055_10527492cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_17_34_35_557_9411026cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_19_07_59_455_9387134cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_46_36_378_8617908cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_46_36_378_8617908cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_simplify: expecting argument of eq_simplify to be an equivalence at id t26.t2 |
+Position: Line 98 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_19_42_14_120_5961368cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_29_35_898_5741632cvc5.v
+nwt: op_13 (aka Smt_var_subst_atm_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_29_35_898_5741632cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t13 || cong_find_implicit_args: can't get args to app at id t13 || process_term: formula Fatom 13 is not well-typed |
+Position: Line 44 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_43_975_7545750cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_19_53_992_5730614cvc5.v
+nwt: op_6 (aka Smt_var_c_mu_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_19_53_992_5730614cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t4 || cong_find_implicit_args: can't get args to app at id t4 || process_term: formula Fatom 6 is not well-typed |
+Position: Line 11 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_21_54_301_5765740cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_42_834_7543784cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_44_56_253_5688612cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_39_123_7537830cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_05_57_088_7410378cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006cvc5.v
+nwt: op_20 (aka Smt_var_subst_atm_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2.t2.t5 || cong_find_implicit_args: can't get args to app at id t2.t2.t5 || process_term: formula Fatom 20 is not well-typed |
+Position: Line 30 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_47_436_7058806cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_51_54_844_7791092cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284cvc5.v
+nwt: op_12 (aka Smt_var_subst_atm_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t46 || cong_find_implicit_args: can't get args to app at id t46 || process_term: formula Fatom 12 is not well-typed |
+Position: Line 87 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_22_19_856_8862020cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_47_44_675_8643846cvc5.v
+nwt: op_3 (aka Smt_var_cs_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_47_44_675_8643846cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t9 || cong_find_implicit_args: can't get args to app at id t9 || process_term: formula Fatom 3 is not well-typed |
+Position: Line 40 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v
+nwt: op_1 (aka Smt_var_e_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t21.t2.t5 || cong_find_implicit_args: can't get args to app at id t21.t2.t5 || process_term: formula Fatom 1 is not well-typed |
+Position: Line 77 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_subproof: expecting the last step of the certificate to be a discharge step at id t21 |
+Position: Line 79 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_31_31_371_7343286cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_24_40_122_5680112cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_01_16_644_5442968cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540cvc5.v
+nwt: (op_14 (aka Smt_var_grounding_of_clss_d) op_11 (aka Smt_var_subst_atm_d) op_2 (aka Smt_var_q_d))File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2.t2.t3 || cong_find_implicit_args: can't get args to app at id t2.t2.t3 || process_term: formula Fatom 14 [11;2] is not well-typed |
+Position: Line 29 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_46_15_427_5720368cvc5.v
+nwt: (op_7 (aka Smt_var_fun_app_d) op_6 (aka Smt_var_atms_of_d) (op_9 (aka Smt_var_sum_mset_d) (op_4 (aka Smt_var_mset_d) op_0 (aka Smt_var_cs_d))))File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_46_15_427_5720368cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t26.t9 || cong_find_implicit_args: can't get args to app at id t26.t9 || process_term: formula Fatom 7 [6;9 [4 [0]]] is not well-typed |
+Position: Line 96 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_39_24_709_8527638cvc5.v
+nwt: op_15 (aka Smt_var_subst_atm_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_39_24_709_8527638cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2.t2.t5 || cong_find_implicit_args: can't get args to app at id t2.t2.t5 || process_term: formula Fatom 15 is not well-typed |
+Position: Line 63 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_26_46_622_8897120cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_27_449_8841898cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_03_52_352_5382930cvc5.v
+nwt: op_0 (aka Smt_var_c_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_03_52_352_5382930cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t6 || cong_find_implicit_args: can't get args to app at id t6 || process_term: formula Fatom 0 is not well-typed |
+Position: Line 12 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_29_090_8844184cvc5.v
+nwt: op_18 (aka Smt_var_subst_atm_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_29_090_8844184cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t11 || cong_find_implicit_args: can't get args to app at id t11 || process_term: formula Fatom 18 is not well-typed |
+Position: Line 59 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120cvc5.v
+nwt: op_9 (aka Smt_var_d_twin_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t2.t2.t3 || cong_find_implicit_args: can't get args to app at id t2.t2.t3 || process_term: formula Fatom 9 is not well-typed |
+Position: Line 45 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562cvc5.v
+nwt: op_2 (aka Smt_var_s_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t27 || cong_find_implicit_args: can't get args to app at id t27 || process_term: formula Fatom 2 is not well-typed |
+Position: Line 47 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_25_33_668_8333304cvc5.v
+nwt: op_10 (aka Smt_var_subst_atm_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_25_33_668_8333304cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t5 || cong_find_implicit_args: can't get args to app at id t5 || process_term: formula Fatom 10 is not well-typed |
+Position: Line 21 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_23_25_559_8874768cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_04_807_5590668cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_01_57_407_5584508cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_46_40_335_5636392cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_52_48_419_6580796cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_42_55_636_5603382cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_50_649_7061430cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_15_13_395_5646634cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_43_29_785_5626822cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_36_57_199_5464880cvc5.v
+nwt: op_1 (aka Smt_var_da_d)File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_36_57_199_5464880cvc5.v", line 8, characters 2-415:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_cong: can't find premise(s) to congr at id t6 || cong_find_implicit_args: can't get args to app at id t6 || process_term: formula Fatom 1 is not well-typed |
+Position: Line 12 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_03_707_5588814cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_20_00_872_8811318cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_25_416_8839786cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_16_516_5600148cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_40_12_306_5528196cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_40_281_7539822cvc5.v
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_01_007_5595370cvc5.v
+     = false
+     : bool

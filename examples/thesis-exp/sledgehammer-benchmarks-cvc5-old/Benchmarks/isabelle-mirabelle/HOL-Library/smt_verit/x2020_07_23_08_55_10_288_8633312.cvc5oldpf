@@ -1,0 +1,8 @@
+(assume a0 (not (less_eq_d zero_d (f_d xa_d))))
+(assume a1 (less_d zero_d c_d))
+(assume a2 (less_d zero_d ca_d))
+(assume a3 (less_eq_d zero_d (f_d xa_d)))
+(assume a4 (less_eq_d zero_d (g_d xa_d)))
+(assume a5 (less_eq_d (abs_d (a_d xa_d)) (times_d c_d (f_d xa_d))))
+(assume a6 (less_eq_d (abs_d (b_d xa_d)) (times_d ca_d (g_d xa_d))))
+(step t1 (cl) :rule resolution :premises (a3 a0))

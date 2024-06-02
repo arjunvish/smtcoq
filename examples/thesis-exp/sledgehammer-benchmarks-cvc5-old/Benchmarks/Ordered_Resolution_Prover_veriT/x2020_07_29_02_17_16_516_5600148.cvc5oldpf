@@ -1,0 +1,5 @@
+(assume a0 (not (true_cls_mset_d i_d (subst_cls_mset_d subst_atm_d (subst_cls_mset_d subst_atm_d (mset_d cAs_d) sigma_d) eta_d))))
+(assume a1 (true_cls_mset_d i_d (subst_cls_mset_d subst_atm_d (subst_cls_mset_d subst_atm_d (mset_d cAs_d) sigma_d) eta_d)))
+(assume a2 (true_cls_d i_d (subst_cls_d subst_atm_d (subst_cls_d subst_atm_d da_d sigma_d) eta_d)))
+(assume a3 (is_ground_subst_d subst_atm_d (comp_subst_d sigma_d eta_d)))
+(step t1 (cl) :rule resolution :premises (a1 a0))

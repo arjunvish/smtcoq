@@ -1,0 +1,4 @@
+(assume a0 (not (= (size_d as_d) n_d)))
+(assume a1 (= n_d (size_d as_d)))
+(step t1 (cl (not (= n_d (size_d as_d)))) :rule not_symm :premises (a0))
+(step t2 (cl) :rule resolution :premises (a1 t1))

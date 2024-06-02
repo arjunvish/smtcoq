@@ -1,0 +1,4 @@
+(assume a0 (not (member_d f_d (bigo_d h_d))))
+(assume a1 (member_d f_d (bigo_d h_d)))
+(assume a2 (member_d g_d (bigo_d h_d)))
+(step t1 (cl) :rule resolution :premises (a1 a0))

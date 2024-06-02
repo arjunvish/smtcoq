@@ -1,0 +1,4 @@
+(assume a0 (not (= s_d r_d)))
+(assume a1 (= r_d s_d))
+(step t1 (cl (not (= r_d s_d))) :rule not_symm :premises (a0))
+(step t2 (cl) :rule resolution :premises (a1 t1))

@@ -1,0 +1,4 @@
+(assume a0 (not (is_ground_subst_d subst_atm_d tau_d)))
+(assume a1 (and (subseteq_mset_d (subst_cls_d subst_atm_d d_d tau_d) c_d) (is_ground_subst_d subst_atm_d tau_d)))
+(step t1 (cl (is_ground_subst_d subst_atm_d tau_d)) :rule and :premises (a1))
+(step t2 (cl) :rule resolution :premises (t1 a0))

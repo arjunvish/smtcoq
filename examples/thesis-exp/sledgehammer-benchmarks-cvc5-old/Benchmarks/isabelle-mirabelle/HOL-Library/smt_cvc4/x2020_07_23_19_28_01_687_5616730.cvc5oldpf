@@ -1,0 +1,4 @@
+(assume a0 (not (= (f_d plus_d zero_d) (sum_d plus_d zero_d))))
+(assume a1 (= (sum_d plus_d zero_d) (f_d plus_d zero_d)))
+(step t1 (cl (= (f_d plus_d zero_d) (sum_d plus_d zero_d))) :rule symm :premises (a1))
+(step t2 (cl) :rule resolution :premises (t1 a0))
