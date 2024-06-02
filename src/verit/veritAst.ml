@@ -709,7 +709,9 @@ let rec process_vars (vs : (string * typ) list) : (string * SmtBtype.btype) list
   | [] -> []
 
 let rec process_term (x: bool * SmtAtom.Form.atom_form_lit) : SmtAtom.Form.t =
-  Form.lit_of_atom_form_lit rf x
+  try (Form.lit_of_atom_form_lit rf x) with
+  | Form.NotWellTyped frm -> raise (Debug ("| process_term: formula "^
+                        (Form.pform_to_string frm)^" is not well-typed |"))
 
 (* term |-> bool * SmtAtom.Form.atom_form_lit |-> SmtAtom.Form.t *)
 
@@ -3174,12 +3176,16 @@ let rec process_simplify (c : certif) : certif =
           (simplify_to_subproof i a2bi b2ai lhs rhs a2b b2a) @ process_simplify tl
        (* ~~x <-> x *)
        | [Eq (Not (Not x), y)] when x = y -> 
-         (* Since SMTCoq implicitly removes double negations, we replace this by a derivation of x = x *)
+         (* Replace this by the derivation:
+            -----------------eqn1   ------------------eqn2
+            ~~x = x, ~~~x, ~x         ~~x = x, ~~x, x
+            ------------------------------------------
+                             ~~x = x *)
           let eqn1i = generate_id () in
           let eqn2i = generate_id () in
-          (eqn1i, Equn1AST, [Eq (x, x); Not x], [], []) ::
-          (eqn2i, Equn2AST, [Eq (x, x); x], [], []) ::
-          (i, ResoAST, [Eq (x, x)], [eqn1i; eqn2i], []) :: process_simplify tl
+          (eqn1i, Equn1AST, [Eq ((Not (Not x)), x); Not x], [], []) ::
+          (eqn2i, Equn2AST, [Eq ((Not (Not x)), x); x], [], []) ::
+          (i, ResoAST, [Eq ((Not (Not x)), x)], [eqn1i; eqn2i], []) :: process_simplify tl
        (* | [Eq _] -> (i, NotsimpAST, cl, p, a) :: process_simplify tl *)
        | _ -> raise (Debug ("| process_simplify: expecting not_simplify to derive a singleton equivalence at id "^i^" |")))
   (* (x -> y) <-> z *)
