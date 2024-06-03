@@ -4710,6 +4710,45 @@ let rec process_simplify (c : certif) : certif =
                   (resi, ResoAST, [], [b2ai; fi], []);
                   (generate_id (), WeakenAST, [lhs], [resi], [])] in
        (simplify_to_subproof i a2bi b2ai lhs rhs a2b b2a) @ process_simplify tl
+       (* F = T <-> F *)
+       (* TODO: This is here for one of the rules resulting from cvc5's eval hack, we need to remove this and 
+          use elaboration by verit2016 to get rid of evals in the future *)
+       | [Eq ((Eq (False, True) as lhs), (False as rhs))] ->
+        (* 
+           LTR:
+           -----asmp   ---------------eqp1  --F  --T
+           F = T       ~(F = T), F, ~T      ~F   T
+           ----------------------------------------res
+                              []
+                         -----------weaken
+                              F
+        *)
+          let a2bi = generate_id () in
+          let eqp1i = generate_id () in
+          let fi = generate_id () in
+          let ti = generate_id () in
+          let resi = generate_id () in
+          let a2b = [(eqp1i, Equp1AST, [Not lhs; False; Not True], [], []);
+                     (fi, FalsAST, [Not False], [], []);
+                     (ti, TrueAST, [True], [], []);
+                     (resi, ResoAST, [], [a2bi; eqp1i; fi; ti], []);
+                     (generate_id (), WeakenAST, [rhs], [resi], [])] in
+        (*
+           RTL:
+           ---asmp  ----false
+            F        ~F
+            -----------res
+                []
+            ----------weaken
+               F = T
+       *)
+       let b2ai = generate_id () in
+       let fi = generate_id () in
+       let resi = generate_id () in
+       let b2a = [(fi, FalsAST, [Not False], [], []);
+                  (resi, ResoAST, [], [b2ai; fi], []);
+                  (generate_id (), WeakenAST, [lhs], [resi], [])] in
+       (simplify_to_subproof i a2bi b2ai lhs rhs a2b b2a) @ process_simplify tl
        | _ -> raise (Debug ("| process_simplify: expecting argument of eq_simplify to be an equivalence at id "^i^" |"))
       )
   (* ac_simp: x <-> y, where 

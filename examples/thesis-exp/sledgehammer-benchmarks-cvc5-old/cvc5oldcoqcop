@@ -557,7 +557,7 @@ File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesi
 Error:
 Verit.import_trace: preprocessing certificate
 Error: VeritSyntax.Debug
-Message: | VeritAst.preprocess_certif: failed to preprocess || process_simplify: expecting argument of eq_simplify to be an equivalence at id t26.t2 |
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_subproof: expecting the last step of the certificate to be a discharge step at id t45 |
 Position: Line 98 Position 1
 
 
