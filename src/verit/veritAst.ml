@@ -932,7 +932,7 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
       raise (Debug ("| get_args_isfrms : congruence over integer predicates unsupported |"))
    | And xs | Or xs | Imp xs | Xor xs -> List.map (fun x -> (x, true)) xs
    | Eq (x, y) -> [(x, is_form (process_term (process_term_aux x))); (y, is_form (process_term (process_term_aux y)))]
-   | Ite xs | App (_, xs) -> List.map (fun x -> (x, is_form (process_term (process_term_aux x)))) xs
+   | Ite xs | App (_, xs) -> List.map (fun x -> (x, is_form (process_term (process_term_aux x)))) xs (* PROBLEMATIC LINE *)
    | NTerm (_, t) -> get_args_isfrms t
    | STerm s -> try get_args_isfrms (get_sterm s) with
                 | Debug s -> raise (Debug ("| get_args : unable to dereference shared term |"^s))
@@ -957,7 +957,7 @@ let rec to_uniq (l : 'a list) : 'a list =
 let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (step list * ((id * term) list)) =
    match get_expr ft with
    | Eq (fx, fy) -> let n = List.length (try get_args_isfrms fx with
-                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app at id "^i^" |"^s))) in
+                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: checking for implicit args, can't get args to app at id "^i^" |"^s))) in
                    (* no implicit equalities *)
                    if (n = List.length p) then
                      let ptuples = List.map (fun x -> (match (get_cl x cog) with
@@ -981,9 +981,9 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                                      | _, _ -> fx, fy) in
                      (* get an (argument, is_form) pair for each arg of fx and fy *)
                      let fxas_isfrms = (try get_args_isfrms fx' with
-                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app at id "^i^" |"^s))) in
+                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: getting args of first function app, can't get args to app at id "^i^" |"^s))) in
                      let fyas_isfrms = (try get_args_isfrms fy' with
-                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: can't get args to app at id "^i^" |"^s))) in
+                                        | Debug s -> raise (Debug ("| cong_find_implicit_args: getting args of second function app, can't get args to app at id "^i^" |"^s))) in
                      (* get all equalities from params *)
                      let p_ids_eqs = List.map (fun x -> (match (get_cl x cog) with
                                              | Some c -> let eq = try (List.find (fun y -> match (get_expr y) with
@@ -1327,7 +1327,7 @@ let process_cong (c : certif) : certif =
                                            f(x,y) = f(a,b)   
                   *)
                   let imp, ptuples = try (cong_find_implicit_args i conc p cog) with 
-                                     | Debug s -> raise (Debug ("| process_cong: can't find premise(s) to congr at id "^i^" |"^s)) in
+                                     | Debug s -> raise (Debug ("| process_cong: in eq case, can't find premise(s) to congr at id "^i^" |"^s)) in
                   let pids, peqs = List.split ptuples in
                   let prem_negs = List.map (fun x -> Not x) peqs in
                   let eqci = generate_id () in
@@ -1340,7 +1340,7 @@ let process_cong (c : certif) : certif =
                           the second premise to congruence *)
                 else if is_iff l then
                   let imp, ptuples = try (cong_find_implicit_args i conc p cog) with 
-                                     | Debug s -> raise (Debug ("| process_cong: can't find premise(s) to congr at id "^i^" |"^s)) in
+                                     | Debug s -> raise (Debug ("| process_cong: in iff case, can't find premise(s) to congr at id "^i^" |"^s)) in
                   let pids, peqs = List.split ptuples in
                   let prem_negs = List.map (fun x -> Not x) peqs in
                   let eq = (try (List.hd cl) with | Failure _ -> 
@@ -4745,6 +4745,71 @@ let rec process_simplify (c : certif) : certif =
     | a1 :: _ -> raise (Debug ("| process_simplify: DSL failure! Expecting arg of all_simplify step to have a rewrite rule via DSL at id "^i^", instead I have "^a1^" |"))
     | [] -> 
       match cl with
+      (* (x = y) = (y = x) *)
+      | [Eq ((Eq (x, y) as xy), (Eq (a, b) as yx)) as eq] when x = b && y = a ->
+      (*
+          ------------eqn2  ---------------eqp1
+          x = y, x, y       ~(y = x), y, ~x
+          ---------------------------------res
+                  x = y, ~(y = x), y --(1)
+
+          -------------eqn1  ---------------eqp2  ------------------(1)  --------------------------------eqn2
+          x = y, ~x, ~y      ~(y = x), ~y, x      x = y, ~(y = x), y     (x = y) = (y = x), x = y, y = x
+          ----------------------------------------------------------------------------------------------res
+                                              (x = y) = (y = x), x = y --(2)
+
+          -------------------------------------eqn1  ------------------------(2)
+          (x = y) = (y = x), ~(x = y), ~(y = x)      (x = y) = (y = x), x = y
+          -------------------------------------------------------------------res
+                              (x = y) = (y = x), ~(y = x) --(3)
+
+          -------------eqn1  ---------------eqp2  ---------------------------(3)  ------------------------(2)
+          y = x, ~y, ~x      ~(x = y), ~x, y      (x = y) = (y = x), ~(y = x)     (x = y) = (y = x), x = y
+          ------------------------------------------------------------------------------------------------res
+                                              (x = y) = (y = x), ~x --(4)
+
+          ---------------eqp1 ---------------------(4)  ------------------------(2)
+          ~(x = y), x, ~y     (x = y) = (y = x), ~x     (x = y) = (y = x), x = y
+          ----------------------------------------------------------------------res
+                                  (x = y) = (y = x), ~y --(5)
+
+          ------------eqn2  ---------------------(4)  ---------------------------(3)  ---------------------(5)
+          y = x, y, x       (x = y) = (y = x), ~x     (x = y) = (y = x), ~(y = x)     (x = y) = (y = x), ~y
+          -------------------------------------------------------------------------------------------------res
+                                                  (x = y) = (y = x)   
+      *)
+      let eqn2i = generate_id () in
+      let eqp1i = generate_id () in
+      let resi1 = generate_id () in
+      let eqn1i = generate_id () in
+      let eqp2i = generate_id () in
+      let eqn2i2 = generate_id () in
+      let resi2 = generate_id () in
+      let eqn1i2 = generate_id () in
+      let resi3 = generate_id () in
+      let eqn1i3 = generate_id () in
+      let eqp2i2 = generate_id () in
+      let resi4 = generate_id () in
+      let eqp1i2 = generate_id () in
+      let resi5 = generate_id () in
+      let eqn2i3 = generate_id () in
+      (eqn2i, Equn2AST, [xy; x; y], [], []) ::
+      (eqp1i, Equp1AST, [Not yx; y; Not x], [], []) ::
+      (resi1, ResoAST, [xy; Not yx; y], [eqn2i; eqp1i], []) ::
+      (eqn1i, Equn1AST, [xy; Not x; Not y], [], []) ::
+      (eqp2i, Equp2AST, [Not yx; Not y; x], [], []) ::
+      (eqn2i2, Equn2AST, [eq; xy; yx], [], []) ::
+      (resi2, ResoAST, [eq; xy], [eqn1i; eqp2i; resi1; eqn2i2], []) ::
+      (eqn1i2, Equn1AST, [eq; Not xy; Not yx], [], []) ::
+      (resi3, ResoAST, [eq; Not yx], [eqn1i2; resi2], []) ::
+      (eqn1i3, Equn1AST, [yx; Not y; Not x], [], []) ::
+      (eqp2i2, Equp2AST, [Not xy; Not x; y], [], []) ::
+      (resi4, ResoAST, [eq; Not x], [eqn1i3; eqp2i2; resi3; resi2], []) ::
+      (eqp1i2, Equp1AST, [Not xy; x; Not y], [], []) ::
+      (resi5, ResoAST, [eq; Not y], [eqp1i2; resi4; resi2], []) ::
+      (eqn2i3, Equn2AST, [yx; y; x], [], []) ::
+      (i, ResoAST, [eq], [eqn2i3; resi4; resi3; resi5], []) ::
+      process_simplify tl
       | [Eq ((x as lhs), (False as rhs))] ->
       (*
           LTR:

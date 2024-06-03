@@ -1,0 +1,7 @@
+(set-logic AUFLIA)
+(declare-fun x () Int)
+(declare-fun y () Int)
+(assert (= x y))
+(assert (= 0 0))
+(assert (not (= (< 0 x) (< 0 y))))
+(check-sat)

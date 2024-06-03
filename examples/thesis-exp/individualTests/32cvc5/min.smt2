@@ -7,6 +7,4 @@
 (assert (not (lt O d)))
 (assert (= d e) )
 (assert (lt O e))
-(check-sat) 
-;(step t3 (cl (= (not (lt O d)) (not (lt O e)))) :rule cong :premises (t2))
-;(step t4 (cl (not (lt O e))) :rule resolution :premises (t0 t3 a0))
+(check-sat)
