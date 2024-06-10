@@ -1,0 +1,4 @@
+(assume a0 (not (= (f_d times_d one_d) (prod_d times_d one_d))))
+(assume a1 (= (prod_d times_d one_d) (f_d times_d one_d)))
+(step t0 (cl (= (f_d times_d one_d) (prod_d times_d one_d))) :rule symm :premises (a1))
+(step t1 (cl) :rule resolution :premises (t0 a0))

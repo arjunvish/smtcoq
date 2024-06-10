@@ -1,0 +1,4 @@
+(assume a0 (not (= (not (= (f x) a)) (not (= a (f x))))))
+(step t1 (cl (= (= (f x) a) (= a (f x)))) :rule all_simplify)
+(step t2 (cl (= (not (= (f x) a)) (not (= a (f x))))) :rule cong :premises (t1))
+(step t3 (cl) :rule resolution :premises (t2 a0))

@@ -1,0 +1,259 @@
+     = false
+     : bool
+Certif after storing shared terms: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(t2.t1, EqualsimpAST, (cl  (((not (1 = 1)) = (false)))), [], [])
+(t2.t2, TransAST, (cl  ((x = (false)))), [ t2.a0 t2.t1], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_fins: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(t2.t1, EqualsimpAST, (cl  (((not (1 = 1)) = (false)))), [], [])
+(t2.t2, TransAST, (cl  ((x = (false)))), [ t2.a0 t2.t1], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_hole: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(t2.t1, EqualsimpAST, (cl  (((not (1 = 1)) = (false)))), [], [])
+(t2.t2, TransAST, (cl  ((x = (false)))), [ t2.a0 t2.t1], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_notnot: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(t2.t1, EqualsimpAST, (cl  (((not (1 = 1)) = (false)))), [], [])
+(t2.t2, TransAST, (cl  ((x = (false)))), [ t2.a0 t2.t1], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_same: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(t2.t1, EqualsimpAST, (cl  (((not (1 = 1)) = (false)))), [], [])
+(t2.t2, TransAST, (cl  ((x = (false)))), [ t2.a0 t2.t1], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_cong: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(t2.t1, EqualsimpAST, (cl  (((not (1 = 1)) = (false)))), [], [])
+(t2.t2, TransAST, (cl  ((x = (false)))), [ t2.a0 t2.t1], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_trans: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(t2.t1, EqualsimpAST, (cl  (((not (1 = 1)) = (false)))), [], [])
+(x4, Equp1AST, (cl  ((not (x = (not (1 = 1))))) (x) ((not (not (1 = 1))))), [], [])
+(x3, ResoAST, (cl  (x) ((not (not (1 = 1))))), [ x4 t2.a0], [])
+(x2, Equp1AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (1 = 1))) ((not (false)))), [], [])
+(x1, ResoAST, (cl  ((not (1 = 1))) ((not (false)))), [ x2 t2.t1], [])
+(x5, ResoAST, (cl  (x) ((not (false)))), [ x3 x1], [])
+(x6, Equn2AST, (cl  ((x = (false))) (x) ((false))), [], [])
+(x7, ResoAST, (cl  ((x = (false))) (x)), [ x5 x6], [])
+(x11, Equp2AST, (cl  ((not (x = (not (1 = 1))))) ((not x)) ((not (1 = 1)))), [], [])
+(x10, ResoAST, (cl  ((not x)) ((not (1 = 1)))), [ x11 t2.a0], [])
+(x9, Equp2AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (not (1 = 1)))) ((false))), [], [])
+(x8, ResoAST, (cl  ((not (not (1 = 1)))) ((false))), [ x9 t2.t1], [])
+(x12, ResoAST, (cl  ((not x)) ((false))), [ x10 x8], [])
+(x13, Equn1AST, (cl  ((x = (false))) ((not x)) ((not (false)))), [], [])
+(x14, ResoAST, (cl  ((x = (false))) ((not x))), [ x12 x13], [])
+(t2.t2, ResoAST, (cl  ((x = (false)))), [ x7 x14], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_simplify: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(x25, Equn1AST, (cl  (((not (1 = 1)) = (false))) ((not (not (1 = 1)))) ((not (false)))), [], [])
+(x30, SubproofAST
+	(x15, AssumeAST, (cl  ((not (1 = 1)))), [], [])
+(x16, LageAST, (cl  ((1 = 1))), [], [])
+(x17, ResoAST, (cl ), [ x15 x16], [])
+(x18, WeakenAST, (cl  ((false))), [ x17], [])
+(x23, DischargeAST, (cl  ((not (not (1 = 1)))) ((false))), [], [])
+	, (cl ), [], [])
+(x27, ResoAST, (cl  (((not (1 = 1)) = (false))) ((not (not (1 = 1))))), [ x23 x25], [])
+(x26, Equn2AST, (cl  (((not (1 = 1)) = (false))) ((not (1 = 1))) ((false))), [], [])
+(x29, SubproofAST
+	(x19, AssumeAST, (cl  ((false))), [], [])
+(x20, FalsAST, (cl  ((not (false)))), [], [])
+(x21, ResoAST, (cl ), [ x19 x20], [])
+(x22, WeakenAST, (cl  ((not (1 = 1)))), [ x21], [])
+(x24, DischargeAST, (cl  ((not (false))) ((not (1 = 1)))), [], [])
+	, (cl ), [], [])
+(x28, ResoAST, (cl  (((not (1 = 1)) = (false))) ((not (1 = 1)))), [ x24 x26], [])
+(t2.t1, ResoAST, (cl  (((not (1 = 1)) = (false)))), [ x27 x28], [])
+(x4, Equp1AST, (cl  ((not (x = (not (1 = 1))))) (x) ((not (not (1 = 1))))), [], [])
+(x3, ResoAST, (cl  (x) ((not (not (1 = 1))))), [ x4 t2.a0], [])
+(x2, Equp1AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (1 = 1))) ((not (false)))), [], [])
+(x1, ResoAST, (cl  ((not (1 = 1))) ((not (false)))), [ x2 t2.t1], [])
+(x5, ResoAST, (cl  (x) ((not (false)))), [ x3 x1], [])
+(x6, Equn2AST, (cl  ((x = (false))) (x) ((false))), [], [])
+(x7, ResoAST, (cl  ((x = (false))) (x)), [ x5 x6], [])
+(x11, Equp2AST, (cl  ((not (x = (not (1 = 1))))) ((not x)) ((not (1 = 1)))), [], [])
+(x10, ResoAST, (cl  ((not x)) ((not (1 = 1)))), [ x11 t2.a0], [])
+(x9, Equp2AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (not (1 = 1)))) ((false))), [], [])
+(x8, ResoAST, (cl  ((not (not (1 = 1)))) ((false))), [ x9 t2.t1], [])
+(x12, ResoAST, (cl  ((not x)) ((false))), [ x10 x8], [])
+(x13, Equn1AST, (cl  ((x = (false))) ((not x)) ((not (false)))), [], [])
+(x14, ResoAST, (cl  ((x = (false))) ((not x))), [ x12 x13], [])
+(t2.t2, ResoAST, (cl  ((x = (false)))), [ x7 x14], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_proj: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+(t2, SubproofAST
+	(t2.a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+(x25, Equn1AST, (cl  (((not (1 = 1)) = (false))) ((not (not (1 = 1)))) ((not (false)))), [], [])
+(x30, SubproofAST
+	(x15, AssumeAST, (cl  ((not (1 = 1)))), [], [])
+(x16, LageAST, (cl  ((1 = 1))), [], [])
+(x17, ResoAST, (cl ), [ x15 x16], [])
+(x18, WeakenAST, (cl  ((false))), [ x17], [])
+(x23, DischargeAST, (cl  ((not (not (1 = 1)))) ((false))), [], [])
+	, (cl ), [], [])
+(x27, ResoAST, (cl  (((not (1 = 1)) = (false))) ((not (not (1 = 1))))), [ x23 x25], [])
+(x26, Equn2AST, (cl  (((not (1 = 1)) = (false))) ((not (1 = 1))) ((false))), [], [])
+(x29, SubproofAST
+	(x19, AssumeAST, (cl  ((false))), [], [])
+(x20, FalsAST, (cl  ((not (false)))), [], [])
+(x21, ResoAST, (cl ), [ x19 x20], [])
+(x22, WeakenAST, (cl  ((not (1 = 1)))), [ x21], [])
+(x24, DischargeAST, (cl  ((not (false))) ((not (1 = 1)))), [], [])
+	, (cl ), [], [])
+(x28, ResoAST, (cl  (((not (1 = 1)) = (false))) ((not (1 = 1)))), [ x24 x26], [])
+(t2.t1, ResoAST, (cl  (((not (1 = 1)) = (false)))), [ x27 x28], [])
+(x4, Equp1AST, (cl  ((not (x = (not (1 = 1))))) (x) ((not (not (1 = 1))))), [], [])
+(x3, ResoAST, (cl  (x) ((not (not (1 = 1))))), [ x4 t2.a0], [])
+(x2, Equp1AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (1 = 1))) ((not (false)))), [], [])
+(x1, ResoAST, (cl  ((not (1 = 1))) ((not (false)))), [ x2 t2.t1], [])
+(x5, ResoAST, (cl  (x) ((not (false)))), [ x3 x1], [])
+(x6, Equn2AST, (cl  ((x = (false))) (x) ((false))), [], [])
+(x7, ResoAST, (cl  ((x = (false))) (x)), [ x5 x6], [])
+(x11, Equp2AST, (cl  ((not (x = (not (1 = 1))))) ((not x)) ((not (1 = 1)))), [], [])
+(x10, ResoAST, (cl  ((not x)) ((not (1 = 1)))), [ x11 t2.a0], [])
+(x9, Equp2AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (not (1 = 1)))) ((false))), [], [])
+(x8, ResoAST, (cl  ((not (not (1 = 1)))) ((false))), [ x9 t2.t1], [])
+(x12, ResoAST, (cl  ((not x)) ((false))), [ x10 x8], [])
+(x13, Equn1AST, (cl  ((x = (false))) ((not x)) ((not (false)))), [], [])
+(x14, ResoAST, (cl  ((x = (false))) ((not x))), [ x12 x13], [])
+(t2.t2, ResoAST, (cl  ((x = (false)))), [ x7 x14], [])
+(t2, DischargeAST, (cl  ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+	, (cl ), [], [])
+(t3, ResoAST, (cl ), [ t2 a0 a1], [])
+
+Certif after process_subproof: 
+(a0, AssumeAST, (cl  ((x = (not (1 = 1))))), [], [])
+x = (1 != 1)
+(a1, AssumeAST, (cl  ((not (x = (false))))), [], [])
+x != F
+(t2, AndnAST, (cl  ((and  (x = (not (1 = 1))) (not (x = (false))))) ((not (x = (not (1 = 1))))) ((x = (false)))), [], [])
+(x = (1 != 1) ^ x != F), x != (1 != 1), x = F
+(t3, ResoAST, (cl  ((and  (x = (not (1 = 1))) (not (x = (false)))))), [ t2 a0 a1], [])
+(x = (1 != 1) ^ x != F)
+(x44, AndpAST, (cl  ((not (and  (x = (not (1 = 1))) (not (x = (false)))))) ((x = (not (1 = 1))))), [], [ 0])
+~((x = (1 != 1)) ^ (x != F)), x = (1 != 1)
+(x41, ResoAST, (cl  ((x = (not (1 = 1))))), [ t3 x44], [])
+x = (1 != 1)
+(x25, Equn1AST, (cl  (((not (1 = 1)) = (false))) ((not (not (1 = 1)))) ((not (false)))), [], [])
+(1 != 1) = F, ~~(1 = 1), ~F
+(x23, AndnAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((not (not (1 = 1)))) ((false))), [], [])
+(1 != 1 ^ ~F), ~~(1 = 1), F
+(x27, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) (((not (1 = 1)) = (false))) ((not (not (1 = 1))))), [ x23 x25], [])
+(1 != 1 ^ ~F), (1 != 1) = F, ~~(1 = 1), 
+(x26, Equn2AST, (cl  (((not (1 = 1)) = (false))) ((not (1 = 1))) ((false))), [], [])
+(1 != 1) = F, 1 != 1, F
+(x24, AndnAST, (cl  ((and  (false) (not (not (1 = 1))))) ((not (false))) ((not (1 = 1)))), [], [])
+F ^ ~~(1 = 1), ~F, 1 != 1
+(x28, ResoAST, (cl  ((and  (false) (not (not (1 = 1))))) (((not (1 = 1)) = (false))) ((not (1 = 1)))), [ x24 x26], [])
+F ^ ~~(1 = 1), (1 != 1) = F, 1 != 1
+(t2.t1, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) (((not (1 = 1)) = (false)))), [ x27 x28], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1), (1 != 1) = F
+(x4, Equp1AST, (cl  ((not (x = (not (1 = 1))))) (x) ((not (not (1 = 1))))), [], [])
+x != (1 != 1), x, ~~(1 = 1)
+(x3, ResoAST, (cl  (x) ((not (not (1 = 1))))), [ x4 x41], [])
+x, ~~(1 = 1)
+(x2, Equp1AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (1 = 1))) ((not (false)))), [], [])
+(1 != 1) != F, 1 != 1, ~F
+(x1, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) ((not (1 = 1))) ((not (false)))), [ x2 t2.t1], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1),  1 != 1, ~F
+(x5, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) (x) ((not (false)))), [ x3 x1], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1),  x, ~F
+(x6, Equn2AST, (cl  ((x = (false))) (x) ((false))), [], [])
+x = F, x, F
+(x7, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) ((x = (false))) (x)), [ x5 x6], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1), x = F, x
+(x11, Equp2AST, (cl  ((not (x = (not (1 = 1))))) ((not x)) ((not (1 = 1)))), [], [])
+x != (1 != 1), ~x, 1 != 1
+(x10, ResoAST, (cl  ((not x)) ((not (1 = 1)))), [ x11 x41], [])
+~x, 1 != 1
+(x9, Equp2AST, (cl  ((not ((not (1 = 1)) = (false)))) ((not (not (1 = 1)))) ((false))), [], [])
+(1 != 1) != F, ~~(1 = 1), F
+(x8, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) ((not (not (1 = 1)))) ((false))), [ x9 t2.t1], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1), ~~(1 = 1), F
+(x12, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) ((not x)) ((false))), [ x10 x8], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1), ~x, F
+(x13, Equn1AST, (cl  ((x = (false))) ((not x)) ((not (false)))), [], [])
+x = F, ~x, ~F
+(x14, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) ((x = (false))) ((not x))), [ x12 x13], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1), x = F, ~x
+(t2.t2, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((and  (false) (not (not (1 = 1))))) ((x = (false)))), [ x7 x14], [])
+(1 != 1 ^ ~F), F ^ ~~(1 = 1), x = F
+(x34, AndpAST, (cl  ((not (and  (false) (not (not (1 = 1)))))) ((false))), [], [ 0])
+~(F ^ ~~(1 = 1)), F
+(x31, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((false))), [ t2.t2 x34], [])
+(1 != 1 ^ ~F), F, x = F (* Problematic step, x = F is missing)
+
+(x20, FalsAST, (cl  ((not (false)))), [], [])
+(x21, ResoAST, (cl  ((and  (not (1 = 1)) (not (false))))), [ x31 x20], [])
+(x22, WeakenAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((not (1 = 1)))), [ x21], [])
+(x32, AndpAST, (cl  ((not (and  (false) (not (not (1 = 1)))))) ((not (not (1 = 1))))), [], [ 1])
+(x33, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((not (not (1 = 1)))) ((x = (false)))), [ t2.t2 x32], [])
+(x35, ResoAST, (cl  ((and  (not (1 = 1)) (not (false)))) ((x = (false)))), [ x22 x33], [])
+(x39, AndpAST, (cl  ((not (and  (not (1 = 1)) (not (false))))) ((not (1 = 1)))), [], [ 0])
+(x36, ResoAST, (cl  ((not (1 = 1)))), [ x35 x39], [])
+(x16, LageAST, (cl  ((1 = 1))), [], [])
+(x17, ResoAST, (cl ), [ x36 x16], [])
+(x18, WeakenAST, (cl  ((false))), [ x17], [])
+(x37, AndpAST, (cl  ((not (and  (not (1 = 1)) (not (false))))) ((not (false)))), [], [ 1])
+(x38, ResoAST, (cl  ((not (false))) ((x = (false)))), [ x35 x37], [])
+(x40, ResoAST, (cl  ((x = (false)))), [ x18 x38], [])
+(x42, AndpAST, (cl  ((not (and  (x = (not (1 = 1))) (not (x = (false)))))) ((not (x = (false))))), [], [ 1])
+(x43, ResoAST, (cl  ((not (x = (false))))), [ t3 x42], [])
+(x45, ResoAST, (cl ), [ t2.t2 x43], [])
+

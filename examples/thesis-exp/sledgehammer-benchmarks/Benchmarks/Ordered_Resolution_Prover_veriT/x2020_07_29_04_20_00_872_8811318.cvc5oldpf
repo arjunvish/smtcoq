@@ -1,0 +1,4 @@
+(assume a0 (not (= (subst_cls_d subst_atm_d (plus_d (sum_mset_d (mset_d cs_d)) d_d) sigma_d) e_d)))
+(assume a1 (= e_d (subst_cls_d subst_atm_d (plus_d (sum_mset_d (mset_d cs_d)) d_d) sigma_d)))
+(step t0 (cl (not (= e_d (subst_cls_d subst_atm_d (plus_d (sum_mset_d (mset_d cs_d)) d_d) sigma_d)))) :rule not_symm :premises (a0))
+(step t1 (cl) :rule resolution :premises (a1 t0))

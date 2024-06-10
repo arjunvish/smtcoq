@@ -1,0 +1,6 @@
+(assume a0 (not (not (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d)))))
+(assume a1 (not (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d))))
+(step t0 (cl (not (= (not (not (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d)))) (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d)))) (not (not (not (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d))))) (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d))) :rule equiv_pos2)
+(step t1 (cl (= (not (not (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d)))) (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d)))) :rule all_simplify)
+(step t2 (cl (true_cls_d (interp_d s_d n_d) (plus_d (sum_mset_d (mset_d cs_d)) d_d))) :rule resolution :premises (t0 t1 a0))
+(step t3 (cl) :rule resolution :premises (t2 a1))

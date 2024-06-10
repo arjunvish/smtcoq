@@ -1,0 +1,4 @@
+(assume a0 (not false))
+(assume a1 (not (eqv_d x_d y_d)))
+(assume a2 (eqv_d x_d y_d))
+(step t0 (cl) :rule resolution :premises (a2 a1))

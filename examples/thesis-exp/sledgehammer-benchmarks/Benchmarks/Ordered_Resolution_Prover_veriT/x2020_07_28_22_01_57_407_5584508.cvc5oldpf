@@ -1,0 +1,4 @@
+(assume a0 (not false))
+(assume a1 (not (true_cls_d (interp_d s_d n_d d_d) d_da)))
+(assume a2 (true_cls_d (interp_d s_d n_d d_d) d_da))
+(step t0 (cl) :rule resolution :premises (a2 a1))

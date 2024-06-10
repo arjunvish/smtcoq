@@ -1,0 +1,8 @@
+(assume a0 (= x (not false)))
+(assume a1 (not (= x true)))
+(anchor :step t2)
+(assume t2.a0 (= x (not false)))
+(step t2.t1 (cl (= (not false) true)) :rule not_simplify)
+(step t2.t2 (cl (= x true)) :rule trans :premises (t2.a0 t2.t1))
+(step t3 (cl (not (= x (not false))) (= x true)) :rule subproof :discharge (t2.a0))
+(step t4 (cl) :rule resolution :premises (t3 a0 a1))

@@ -1,0 +1,8 @@
+(assume a0 (= x (not (= 1 1))))
+(assume a1 (not (= x false)))
+(anchor :step t2)
+(assume t2.a0 (= x (not (= 1 1))))
+(step t2.t1 (cl (= (not (= 1 1)) false)) :rule eq_simplify)
+(step t2.t2 (cl (= x false)) :rule trans :premises (t2.a0 t2.t1))
+(step t2 (cl (not (= x (not (= 1 1)))) (= x false)) :rule subproof :discharge (t2.a0))
+(step t3 (cl) :rule resolution :premises (t2 a0 a1))

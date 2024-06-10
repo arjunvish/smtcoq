@@ -1,0 +1,191 @@
+     = false
+     : bool
+Certif after storing shared terms: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_fins: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_hole: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_notnot: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_same: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_cong: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_trans: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_simplify: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_proj: 
+(a0, AssumeAST, (cl  (x)), [], [])
+(a1, AssumeAST, (cl  (y)), [], [])
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+(t3, SubproofAST
+	(t3.a0, AssumeAST, (cl  (x)), [], [])
+(t3.a1, SubproofAST
+	(t3.a1.a0, AssumeAST, (cl  (y)), [], [])
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 t3.a1.a0 t3.a0], [])
+(t3.a1, DischargeAST, (cl  ((not y)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t3.t2, ResoAST, (cl  ((and  x y))), [ t3.a1 a1], [])
+(t3, DischargeAST, (cl  ((not x)) ((and  x y))), [], [])
+	, (cl ), [], [])
+(t4, ResoAST, (cl ), [ t3 a0 a2], [])
+
+Certif after process_subproof: 
+(a0, AssumeAST, (cl  (x)), [], [])
+x
+(a1, AssumeAST, (cl  (y)), [], [])
+y
+(a2, AssumeAST, (cl  ((not (and  x y)))), [], [])
+~(x ^ y)
+(t3, AndnAST, (cl  ((and  x (not (and  x y)))) ((not x)) ((and  x y))), [], [])
+x ^ ~(x ^ y), ~x, x ^ y
+(t4, ResoAST, (cl  ((and  x (not (and  x y))))), [ t3 a0 a2], [])
+x ^ ~(x ^ y)
+(x9, AndpAST, (cl  ((not (and  x (not (and  x y))))) (x)), [], [ 0])
+~(x ^ ~(x ^ y)), x
+(x6, ResoAST, (cl  (x)), [ t4 x9], [])
+x
+(t3.a1, AndnAST, (cl  ((and  y (not (and  x y)))) ((not y)) ((and  x y))), [], [])
+y ^ ~(x ^ y), ~y, x ^ y
+(t3.t2, ResoAST, (cl  ((and  y (not (and  x y)))) ((and  x y))), [ t3.a1 a1], [])
+y ^ ~(x ^ y), x ^ y
+(x4, AndpAST, (cl  ((not (and  y (not (and  x y))))) (y)), [], [ 0])
+~(y ^ ~(x ^ y)), y
+(x1, ResoAST, (cl  (y)), [ t3.t2 x4], [])
+EXPECTED: x ^ y, y	ACTUAL: y
+(t3.a1.t1, AndnAST, (cl  ((and  x y)) ((not x)) ((not y))), [], [])
+x ^ y, ~x, ~y
+(t3.a1.t2, ResoAST, (cl  ((and  x y))), [ t3.a1.t1 x1 x6], [])
+EXPECTED: x ^ y	ACTUAL: x ^ y
+(x2, AndpAST, (cl  ((not (and  y (not (and  x y))))) ((not (and  x y)))), [], [ 1])
+~(y ^ ~(x ^ y)), ~(x ^ y)
+(x3, ResoAST, (cl  ((not (and  x y))) ((and  x y))), [ t3.t2 x2], [])
+~(x ^ y), x ^ y
+(x5, ResoAST, (cl  ((and  x y))), [ t3.a1.t2 x3], [])
+(x7, AndpAST, (cl  ((not (and  x (not (and  x y))))) ((not (and  x y)))), [], [ 1])
+(x8, ResoAST, (cl  ((not (and  x y)))), [ t4 x7], [])
+(x10, ResoAST, (cl ), [ t3.t2 x8], [])
+

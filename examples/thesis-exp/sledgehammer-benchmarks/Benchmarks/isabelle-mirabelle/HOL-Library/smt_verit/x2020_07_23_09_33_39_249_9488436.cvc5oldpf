@@ -1,0 +1,6 @@
+(assume a0 (not (not (= c_d zero_d))))
+(assume a1 (not (= c_d zero_d)))
+(step t0 (cl (not (= (not (not (= c_d zero_d))) (= c_d zero_d))) (not (not (not (= c_d zero_d)))) (= c_d zero_d)) :rule equiv_pos2)
+(step t1 (cl (= (not (not (= c_d zero_d))) (= c_d zero_d))) :rule all_simplify)
+(step t2 (cl (= c_d zero_d)) :rule resolution :premises (t0 t1 a0))
+(step t3 (cl) :rule resolution :premises (t2 a1))
