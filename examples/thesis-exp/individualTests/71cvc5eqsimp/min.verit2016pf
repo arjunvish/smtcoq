@@ -1,7 +1,0 @@
-1:(input ((not (= (= true false) false))))
-2:(true (true))
-3:(false ((not false)))
-4:(equiv_pos2 ((not (= true false)) (not true) false))
-5:(not_equiv1 ((= true false) false) 1)
-6:(resolution ((not (= true false))) 4 2 3)
-7:(resolution () 5 6 3)

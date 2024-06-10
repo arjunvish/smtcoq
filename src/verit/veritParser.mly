@@ -56,7 +56,7 @@
 %token <int> INT
 %token <Big_int.big_int> BIGINT
 
-%token LPAREN RPAREN EOF EOL COLON BANG COLEQ
+%token LPAREN RPAREN EOF EOL COLON BANG COLEQ DQUOTE
 %token COLRULE COLSTEP COLARGS COLPREMISES COLDISCHARGE
 %token ASSUME STEP ANCHOR DEFINEFUN CL ASTOK CHOICE
 %token LET FORALL EXISTS MATCH TINT TBOOL NAMED
@@ -76,7 +76,7 @@
 %token LAGE LIAGE LATA LADE DIVSIMP PRODSIMP LAMULP LAMULN
 %token UMINUSSIMP MINUSSIMP SUMSIMP COMPSIMP LARWEQ
 %token FINS BIND QCNF SUBPROOF
-%token SYMM NSYMM REORDR FACTR ALLSIMP
+%token SYMM NSYMM REORDR FACTR ALLSIMP RARE
 (*%token BBVA BBCONST BBEQ BBDIS BBOP BBNOT BBNEG BBADD
 %token BBMUL BBULT BBSLT BBCONC BBEXTR BBZEXT BBSEXT
 %token BBSHL BBSHR BVAND BVOR BVXOR BVADD BVMUL BVULT 
@@ -170,6 +170,7 @@ discharge:
 argument:
   | s=SYMBOL                                { s }
   | LPAREN s=SYMBOL RPAREN                  { s } (* Negative ints are parameterized *)
+  | DQUOTE s=SYMBOL DQUOTE                  { s } (* "evaluate" for rare_rewrite from cvc5 *)
   | t=term                                  { string_of_term t }
   | LPAREN MINUS i=INT RPAREN               { string_of_int (-i) }
   | i=INT                                   { string_of_int i }
@@ -350,6 +351,7 @@ rulename:
   | REORDR                                  { SameAST }
   | FACTR                                   { SameAST }
   | ALLSIMP                                 { AllsimpAST }
+  | RARE                                    { RarerewriteAST }
 (*function_def:
   | SYMBOL LPAREN sorted_var* RPAREN sort term { "" }
 ;

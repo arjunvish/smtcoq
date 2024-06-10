@@ -126,6 +126,7 @@ type rule =
   | QcnfAST
   | AnchorAST
   | AllsimpAST
+  | RarerewriteAST
   | SameAST
   | ContAST
   | HoleAST
@@ -321,6 +322,7 @@ and string_of_rule (r : rule) : string =
   | FinsAST -> "FinsAST"
   | QcnfAST -> "QcnfAST"
   | AllsimpAST -> "AllsimpAST"
+  | RarerewriteAST -> "RarerewriteAST"
   | SameAST -> "SameAST"
   | ContAST -> "ContAST"
   | HoleAST -> "HoleAST"
@@ -890,6 +892,7 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | FinsAST -> Fins
   | QcnfAST -> Qcnf
   | AllsimpAST -> Allsimp
+  | RarerewriteAST -> Allsimp
   | SameAST -> Same
   | ContAST -> Same
   | HoleAST -> Hole
@@ -923,7 +926,7 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
    match get_expr t with
    | True | False | Int _ -> raise (Debug ("| get_args_isfrms : attempting congruence over constants |"))
    | Forall _ -> raise (Debug ("| get_args_isfrms : congruence over forall application unsupported |"))
-   (* | Let (xs, t) -> TODO: need to look at t after let substritution raise (Debug ("| get_args_isfrms : congruence over lets unsupported |")) *)
+   (* | Let (xs, t) -> TODO: need to look at t after let substitution raise (Debug ("| get_args_isfrms : congruence over lets unsupported |")) *)
    | Var _ -> raise (Debug ("| get_args_isfrms : attempting congruence over variable application |"))
    | Not x ->  [(x, true)]
    | UMinus x -> [(x, false)]
@@ -931,8 +934,12 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
    | Lt (x, y) | Leq (x, y) | Gt (x, y) | Geq (x, y) -> 
       raise (Debug ("| get_args_isfrms : congruence over integer predicates unsupported |"))
    | And xs | Or xs | Imp xs | Xor xs -> List.map (fun x -> (x, true)) xs
-   | Eq (x, y) -> [(x, is_form (process_term (process_term_aux x))); (y, is_form (process_term (process_term_aux y)))]
-   | Ite xs | App (_, xs) -> List.map (fun x -> (x, is_form (process_term (process_term_aux x)))) xs (* PROBLEMATIC LINE *)
+   | Eq (x, y) -> List.map (fun x -> (x, (match snd (process_term_aux x) with 
+                                         | Form.Atom _ -> false 
+                                         | _ -> true))) [x; y]
+   | Ite xs | App (_, xs) -> List.map (fun x -> (x, (match snd (process_term_aux x) with 
+                                                | Form.Atom _ -> false 
+                                                | _ -> true))) xs
    | NTerm (_, t) -> get_args_isfrms t
    | STerm s -> try get_args_isfrms (get_sterm s) with
                 | Debug s -> raise (Debug ("| get_args : unable to dereference shared term |"^s))
@@ -2415,23 +2422,24 @@ let process_proj (c: certif): certif =
    can be done before this one *)
 (* TODO: Don't forget to flatten subproofs within subproofs!!! *)
 (*
-  Pi_1                                         Pi_1
+      Pi_1                                                Pi_1
 ...                                     ...
---------                                -----------------and_neg
-| [H]  |                                [(H ^ ~G), ~H, G]
-| Pi_2 |                                ...
-|  G   |                                Pi_3'
---------               ----->           ...      ------------and_pos
- [~H, G] --(1)                          H ^ ~G   ~(H ^ ~G), H
-...                                     ---------------------res            -------------and_pos
-  Pi_3                                            H                H ^ ~G   ~(H ^ ~G), ~G
-...                                              Pi_2             ----------------------res
-   []                                             G                          ~G
-                                                  -----------------------------res
-                                                                []
+-------------------                     -----------------------------------------and_neg
+| [H1], ..., [Hn] |                       [H1 ^ ... ^ Hn ^ ~G, ~H1, ..., Hn, G]
+|      Pi_2       |                     ...
+|        G        |                     Pi_3'
+-------------------           ----->    ...                        -------------------------and_pos
+ [~H1, ..., ~Hn, G] --(1)               H1 ^ ... ^ Hn ^ ~G --(2)   ~(H1 ^ ... ^ Hn ^ ~G), H1
+...                                     -----------------------------------------------res              ---    ------------------(2)   -------------------------and_pos
+      Pi_3                                                     | H1                             ...     Hn |   H1 ^ ... ^ Hn ^ ~G      ~(H1 ^ ... ^ Hn ^ ~G), ~G
+...                                                            |                    Pi_2                   |   -------------------------------------------------res
+       []                                                      |                     G                     |                         ~G
+                                                                                    ---------------------------------------------------res
+                                                                                                            []
 where        
  - Pi_3' replaces every step in Pi_3 that directly or indirectly uses (1), so that the result 
-   naturally produces the original result v (H ^ ~G) 
+   naturally produces `(original result) v (H1 ^ ... ^ Hn ^ ~G)`
+ - H2 to Hn are derived similar to H1 (and G) from (2)
 *)
 
 (* Function that takes a certif, a list of id pairs, and 
@@ -2458,40 +2466,42 @@ let get_cids i =
 let add_cid (i : id) (ci : id) = Hashtbl.add cids i (ci :: (get_cids i))
 let clear_cids () = Hashtbl.clear cids
 
-(* Replace every derivation R, to derive (h ^ ~g) v R if it 
+(* Replace every derivation R, to derive (H1 ^ ... ^ Hn ^ ~G) v R if it 
   (in)directly uses andn_id as a premise *)
 let extend_cl_aux (r : rule) (p : params) (a : args) (pi3 : certif) : rule * clause =
   let pi3hd = (try (List.hd p) with | Failure _ -> raise (Debug ("| extend_cl_aux: no premises to rule |"))) in
-  match r, (get_cl pi3hd pi3) with
-  | NandAST, Some [Not (And xs)] -> (AndnAST, And xs :: (List.map (fun x -> Not x) xs))
-  | OrAST, Some [Or xs] -> (OrpAST, Not (Or xs) :: xs)
-  | ImpAST, Some [Imp xs] -> (ImppAST, [Not (Imp xs); Not (List.nth xs 0); List.nth xs 1])
-  | Xor1AST, Some [Xor xs] -> (Xorp1AST, Not (Xor xs) :: xs)
-  | Nxor1AST, Some [Not (Xor xs)] -> (Xorn1AST, [Xor xs; List.nth xs 0; Not (List.nth xs 1)])
-  | Ite1AST, Some [Ite xs] -> (Itep1AST, [Not (Ite xs); List.nth xs 0; List.nth xs 1])
-  | Nite1AST, Some [Not (Ite xs)] -> (Iten1AST, [Ite xs; List.nth xs 0; Not (List.nth xs 2)])
-  | Xor2AST, Some [Xor xs] -> (Xorp2AST, Not (Xor xs) :: (List.map (fun x -> Not x) xs))
-  | Nxor2AST, Some [Not (Xor xs)] -> (Xorn2AST, [Xor xs; Not (List.nth xs 0); Not (List.nth xs 1)])
-  | Ite2AST, Some [Ite xs] -> (Itep2AST, [Not (Ite xs); Not (List.nth xs 0); List.nth xs 1])
-  | Nite2AST, Some [Not (Ite xs)] -> (Iten2AST, [Ite xs; Not (List.nth xs 0); Not (List.nth xs 1)])
-  | Equ1AST, Some [Eq (x, y)] -> (Equp2AST, [Not (Eq (x, y)); Not x; y])
-  | Nequ1AST, Some [Not (Eq (x, y))] -> (Equn2AST, [Eq (x, y); x;y])
-  | Equ2AST, Some [Eq (x, y)] -> (Equp1AST, [Not (Eq (x, y)); x; Not y])
-  | Nequ2AST, Some [Not (Eq (x, y))] -> (Equn1AST, [Eq (x, y); x; Not y])
-  | AndAST, Some [And xs] -> 
+  let premise_hd = match get_cl pi3hd pi3 with
+                   | Some cl -> List.hd cl
+                   | None -> raise (Debug ("| extend_cl_aux: rule "^(string_of_rule r)^" has no premise"^" |")) in
+  match r, premise_hd with
+  | NandAST, Not (And xs) -> (AndnAST, And xs :: (List.map (fun x -> Not x) xs))
+  | OrAST, Or xs -> (OrpAST, Not (Or xs) :: xs)
+  | ImpAST, Imp xs -> (ImppAST, [Not (Imp xs); Not (List.nth xs 0); List.nth xs 1])
+  | Xor1AST, Xor xs -> (Xorp1AST, Not (Xor xs) :: xs)
+  | Nxor1AST, Not (Xor xs) -> (Xorn1AST, [Xor xs; List.nth xs 0; Not (List.nth xs 1)])
+  | Ite1AST, Ite xs -> (Itep1AST, [Not (Ite xs); List.nth xs 0; List.nth xs 1])
+  | Nite1AST, Not (Ite xs) -> (Iten1AST, [Ite xs; List.nth xs 0; Not (List.nth xs 2)])
+  | Xor2AST, Xor xs -> (Xorp2AST, Not (Xor xs) :: (List.map (fun x -> Not x) xs))
+  | Nxor2AST, Not (Xor xs) -> (Xorn2AST, [Xor xs; Not (List.nth xs 0); Not (List.nth xs 1)])
+  | Ite2AST, Ite xs -> (Itep2AST, [Not (Ite xs); Not (List.nth xs 0); List.nth xs 1])
+  | Nite2AST, Not (Ite xs) -> (Iten2AST, [Ite xs; Not (List.nth xs 0); Not (List.nth xs 1)])
+  | Equ1AST, Eq (x, y) -> (Equp2AST, [Not (Eq (x, y)); Not x; y])
+  | Nequ1AST, Not (Eq (x, y)) -> (Equn2AST, [Eq (x, y); x;y])
+  | Equ2AST, Eq (x, y) -> (Equp1AST, [Not (Eq (x, y)); x; Not y])
+  | Nequ2AST, Not (Eq (x, y)) -> (Equn1AST, [Eq (x, y); x; Not y])
+  | AndAST, And xs -> 
       let ahd = try (List.hd a) with | Failure _ -> raise (Debug ("| extend_cl_aux: no args to `and` rule |")) in
       let n = int_of_string ahd in
       (AndpAST, [Not (And xs); List.nth xs n])
-  | NorAST, Some [Not (Or xs)] -> 
+  | NorAST, Not (Or xs) -> 
       let ahd = try (List.hd a) with | Failure _ -> raise (Debug ("| extend_cl_aux: no args to `not_or` rule |")) in
       let n = int_of_string ahd in
       (OrnAST, [Or xs; List.nth xs n])
-  | Nimp1AST, Some [Not (Imp xs)] -> (Impn1AST, [Imp xs; List.nth xs 0])
-  | Nimp2AST, Some [Not (Imp xs)] -> (Impn2AST, [Imp xs; Not (List.nth xs 1)])
-  | r, Some t -> raise (Debug ("| extend_cl_aux: unexpected rule "^(string_of_rule r)^
-                        " to extend_cl, or premise "^(string_of_clause t)^" to the rule at id "^pi3hd^" |"))
-  | r, None -> raise (Debug ("| extend_cl_aux: rule "^(string_of_rule r)^" has no premise"^" |")) 
-let rec extend_cl (andn_id : id) (h : term) (g : term) (pi3 : certif) (pi3og : certif): certif =
+  | Nimp1AST, Not (Imp xs) -> (Impn1AST, [Imp xs; List.nth xs 0])
+  | Nimp2AST, Not (Imp xs) -> (Impn2AST, [Imp xs; Not (List.nth xs 1)])
+  | r, t -> raise (Debug ("| extend_cl_aux: unexpected rule "^(string_of_rule r)^
+                        " to extend_cl, or (head of) premise "^(string_of_term t)^" to the rule at id "^pi3hd^" |"))
+let rec extend_cl (andn_id : id) (residue : term) (pi3 : certif) (pi3og : certif): certif =
   match pi3 with
   | (i, r, cl, p, a) :: tl when
       (* Resolution/weaken that directly uses andn_id *)
@@ -2502,12 +2512,12 @@ let rec extend_cl (andn_id : id) (h : term) (g : term) (pi3 : certif) (pi3og : c
       (* Resolution that indirectly uses andn_id *)
       (List.exists (fun x -> List.mem x (get_cids andn_id)) p)) ->
         add_cid andn_id i;
-        (i, r, ((And [h; Not g])) :: cl, p, a) :: extend_cl andn_id h g tl pi3og
+        (i, r, residue :: cl, p, a) :: extend_cl andn_id residue tl pi3og
   (* Change ImmBuilddef/ImmBuilddef2/ImmBuildProj rules that use andn_id. For example, not_and:
-                                                         ----------------and_neg
-   ~(x ^ y) --(andn_id)  --->    ~(x ^ y), (h ^ ~g)      (x ^ y), ~x, ~y  --(1)
-  ----------not_and            ---------------------------------------res
-    ~x, ~y                                    ~x, ~y, (h ^ ~g)  --(2)
+  ---------(andn_id)                                               ----------------and_neg
+   ~(x ^ y)            --->    ~(x ^ y), (H1 ^ ... ^ Hn ^ ~G)      (x ^ y), ~x, ~y  --(1)
+  ----------not_and            -----------------------------------------------------res
+    ~x, ~y                                ~x, ~y, (H1 ^ ... ^ Hn ^ ~G)  --(2)
   *)
   | (i, r, cl, p, a) :: tl when
       (match r with
@@ -2526,28 +2536,44 @@ let rec extend_cl (andn_id : id) (h : term) (g : term) (pi3 : certif) (pi3og : c
                          | Debug s -> raise (Debug ("| extend_cl : failed at id "^i^" |"^s)) in
         let taut_id = generate_id () in
         (taut_id, rul, claus, [], a) ::                    (* (1) *)
-        (i, ResoAST, ((And [h; Not g]) :: List.tl claus), taut_id :: p, []) ::  (* (2) *)
-        extend_cl andn_id h g tl pi3og
-  | hd :: tl -> hd :: (extend_cl andn_id h g tl pi3og)
+        (i, ResoAST, (residue :: List.tl claus), taut_id :: p, []) ::  (* (2) *)
+        extend_cl andn_id residue tl pi3og
+  | hd :: tl -> hd :: (extend_cl andn_id residue tl pi3og)
   | [] -> []
-let process_subproof_aux (andn_id : id) (new_h_id : id) (g_id : id) (pi2 : certif ) (pi3 : certif) (h : term) (g : term) : certif =
+let process_subproof_aux (andn_id : id) (new_h_ids : id list) (g_id : id) (pi2 : certif ) (pi3 : certif) (not_hs : term list) (g : term) : certif =
+  (* Get first step of the rest of the proof after the subproof *)
   let revpi3hd = try (List.hd (List.rev pi3)) with | Failure _ -> raise (Debug 
                ("| process_subproof_aux: subproof step is the last step of the proof, this is unexpected |")) in
   let (andi, andc) = match revpi3hd with
                      | (i, _, c, _, _) -> (i, c) in
-  let andpi1 = generate_id () in
-  let andpi2 = generate_id () in
+  (* We will have an andp step for each of the hypotheses in the subproof, plus one for the conclusion *)
+  let andpgi = generate_id () in
   let notg_id = generate_id () in
-  (* Replace the discharge step proving (~h v g) by a tautological proof of (h ^ ~g) v ~h v g *)
-  let t' = [And [h; Not g]; Not h; g] in
-  let pi3' = extend_cl andn_id h g pi3 ((andn_id, AndnAST, t', [], []) :: pi3) in
-  ((andn_id, AndnAST, t', [], []) ::
+  (* Replace the discharge step proving (~H1, ..., ~Hn, H) by a derivation of H1 ^ ... ^ Hn ^ ~G, ~H1, ..., ~Hn, G by andn*)
+  let hs = List.map (fun x -> match x with 
+                    | Not y -> y
+                    | _ -> raise (Debug ("| process_subproof_aux: expecting clause derived at "^andn_id^" to have n-1 negated literals in its n literals, out of its n literals |"))) not_hs in
+  let residue_args = (hs @ [Not g]) in                     
+  let residue = And residue_args in                                        
+  let andncl = (residue :: not_hs) @ [g] in
+  (* Derivations of H1, ..., Hn and the IDs of steps that derive each hypothesis *)
+  let h_ders, andpis = List.fold_left2 (fun (der, is) hi h ->  
+                                let andpi = generate_id () in
+                                let andpcl = [Not residue; h] in
+                                let argno = try findi (term_eq h) residue_args with
+                                  | Debug s -> raise (Debug ("| process_subproof_aux: can't find projection within andn at id "^andn_id^" |"^s)) in
+                                ((andpi, AndpAST, andpcl, [], [string_of_int argno]) :: 
+                                 (hi, ResoAST, [h], [andi; andpi], []) :: der, andpi :: is)) ([], []) new_h_ids hs in
+  let pi3' = extend_cl andn_id residue pi3 ((andn_id, AndnAST, andncl, [], []) :: pi3) in
+  let argno = try findi (term_eq (Not g)) residue_args with
+    | Debug s -> raise (Debug ("| process_subproof_aux: can't find projection of `~g` within andn at id "^andn_id^" |"^s)) in
+  ((andn_id, AndnAST, andncl, [], []) ::
     pi3') @
-  ((andpi1, AndpAST, [Not (And [h; Not g]); h], [], ["0"]) ::
-   (new_h_id, ResoAST, h :: andc, [andi; andpi1], []) :: pi2) @
-  [(andpi2, AndpAST, [Not (And [h; Not g]); Not g], [], ["1"]);
-   (notg_id, ResoAST, Not g :: andc, [andi; andpi2], []);
-   (generate_id (), ResoAST, andc, [g_id; notg_id], [])]
+  h_ders @ pi2 @
+  (* derivation of ~G *)
+  [(andpgi, AndpAST, [Not residue; Not g], [], [string_of_int argno]);
+   (notg_id, ResoAST, Not g :: andc, [andi; andpgi], []); (* derive ~G, plus any residual clause particular to this proof *)
+   (generate_id (), ResoAST, andc, [g_id; notg_id], [])] (* derive the empty clause, plus any residual clause particular to this proof *)
 
 let rec process_subproof (c : certif) : certif =
   match c with
@@ -2555,22 +2581,27 @@ let rec process_subproof (c : certif) : certif =
       if List.length cert < 2 then
          raise (Debug ("| process_subproof: expecting length of subproof to be at least 2 steps at id "^i^" |"))
       else
-         let pi3 = process_subproof pi3' in
-         (match List.hd (List.rev cert) with
-         | (andn_id, DischargeAST, [Not h; g; ], p', a') ->
-             (* Remove first and last element of sub-proof certificate *)
-             let certtl = List.tl cert in
-             let rev_certtl = List.rev certtl in
-             let g_id = get_id (List.hd (List.tl rev_certtl)) in
-             let subp = List.rev (List.tl rev_certtl) in
-             (* The assumption of the subproof will be derived in a new rule,
-                we need to replace all calls to it with calls to the replaced
-                rule *)
-             let new_h_id = generate_id () in
-             let h_id = get_id (List.hd cert) in
-             let pi2 = subst_ids subp [(h_id, new_h_id)] in
-             (try process_subproof_aux andn_id new_h_id g_id pi2 pi3 h g with
-             | Debug s -> raise (Debug ("| process_subproof: failed at id "^i^" |"^s)))
+         (* Function to separate assumptions from the rest of the proof *)
+         let rec getAsmpRest (asmps : certif) (rest : certif) : (certif * certif) =
+          (match rest with
+          | (_, AssumeAST, _, _, _) as asmp :: res -> getAsmpRest (asmps @ [asmp]) res
+          | l -> (asmps, l)) in
+         let pi3 = process_subproof pi3' in (* TODO: this line handles subproofs inside subproofs but seems to generate checker failures. Need to verify. *)
+         (match (List.rev cert) with
+         | (andn_id, DischargeAST, subcl, p', a') :: tl -> 
+           let asmps, subp' = getAsmpRest [] (List.rev tl) in
+           (* Account for subproofs inside the subproof *)
+           let subp = process_subproof subp' in
+           let g_id = get_id (List.hd tl) in (* Step right before discharge, deriving conclusion of subproof *)
+           let hIds_newHIds = List.map (fun x -> get_id x, generate_id ()) asmps in
+           (* List.fold_left (fun (hids, newhids) x -> (get_id x) :: hids, (generate_id ()) :: newhids) ([], []) asmps *)
+           let pi2 = subst_ids subp hIds_newHIds in
+           let not_hs = List.rev (List.tl (List.rev subcl)) in
+           let g = List.hd (List.rev subcl) in
+           let _, new_h_ids = List.split hIds_newHIds in
+           (try process_subproof_aux andn_id new_h_ids g_id pi2 pi3 not_hs g with
+           | Debug s -> raise (Debug ("| process_subproof: failed at id "^i^" |"^s)))
+         | (i', r, _, _, _) :: _ -> raise (Debug ("| process_subproof: expecting the last step of the certificate to be a discharge step at id "^i^", instead seeing "^(string_of_rule r)^" |"))
          | _ -> raise (Debug ("| process_subproof: expecting the last step of the certificate to be a discharge step at id "^i^" |")))
   | h :: tl -> h :: process_subproof tl
   | [] -> clear_cids (); []
@@ -4786,70 +4817,130 @@ let rec process_simplify (c : certif) : certif =
       match cl with
       (* (x = y) = (y = x) *)
       | [Eq ((Eq (x, y) as xy), (Eq (a, b) as yx)) as eq] when x = b && y = a ->
-      (*
-          ------------eqn2  ---------------eqp1
-          x = y, x, y       ~(y = x), y, ~x
-          ---------------------------------res
-                  x = y, ~(y = x), y --(1)
+        (* To differentiate between the eqauls and iff case, we need to process
+           the clause because we treat equality and iff as the same at the AST level *)
+          let c' = try process_cl cl with
+                   | Form.NotWellTyped frm -> raise (Debug ("| process_simplify: formula "^
+                      (Form.pform_to_string frm)^" is not well-typed at id "^i^" |"))
+                   | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "^i^" |"^s)) in
+          (match c' with
+           | l :: _ ->
+             (* Are x and y (non-bool) terms or (bool) formulas? *)
+             let is_frm = try (
+                match Form.pform l with
+                | Fapp (Fiff, args) -> (match Form.pform (Array.get args 0), Form.pform (Array.get args 1) with
+                                        | Fapp (Fiff, args0), Fapp (Fiff, args1) -> 
+                                            is_form (Array.get args0 0) && is_form (Array.get args0 1)
+                                        | _, _ -> false)
+                | _ -> false
+              ) with
+              | Form.NotWellTyped frm -> raise (Debug ("| process_simplify: formula "^
+                 (Form.pform_to_string frm)^" is not well-typed at id "^i^" |")) in
+              if is_frm then
+                (*
+                    ------------eqn2  ---------------eqp1
+                    x = y, x, y       ~(y = x), y, ~x
+                    ---------------------------------res
+                            x = y, ~(y = x), y --(1)
 
-          -------------eqn1  ---------------eqp2  ------------------(1)  --------------------------------eqn2
-          x = y, ~x, ~y      ~(y = x), ~y, x      x = y, ~(y = x), y     (x = y) = (y = x), x = y, y = x
-          ----------------------------------------------------------------------------------------------res
-                                              (x = y) = (y = x), x = y --(2)
+                    -------------eqn1  ---------------eqp2  ------------------(1)  --------------------------------eqn2
+                    x = y, ~x, ~y      ~(y = x), ~y, x      x = y, ~(y = x), y     (x = y) = (y = x), x = y, y = x
+                    ----------------------------------------------------------------------------------------------res
+                                                        (x = y) = (y = x), x = y --(2)
 
-          -------------------------------------eqn1  ------------------------(2)
-          (x = y) = (y = x), ~(x = y), ~(y = x)      (x = y) = (y = x), x = y
-          -------------------------------------------------------------------res
-                              (x = y) = (y = x), ~(y = x) --(3)
+                    -------------------------------------eqn1  ------------------------(2)
+                    (x = y) = (y = x), ~(x = y), ~(y = x)      (x = y) = (y = x), x = y
+                    -------------------------------------------------------------------res
+                                        (x = y) = (y = x), ~(y = x) --(3)
 
-          -------------eqn1  ---------------eqp2  ---------------------------(3)  ------------------------(2)
-          y = x, ~y, ~x      ~(x = y), ~x, y      (x = y) = (y = x), ~(y = x)     (x = y) = (y = x), x = y
-          ------------------------------------------------------------------------------------------------res
-                                              (x = y) = (y = x), ~x --(4)
+                    -------------eqn1  ---------------eqp2  ---------------------------(3)  ------------------------(2)
+                    y = x, ~y, ~x      ~(x = y), ~x, y      (x = y) = (y = x), ~(y = x)     (x = y) = (y = x), x = y
+                    ------------------------------------------------------------------------------------------------res
+                                                        (x = y) = (y = x), ~x --(4)
 
-          ---------------eqp1 ---------------------(4)  ------------------------(2)
-          ~(x = y), x, ~y     (x = y) = (y = x), ~x     (x = y) = (y = x), x = y
-          ----------------------------------------------------------------------res
-                                  (x = y) = (y = x), ~y --(5)
+                    ---------------eqp1 ---------------------(4)  ------------------------(2)
+                    ~(x = y), x, ~y     (x = y) = (y = x), ~x     (x = y) = (y = x), x = y
+                    ----------------------------------------------------------------------res
+                                            (x = y) = (y = x), ~y --(5)
 
-          ------------eqn2  ---------------------(4)  ---------------------------(3)  ---------------------(5)
-          y = x, y, x       (x = y) = (y = x), ~x     (x = y) = (y = x), ~(y = x)     (x = y) = (y = x), ~y
-          -------------------------------------------------------------------------------------------------res
-                                                  (x = y) = (y = x)   
-      *)
-      let eqn2i = generate_id () in
-      let eqp1i = generate_id () in
-      let resi1 = generate_id () in
-      let eqn1i = generate_id () in
-      let eqp2i = generate_id () in
-      let eqn2i2 = generate_id () in
-      let resi2 = generate_id () in
-      let eqn1i2 = generate_id () in
-      let resi3 = generate_id () in
-      let eqn1i3 = generate_id () in
-      let eqp2i2 = generate_id () in
-      let resi4 = generate_id () in
-      let eqp1i2 = generate_id () in
-      let resi5 = generate_id () in
-      let eqn2i3 = generate_id () in
-      (eqn2i, Equn2AST, [xy; x; y], [], []) ::
-      (eqp1i, Equp1AST, [Not yx; y; Not x], [], []) ::
-      (resi1, ResoAST, [xy; Not yx; y], [eqn2i; eqp1i], []) ::
-      (eqn1i, Equn1AST, [xy; Not x; Not y], [], []) ::
-      (eqp2i, Equp2AST, [Not yx; Not y; x], [], []) ::
-      (eqn2i2, Equn2AST, [eq; xy; yx], [], []) ::
-      (resi2, ResoAST, [eq; xy], [eqn1i; eqp2i; resi1; eqn2i2], []) ::
-      (eqn1i2, Equn1AST, [eq; Not xy; Not yx], [], []) ::
-      (resi3, ResoAST, [eq; Not yx], [eqn1i2; resi2], []) ::
-      (eqn1i3, Equn1AST, [yx; Not y; Not x], [], []) ::
-      (eqp2i2, Equp2AST, [Not xy; Not x; y], [], []) ::
-      (resi4, ResoAST, [eq; Not x], [eqn1i3; eqp2i2; resi3; resi2], []) ::
-      (eqp1i2, Equp1AST, [Not xy; x; Not y], [], []) ::
-      (resi5, ResoAST, [eq; Not y], [eqp1i2; resi4; resi2], []) ::
-      (eqn2i3, Equn2AST, [yx; y; x], [], []) ::
-      (i, ResoAST, [eq], [eqn2i3; resi4; resi3; resi5], []) ::
-      process_simplify tl
-      | [Eq ((x as lhs), (False as rhs))] ->
+                    ------------eqn2  ---------------------(4)  ---------------------------(3)  ---------------------(5)
+                    y = x, y, x       (x = y) = (y = x), ~x     (x = y) = (y = x), ~(y = x)     (x = y) = (y = x), ~y
+                    -------------------------------------------------------------------------------------------------res
+                                                            (x = y) = (y = x)   
+                *)
+                let eqn2i = generate_id () in
+                let eqp1i = generate_id () in
+                let resi1 = generate_id () in
+                let eqn1i = generate_id () in
+                let eqp2i = generate_id () in
+                let eqn2i2 = generate_id () in
+                let resi2 = generate_id () in
+                let eqn1i2 = generate_id () in
+                let resi3 = generate_id () in
+                let eqn1i3 = generate_id () in
+                let eqp2i2 = generate_id () in
+                let resi4 = generate_id () in
+                let eqp1i2 = generate_id () in
+                let resi5 = generate_id () in
+                let eqn2i3 = generate_id () in
+                (eqn2i, Equn2AST, [xy; x; y], [], []) ::
+                (eqp1i, Equp1AST, [Not yx; y; Not x], [], []) ::
+                (resi1, ResoAST, [xy; Not yx; y], [eqn2i; eqp1i], []) ::
+                (eqn1i, Equn1AST, [xy; Not x; Not y], [], []) ::
+                (eqp2i, Equp2AST, [Not yx; Not y; x], [], []) ::
+                (eqn2i2, Equn2AST, [eq; xy; yx], [], []) ::
+                (resi2, ResoAST, [eq; xy], [eqn1i; eqp2i; resi1; eqn2i2], []) ::
+                (eqn1i2, Equn1AST, [eq; Not xy; Not yx], [], []) ::
+                (resi3, ResoAST, [eq; Not yx], [eqn1i2; resi2], []) ::
+                (eqn1i3, Equn1AST, [yx; Not y; Not x], [], []) ::
+                (eqp2i2, Equp2AST, [Not xy; Not x; y], [], []) ::
+                (resi4, ResoAST, [eq; Not x], [eqn1i3; eqp2i2; resi3; resi2], []) ::
+                (eqp1i2, Equp1AST, [Not xy; x; Not y], [], []) ::
+                (resi5, ResoAST, [eq; Not y], [eqp1i2; resi4; resi2], []) ::
+                (eqn2i3, Equn2AST, [yx; y; x], [], []) ::
+                (i, ResoAST, [eq], [eqn2i3; resi4; resi3; resi5], []) ::
+                process_simplify tl
+              else
+                (* 
+                    -------------------------eqn1  -------------------------eqn2
+                    (x = y) = (y = x), x != y      (x = y) = (y = x), x = y
+                    -------------------------------------------------------res
+                                      (x = y) = (y = x)
+                *)
+                let eqn1i = generate_id () in
+                let eqn2i = generate_id () in
+                (eqn1i, Equn1AST, [eq; Not xy], [], []) ::
+                (eqn2i, Equn2AST, [eq; xy], [], []) ::
+                (i, ResoAST, [eq], [eqn1i; eqn2i], []) ::
+                process_simplify tl
+                (* 
+                    ---------------------------------eqn1  -------------eqtrans
+                    (x = y) = (y = x), x != y, y != x      x != y, y = x
+                    ----------------------------------------------------res
+                                  (x = y) = (y = x), x != y --(1)
+                    -------------------------------eqn2    -------------eqtrans
+                    (x = y) = (y = x), x = y, y = x        y != x, x = y
+                    -------------------------------------------------------res
+                                    (x = y) = (y = x), x = y --(2)
+                      (1)      (2)
+                    -----------------res
+                    (x = y) = (y = x)                      
+                let eqn1i = generate_id () in
+                let eqtri1 = generate_id () in
+                let resi1 = generate_id () in
+                let eqn2i = generate_id () in
+                let eqtri2 = generate_id () in
+                let resi2 = generate_id () in
+                (eqn1i, Equn1AST, [eq; Not xy; Not yx], [], []) ::
+                (eqtri1, EqtrAST, [Not xy; yx], [], []) ::
+                (resi1, ResoAST, [eq; Not xy], [eqn1i; eqtri1], []) ::
+                (eqn2i, Equn2AST, [eq; xy; yx], [], []) ::
+                (eqtri2, EqtrAST, [Not yx; xy], [], []) ::
+                (resi2, ResoAST, [eq; xy], [eqn2i; eqtri2], []) ::
+                (i, ResoAST, [eq], [resi1; resi2], []) ::
+                process_simplify tl *)
+           | _ -> raise (Debug ("| process_simplify: expecting clause to have one literal at id "^i^" |")))
+      (*| [Eq ((x as lhs), (False as rhs))] ->
       (*
           LTR:
           --------asmp  ------la_generic
@@ -4896,7 +4987,9 @@ let rec process_simplify (c : certif) : certif =
        let b2a = [(generate_id (), LageAST, [lhs], [], [])] in
        (simplify_to_subproof i (generate_id ()) (generate_id ()) lhs rhs a2b b2a) @ process_simplify tl
       (* Assuming that we catch all rewrites except generic LIA rewrites, for which we use this catch-all LIA rule *)
-      | _ -> (i, LiaRewriteAST, cl, p, a) :: process_simplify tl)
+      | _ -> (i, LiaRewriteAST, cl, p, a) :: process_simplify tl)*)
+      | _ -> (i, HoleAST, cl, p, a) :: process_simplify tl)
+  | (i, RarerewriteAST, cl, p, a) :: tl -> (i, HoleAST, cl, p, a) :: process_simplify tl
   | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_simplify subcl in
     (i, SubproofAST subcl', cl, p, a) :: process_simplify tl
   | h :: tl -> h :: process_simplify tl

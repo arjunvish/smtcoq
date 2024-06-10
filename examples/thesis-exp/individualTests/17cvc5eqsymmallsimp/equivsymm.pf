@@ -1,3 +1,0 @@
-(assume a0 (not (= (= x y) (= y x))))
-(step t1 (cl (= (= x y) (= y x))) :rule all_simplify)
-(step t3 (cl) :rule resolution :premises (a0 t1))

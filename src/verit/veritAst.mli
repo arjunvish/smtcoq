@@ -117,6 +117,7 @@ type rule =
   | QcnfAST
   | AnchorAST
   | AllsimpAST
+  | RarerewriteAST
   | SameAST
   | ContAST
   | HoleAST

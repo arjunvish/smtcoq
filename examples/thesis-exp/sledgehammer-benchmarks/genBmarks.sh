@@ -44,7 +44,7 @@ for relpathsmt in $(find ./ -name '*.smt_in'); do
   #echo "Absolute Path of verit Coq File: $abspathveritcoq"
   
   #Call solver to create proof
-  timeout 30 cvc5-pn-old $relpathsmt --dump-proof --proof-format=alethe --dag-thresh=0 | tail -n +2 | sed ':a; /^\n*$/{$d; N;}; /\n$/ba' > $abspathcvcpf #first line of output has `unsat` and there are trailing empty lines in the end which need to be removed for the Coq checker
+  timeout 30 cvc5-pn $relpathsmt --dump-proof --proof-format=alethe --dag-thresh=0 | tail -n +2 | sed ':a; /^\n*$/{$d; N;}; /\n$/ba' > $abspathcvcpf #first line of output has `unsat` and there are trailing empty lines in the end which need to be removed for the Coq checker
 
   #Add a section and call to the checker to the sh files
   echo "Section test$ctr." >> $shcvc

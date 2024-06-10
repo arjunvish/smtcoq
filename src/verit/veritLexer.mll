@@ -98,6 +98,7 @@
         "reordering", REORDR;
         "factoring", FACTR;
         "all_simplify", ALLSIMP;
+        "rare_rewrite", RARE;
 
       (* Simplifications on Boolean operators rules *)
         "connective_def", CONNDEF;
@@ -223,6 +224,7 @@ rule token = parse
   | ")"                         { RPAREN }
   | ":"                         { COLON }
   | "!"                         { BANG }
+  | "\""                        { DQUOTE }
   | ":rule"                     { COLRULE }
   | ":step"                     { COLSTEP }
   | ":args"                     { COLARGS }
