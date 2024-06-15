@@ -5036,39 +5036,45 @@ let find_res (c : certif) (i : id) : id list =
   in find_res_aux c i []
 
 (* From cl, find terms (x, y) such that they are negations of each other *)
-let rec find_triv_lits (cl : clause) : (term * term) =
-  match cl with
-  | h :: tl -> (match List.find_opt (fun x -> is_neg h x) tl with
-               | Some y -> (h, y)
-               | None -> find_triv_lits tl)
-  | [] -> raise (Debug ("| find_triv_lits: clause doesn't have trivial literals (x and ~x for some x) |"))
+let find_triv_lits (cl : clause) : (term * term * clause) =
+  let rec find_triv_lits_aux (cl : clause) : (term * term) =
+    match cl with
+    | h :: tl -> (match List.find_opt (fun x -> is_neg h x) tl with
+                  | Some y -> (h, y)
+                  | None -> find_triv_lits_aux tl)
+    | [] -> raise (Debug ("| find_triv_lits_aux: clause doesn't have trivial literals (x and ~x for some x) |"))
+  in
+  let (l1, l2) = find_triv_lits_aux cl in
+  (l1, l2, remove l1 (remove l2 cl))
 
 let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
     | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> is_neg y x) c1)) c1) ->
-        let x, notx = find_triv_lits c1 in
+        let x, notx, _ = find_triv_lits c1 in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
-        (* For each t3 compute replacement [t3a; new t3] *)
+        (* For each t3 compute replacement [t3a; new t3]; if t3 generates yet another trivial clause, 
+           premises and residual clause must be carried over *)
         let replace_res (t3: id) : certif =
           match get_step t3 tl with
-          | Some (_, _, c3, p3, _) ->
+          | Some (t3, r3, c3, p3, a3) ->
               (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
-              let t2 = match (List.find_opt (fun p -> if p = t1 then false else match get_cl p cog with
+              (match (List.find_opt (fun p -> if p = t1 then false else match get_cl p cog with
                                              | Some c2 -> (List.exists ((=) x) c2) || (List.exists ((=) notx) c2)
                                              | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
                                                               ^" can't fetch clause at premise "^p^" 1|"))) p3) with
-                       | Some x -> x
-                       | None -> raise (Debug ("| process_trivial_aux.replace_res: from premises of id "^t3
-                                              ^" can't find one that resolves with clause at "^t1^" |")) in
-              let c2 = match (get_cl t2 cog) with
-                | Some c2' -> c2'
-                | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3^" can't fetch clause at premise "^t2^" 2|")) in
-              let t3a = generate_id () in
-              let c3a = (remove notx (remove x c1)) @ c2 in (* C1, C2, x *)
-              let p3new = remove t2 (replace t1 t3a p3) in
-              [(t3a, WeakenAST, c3a, [t2], []);
-               (t3, ResoAST, c3, p3new, [])]
+              | Some pi -> 
+                 let t2 = pi in
+                 let c2 = match (get_cl t2 cog) with
+                          | Some c2' -> c2'
+                          | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
+                                          ^" can't fetch clause at premise "^t2^" 2|")) in
+                 let t3a = generate_id () in
+                 let c3a = (remove notx (remove x c1)) @ c2 in (* C1, C2, x *)
+                 let p3new = remove t2 (replace t1 t3a p3) in
+                 [(t3a, WeakenAST, c3a, [t2], []);
+                  (t3, ResoAST, c3, p3new, [])]
+              | None -> [(t3, r3, c3, p3, a3)] (* Trivial clause is being resolved to generate another trivial clause *))
           | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1^" |")) in
         (* Go through tl and replace all derivations of any id from ids, with replace_res(id) *)
         let rec process_tl (tl : certif) : certif =
@@ -5097,6 +5103,8 @@ let process_trivial (c : certif) : certif =
 (* Must apply transformation recursively. Here it works, but if t3, t4, t5 were combined, we would have the issue of having to locally compute a clause.
 Remove t1; t3 uses t1 so t3 must be reconstructed; but t3 is itself a trivial clause; so remove t3, and other premises of t3 (t2);
 t4 uses t3 so reconstruct t4a as a weakening of a0; generate t4b by resolving t4a with the rest of the chain (empty);
+
+OG:
 a0, assume, x
 a1, assume, ~x
 a2, assume x = x
@@ -5105,18 +5113,25 @@ t2, res[t1, a2], ~x, x
 t3, res[t2, a0], x
 t4, res[t3, a1], []
 
-First:
+Alternatively:
 a0, assume, x
 a1, assume, ~x
-a2, assume x = x
+a2, assume, x = x
+t3, weaken[a0], x != x, x
+t4, res[t3, a2], x
+t5, res[t4, a1], []
 
-
+Solution:
 a0, assume, x
 a1, assume, ~x
-t2, refl, x = x
-t4a, weaken[a0], x
-t4b, reso[t4a], x
-t5, res[t4b,a1], []
+a2, assume, x = x
+t3a, weaken[a0], x
+t3b, reso[t4a], x
+t4, res[t4b,a1], []
+
+- When you see t1, find all resolutions that use t1 as a premise; see whether these resolutions use x or ~x as pivot
+- If the clause t3 uses neither x nor ~x as a premise, t3 is the new t1
+- Find all t3' that use t3 as a premise and apply transformation
 *)
 
 
@@ -5155,9 +5170,9 @@ let preprocess_certif (c: certif) : certif =
   let c9 = process_proj c8 in
   (* Printf.printf ("Certif after process_proj: \n%s\n") (string_of_certif c9); *)
   let c10 = process_subproof c9 in
-  (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
+  Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10);
   let c11 = process_trivial c10 in
-  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
+  Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11);
   c11) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 
