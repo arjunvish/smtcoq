@@ -672,6 +672,7 @@ let rec process_notnot (c : certif) : certif =
      (step z ... :premises (x, ...)) 
    where we store symm as Same
 *)
+(* Replace x by y in l *)
 let rec replace x y l =
    match l with
    | h :: t -> if h = x then y :: replace x y t else h :: (replace x y t)
@@ -5017,15 +5018,12 @@ let rec process_hole (c : certif) : certif =
 
 
 (* Remove trivial clauses that prove `C, x, ~x` for any `C` and `x` since these clauses cause the checker to fail *)
-(* t1: C1, x, ~x                                        
-       ...                                                  ...                                  
-   t2: C2, x                                            t2: C2, x                               
-       ...                                                  ...                                  
-   t3: C3, x        by Resolution [L t1 M t2 N]         t3a: C1', C2, x       by Weaken [t2]
- where t3 can be elaborated as:                         t3b: C3, x            by Resolution [t3a N]
-   t3a: C1', x, ~x  by Resolution [L t1 M]
-   t3b: C3, x       by Resolution [t3a t2 N]
-      where C3 = C1', C2
+(* Transformation (similar for `t2: C2, ~x`):
+   t1: C1, x, ~x                                            ...
+       ...                                              t2: C2, x                                      
+   t2: C2, x                                     -->        ...
+       ...                                              t3a: C1, C2, x       by Weaken [t2]
+   t3: C3, x        by Resolution [L t1 M t2 N]         t3: C3, x            by Resolution [L t3a M t2 N]
 *)
 (* Find the IDs of all resolution steps in c that use i as a premise *)
 let find_res (c : certif) (i : id) : id list =
@@ -5036,15 +5034,6 @@ let find_res (c : certif) (i : id) : id list =
     | _ :: tl -> find_res_aux tl i ids
     | [] -> ids
   in find_res_aux c i []
-
-(* Separate p into [P_before] Pt [P_after] where Pt is the first element in x in p such that P x holds *)
-let split_prems (p : id list) (pr : 'a -> bool) : (id list * id * id list) = 
-  let rec split_prems_aux (p : id list) (pr : 'a -> bool) (before : id list) : (id list * id * id list) = 
-    (match p with
-    | ph :: ptl -> if pr ph then (before, ph, ptl)
-                   else split_prems_aux ptl pr (before @ [ph])
-    | [] -> raise (Debug ("| split_prems: couldn't find a premise that satisfies predicate P |"))) 
-  in split_prems_aux p pr []
 
 (* From cl, find terms (x, y) such that they are negations of each other *)
 let rec find_triv_lits (cl : clause) : (term * term) =
@@ -5057,41 +5046,29 @@ let rec find_triv_lits (cl : clause) : (term * term) =
 let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
-    | (t1, r, c1, p, a) :: tl when (List.exists (fun x -> (List.exists (fun y -> is_neg y x) c1)) c1) ->
+    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> is_neg y x) c1)) c1) ->
+        let x, notx = find_triv_lits c1 in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
-        (* Finds the steps I need to replace t3 with (t3a and t3b) *)
+        (* For each t3 compute replacement [t3a; new t3] *)
         let replace_res (t3: id) : certif =
           match get_step t3 tl with
           | Some (_, _, c3, p3, _) ->
-              (* Find t2 in p3, the first id whose clause c2 has some x such that x and its negation are in c1 and c2;
-                 split p3 based on t2 *)
-              let (before, t2, after) = split_prems p3
-                (fun x ->
-                  if x = t1 then false (* t2 can't be t1 *)
-                  else let c2 = 
-                    match (get_cl x cog) with
-                    | Some c2' -> c2'
-                    | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3^" can't fetch clause at premise "^x^" |")) in
-                  List.exists (fun x -> (List.exists (fun y -> is_neg y x) c1)) c2) in            
+              (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
+              let t2 = match (List.find_opt (fun p -> if p = t1 then false else match get_cl p cog with
+                                             | Some c2 -> (List.exists ((=) x) c2) || (List.exists ((=) notx) c2)
+                                             | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
+                                                              ^" can't fetch clause at premise "^p^" 1|"))) p3) with
+                       | Some x -> x
+                       | None -> raise (Debug ("| process_trivial_aux.replace_res: from premises of id "^t3
+                                              ^" can't find one that resolves with clause at "^t1^" |")) in
               let c2 = match (get_cl t2 cog) with
                 | Some c2' -> c2'
-                | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3^" can't fetch clause at premise "^t2^" |")) in
-              (* The chain resolution of `before` gives, `c1', x, ~x` *)
-              (* TODO: For now, we just assume that `before` has size 1*)
-              let c1'xnotx = if List.length before = 1 then 
-                              match (get_cl (List.hd before) cog) with
-                              | Some x -> x
-                              | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "
-                                                      ^(List.hd before)^" while building the step for weakening at id "
-                                                      ^t1^" |"))
-                             else raise (Debug ("| process_trivial_aux.replace_res: `before` has size "
-                                                ^(string_of_int (List.length before))
-                                                ^" but we expect it to have size 1 |")) in
-              let x, notx = find_triv_lits c1'xnotx in
-              let c1' = remove notx (remove x c1'xnotx) in
+                | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3^" can't fetch clause at premise "^t2^" 2|")) in
               let t3a = generate_id () in
-              [(t3a, WeakenAST, c1' @ c2, [t2], []);
-              (t3, ResoAST, c3, t3a :: after, [])]
+              let c3a = (remove notx (remove x c1)) @ c2 in (* C1, C2, x *)
+              let p3new = remove t2 (replace t1 t3a p3) in
+              [(t3a, WeakenAST, c3a, [t2], []);
+               (t3, ResoAST, c3, p3new, [])]
           | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1^" |")) in
         (* Go through tl and replace all derivations of any id from ids, with replace_res(id) *)
         let rec process_tl (tl : certif) : certif =
@@ -5116,62 +5093,23 @@ let process_trivial (c : certif) : certif =
       t₃a : [C' ∨ x] by weakening t₂ with C'
       t₃b : [some clause] by resolution of chain t₃a L₃
 4. Remove step t₁, which should not be used anymore.*)
-(* Simple case. Works.
-a1, assume, x
-a2, assume, ~x
-a3, assume, x = x
-t4, eqp2, x != x, ~x, x
-t5, reso[t4,a1], x != x, x
-t6, res[t5,a2], x != x
-t7, res[t6,a3], []
-
-a1, assume, x
-a2, assume, ~x
-a3, assume, x = x
-t5, weaken[a1], x != x, x
-t6, res[t5, a2], x != x
-t7, res[t6,a3], []
-*)
-
-(* More complicated case. Works
-a1, assume, x
-a2, assume, ~x
-a3, assume, x = x
-t4, eqp2, x != x, ~x, x
-t5, reso[t4,a1,a2,a3], []
-
-a1, assume, x
-a2, assume, ~x
-a3, assume, x = x
-t5a, weaken[a1], x != x, x
-t5b, reso[t5a,a2,a3], []
-*)
-
-(* More general case. Here, I need to compute reso[a3, t4] locally to be [~x, x] to determine what I weaken a1 by (nothing, in this case)
-   This computation can be demanding to implement.
-a1, assume, x
-a2, assume, ~x
-a3, assume, x = x
-t4, eqp2, x != x, ~x, x
-t5, reso[a3,t4,a1,a2], []
-
-a1, assume, x
-a2, assume, ~x
-a3, assume, x = x
-t5a, weaken[a1], x
-t5, reso[t5a, a2], []
-*)
 
 (* Must apply transformation recursively. Here it works, but if t3, t4, t5 were combined, we would have the issue of having to locally compute a clause.
 Remove t1; t3 uses t1 so t3 must be reconstructed; but t3 is itself a trivial clause; so remove t3, and other premises of t3 (t2);
 t4 uses t3 so reconstruct t4a as a weakening of a0; generate t4b by resolving t4a with the rest of the chain (empty);
 a0, assume, x
 a1, assume, ~x
+a2, assume x = x
 t1, eqp2, x != x, ~x, x
-t2, refl, x = x
-t3, res[t1, t2], ~x, x
-t4, res[t3, a0], x
-t5, res[t4, a1], []
+t2, res[t1, a2], ~x, x
+t3, res[t2, a0], x
+t4, res[t3, a1], []
+
+First:
+a0, assume, x
+a1, assume, ~x
+a2, assume x = x
+
 
 a0, assume, x
 a1, assume, ~x
@@ -5199,27 +5137,27 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try 
   (let c1 = store_shared_terms c in
-  Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1);
+  (* Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1); *)
   let c2 = process_fins c1 in
-  Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2);
+  (* Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2); *)
   let c3 = process_hole c2 in
-  Printf.printf ("Certif after process_hole: \n%s\n") (string_of_certif c3);
+  (* Printf.printf ("Certif after process_hole: \n%s\n") (string_of_certif c3); *)
   let c4 = process_notnot c3 in
-  Printf.printf ("Certif after process_notnot: \n%s\n") (string_of_certif c4);
+  (* Printf.printf ("Certif after process_notnot: \n%s\n") (string_of_certif c4); *)
   let c5 = process_same c4 in
-  Printf.printf ("Certif after process_same: \n%s\n") (string_of_certif c5);
+  (* Printf.printf ("Certif after process_same: \n%s\n") (string_of_certif c5); *)
   let c6 = process_cong c5 in
-  Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6);
+  (* Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6); *)
   let c7 = process_trans c6 in
-  Printf.printf ("Certif after process_trans: \n%s\n") (string_of_certif c7);
+  (* Printf.printf ("Certif after process_trans: \n%s\n") (string_of_certif c7); *)
   let c8 = process_simplify c7 in
-  Printf.printf ("Certif after process_simplify: \n%s\n") (string_of_certif c8);
+  (* Printf.printf ("Certif after process_simplify: \n%s\n") (string_of_certif c8); *)
   let c9 = process_proj c8 in
-  Printf.printf ("Certif after process_proj: \n%s\n") (string_of_certif c9);
+  (* Printf.printf ("Certif after process_proj: \n%s\n") (string_of_certif c9); *)
   let c10 = process_subproof c9 in
-  Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10);
+  (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
-  Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11);
+  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
   c11) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 
