@@ -5055,11 +5055,11 @@ let process_trivial (c : certif) : certif =
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
         (* For each t3 compute replacement [t3a; new t3]; if t3 generates yet another trivial clause, 
            premises and residual clause must be carried over *)
-        let replace_res (t3: id) : certif =
+        let replace_res (t1i : id) (t3: id) : certif =
           match get_step t3 tl with
           | Some (t3, r3, c3, p3, a3) ->
               (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
-              (match (List.find_opt (fun p -> if p = t1 then false else match get_cl p cog with
+              (match (List.find_opt (fun p -> if p = t1i then false else match get_cl p cog with
                                              | Some c2 -> (List.exists ((=) x) c2) || (List.exists ((=) notx) c2)
                                              | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
                                                               ^" can't fetch clause at premise "^p^" 1|"))) p3) with
@@ -5071,19 +5071,20 @@ let process_trivial (c : certif) : certif =
                                           ^" can't fetch clause at premise "^t2^" 2|")) in
                  let t3a = generate_id () in
                  let c3a = (remove notx (remove x c1)) @ c2 in (* C1, C2, x *)
-                 let p3new = remove t2 (replace t1 t3a p3) in
+                 let p3new = remove t2 (replace t1i t3a p3) in
                  [(t3a, WeakenAST, c3a, [t2], []);
                   (t3, ResoAST, c3, p3new, [])]
               | None -> [(t3, r3, c3, p3, a3)] (* Trivial clause is being resolved to generate another trivial clause *))
-          | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1^" |")) in
-        (* Go through tl and replace all derivations of any id from ids, with replace_res(id) *)
-        let rec process_tl (tl : certif) : certif =
+          | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1i^" |")) in
+        (* Go through tl and replace all derivations of any id from ids, with replace_res(id),
+           where ids are IDs of all resolution steps that use i as a premise *)
+        let rec process_tl (tl : certif) (t1i : id) (ids : id list): certif =
           (match tl with
-          | (i, r, c, p, a) :: t -> if (List.exists ((=) i) ids) then (replace_res i) @ process_tl t 
-                                    else (i, r, c, p, a) :: process_tl t
+          | (i, r, c, p, a) :: t -> if (List.exists ((=) i) ids) then (replace_res t1i i) @ process_tl t t1i ids
+                                    else (i, r, c, p, a) :: process_tl t t1i ids
           | [] -> []) in
         (* TODO: recursive call *)
-        process_trivial_aux (process_tl tl) cog
+        process_trivial_aux (process_tl tl t1 ids) cog
     | (i, SubproofAST subcl, cl, p, a) :: tl -> (i, SubproofAST (process_trivial_aux subcl cog), cl, p, a) :: process_trivial_aux tl cog
     | st :: tl -> st :: process_trivial_aux tl cog
     | [] -> []
