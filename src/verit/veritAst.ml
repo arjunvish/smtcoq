@@ -5055,7 +5055,7 @@ let process_trivial (c : certif) : certif =
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
         (* For each t3 compute replacement [t3a; new t3]; if t3 generates yet another trivial clause, 
            premises and residual clause must be carried over *)
-        let replace_res (t1i : id) (t3: id) : certif =
+        let replace_res (t1i : id) (t3: id) (res : clause) (pids : id list) : certif =
           match get_step t3 tl with
           | Some (t3, r3, c3, p3, a3) ->
               (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
@@ -5071,20 +5071,34 @@ let process_trivial (c : certif) : certif =
                                           ^" can't fetch clause at premise "^t2^" 2|")) in
                  let t3a = generate_id () in
                  let c3a = (remove notx (remove x c1)) @ c2 in (* C1, C2, x *)
-                 let p3new = remove t2 (replace t1i t3a p3) in
-                 [(t3a, WeakenAST, c3a, [t2], []);
+                 let p3new = (remove t2 (replace t1i t3a p3)) @ pids in
+                 [(t3a, WeakenAST, res @ c3a, [t2], []);
                   (t3, ResoAST, c3, p3new, [])]
               | None -> [(t3, r3, c3, p3, a3)] (* Trivial clause is being resolved to generate another trivial clause *))
           | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1i^" |")) in
         (* Go through tl and replace all derivations of any id from ids, with replace_res(id),
            where ids are IDs of all resolution steps that use i as a premise *)
-        let rec process_tl (tl : certif) (t1i : id) (ids : id list): certif =
+        let rec process_tl (tl : certif) (t1i : id) (ids : id list) (res : clause) (pids : id list) : certif =
           (match tl with
-          | (i, r, c, p, a) :: t -> if (List.exists ((=) i) ids) then (replace_res t1i i) @ process_tl t t1i ids
-                                    else (i, r, c, p, a) :: process_tl t t1i ids
+          | (i, r, c, p, a) :: t -> 
+              if (List.exists ((=) i) ids) then 
+                let replaced = replace_res t1i i res pids in
+                if List.length replaced = 1 then
+                  match replaced with
+                  | [(t3, r3, c3, p3, a3)] -> 
+                    let ids' = find_res t t3 in
+                    let _, _, new_res = find_triv_lits c3 in (* t3 is trivial, its non-trivial part is carried forward *)
+                    let new_pids = remove t1i p3 in
+                    let t' = process_tl t t3 ids' new_res new_pids in
+                    replaced @ process_tl t' t1i ids res pids
+                  | _ -> raise (Debug ("| process_tl: replace_res returns a singleton list but matching a non-singleton case at id "^i^" |"))
+                else 
+                  replaced @ process_tl t t1i ids res pids
+              else 
+                (i, r, c, p, a) :: process_tl t t1i ids res pids
           | [] -> []) in
         (* TODO: recursive call *)
-        process_trivial_aux (process_tl tl t1 ids) cog
+        process_trivial_aux (process_tl tl t1 ids [] []) cog
     | (i, SubproofAST subcl, cl, p, a) :: tl -> (i, SubproofAST (process_trivial_aux subcl cog), cl, p, a) :: process_trivial_aux tl cog
     | st :: tl -> st :: process_trivial_aux tl cog
     | [] -> []
@@ -5122,17 +5136,13 @@ t3, weaken[a0], x != x, x
 t4, res[t3, a2], x
 t5, res[t4, a1], []
 
-Solution:
+Solution but a2 is unused:
 a0, assume, x
 a1, assume, ~x
 a2, assume, x = x
 t3a, weaken[a0], x
 t3b, reso[t4a], x
 t4, res[t4b,a1], []
-
-- When you see t1, find all resolutions that use t1 as a premise; see whether these resolutions use x or ~x as pivot
-- If the clause t3 uses neither x nor ~x as a premise, t3 is the new t1
-- Find all t3' that use t3 as a premise and apply transformation
 *)
 
 
