@@ -1,0 +1,7 @@
+(assume a1 x)
+(assume a2 (not x))
+(assume a3 (= x x))
+(step t4 (cl (not (= x x)) (not x) x) :rule equiv_pos2)
+(step t5 (cl (not (= x x)) x) :rule resolution :premises (t4 a1))
+(step t6 (cl (not (= x x))) :rule resolution :premises (t5 a2))
+(step t7 (cl) :rule resolution :premises (t6 a3))

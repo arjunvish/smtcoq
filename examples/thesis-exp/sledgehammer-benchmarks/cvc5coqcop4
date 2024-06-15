@@ -1,8 +1,8 @@
 Parsing `rare_rewrite` evaluate rules into holes:
 89 Successes
 47 Failures
-2 Func symb -1 not found (From LIA benchmark)
-1 Parse Errors (From LIA benchmark)
+2 Func symb -1 not found (From LIA benchmark) from x2020_07_23_15_35_20_861_5083584 and x2020_07_23_16_01_56_200_5114158
+1 Parse Errors (From LIA benchmark) from x2020_07_24_00_32_10_259_5099720
 1 Assertion failed
 1 assumption already exists
 

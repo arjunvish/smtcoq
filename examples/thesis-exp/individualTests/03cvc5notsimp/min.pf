@@ -1,3 +1,0 @@
-(assume a0 (not (not x)))
-(assume a1 (not x))
-(step t3 (cl) :rule resolution :premises (a0 a1))

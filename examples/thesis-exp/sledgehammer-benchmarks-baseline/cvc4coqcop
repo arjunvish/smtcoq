@@ -1,3 +1,8 @@
+131 Successful checks with 120 holes and 33 assumed hypotheses (82 files with holes)
+4 Exception Not_found
+3 Symbol error is not declared (3 from LIA)
+1 expected formula, got (term Bool)
+2 Stdlib.Parsing.Parse_error
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/PNT_z32/x2020_08_04_17_45_26_739_9376730cvc4.v
 Type-checking LFSC proof... Done [0.000 s]
