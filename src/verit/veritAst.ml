@@ -5051,7 +5051,8 @@ let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
     | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> is_neg y x) c1)) c1) ->
-        let x, notx, _ = find_triv_lits c1 in
+        let x, notx, _ = try find_triv_lits c1 with
+                         | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
         (* For each t3 compute replacement [t3a; new t3]; if t3 generates yet another trivial clause, 
            premises and residual clause must be carried over *)
@@ -5062,13 +5063,13 @@ let process_trivial (c : certif) : certif =
               (match (List.find_opt (fun p -> if p = t1i then false else match get_cl p cog with
                                              | Some c2 -> (List.exists ((=) x) c2) || (List.exists ((=) notx) c2)
                                              | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
-                                                              ^" can't fetch clause at premise "^p^" 1|"))) p3) with
+                                                              ^" can't fetch clause at premise "^p^" |"))) p3) with
               | Some pi -> 
                  let t2 = pi in
                  let c2 = match (get_cl t2 cog) with
                           | Some c2' -> c2'
                           | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
-                                          ^" can't fetch clause at premise "^t2^" 2|")) in
+                                          ^" can't fetch clause at premise "^t2^" |")) in
                  let t3a = generate_id () in
                  let c3a = (remove notx (remove x c1)) @ c2 in (* C1, C2, x *)
                  let p3new = (remove t2 (replace t1i t3a p3)) @ pids in
@@ -5087,7 +5088,8 @@ let process_trivial (c : certif) : certif =
                   match replaced with
                   | [(t3, r3, c3, p3, a3)] -> 
                     let ids' = find_res t t3 in
-                    let _, _, new_res = find_triv_lits c3 in (* t3 is trivial, its non-trivial part is carried forward *)
+                    let _, _, new_res = try find_triv_lits c3 with (* t3 is trivial, its non-trivial part is carried forward *)
+                                        | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
                     let new_pids = remove t1i p3 in
                     let t' = process_tl t t3 ids' new_res new_pids in
                     replaced @ process_tl t' t1i ids res pids
@@ -5181,9 +5183,9 @@ let preprocess_certif (c: certif) : certif =
   let c9 = process_proj c8 in
   (* Printf.printf ("Certif after process_proj: \n%s\n") (string_of_certif c9); *)
   let c10 = process_subproof c9 in
-  Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10);
+  (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
-  Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11);
+  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
   c11) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 
