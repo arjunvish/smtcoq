@@ -250,7 +250,7 @@ let rec get_expr = function
 let get_expr_cl (c : clause) = List.map get_expr c
 
 
-(* Equality/Negation of terms modulo double negation elimination *)
+(* Equality/Negation of terms modulo double negation elimination and symmetry of equality *)
 
 (* Returns number of negations at head of term, and term without negations *)
 let rec negs_term (t : term) (i : int) : (int * term) =
@@ -258,17 +258,23 @@ let rec negs_term (t : term) (i : int) : (int * term) =
   | Not t' -> negs_term t' (i+1)
   | t' -> (i, t'))
 
+(* Equality modulo symmetry of equality *)
+let eq_mod_symm (t1 : term) (t2 : term) : bool =
+  match t1, t2 with
+  | Eq (x, y), Eq (a, b) -> (x = a && y = b) || (x = b && y = a)
+  | _, _ -> t1 = t2
+
 (* Negation modulo double negation elimination *)
-let neg_mod_dneg (t1 : term) (t2 : term) : bool =
+let neg_mod_dneg_symm (t1 : term) (t2 : term) : bool =
   let t1_negs, t1_bare = negs_term t1 0 in
   let t2_negs, t2_bare = negs_term t2 0 in
-  (t1_bare = t2_bare) && ((t1_negs mod 2) <> (t2_negs mod 2))
+  (eq_mod_symm t1_bare t2_bare) && ((t1_negs mod 2) <> (t2_negs mod 2))
 
 (* Equality modulo double negation elimination *)
-let eq_mod_dneg (t1 : term) (t2 : term) : bool =
+let eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
   let t1_negs, t1_bare = negs_term t1 0 in
   let t2_negs, t2_bare = negs_term t2 0 in
-  (t1_bare = t2_bare) && ((t1_negs mod 2) = (t2_negs mod 2))
+  (eq_mod_symm t1_bare t2_bare) && ((t1_negs mod 2) = (t2_negs mod 2))
 
 
 (* Term equality modulo alpha renaming of foralls *)
@@ -2292,7 +2298,7 @@ let process_trans (c : certif) : certif =
                  let eqp1is, eqp1s = List.fold_left
                    (fun (is, r) (pid, (px, py), reord) ->
                      (* Skip the premise if it is an equality (modulo double negation) *)
-                     if eq_mod_dneg px py then (is, r)
+                     if eq_mod_dneg_symm px py then (is, r)
                      else
                       let i' = generate_id () in
                       let eqpi = generate_id () in
@@ -2313,7 +2319,7 @@ let process_trans (c : certif) : certif =
                  let eqp2is, eqp2s = List.fold_left
                    (fun (is, r) (pid, (px, py), reord) ->
                      (* Skip the premise if it is an equality (modulo double negation) *)
-                     if eq_mod_dneg px py then (is, r)
+                     if eq_mod_dneg_symm px py then (is, r)
                      else
                       let i' = generate_id () in
                       let eqpi = generate_id () in
@@ -2745,7 +2751,7 @@ let rec process_simplify (c : certif) : certif =
          (simplify_to_subproof i a2bi b2ai lhs rhs a2b b2a) @ process_simplify tl
        (* x_1 ^ ... x_i ... x_j ... ^ x_n <-> F, if x_i = ~x_j *)
        | [Eq ((And xs as lhs), (False as rhs))] when 
-           (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg y x) xs)) xs) ->
+           (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) xs)) xs) ->
          (* x ^ ~x <-> F
             LTR:
                                           ------ass -------------andp
@@ -3000,7 +3006,7 @@ let rec process_simplify (c : certif) : certif =
          (simplify_to_subproof i (generate_id ()) b2ai lhs rhs a2b b2a) @ process_simplify tl
       (* x_1 v ... x_i ... x_j ... x_n <-> T, if x_i = ~x_j *)
       | [Eq ((Or xs as lhs), (True as rhs))] when 
-         (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg y x) xs)) xs) ->
+         (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) xs)) xs) ->
          (* x v ~x <-> T
             LTR:
             --true
@@ -5052,7 +5058,7 @@ let find_res (c : certif) (i : id) : id list =
 let find_triv_lits (cl : clause) : (term * term * clause) =
   let rec find_triv_lits_aux (cl : clause) : (term * term) =
     match cl with
-    | h :: tl -> (match List.find_opt (fun x -> neg_mod_dneg h x) tl with
+    | h :: tl -> (match List.find_opt (fun x -> neg_mod_dneg_symm h x) tl with
                   | Some y -> (h, y)
                   | None -> find_triv_lits_aux tl)
     | [] -> raise (Debug ("| find_triv_lits_aux: clause doesn't have trivial literals (x and ~x for some x) |"))
@@ -5063,7 +5069,7 @@ let find_triv_lits (cl : clause) : (term * term * clause) =
 let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
-    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg y x) c1)) c1) ->
+    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1) ->
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
@@ -5074,7 +5080,7 @@ let process_trivial (c : certif) : certif =
           | Some (t3, r3, c3, p3, a3) ->
               (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
               (match (List.find_opt (fun p -> if p = t1i then false else match get_cl p cog with
-                                             | Some c2 -> (List.exists (eq_mod_dneg x) c2) || (List.exists (eq_mod_dneg notx) c2)
+                                             | Some c2 -> (List.exists (eq_mod_dneg_symm x) c2) || (List.exists (eq_mod_dneg_symm notx) c2)
                                              | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
                                                               ^" can't fetch clause at premise "^p^" |"))) p3) with
               | Some pi -> 
