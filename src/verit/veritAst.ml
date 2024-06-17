@@ -181,6 +181,35 @@ let rec get_cl (i : id) (c : certif) : clause optstring =
   | [] -> None ("|get_cl: couldn't find "^i^"|")*)
 
 
+
+(* List Utilities *)
+
+(* findi x l finds the index of x in l
+   Note that it checks for syntactic equality of terms, not modulo
+   alpha renaming *)
+let findi (p : 'a -> bool) (l : 'a list) : int = 
+  let rec findi' (p : 'a -> bool) (l : 'a list) (n : int) : int = 
+    match l with
+    | h :: t -> if p h then n else findi' p t (n+1)
+    | [] -> raise (Debug ("| findi: element not found |")) in
+  findi' p l 0
+
+(* Remove all occurrences of x from l *)
+let rec remove (x : 'a) (l : 'a list) =
+  match l with
+  | h :: t -> if h = x then remove x t else h :: (remove x t)
+  | [] -> []
+
+(* Replace all occurrences of x by y in l *)
+let rec replace x y l =
+  match l with
+  | h :: t -> if h = x then y :: replace x y t else h :: (replace x y t)
+  | [] -> []
+
+
+
+(* Object Language Utilities *)
+
 (* Store shared terms *)
 let sterms : (string, term) Hashtbl.t = Hashtbl.create 17
 let get_sterm s =
@@ -221,16 +250,115 @@ let rec get_expr = function
 let get_expr_cl (c : clause) = List.map get_expr c
 
 
-(* List Utilities *)
-(* findi x l finds the index of x in l
-   Note that it checks for syntactic equality of terms, not modulo
-   alpha renaming *)
-   let findi (p : 'a -> bool) (l : 'a list) : int = 
-    let rec findi' (p : 'a -> bool) (l : 'a list) (n : int) : int = 
-      match l with
-      | h :: t -> if p h then n else findi' p t (n+1)
-      | [] -> raise (Debug ("| findi: element not found |")) in
-    findi' p l 0
+(* Equality/Negation of terms modulo double negation elimination *)
+
+(* Returns number of negations at head of term, and term without negations *)
+let rec negs_term (t : term) (i : int) : (int * term) =
+  (match t with 
+  | Not t' -> negs_term t' (i+1)
+  | t' -> (i, t'))
+
+(* Negation modulo double negation elimination *)
+let neg_mod_dneg (t1 : term) (t2 : term) : bool =
+  let t1_negs, t1_bare = negs_term t1 0 in
+  let t2_negs, t2_bare = negs_term t2 0 in
+  (t1_bare = t2_bare) && ((t1_negs mod 2) <> (t2_negs mod 2))
+
+(* Equality modulo double negation elimination *)
+let eq_mod_dneg (t1 : term) (t2 : term) : bool =
+  let t1_negs, t1_bare = negs_term t1 0 in
+  let t2_negs, t2_bare = negs_term t2 0 in
+  (t1_bare = t2_bare) && ((t1_negs mod 2) = (t2_negs mod 2))
+
+
+(* Term equality modulo alpha renaming of foralls *)
+
+let type_eq (t1 : typ) (t2 : typ) : bool =
+  match t1, t2 with
+  | Int, Int -> true
+  | Bool, Bool -> true
+  | Unintr s1, Unintr s2 -> s1 = s2
+  | _, _ -> false
+
+let rec term_eq_alpha (subs : (string * string) list) (t1 : term) (t2 : term) : bool =
+  let t1 = get_expr t1 in
+  let t2 = get_expr t2 in
+  let check_arg_lists (x : term list) (y : term list) : bool =
+    if List.length x = List.length y then
+      List.fold_left (&&) true (List.map2 (term_eq_alpha subs) x y)
+    else false
+  in match t1, t2 with
+  | True, True -> true
+  | False, False -> true
+  | Not t1', Not t2' -> term_eq_alpha subs t1' t2'
+  | And ts1, And ts2 -> check_arg_lists ts1 ts2
+  | Or ts1, Or ts2 -> check_arg_lists ts1 ts2
+  | Imp ts1, Imp ts2 -> check_arg_lists ts1 ts2
+  | Xor ts1, Xor ts2 -> check_arg_lists ts1 ts2
+  | Ite ts1, Ite ts2 -> check_arg_lists ts1 ts2
+  | Forall (xs, t1'), Forall (ys, t2') ->
+      raise (Debug ("| term_eq_alpha: checking equality of forall inside forall |"))
+  | Eq (t11, t12), Eq (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | App (f1, t1'), App (f2, t2') -> f1 = f2 && check_arg_lists t1' t2'
+  | Var x, Var y -> x = y || 
+    List.exists (fun (a, b) -> a = x && b = y || a = y && b = x) subs
+  | STerm x, STerm y -> x = y
+  | NTerm (s1, t1'), NTerm (s2, t2') -> s1 = s2 && term_eq_alpha subs t1' t2'
+  | Int i, Int j -> i = j
+  | Lt (t11, t12), Lt (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | Leq (t11, t12), Leq (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | Gt (t11, t12), Gt (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | Geq (t11, t12), Geq (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | UMinus t1', UMinus t2' -> term_eq_alpha subs t1' t2'
+  | Plus (t11, t12), Plus (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | Minus (t11, t12), Minus (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | Mult (t11, t12), Mult (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
+  | _ -> false
+
+let rec term_eq (t1 : term) (t2 : term) : bool =
+  let t1 = get_expr t1 in
+  let t2 = get_expr t2 in
+  let check_arg_lists (x : term list) (y : term list) : bool =
+    if List.length x = List.length y then
+      List.fold_left (&&) true (List.map2 term_eq x y)
+    else false
+  in match t1, t2 with
+  | True, True -> true
+  | False, False -> true
+  | Not t1', Not t2' -> term_eq t1' t2'
+  | And ts1, And ts2 -> check_arg_lists ts1 ts2
+  | Or ts1, Or ts2 -> check_arg_lists ts1 ts2
+  | Imp ts1, Imp ts2 -> check_arg_lists ts1 ts2
+  | Xor ts1, Xor ts2 -> check_arg_lists ts1 ts2
+  | Ite ts1, Ite ts2 -> check_arg_lists ts1 ts2
+  | Forall (xs, t1'), Forall (ys, t2') ->
+      let subs = List.map2 (fun (x, tx) (y, ty) -> (x, y)) xs ys in
+      (List.length xs = List.length ys) &&
+      (List.fold_left (&&) true 
+        (List.map2 (fun (x, tx) (y, ty) -> type_eq tx ty) xs ys)) && 
+      term_eq_alpha subs t1' t2'
+  | Eq (t11, t12), Eq (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | App (f1, t1'), App (f2, t2') -> f1 = f2 && check_arg_lists t1' t2'
+  | Var x, Var y -> x = y
+  (* This allows equality over shared terms and other shared terms or 
+     regular terms. Note that we expect perfect sharing - if the same 
+     term is given 2 different names in a proof and the names are checked
+     for equality, this function would return false *)
+  | STerm x, s -> (match s with
+                  | STerm y -> x = y
+                  | t -> let x' = get_sterm x in
+                         term_eq x' t)
+  | NTerm (s1, t1'), NTerm (s2, t2') -> s1 = s2 && term_eq t1' t2'
+  | Int i, Int j -> i = j
+  | Lt (t11, t12), Lt (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | Leq (t11, t12), Leq (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | Gt (t11, t12), Gt (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | Geq (t11, t12), Geq (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | UMinus t1', UMinus t2' -> term_eq t1' t2'
+  | Plus (t11, t12), Plus (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | Minus (t11, t12), Minus (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | Mult (t11, t12), Mult (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
+  | _ -> false
 
 
 (* Convert certificates to strings for debugging *)
@@ -410,300 +538,8 @@ let head_term (t : term) : string =
   | Mult _ -> "Mult _"
 
 
-(* Pass through certificate*)
-(* Pass through certificate, replace named terms with their
-   aliases, and store the alias-term mapping in a hash table *)
-let rec store_shared_terms_t (t : term) : term =
-  match t with
-  | True | False -> t
-  | Not t' -> Not (store_shared_terms_t t')
-  | And ts -> And (List.map store_shared_terms_t ts)
-  | Or ts -> Or (List.map store_shared_terms_t ts)
-  | Imp ts -> Imp (List.map store_shared_terms_t ts)
-  | Xor ts -> Xor (List.map store_shared_terms_t ts)
-  | Ite ts -> Ite (List.map store_shared_terms_t ts)
-  | Forall (xs, t') -> Forall (xs, (store_shared_terms_t t'))
-  | Eq (t1, t2) -> Eq ((store_shared_terms_t t1), (store_shared_terms_t t2))
-  | App (f, ts) -> App (f, (List.map store_shared_terms_t ts))
-  | Var s -> Var s
-  | STerm s -> STerm s
-  | NTerm (s, t') -> let t'' = store_shared_terms_t t' in
-                     add_sterm s t''; STerm s
-  (*| Let (xs, t') -> 
-      let xs' = List.map (fun (x, t'') -> (x, store_shared_terms_t t'')) xs in 
-    Let (xs', (store_shared_terms_t t'))*)
-  | Int i -> Int i
-  | Lt (t1, t2) -> Lt ((store_shared_terms_t t1), (store_shared_terms_t t2))
-  | Leq (t1, t2) -> Leq ((store_shared_terms_t t1), (store_shared_terms_t t2))
-  | Gt (t1, t2) -> Gt ((store_shared_terms_t t1), (store_shared_terms_t t2))
-  | Geq (t1, t2) -> Geq ((store_shared_terms_t t1), (store_shared_terms_t t2))
-  | UMinus t' -> UMinus (store_shared_terms_t t')
-  | Plus (t1, t2) -> Plus ((store_shared_terms_t t1), (store_shared_terms_t t2))
-  | Minus (t1, t2) -> Minus ((store_shared_terms_t t1), (store_shared_terms_t t2))
-  | Mult (t1, t2) -> Mult ((store_shared_terms_t t1), (store_shared_terms_t t2))
 
-let store_shared_terms_cl (c : clause) : clause =
-  List.map store_shared_terms_t c
-
-let rec store_shared_terms (c : certif) : certif = 
-  match c with
-  | (i, SubproofAST subcl, cl, p, a) :: t -> let subcl' = store_shared_terms subcl in
-    (i, SubproofAST subcl', cl, p, a) :: store_shared_terms t
-  | (i, r, cl, p, a) :: t -> let cl' = (store_shared_terms_cl cl) in
-                              (i, r, cl', p, a) :: store_shared_terms t
-  | [] -> []
-
-
-
-(* Term equality modulo alpha renaming of foralls *)
-
-let type_eq (t1 : typ) (t2 : typ) : bool =
-  match t1, t2 with
-  | Int, Int -> true
-  | Bool, Bool -> true
-  | Unintr s1, Unintr s2 -> s1 = s2
-  | _, _ -> false
-
-let rec term_eq_alpha (subs : (string * string) list) (t1 : term) (t2 : term) : bool =
-  let t1 = get_expr t1 in
-  let t2 = get_expr t2 in
-  let check_arg_lists (x : term list) (y : term list) : bool =
-    if List.length x = List.length y then
-      List.fold_left (&&) true (List.map2 (term_eq_alpha subs) x y)
-    else false
-  in match t1, t2 with
-  | True, True -> true
-  | False, False -> true
-  | Not t1', Not t2' -> term_eq_alpha subs t1' t2'
-  | And ts1, And ts2 -> check_arg_lists ts1 ts2
-  | Or ts1, Or ts2 -> check_arg_lists ts1 ts2
-  | Imp ts1, Imp ts2 -> check_arg_lists ts1 ts2
-  | Xor ts1, Xor ts2 -> check_arg_lists ts1 ts2
-  | Ite ts1, Ite ts2 -> check_arg_lists ts1 ts2
-  | Forall (xs, t1'), Forall (ys, t2') ->
-      raise (Debug ("| term_eq_alpha: checking equality of forall inside forall |"))
-  | Eq (t11, t12), Eq (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | App (f1, t1'), App (f2, t2') -> f1 = f2 && check_arg_lists t1' t2'
-  | Var x, Var y -> x = y || 
-    List.exists (fun (a, b) -> a = x && b = y || a = y && b = x) subs
-  | STerm x, STerm y -> x = y
-  | NTerm (s1, t1'), NTerm (s2, t2') -> s1 = s2 && term_eq_alpha subs t1' t2'
-  | Int i, Int j -> i = j
-  | Lt (t11, t12), Lt (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | Leq (t11, t12), Leq (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | Gt (t11, t12), Gt (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | Geq (t11, t12), Geq (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | UMinus t1', UMinus t2' -> term_eq_alpha subs t1' t2'
-  | Plus (t11, t12), Plus (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | Minus (t11, t12), Minus (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | Mult (t11, t12), Mult (t21, t22) -> term_eq_alpha subs t11 t21 && term_eq_alpha subs t12 t22
-  | _ -> false
-
-let rec term_eq (t1 : term) (t2 : term) : bool =
-  let t1 = get_expr t1 in
-  let t2 = get_expr t2 in
-  let check_arg_lists (x : term list) (y : term list) : bool =
-    if List.length x = List.length y then
-      List.fold_left (&&) true (List.map2 term_eq x y)
-    else false
-  in match t1, t2 with
-  | True, True -> true
-  | False, False -> true
-  | Not t1', Not t2' -> term_eq t1' t2'
-  | And ts1, And ts2 -> check_arg_lists ts1 ts2
-  | Or ts1, Or ts2 -> check_arg_lists ts1 ts2
-  | Imp ts1, Imp ts2 -> check_arg_lists ts1 ts2
-  | Xor ts1, Xor ts2 -> check_arg_lists ts1 ts2
-  | Ite ts1, Ite ts2 -> check_arg_lists ts1 ts2
-  | Forall (xs, t1'), Forall (ys, t2') ->
-      let subs = List.map2 (fun (x, tx) (y, ty) -> (x, y)) xs ys in
-      (List.length xs = List.length ys) &&
-      (List.fold_left (&&) true 
-        (List.map2 (fun (x, tx) (y, ty) -> type_eq tx ty) xs ys)) && 
-      term_eq_alpha subs t1' t2'
-  | Eq (t11, t12), Eq (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | App (f1, t1'), App (f2, t2') -> f1 = f2 && check_arg_lists t1' t2'
-  | Var x, Var y -> x = y
-  (* This allows equality over shared terms and other shared terms or 
-     regular terms. Note that we expect perfect sharing - if the same 
-     term is given 2 different names in a proof and the names are checked
-     for equality, this function would return false *)
-  | STerm x, s -> (match s with
-                  | STerm y -> x = y
-                  | t -> let x' = get_sterm x in
-                         term_eq x' t)
-  | NTerm (s1, t1'), NTerm (s2, t2') -> s1 = s2 && term_eq t1' t2'
-  | Int i, Int j -> i = j
-  | Lt (t11, t12), Lt (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | Leq (t11, t12), Leq (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | Gt (t11, t12), Gt (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | Geq (t11, t12), Geq (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | UMinus t1', UMinus t2' -> term_eq t1' t2'
-  | Plus (t11, t12), Plus (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | Minus (t11, t12), Minus (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | Mult (t11, t12), Mult (t21, t22) -> term_eq t11 t21 && term_eq t12 t22
-  | _ -> false
-
-
-(* Process forall_inst rule by:
-   1. Ignoring all alpha renaming sub-proofs 
-   2. Dealing with the qnt_cnf rule 
-   3. Finding the lemma from the inputs and passing it as a premise
-      to forall_inst 
-      Replacing the clause in the forall_inst rule by its instance *)
-
-(* Returns the id of the assumption in c which is identical to t *)
-let rec find_lemma (t : term) (c : certif) : id =
-  match c with
-  | (i, r, cl, p, a) :: tl ->
-      (match r, cl with
-      | AssumeAST, (t' :: _) when term_eq t t' -> i
-      | _ -> find_lemma t tl)
-  | [] -> raise (Debug ("| find_lemma: can't find lemma to be instantiated by forall_inst |"))
-
-let rec remove x l =
-  match l with
-  | h :: t -> if h = x then remove x t else h :: (remove x t)
-  | [] -> []
-(* Remove premise from all resolutions and transitivities in certif *)
-let remove_res_trans_premise (i : id) (c : certif) : certif =
-  List.map (fun s -> match s with
-               | (i', r, c, p, a) when (r = ResoAST || r = ThresoAST || r = TransAST) ->
-                    (i', r, c, (remove i p), a)
-               | s -> s) c
-
-let process_fins (c : certif) : certif =
-  let rec process_fins_aux (c : certif) (cog : certif) : certif =
-    match c with
-    (* Step 1 *)
-    | (i1, AnchorAST, c1, p1, a1) :: (i2, ReflAST, c2, p2, a2) ::
-      (i3, CongAST, c3, p3, a3)   :: (i4, BindAST, c4, p4, a4) ::
-      (i5, Equp2AST, c5, p5, a5)  :: (i6, ThresoAST, c6, p6, a6) :: t ->
-        process_fins_aux (remove_res_trans_premise i6 t) cog
-    (* Step 2 *)
-    | (_, QcnfAST, c, _, _) :: t ->
-        (* Ignoring this rule assuming no transformation is performed, 
-           we need to handle this rule for more complex CNF 
-           transformations of quantified formulas*)
-        process_fins_aux t cog
-    (* Step 3 *)
-    | (i, FinsAST, c, p, a) :: tl -> 
-        let st = (match (try (List.hd c) with | Failure _ -> 
-                        raise (Debug ("| process_fins: clause produced by forall_inst is empty at id "^i^" |"))) with
-        | Or [e; t2] ->
-          let t = get_expr e in
-            (match t with
-            | Not t -> 
-                let lem = try find_lemma t cog with 
-                  | Debug s -> raise 
-                    (Debug ("| process_fins: failing at id "^i^" |"^s)) in
-                (i, FinsAST, [t2], [lem], [])
-            | _ -> raise (Debug 
-                ("| process_fins: arg of forall_inst expected to be (or (Not lemma) instance) at "
-                 ^i^" |")))
-        | _ -> raise (Debug 
-               ("| process_fins: arg of forall_inst expected to be an `or` at "
-                ^i^" |")))
-        in st :: process_fins_aux tl cog
-    | ircpa :: t -> ircpa :: process_fins_aux t cog
-    | [] -> []
-  in process_fins_aux c c
-
-
-
-(* Remove notnot rule from certificate *)
-
-(* Soundly remove all notnot rules from certificate *)
-(* ASSUMPTION: We assume that a ~~x is stored as just x by process_term *)
-(* So typically, a proof that eliminates ~~ by:
-     ...
-   -------   ---------not_not
-   ~~x v C    ~~~x v x
-  --------------------reso
-         x v C
-  can be replaced by the following, since double negations 
-  are implicitly simplified at the term level
-    ...
-   -------
-    x v C
-  --------reso
-    x v C
-*)
-let rec process_notnot (c : certif) : certif = 
-  match c with
-  | (i, NotnotAST, cl, p, a) :: tl -> process_notnot (remove_res_trans_premise i tl)
-  (*| (i, NotsimpAST, cl, p, a) :: tl ->
-      (match (get_expr_cl cl) with
-      | [Eq (Not (Not x), y)] when x = y -> 
-         (* 
-            Generate x = x
-            ---------eqn1  --------eqn2
-            x = x, ~x      x = x, x
-            -----------------------res
-                     x = x   
-         *)
-         let eqn1i = generate_id () in
-         let eqn2i = generate_id () in
-         (eqn1i, Equn1AST, [Eq (x, x); Not x], [], []) :: 
-         (eqn2i, Equn2AST, [Eq (x, x); x], [], []) :: 
-         (i, ResoAST, [Eq (x, x)], [eqn1i; eqn2i], []) :: process_notnot (remove_res_trans_premise i tl)
-      | _ -> (i, NotsimpAST, cl, p, a) :: process_notnot tl)*)
-  | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_notnot subcl in
-    (i, SubproofAST subcl', cl, p, a) :: process_notnot tl
-  | h :: tl -> h :: process_notnot tl
-  | [] -> []
-
-
-
-(* Remove Same rules (that come from Symmetry) and Cont rules (that come from Contraction) from the certificate 
-   We need to differentiate these because symmetries must be resolved before transitivity, but contraction should
-   be resolved after everything else is done *)
-(*
-   For example, the following certificate:
-     (step x ...)
-     ...
-     (step y ... :rule symm :premises (x))
-     ...
-     (step z ... :premises (y, ...))
-   
-   changes to:
-     (step x ...)
-     ...
-     (step z ... :premises (x, ...)) 
-   where we store symm as Same
-*)
-(* Replace x by y in l *)
-let rec replace x y l =
-   match l with
-   | h :: t -> if h = x then y :: replace x y t else h :: (replace x y t)
-   | [] -> []
-let rec replace_prem (x : id) (y : id) (c : certif) : certif =
-   match c with
-   | (i, r, cl, p, a) :: tl -> (i, r, cl, (replace x y p), a) :: replace_prem x y tl 
-   | [] -> []
-let rec process_same (c : certif) : certif =
-   match c with
-   | (i, SameAST, _, p, _) :: tl -> let ogi = (match p with
-                                    | [p1] -> p1
-                                    | _ -> raise (Debug ("| process_same : expecting a Same rule to have exactly one premise at id "^i^" |"))) in
-                                    process_same (replace_prem i ogi tl)
-   | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_same subcl in
-     (i, SubproofAST subcl', cl, p, a) :: process_same tl
-   | h :: tl -> h :: process_same tl
-   | [] -> []
-(*let rec process_cont (c : certif) : certif =
-   match c with
-   | (i, ContAST, _, p, _) :: tl -> let ogi = (match p with
-                                    | [p1] -> p1
-                                    | _ -> raise (Debug ("| process_cont : expecting a Contraction rule to have exactly one premise at id "^i^" |"))) in
-                                    process_cont (replace_prem i ogi tl)
-   | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_cont subcl in
-     (i, SubproofAST subcl', cl, p, a) :: process_cont tl
-   | h :: tl -> h :: process_cont tl
-   | [] -> []*)
-
-
-(* Convert an AST to a list of clauses *)
+(* Convert an AST to a list of clauses (SMTCoq's internal representation) *)
 
 let process_typ (t : typ) : SmtBtype.btype =
   match t with
@@ -911,8 +747,201 @@ let process_rule (r: rule) : VeritSyntax.typ =
 
 
 
-(* Removing occurrences of the cong rule using other rules 
-   including eq_congruent, eq_congruent_pred, reso *)
+(* Preprocessing steps/transformations over certificate *)
+
+
+(* => Transformation Step: Replace named terms by their aliases, and store the alias-term 
+      mapping in a hash table *)
+let rec store_shared_terms_t (t : term) : term =
+  match t with
+  | True | False -> t
+  | Not t' -> Not (store_shared_terms_t t')
+  | And ts -> And (List.map store_shared_terms_t ts)
+  | Or ts -> Or (List.map store_shared_terms_t ts)
+  | Imp ts -> Imp (List.map store_shared_terms_t ts)
+  | Xor ts -> Xor (List.map store_shared_terms_t ts)
+  | Ite ts -> Ite (List.map store_shared_terms_t ts)
+  | Forall (xs, t') -> Forall (xs, (store_shared_terms_t t'))
+  | Eq (t1, t2) -> Eq ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | App (f, ts) -> App (f, (List.map store_shared_terms_t ts))
+  | Var s -> Var s
+  | STerm s -> STerm s
+  | NTerm (s, t') -> let t'' = store_shared_terms_t t' in
+                     add_sterm s t''; STerm s
+  (*| Let (xs, t') -> 
+      let xs' = List.map (fun (x, t'') -> (x, store_shared_terms_t t'')) xs in 
+    Let (xs', (store_shared_terms_t t'))*)
+  | Int i -> Int i
+  | Lt (t1, t2) -> Lt ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | Leq (t1, t2) -> Leq ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | Gt (t1, t2) -> Gt ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | Geq (t1, t2) -> Geq ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | UMinus t' -> UMinus (store_shared_terms_t t')
+  | Plus (t1, t2) -> Plus ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | Minus (t1, t2) -> Minus ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | Mult (t1, t2) -> Mult ((store_shared_terms_t t1), (store_shared_terms_t t2))
+
+let store_shared_terms_cl (c : clause) : clause =
+  List.map store_shared_terms_t c
+
+let rec store_shared_terms (c : certif) : certif = 
+  match c with
+  | (i, SubproofAST subcl, cl, p, a) :: t -> let subcl' = store_shared_terms subcl in
+    (i, SubproofAST subcl', cl, p, a) :: store_shared_terms t
+  | (i, r, cl, p, a) :: t -> let cl' = (store_shared_terms_cl cl) in
+                              (i, r, cl', p, a) :: store_shared_terms t
+  | [] -> []
+
+
+(* => Transformation Step: Process forall_inst rule by:
+      1. Ignoring all alpha renaming sub-proofs 
+      2. Dealing with the qnt_cnf rule 
+      3. Finding the lemma from the inputs and passing it as a premise
+         to forall_inst 
+         Replacing the clause in the forall_inst rule by its instance *)
+
+(* Returns the id of the assumption in c which is identical to t *)
+let rec find_lemma (t : term) (c : certif) : id =
+  match c with
+  | (i, r, cl, p, a) :: tl ->
+      (match r, cl with
+      | AssumeAST, (t' :: _) when term_eq t t' -> i
+      | _ -> find_lemma t tl)
+  | [] -> raise (Debug ("| find_lemma: can't find lemma to be instantiated by forall_inst |"))
+
+(* Remove premise from all resolutions and transitivities in certif *)
+let remove_res_trans_premise (i : id) (c : certif) : certif =
+  List.map (fun s -> match s with
+               | (i', r, c, p, a) when (r = ResoAST || r = ThresoAST || r = TransAST) ->
+                    (i', r, c, (remove i p), a)
+               | s -> s) c
+
+let process_fins (c : certif) : certif =
+  let rec process_fins_aux (c : certif) (cog : certif) : certif =
+    match c with
+    (* Step 1 *)
+    | (i1, AnchorAST, c1, p1, a1) :: (i2, ReflAST, c2, p2, a2) ::
+      (i3, CongAST, c3, p3, a3)   :: (i4, BindAST, c4, p4, a4) ::
+      (i5, Equp2AST, c5, p5, a5)  :: (i6, ThresoAST, c6, p6, a6) :: t ->
+        process_fins_aux (remove_res_trans_premise i6 t) cog
+    (* Step 2 *)
+    | (_, QcnfAST, c, _, _) :: t ->
+        (* Ignoring this rule assuming no transformation is performed, 
+           we need to handle this rule for more complex CNF 
+           transformations of quantified formulas*)
+        process_fins_aux t cog
+    (* Step 3 *)
+    | (i, FinsAST, c, p, a) :: tl -> 
+        let st = (match (try (List.hd c) with | Failure _ -> 
+                        raise (Debug ("| process_fins: clause produced by forall_inst is empty at id "^i^" |"))) with
+        | Or [e; t2] ->
+          let t = get_expr e in
+            (match t with
+            | Not t -> 
+                let lem = try find_lemma t cog with 
+                  | Debug s -> raise 
+                    (Debug ("| process_fins: failing at id "^i^" |"^s)) in
+                (i, FinsAST, [t2], [lem], [])
+            | _ -> raise (Debug 
+                ("| process_fins: arg of forall_inst expected to be (or (Not lemma) instance) at "
+                 ^i^" |")))
+        | _ -> raise (Debug 
+               ("| process_fins: arg of forall_inst expected to be an `or` at "
+                ^i^" |")))
+        in st :: process_fins_aux tl cog
+    | ircpa :: t -> ircpa :: process_fins_aux t cog
+    | [] -> []
+  in process_fins_aux c c
+
+
+(* => Transformation Step: Remove notnot rule occurrences from certificate *)
+(* ASSUMPTION: We assume that a ~~x is stored as just x by process_term *)
+(* A proof that eliminates ~~ by:
+     ...
+   -------   ---------not_not
+   ~~x v C    ~~~x v x
+  --------------------reso
+         x v C
+  can be replaced by the following, since double negations 
+  are implicitly simplified at the term level
+    ...
+   -------
+    x v C
+  --------reso
+    x v C
+*)
+let rec process_notnot (c : certif) : certif = 
+  match c with
+  | (i, NotnotAST, cl, p, a) :: tl -> process_notnot (remove_res_trans_premise i tl)
+  (*| (i, NotsimpAST, cl, p, a) :: tl ->
+      (match (get_expr_cl cl) with
+      | [Eq (Not (Not x), y)] when x = y -> 
+         (* 
+            Generate x = x
+            ---------eqn1  --------eqn2
+            x = x, ~x      x = x, x
+            -----------------------res
+                     x = x   
+         *)
+         let eqn1i = generate_id () in
+         let eqn2i = generate_id () in
+         (eqn1i, Equn1AST, [Eq (x, x); Not x], [], []) :: 
+         (eqn2i, Equn2AST, [Eq (x, x); x], [], []) :: 
+         (i, ResoAST, [Eq (x, x)], [eqn1i; eqn2i], []) :: process_notnot (remove_res_trans_premise i tl)
+      | _ -> (i, NotsimpAST, cl, p, a) :: process_notnot tl)*)
+  | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_notnot subcl in
+    (i, SubproofAST subcl', cl, p, a) :: process_notnot tl
+  | h :: tl -> h :: process_notnot tl
+  | [] -> []
+
+
+(* => Transformation Step: Remove Same rules (that come from Symmetry) and 
+      Cont rules (that come from Contraction) from the certificate *)
+(*
+   For example, the following certificate:
+     (step x ...)
+     ...
+     (step y ... :rule symm :premises (x))
+     ...
+     (step z ... :premises (y, ...))
+   
+   changes to:
+     (step x ...)
+     ...
+     (step z ... :premises (x, ...)) 
+   where we store symm as Same
+*)
+
+let rec replace_prem (x : id) (y : id) (c : certif) : certif =
+   match c with
+   | (i, r, cl, p, a) :: tl -> (i, r, cl, (replace x y p), a) :: replace_prem x y tl 
+   | [] -> []
+let rec process_same (c : certif) : certif =
+   match c with
+   | (i, SameAST, _, p, _) :: tl -> let ogi = (match p with
+                                    | [p1] -> p1
+                                    | _ -> raise (Debug ("| process_same : expecting a Same rule to have exactly one premise at id "^i^" |"))) in
+                                    process_same (replace_prem i ogi tl)
+   | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_same subcl in
+     (i, SubproofAST subcl', cl, p, a) :: process_same tl
+   | h :: tl -> h :: process_same tl
+   | [] -> []
+(* TODO?: We need to differentiate these because symmetries must be resolved before transitivity, 
+   but contraction should be resolved after everything else is done. Currently we just put process_same at the end
+let rec process_cont (c : certif) : certif =
+   match c with
+   | (i, ContAST, _, p, _) :: tl -> let ogi = (match p with
+                                    | [p1] -> p1
+                                    | _ -> raise (Debug ("| process_cont : expecting a Contraction rule to have exactly one premise at id "^i^" |"))) in
+                                    process_cont (replace_prem i ogi tl)
+   | (i, SubproofAST subcl, cl, p, a) :: tl -> let subcl' = process_cont subcl in
+     (i, SubproofAST subcl', cl, p, a) :: process_cont tl
+   | h :: tl -> h :: process_cont tl
+   | [] -> []*)
+
+
+(* => Transformation Step: Remove occurrences of the cong rule using other rules 
+      including eq_congruent, eq_congruent_pred, reso *)
 (* This can be divided into 4 cases:
       Output         Input       Interpreted?      Encoding
       -------------------------------------------------------------------
@@ -2138,8 +2167,8 @@ let process_cong (c : certif) : certif =
     in process_cong_aux c c
 
 
-(* Removing occurrences of the trans rule using other rules 
-   including eq_transitive, reso *)
+(* => Transformation Step: Remove occurrences of the trans rule using other rules 
+      including eq_transitive, reso *)
 (*let rec last (l : 'a list) : 'a =
   match l with
   | [] -> raise (Debug ("| last: trying to find the last element of an empty list |"))
@@ -2257,15 +2286,6 @@ let process_trans (c : certif) : certif =
                     else 
                       raise (Debug ("| process_trans: failing to find transitive equality in premises at id "^i^" |"))) 
                   (x1, []) p'' in
-                 (* Equality of terms modulo double negation *)
-                 let eq_mod_dneg t1 t2 =
-                   let rec negsTerm (n : int) (t : term) :  (int * term) =
-                    (match t with
-                     | Not x -> negsTerm (n + 1) (x)
-                     | x -> (n, x)) in
-                    let t1negs, t1term = negsTerm 0 t1 in
-                    let t2negs, t2term = negsTerm 0 t2 in
-                    if ((t1term = t2term) && (t1negs mod 2 = t2negs mod 2)) then true else false in
                  (* Given conclusion `x1 = xn` and premises `x1 = x2, ..., xn-1 = xn`, *)
                  (* 1. For each premise `x = y`, generate `~(x = y), x, ~y` by `eqp1` and resolve it with 
                        `x = y` to get `x, ~y` *)
@@ -2358,11 +2378,9 @@ let process_trans (c : certif) : certif =
    in process_trans_aux c c
 
 
-(* SMTCoq requires projection rules and, not_or, or_neg, and_pos
-   to specify an integer argument specifying the term to project.
-   Alethe doesn't specify the projection for these rules. This 
-   transformation searches the clause for the projection and adds
-   it as an argument *)
+(* => Transformation Step: Add index as argument to projection steps *)
+(* SMTCoq requires projection rules and, not_or, or_neg, and_pos to specify an integer argument specifying the 
+   term to project. Alethe doesn't specify the projection for these rules. This transformation searches the clause for the projection and adds it as an argument *)
 let process_proj (c: certif): certif =
   let rec aux (c: certif) (cog: certif) : certif =
     match c with
@@ -2424,7 +2442,7 @@ let process_proj (c: certif): certif =
   in aux c c
 
 
-(* Flatten subproofs *)
+(* => Transformation Step: Flatten subproofs *)
 (* TODO: Add projection arguments in the flattening, so the projections transformation
    can be done before this one *)
 (* TODO: Don't forget to flatten subproofs within subproofs!!! *)
@@ -2614,8 +2632,8 @@ let rec process_subproof (c : certif) : certif =
   | [] -> clear_cids (); []
 
 
-(* Process _simplify rules from Alethe 
-   Each rule has multiple variants, all taking the form
+(* => Transformation Step: Elaborate _simplify rules from Alethe *)
+(* Each rule has multiple variants, all taking the form
    a <-> b
    To prove a <-> b:
    1. Prove ~a v b via subproof discharge
@@ -2632,7 +2650,7 @@ let rec process_subproof (c : certif) : certif =
 (* This is a cool function but currently useless since the two places 
    we can use them (process_notnot and process_simpify_ltr) have many case
    specific requirements, but in the future, we may be able to generalize 
-   this if we find that it will save some repeated work.
+   this if we find that it will save some redundant code.
    
    remove_step p f:
    remove c, remove all steps s, such that p(s), and
@@ -2671,12 +2689,6 @@ let simplify_to_subproof (i: id) (a2bi: id) (b2ai: id) (a: term) (b: term) (a2b:
    (resi2, ResoAST, [Eq (a, b); a], [sp2id; eq2i], []);
    (i, ResoAST, [Eq (a, b)], [resi1; resi2], [])]
 
-(* are t1 and t2 negations of each other? *)
-let is_neg (t1 : term) (t2 : term) : bool =
-  match t1, t2 with
-  | t, Not t' when t' = t -> true
-  | Not t, t' when t' = t -> true
-  | _ -> false
 (* repeat x n returns list with n x's
 let repeat (x : 'a) (n : int) : 'a list =
   let rec repeat' (x : 'a) (n : int) (acc : 'a list) : 'a list = 
@@ -2733,7 +2745,7 @@ let rec process_simplify (c : certif) : certif =
          (simplify_to_subproof i a2bi b2ai lhs rhs a2b b2a) @ process_simplify tl
        (* x_1 ^ ... x_i ... x_j ... ^ x_n <-> F, if x_i = ~x_j *)
        | [Eq ((And xs as lhs), (False as rhs))] when 
-           (List.exists (fun x -> (List.exists (fun y -> is_neg y x) xs)) xs) ->
+           (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg y x) xs)) xs) ->
          (* x ^ ~x <-> F
             LTR:
                                           ------ass -------------andp
@@ -2988,7 +3000,7 @@ let rec process_simplify (c : certif) : certif =
          (simplify_to_subproof i (generate_id ()) b2ai lhs rhs a2b b2a) @ process_simplify tl
       (* x_1 v ... x_i ... x_j ... x_n <-> T, if x_i = ~x_j *)
       | [Eq ((Or xs as lhs), (True as rhs))] when 
-         (List.exists (fun x -> (List.exists (fun y -> is_neg y x) xs)) xs) ->
+         (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg y x) xs)) xs) ->
          (* x v ~x <-> T
             LTR:
             --true
@@ -5003,8 +5015,8 @@ let rec process_simplify (c : certif) : certif =
   | nil -> nil
   
 
-(* Process holes in proof. cvc5 produces holes with arg ARITH_POLY_NORM which are tautologies 
-   that can be sent to Micromega *)
+(* => Transformation Step: Process holes in proof; cvc5 produces holes with arg ARITH_POLY_NORM which 
+      are LIA tautologies that can be sent to Micromega *)
 let rec process_hole (c : certif) : certif = 
   match c with
   | (i, HoleAST, cl, p, a) :: tl when 
@@ -5017,7 +5029,8 @@ let rec process_hole (c : certif) : certif =
   | [] -> []
 
 
-(* Remove trivial clauses that prove `C, x, ~x` for any `C` and `x` since these clauses cause the checker to fail *)
+(* => Transformation Step: Remove trivial clauses that prove `C, x, ~x` for any `C` and `x` since these clauses     
+      cause the checker to fail *)
 (* Transformation (similar for `t2: C2, ~x`):
    t1: C1, x, ~x                                            ...
        ...                                              t2: C2, x                                      
@@ -5039,7 +5052,7 @@ let find_res (c : certif) (i : id) : id list =
 let find_triv_lits (cl : clause) : (term * term * clause) =
   let rec find_triv_lits_aux (cl : clause) : (term * term) =
     match cl with
-    | h :: tl -> (match List.find_opt (fun x -> is_neg h x) tl with
+    | h :: tl -> (match List.find_opt (fun x -> neg_mod_dneg h x) tl with
                   | Some y -> (h, y)
                   | None -> find_triv_lits_aux tl)
     | [] -> raise (Debug ("| find_triv_lits_aux: clause doesn't have trivial literals (x and ~x for some x) |"))
@@ -5050,7 +5063,7 @@ let find_triv_lits (cl : clause) : (term * term * clause) =
 let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
-    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> is_neg y x) c1)) c1) ->
+    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg y x) c1)) c1) ->
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
@@ -5061,7 +5074,7 @@ let process_trivial (c : certif) : certif =
           | Some (t3, r3, c3, p3, a3) ->
               (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
               (match (List.find_opt (fun p -> if p = t1i then false else match get_cl p cog with
-                                             | Some c2 -> (List.exists ((=) x) c2) || (List.exists ((=) notx) c2)
+                                             | Some c2 -> (List.exists (eq_mod_dneg x) c2) || (List.exists (eq_mod_dneg notx) c2)
                                              | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
                                                               ^" can't fetch clause at premise "^p^" |"))) p3) with
               | Some pi -> 
@@ -5099,53 +5112,11 @@ let process_trivial (c : certif) : certif =
               else 
                 (i, r, c, p, a) :: process_tl t t1i ids res pids
           | [] -> []) in
-        (* TODO: recursive call *)
         process_trivial_aux (process_tl tl t1 ids [] []) cog
     | (i, SubproofAST subcl, cl, p, a) :: tl -> (i, SubproofAST (process_trivial_aux subcl cog), cl, p, a) :: process_trivial_aux tl cog
     | st :: tl -> st :: process_trivial_aux tl cog
     | [] -> []
   in process_trivial_aux c c
-
-(* Chantal's proposal:
-1. Detect steps that produce trivial clauses, which are of the form:
-      t₁: C ∨ x ∨ ¬x (modulo AC of ∨)
-2. For each of them, find the steps where they are resolved with either x or ¬x. These steps are of the form: 
-      t₃: [some clause] by resolution chain L₁ t₁ L₂ t₂ L₃ 
-   where t₂ is the step that proves either x or ¬x and L₁, L₂ and L₃ are lists of steps.
-3. For each such step, suppose for instance that the resolution chain L₁ t₁ L₂ proves C' ∨ x ∨ ¬x, and that t₂ proves x. Change step t₃ into:
-      t₃a : [C' ∨ x] by weakening t₂ with C'
-      t₃b : [some clause] by resolution of chain t₃a L₃
-4. Remove step t₁, which should not be used anymore.*)
-
-(* Must apply transformation recursively. Here it works, but if t3, t4, t5 were combined, we would have the issue of having to locally compute a clause.
-Remove t1; t3 uses t1 so t3 must be reconstructed; but t3 is itself a trivial clause; so remove t3, and other premises of t3 (t2);
-t4 uses t3 so reconstruct t4a as a weakening of a0; generate t4b by resolving t4a with the rest of the chain (empty);
-
-OG:
-a0, assume, x
-a1, assume, ~x
-a2, assume x = x
-t1, eqp2, x != x, ~x, x
-t2, res[t1, a2], ~x, x
-t3, res[t2, a0], x
-t4, res[t3, a1], []
-
-Alternatively:
-a0, assume, x
-a1, assume, ~x
-a2, assume, x = x
-t3, weaken[a0], x != x, x
-t4, res[t3, a2], x
-t5, res[t4, a1], []
-
-Solution but a2 is unused:
-a0, assume, x
-a1, assume, ~x
-a2, assume, x = x
-t3a, weaken[a0], x
-t3b, reso[t4a], x
-t4, res[t4b,a1], []
-*)
 
 
 

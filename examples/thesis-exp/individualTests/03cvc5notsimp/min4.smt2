@@ -4,5 +4,6 @@
 (declare-fun x () Bool)
 (assert (! x :named a0))
 (assert (! (not x) :named a1))
+(assert (! (= x x) :named a2))
 (check-sat)
 ;(get-unsat-core)
