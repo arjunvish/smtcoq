@@ -206,6 +206,12 @@ let rec replace x y l =
   | h :: t -> if h = x then y :: replace x y t else h :: (replace x y t)
   | [] -> []
 
+(* Returns the list without duplicates in terms of the specified predicate *)
+let rec to_uniq (eq : 'a -> 'a -> bool) (l : 'a list) : 'a list =
+  match l with
+  | h :: t -> if List.exists (eq h) t then to_uniq eq t else h :: to_uniq eq t
+  | [] -> []
+
 
 
 (* Object Language Utilities *)
@@ -275,6 +281,9 @@ let eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
   let t1_negs, t1_bare = negs_term t1 0 in
   let t2_negs, t2_bare = negs_term t2 0 in
   (eq_mod_symm t1_bare t2_bare) && ((t1_negs mod 2) = (t2_negs mod 2))
+
+(* Remove duplicates in terms (meta) equality of terms modulo symmetry of (object) equality *)
+let to_uniq_mod_symm = to_uniq eq_mod_symm
 
 
 (* Term equality modulo alpha renaming of foralls *)
@@ -986,11 +995,6 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
    | STerm s -> try get_args_isfrms (get_sterm s) with
                 | Debug s -> raise (Debug ("| get_args : unable to dereference shared term |"^s))
 
-(* returns the list of terms without (syntactic) duplicates *)
-let rec to_uniq (l : 'a list) : 'a list =
-   match l with
-   | h :: t -> if List.exists ((=) h) t then to_uniq t else h :: to_uniq t
-   | [] -> []
 (*
   Example:
   1. x = y
@@ -1573,7 +1577,7 @@ let process_cong (c : certif) : certif =
                                         | Debug s -> raise (Debug ("| process_cong: fails at id "^i^" |"^s)) in
                             i' :: is,
                             (i', OrnAST, [Or ys; Not y], [], [string_of_int proj]) :: r)
-                          ([], []) (to_uniq ys) in
+                          ([], []) (to_uniq (=) ys) in
                         (* 4. resolve all clauses form 1., 2., and 3., to get `~(x1 v ... v xn), y1 v ... v ym` *)
                         let resi1 = generate_id () in
                         (* 5. generate `x1 v ... v xn = y1 v ... v ym, x1 v ... v xn, y1 v ... v ym` by `eqn2` *)
@@ -1605,7 +1609,7 @@ let process_cong (c : certif) : certif =
                                         | Debug s -> raise (Debug ("| process_cong: fails at id "^i^" |"^s)) in
                             i' :: is,
                             (i', OrnAST, [Or xs; Not x], [], [string_of_int proj]) :: r)
-                          ([], []) (to_uniq xs) in
+                          ([], []) (to_uniq (=) xs) in
                         (* 10. resolve all clauses form 7., 8., and 9., to get `~(y1 v ... v ym), x1 v ... v xn` *)
                         let resi3 = generate_id () in
                         (* 11. generate `x1 v ... v xn = y1 v ... v ym, ~(x1 v ... v xn), ~(y1 v ... v ym)` by `eqn1` *)
@@ -2851,7 +2855,7 @@ let rec process_simplify (c : certif) : certif =
                ((id1', AndpAST, [Not lhs; y], [], [ind]) :: (id2', ResoAST, [y], [a2bi; id1'], []) :: s,
                 id2' :: i,
                 Not y :: n))
-              ([], [], []) (to_uniq ys) in
+              ([], [], []) (to_uniq (=) ys) in
           let andni = generate_id () in
           let a2b = c1 @ 
                     [(andni, AndnAST, rhs :: projnegl1, [], []);
@@ -2883,7 +2887,7 @@ let rec process_simplify (c : certif) : certif =
                 ((id1', AndpAST, [Not rhs; x], [], [ind]) :: (id2', ResoAST, [x], [b2ai; id1'], []) :: s,
                  id2' :: i,
                  Not x :: n))
-            ([], [], []) (to_uniq xs) in
+            ([], [], []) (to_uniq (=) xs) in
           let andni = generate_id () in
           let b2a = c2 @
                     [(ti, TrueAST, [True], [], []);
@@ -2916,7 +2920,7 @@ let rec process_simplify (c : certif) : certif =
               ((id1', AndpAST, [Not lhs; y], [], [ind]) :: (id2', ResoAST, [y], [a2bi; id1'], []) :: s,
                id2' :: i,
                Not y :: n))
-              ([], [], []) (to_uniq ys) in
+              ([], [], []) (to_uniq (=) ys) in
           let andni = generate_id () in
           let a2b = c1 @
                     [(andni, AndnAST, rhs :: projnegl1, [], []);
@@ -2946,7 +2950,7 @@ let rec process_simplify (c : certif) : certif =
                 ((id1', AndpAST, [Not rhs; y], [], [ind]) :: (id2', ResoAST, [y], [b2ai; id1'], []) :: s,
                  id2' :: i,
                  Not y :: n))
-            ([], [], []) (to_uniq ys) in
+            ([], [], []) (to_uniq (=) ys) in
           let andni = generate_id () in
           let b2a = c2 @
                     [(andni, AndnAST, lhs :: projnegl2, [], []);
@@ -3080,7 +3084,7 @@ let rec process_simplify (c : certif) : certif =
                let ind = string_of_int (findi (term_eq y) ys) in
                i' :: i,
                (i', OrnAST, [rhs; Not y], [], [ind]) :: r)
-            ([], []) (to_uniq ys) in
+            ([], []) (to_uniq (=) ys) in
             let a2b = [(orpi, OrpAST, Not lhs :: xs, [], []);
                        (fi, FalsAST, [Not False], [], []);
                        (resi, ResoAST, xs, [a2bi; orpi; fi], [])] @ 
@@ -3108,8 +3112,8 @@ let rec process_simplify (c : certif) : certif =
                let id' = generate_id () in
                ((id', OrnAST, [lhs; Not y], [], [ind]) :: s,
                 id' :: i))
-             ([], []) (to_uniq ys) in
-           let b2a = [(orpi, OrpAST, Not rhs :: (to_uniq ys), [], []);
+             ([], []) (to_uniq (=) ys) in
+           let b2a = [(orpi, OrpAST, Not rhs :: (to_uniq (=) ys), [], []);
                       (resi, ResoAST, ys, [b2ai; orpi], [])] @
                      c @
                      [(generate_id (), ResoAST, [lhs], resi :: proj_ids, [])] in
@@ -3138,7 +3142,7 @@ let rec process_simplify (c : certif) : certif =
                    let id' = generate_id () in
                    ((id', OrnAST, [rhs; Not y], [], [ind]) :: s,
                     id' :: i))
-                 ([], []) (to_uniq ys) in
+                 ([], []) (to_uniq (=) ys) in
            let a2b = [(orpi, OrpAST, Not lhs :: ys, [], []);
                       (resi, ResoAST, ys, [a2bi; orpi], [])] @
                      c @
@@ -5092,7 +5096,9 @@ let process_trivial (c : certif) : certif =
                  let t3a = generate_id () in
                  let c3a = (remove notx (remove x c1)) @ c2 in (* C1, C2, x *)
                  let p3new = (remove t2 (replace t1i t3a p3)) @ pids in
-                 [(t3a, WeakenAST, res @ c3a, [t2], []);
+                 (* SMTCoq implicitly removes duplicates except when they are derived by Weaken, so we 
+                    need to explicitly remove duplicates here in case `res @ c3a` has any *)
+                 [(t3a, WeakenAST, to_uniq_mod_symm (res @ c3a), [t2], []);
                   (t3, ResoAST, c3, p3new, [])]
               | None -> [(t3, r3, c3, p3, a3)] (* Trivial clause is being resolved to generate another trivial clause *))
           | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1i^" |")) in
