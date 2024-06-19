@@ -1,0 +1,5 @@
+(assume a0 (= O O))
+(assume a1 (= d e))
+(assume a2 (not (= (lt O d) (lt O e))))
+(step t3 (cl (= (lt O d) (lt O e))) :rule cong :premises (a0 a1))
+(step t4 (cl) :rule resolution :premises (a2 t3))

@@ -1,0 +1,7 @@
+1:(input ((not (lt O d))))
+2:(input ((= d e)))
+3:(input ((lt O e)))
+4:(eq_congruent_pred ((not (= O O)) (not (= d e)) (not (lt O e)) (lt O d)))
+5:(eq_reflexive ((= O O)))
+6:(resolution ((not (= d e)) (not (lt O e)) (lt O d)) 4 5)
+7:(resolution () 6 1 2 3)

@@ -1,0 +1,44 @@
+notcong 13
+14cvc5notcong
+15cvc5notcong
+16cvc5notcong
+17cvc5notcong
+18cvc5notcong
+19cvc5notcong
+20cvc5notcong
+21cvc5notcong
+24cvc5notcong
+29cvc5notcong
+59cvc5notcong
+60cvc5notcong
+61cvc5notcong
+
+noidea 3
+75cvc5
+76cvc5
+62cvc5
+
+assertion failed 8
+01cvc5subp
+64cvc5
+65cvc5
+67cvc5
+68cvc5
+69cvc5
+70cvc5
+73cvc5subp
+
+can't fetch clause 4
+26cvc5notcong
+28cvc5notcong
+71cvc5subp
+73cvc5subp
+
+Symbol -1 not found
+74cvc5eval
+
+assertion already exists 1
+66cvc5notcong
+
+cong over int prem 1
+72cvc5congintpred

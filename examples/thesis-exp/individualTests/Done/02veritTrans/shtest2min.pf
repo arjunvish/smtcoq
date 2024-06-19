@@ -1,0 +1,5 @@
+(assume a0 (= (=> (not (tcd (iod nd) nd)) false) (not (not (tcd (iod nd) nd)))))
+(assume a1 (= (not (not (tcd (iod nd) nd))) (tcd (iod nd) nd)))
+(assume a2 (not (= (=> (not (tcd (iod nd) nd)) false) (tcd (iod nd) nd))))
+(step t3 (cl (= (=> (not (tcd (iod nd) nd)) false) (tcd (iod nd) nd))) :rule trans :premises (a0 a1))
+(step t4 (cl) :rule resolution :premises (a2 t3))

@@ -1,0 +1,12 @@
+; --full-saturate-quant --inst-when=full-last-call --inst-no-entail --term-db-mode=relevant --multi-trigger-linear --no-statistics --random-seed=1 --lang=smt2 --continued-execution --tlimit 30000
+(set-option :produce-unsat-cores true)
+(set-logic AUFLIA)
+(declare-sort A 0)
+(declare-sort B 0)
+(declare-fun b () B)
+(declare-fun a () A)
+(declare-fun P (A B) Bool)
+(assert (! (not (not (P a b))) :named a0))
+(assert (! (not (P a b)) :named a1))
+(check-sat)
+;(get-unsat-core)
