@@ -270,13 +270,13 @@ let eq_mod_symm (t1 : term) (t2 : term) : bool =
   | Eq (x, y), Eq (a, b) -> (x = a && y = b) || (x = b && y = a)
   | _, _ -> t1 = t2
 
-(* Negation modulo double negation elimination *)
+(* Negation modulo double negation elimination and symmetry of equality *)
 let neg_mod_dneg_symm (t1 : term) (t2 : term) : bool =
   let t1_negs, t1_bare = negs_term t1 0 in
   let t2_negs, t2_bare = negs_term t2 0 in
   (eq_mod_symm t1_bare t2_bare) && ((t1_negs mod 2) <> (t2_negs mod 2))
 
-(* Equality modulo double negation elimination *)
+(* Equality modulo double negation elimination and symmetry of equality *)
 let eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
   let t1_negs, t1_bare = negs_term t1 0 in
   let t2_negs, t2_bare = negs_term t2 0 in
@@ -4936,38 +4936,15 @@ let rec process_simplify (c : certif) : certif =
                     -------------------------------------------------------res
                                       (x = y) = (y = x)
                 *)
+                (* We can't use this solution for the formula case (where x, y are Bool) because of a subtlety of SMTCoq: 
+                   it treats x = y and y = x as the same only for equalities but not for equivalences; so in the previous case
+                   eqn2 would necessarily generate (x = y) = (y = x), x = y, y = x *)
                 let eqn1i = generate_id () in
                 let eqn2i = generate_id () in
                 (eqn1i, Equn1AST, [eq; Not xy], [], []) ::
                 (eqn2i, Equn2AST, [eq; xy], [], []) ::
                 (i, ResoAST, [eq], [eqn1i; eqn2i], []) ::
                 process_simplify tl
-                (* 
-                    ---------------------------------eqn1  -------------eqtrans
-                    (x = y) = (y = x), x != y, y != x      x != y, y = x
-                    ----------------------------------------------------res
-                                  (x = y) = (y = x), x != y --(1)
-                    -------------------------------eqn2    -------------eqtrans
-                    (x = y) = (y = x), x = y, y = x        y != x, x = y
-                    -------------------------------------------------------res
-                                    (x = y) = (y = x), x = y --(2)
-                      (1)      (2)
-                    -----------------res
-                    (x = y) = (y = x)                      
-                let eqn1i = generate_id () in
-                let eqtri1 = generate_id () in
-                let resi1 = generate_id () in
-                let eqn2i = generate_id () in
-                let eqtri2 = generate_id () in
-                let resi2 = generate_id () in
-                (eqn1i, Equn1AST, [eq; Not xy; Not yx], [], []) ::
-                (eqtri1, EqtrAST, [Not xy; yx], [], []) ::
-                (resi1, ResoAST, [eq; Not xy], [eqn1i; eqtri1], []) ::
-                (eqn2i, Equn2AST, [eq; xy; yx], [], []) ::
-                (eqtri2, EqtrAST, [Not yx; xy], [], []) ::
-                (resi2, ResoAST, [eq; xy], [eqn2i; eqtri2], []) ::
-                (i, ResoAST, [eq], [resi1; resi2], []) ::
-                process_simplify tl *)
            | _ -> raise (Debug ("| process_simplify: expecting clause to have one literal at id "^i^" |")))
       (*| [Eq ((x as lhs), (False as rhs))] ->
       (*
@@ -5074,6 +5051,7 @@ let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
     | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1) ->
+        (* Printf.printf ("trivial clause at %s!\n") t1; *)
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
@@ -5111,7 +5089,8 @@ let process_trivial (c : certif) : certif =
                 let replaced = replace_res t1i i res pids in
                 if List.length replaced = 1 then
                   match replaced with
-                  | [(t3, r3, c3, p3, a3)] -> 
+                  | [(t3, r3, c3, p3, a3)] ->
+                    (* Printf.printf ("recursive trivial clause at %s!\n") t3; *)
                     let ids' = find_res t t3 in
                     let _, _, new_res = try find_triv_lits c3 with (* t3 is trivial, its non-trivial part is carried forward *)
                                         | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
