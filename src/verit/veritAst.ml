@@ -214,8 +214,6 @@ let rec to_uniq (eq : 'a -> 'a -> bool) (l : 'a list) : 'a list =
 
 
 
-(* Object Language Utilities *)
-
 (* Store shared terms *)
 let sterms : (string, term) Hashtbl.t = Hashtbl.create 17
 let get_sterm s =
@@ -225,6 +223,218 @@ let get_sterm s =
       ("| get_sterm : can't find "^s^" |"))
 let add_sterm s t = Hashtbl.add sterms s t
 let clear_sterms () = Hashtbl.clear sterms
+
+
+
+(* Convert an AST to a list of clauses (SMTCoq's internal representation) *)
+
+let process_typ (t : typ) : SmtBtype.btype =
+  match t with
+  | Int -> TZ
+  | Bool -> Tbool
+  | Unintr _ -> assert false (* needs to be updated *)
+
+let rec process_vars (vs : (string * typ) list) : (string * SmtBtype.btype) list = 
+  match vs with
+  | (s, t) :: tl -> let t' = process_typ t in
+                    add_qvar s t'; (s, t') :: process_vars tl
+  | [] -> []
+
+let rec process_term (x: bool * SmtAtom.Form.atom_form_lit) : SmtAtom.Form.t =
+  try (Form.lit_of_atom_form_lit rf x) with
+  | Form.NotWellTyped frm -> raise (Debug ("| process_term: formula "^
+                        (Form.pform_to_string frm)^" is not well-typed |"))
+
+(* term |-> bool * SmtAtom.Form.atom_form_lit |-> SmtAtom.Form.t *)
+
+and process_term_aux (t : term) : bool * SmtAtom.Form.atom_form_lit (* option *) =
+  let process (t : term) : (bool * SmtAtom.Form.t) =
+    let decl, t' = process_term_aux t in
+    let t'' = process_term (decl, t') in
+    decl, t''
+  in match t with
+  | True -> true, Form.Form Form.pform_true
+  | False -> true, Form.Form Form.pform_false
+  | Not t -> let decl, t' = process t in 
+             decl, Form.Lit (Form.neg t')
+  | And ts -> apply_dec (fun x -> Form.Form (Fapp (Fand, Array.of_list x)))
+              (list_dec (List.map process ts))
+  | Or ts ->  apply_dec (fun x -> Form.Form (Fapp (For, Array.of_list x)))
+              (list_dec (List.map process ts))
+  | Imp ts -> apply_dec (fun x -> Form.Form (Fapp (Fimp, Array.of_list x)))
+              (list_dec (List.map process ts))
+  | Xor ts -> apply_dec (fun x -> Form.Form (Fapp (Fxor, Array.of_list x)))
+              (list_dec (List.map process ts))
+  | Ite ts -> apply_dec (fun x -> Form.Form (Fapp (Fite, Array.of_list x)))
+              (list_dec (List.map process ts))
+  | Forall (vs, t) -> let vs' = process_vars vs in
+                      let decl, t' = process t in
+                      clear_qvar ();
+                      false, Form.Form (Fapp (Fforall vs', [|t'|]))
+  | Eq (t1, t2) -> 
+      (match (process_term_aux t1), (process_term_aux t2) with 
+      | (decl1, Form.Atom h1), (decl2, Form.Atom h2) when (match Atom.type_of h1 with 
+                                                           | SmtBtype.Tbool -> false 
+                                                           | _ -> true)
+            -> let decl = decl1 && decl2 in decl, Form.Atom (Atom.mk_eq_sym ra ~declare:decl 
+                                         (Atom.type_of h1) h1 h2) 
+      | (decl1, t1), (decl2, t2) -> 
+               decl1 && decl2, Form.Form (Fapp (Fiff, 
+                                    [|Form.lit_of_atom_form_lit rf (decl1, t1); 
+                                      Form.lit_of_atom_form_lit rf (decl2, t2)|])))
+  | App (f, ts) -> let ts' = List.map process_term_aux ts in
+                   let args = List.map (fun x -> match x with 
+                               | decl, Form.Atom h -> (decl, h)
+                               | _ -> assert false) ts' in
+      (match find_opt_qvar f with
+      | Some bt -> let op = dummy_indexed_op (Rel_name f) [||] bt in
+                   false, Form.Atom (Atom.get ~declare:false ra (Aapp (op, Array.of_list (snd (list_dec args))))) 
+      | None ->    let dl, l = list_dec args in 
+                   dl, Form.Atom (Atom.get ra ~declare:dl (Aapp (SmtMaps.get_fun f, Array.of_list l))))
+  | Var s -> (match find_opt_qvar s with
+             | Some bt   -> false, 
+                Form.Atom (Atom.get ~declare:false ra (Aapp (dummy_indexed_op (Rel_name s) [||] bt, [||])))
+             | None      -> true, Form.Atom (Atom.get ra (Aapp (SmtMaps.get_fun s, [||]))))
+  | STerm s ->
+      (* s has either been processed and stored in the solver hashtable, 
+         or it has to be fetched first from the sterms hashtable, processed,
+         stored in the solver hashtable and then returned *)
+      (try get_solver s with
+       | Debug _ -> let t' = (try get_sterm s with
+                              | Debug d -> raise (Debug 
+                                ("| process_term_aux: can't find "^s^" |"^d))) in
+                    let t'' = process_term_aux t' in
+                              add_solver s t''; t'')
+  | NTerm (s, t) -> let t' = process_term_aux t in
+                    add_solver s t'; t'
+  (* | Let _ -> raise (Debug ("| process_term_aux: lets should have been eliminated by this point |")) *)
+  | Int i -> true, Form.Atom (Atom.hatom_Z_of_int ra i)
+  | Lt (x,y) -> let x' = process_term_aux x in
+                let y' = process_term_aux y in 
+                apply_bdec_atom (Atom.mk_lt ra) x' y'
+  | Leq (x,y) -> let x' = process_term_aux x in
+                 let y' = process_term_aux y in 
+                 apply_bdec_atom (Atom.mk_le ra) x' y'
+  | Gt (x,y) -> let x' = process_term_aux x in
+                let y' = process_term_aux y in 
+                apply_bdec_atom (Atom.mk_gt ra) x' y'
+  | Geq (x,y) -> let x' = process_term_aux x in
+                 let y' = process_term_aux y in 
+                 apply_bdec_atom (Atom.mk_ge ra) x' y'
+  | UMinus t -> let t' = process_term_aux t in
+                apply_dec_atom (fun ?declare:d a -> Atom.mk_neg ra a) t'
+  | Plus (x,y) -> let x' = process_term_aux x in
+                  let y' = process_term_aux y in 
+                  apply_bdec_atom (Atom.mk_plus ra) x' y'
+  | Minus (x,y) -> let x' = process_term_aux x in
+                   let y' = process_term_aux y in
+                   apply_bdec_atom (Atom.mk_minus ra) x' y'
+  | Mult (x,y) -> let x' = process_term_aux x in
+                  let y' = process_term_aux y in
+                  apply_bdec_atom (Atom.mk_mult ra) x' y'
+
+let process_cl (c : clause) : SmtAtom.Form.t list =
+  List.map (fun x -> try process_term (process_term_aux x) with
+                     | Form.NotWellTyped frm -> raise (Debug ("| process_cl: formula "^
+                        (Form.pform_to_string frm)^" is not well-typed |"))) c
+
+let process_rule (r: rule) : VeritSyntax.typ =
+  match r with
+  | AssumeAST -> Assume
+  | TrueAST -> True
+  | FalsAST -> Fals
+  | NotnotAST -> raise (Debug ("| process_rule: notnot should be eliminated|"))
+  | ThresoAST -> Threso
+  | ResoAST -> Reso
+  | TautAST -> Taut
+  | ReflAST -> Refl
+  | TransAST -> raise (Debug ("| process_rule: trans should be eliminated|"))
+  | CongAST -> raise (Debug ("| process_rule: cong should be eliminated|"))
+  | EqreAST -> Eqre
+  | EqtrAST -> Eqtr
+  | EqcoAST -> Eqco
+  | EqcpAST -> Eqcp
+  | AndAST -> And
+  | NorAST -> Nor
+  | OrAST -> Or
+  | NandAST -> Nand
+  | Xor1AST -> Xor1 
+  | Xor2AST -> Xor2
+  | Nxor1AST -> Nxor1 
+  | Nxor2AST -> Nxor2
+  | ImpAST -> Imp
+  | Nimp1AST -> Nimp1
+  | Nimp2AST -> Nimp2
+  | Equ1AST -> Equ1
+  | Equ2AST -> Equ2
+  | Nequ1AST -> Nequ1
+  | Nequ2AST -> Nequ2
+  | AndpAST -> Andp
+  | AndnAST -> Andn
+  | OrpAST -> Orp
+  | OrnAST -> Orn
+  | Xorp1AST -> Xorp1
+  | Xorp2AST -> Xorp2
+  | Xorn1AST -> Xorn1
+  | Xorn2AST -> Xorn2
+  | ImppAST -> Impp
+  | Impn1AST -> Impn1
+  | Impn2AST -> Impn2
+  | Equp1AST -> Equp1
+  | Equp2AST -> Equp2
+  | Equn1AST -> Equn1
+  | Equn2AST -> Equn2
+  | Ite1AST -> Ite1
+  | Ite2AST -> Ite2
+  | Itep1AST -> Itep1
+  | Itep2AST -> Itep2
+  | Iten1AST -> Iten1
+  | Iten2AST -> Iten2
+  | Nite1AST -> Nite1
+  | Nite2AST -> Nite2
+  | ConndefAST -> raise (Debug ("| process_rule: connective_def should be eliminated|"))
+  | AndsimpAST -> raise (Debug ("| process_rule: and_simplify should be eliminated|"))
+  | OrsimpAST -> raise (Debug ("| process_rule: or_simplify should be eliminated|"))
+  | NotsimpAST -> raise (Debug ("| process_rule: not_simplify should be eliminated|"))
+  | ImpsimpAST -> raise (Debug ("| process_rule: implies_simplify should be eliminated|"))
+  | EqsimpAST -> raise (Debug ("| process_rule: equiv_simplify should be eliminated|"))
+  | BoolsimpAST -> raise (Debug ("| process_rule: bool_simplify should be eliminated|"))
+  | AcsimpAST -> Flatten
+  | ItesimpAST -> raise (Debug ("| process_rule: ite_simplify should be eliminated|"))
+  | EqualsimpAST -> raise (Debug ("| process_rule: equal_simplify should be eliminated|"))
+  | DistelimAST -> Distelim
+  | LageAST -> Lage
+  | LiageAST -> Liage
+  | LataAST -> Lata
+  | LadeAST -> Lade
+  | DivsimpAST -> Divsimp
+  | ProdsimpAST -> Prodsimp
+  | UminussimpAST -> Uminussimp
+  | MinussimpAST -> Minussimp
+  | SumsimpAST -> Sumsimp
+  | CompsimpAST -> Compsimp
+  | LarweqAST -> Larweq
+  | ArithpolynormAST -> Arithpolynorm
+  | LiaRewriteAST -> LiaRewrite
+  | LamulposAST -> Lamulpos
+  | LamulnegAST -> Lamulneg
+  | BindAST -> Bind
+  | FinsAST -> Fins
+  | QcnfAST -> Qcnf
+  | AllsimpAST -> Allsimp
+  | RarerewriteAST -> Allsimp
+  | SameAST -> Same
+  | ContAST -> Same
+  | HoleAST -> Hole
+  | WeakenAST -> Weaken
+  | FlattenAST -> Flatten
+  | AnchorAST -> Hole
+  | DischargeAST -> Hole
+  | SubproofAST c -> Hole
+
+
+
+(* Object Language Utilities *)
 
 (* Get expression modulo aliasing *)
 let rec get_expr = function
@@ -264,10 +474,25 @@ let rec negs_term (t : term) (i : int) : (int * term) =
   | Not t' -> negs_term t' (i+1)
   | t' -> (i, t'))
 
-(* Equality modulo symmetry of equality *)
-let eq_mod_symm (t1 : term) (t2 : term) : bool =
+(* Equality modulo symmetry of equality (but not equivalence) *)
+let rec eq_mod_symm (t1 : term) (t2 : term) : bool =
+  let check_arg_lists (x : term list) (y : term list) : bool =
+    if List.length x = List.length y then
+      List.fold_left (&&) true (List.map2 (eq_mod_symm) x y)
+    else false in
   match t1, t2 with
-  | Eq (x, y), Eq (a, b) -> (x = a && y = b) || (x = b && y = a)
+  | Eq (x, y), Eq (a, b) -> 
+    let is_term = (fun x -> match snd (process_term_aux x) with
+                            | Form.Atom h -> 
+                                (match Atom.type_of h with 
+                                  | SmtBtype.Tbool -> false
+                                  | _ -> true)
+                            | _ -> true) in
+    if (is_term x && is_term y && is_term a && is_term b) then
+      (x = a && y = b) || (x = b && y = a)
+    else
+      (x = a && y = b)
+  | Or xs, Or ys -> check_arg_lists xs ys
   | _, _ -> t1 = t2
 
 (* Negation modulo double negation elimination and symmetry of equality *)
@@ -551,218 +776,10 @@ let head_term (t : term) : string =
   | Plus _ -> "Plus _"
   | Minus _ -> "Minus _"
   | Mult _ -> "Mult _"
-
-
-
-(* Convert an AST to a list of clauses (SMTCoq's internal representation) *)
-
-let process_typ (t : typ) : SmtBtype.btype =
-  match t with
-  | Int -> TZ
-  | Bool -> Tbool
-  | Unintr _ -> assert false (* needs to be updated *)
-
-let rec process_vars (vs : (string * typ) list) : (string * SmtBtype.btype) list = 
-  match vs with
-  | (s, t) :: tl -> let t' = process_typ t in
-                    add_qvar s t'; (s, t') :: process_vars tl
-  | [] -> []
-
-let rec process_term (x: bool * SmtAtom.Form.atom_form_lit) : SmtAtom.Form.t =
-  try (Form.lit_of_atom_form_lit rf x) with
-  | Form.NotWellTyped frm -> raise (Debug ("| process_term: formula "^
-                        (Form.pform_to_string frm)^" is not well-typed |"))
-
-(* term |-> bool * SmtAtom.Form.atom_form_lit |-> SmtAtom.Form.t *)
-
-and process_term_aux (t : term) : bool * SmtAtom.Form.atom_form_lit (* option *) =
-  let process (t : term) : (bool * SmtAtom.Form.t) =
-    let decl, t' = process_term_aux t in
-    let t'' = process_term (decl, t') in
-    decl, t''
-  in match t with
-  | True -> true, Form.Form Form.pform_true
-  | False -> true, Form.Form Form.pform_false
-  | Not t -> let decl, t' = process t in 
-             decl, Form.Lit (Form.neg t')
-  | And ts -> apply_dec (fun x -> Form.Form (Fapp (Fand, Array.of_list x)))
-              (list_dec (List.map process ts))
-  | Or ts ->  apply_dec (fun x -> Form.Form (Fapp (For, Array.of_list x)))
-              (list_dec (List.map process ts))
-  | Imp ts -> apply_dec (fun x -> Form.Form (Fapp (Fimp, Array.of_list x)))
-              (list_dec (List.map process ts))
-  | Xor ts -> apply_dec (fun x -> Form.Form (Fapp (Fxor, Array.of_list x)))
-              (list_dec (List.map process ts))
-  | Ite ts -> apply_dec (fun x -> Form.Form (Fapp (Fite, Array.of_list x)))
-              (list_dec (List.map process ts))
-  | Forall (vs, t) -> let vs' = process_vars vs in
-                      let decl, t' = process t in
-                      clear_qvar ();
-                      false, Form.Form (Fapp (Fforall vs', [|t'|]))
-  | Eq (t1, t2) -> 
-      (match (process_term_aux t1), (process_term_aux t2) with 
-      | (decl1, Form.Atom h1), (decl2, Form.Atom h2) when (match Atom.type_of h1 with 
-                                                           | SmtBtype.Tbool -> false 
-                                                           | _ -> true)
-            -> let decl = decl1 && decl2 in decl, Form.Atom (Atom.mk_eq_sym ra ~declare:decl 
-                                         (Atom.type_of h1) h1 h2) 
-      | (decl1, t1), (decl2, t2) -> 
-               decl1 && decl2, Form.Form (Fapp (Fiff, 
-                                    [|Form.lit_of_atom_form_lit rf (decl1, t1); 
-                                      Form.lit_of_atom_form_lit rf (decl2, t2)|])))
-  | App (f, ts) -> let ts' = List.map process_term_aux ts in
-                   let args = List.map (fun x -> match x with 
-                               | decl, Form.Atom h -> (decl, h)
-                               | _ -> assert false) ts' in
-      (match find_opt_qvar f with
-      | Some bt -> let op = dummy_indexed_op (Rel_name f) [||] bt in
-                   false, Form.Atom (Atom.get ~declare:false ra (Aapp (op, Array.of_list (snd (list_dec args))))) 
-      | None ->    let dl, l = list_dec args in 
-                   dl, Form.Atom (Atom.get ra ~declare:dl (Aapp (SmtMaps.get_fun f, Array.of_list l))))
-  | Var s -> (match find_opt_qvar s with
-             | Some bt   -> false, 
-                Form.Atom (Atom.get ~declare:false ra (Aapp (dummy_indexed_op (Rel_name s) [||] bt, [||])))
-             | None      -> true, Form.Atom (Atom.get ra (Aapp (SmtMaps.get_fun s, [||]))))
-  | STerm s ->
-      (* s has either been processed and stored in the solver hashtable, 
-         or it has to be fetched first from the sterms hashtable, processed,
-         stored in the solver hashtable and then returned *)
-      (try get_solver s with
-       | Debug _ -> let t' = (try get_sterm s with
-                              | Debug d -> raise (Debug 
-                                ("| process_term_aux: can't find "^s^" |"^d))) in
-                    let t'' = process_term_aux t' in
-                              add_solver s t''; t'')
-  | NTerm (s, t) -> let t' = process_term_aux t in
-                    add_solver s t'; t'
-  (* | Let _ -> raise (Debug ("| process_term_aux: lets should have been eliminated by this point |")) *)
-  | Int i -> true, Form.Atom (Atom.hatom_Z_of_int ra i)
-  | Lt (x,y) -> let x' = process_term_aux x in
-                let y' = process_term_aux y in 
-                apply_bdec_atom (Atom.mk_lt ra) x' y'
-  | Leq (x,y) -> let x' = process_term_aux x in
-                 let y' = process_term_aux y in 
-                 apply_bdec_atom (Atom.mk_le ra) x' y'
-  | Gt (x,y) -> let x' = process_term_aux x in
-                let y' = process_term_aux y in 
-                apply_bdec_atom (Atom.mk_gt ra) x' y'
-  | Geq (x,y) -> let x' = process_term_aux x in
-                 let y' = process_term_aux y in 
-                 apply_bdec_atom (Atom.mk_ge ra) x' y'
-  | UMinus t -> let t' = process_term_aux t in
-                apply_dec_atom (fun ?declare:d a -> Atom.mk_neg ra a) t'
-  | Plus (x,y) -> let x' = process_term_aux x in
-                  let y' = process_term_aux y in 
-                  apply_bdec_atom (Atom.mk_plus ra) x' y'
-  | Minus (x,y) -> let x' = process_term_aux x in
-                   let y' = process_term_aux y in
-                   apply_bdec_atom (Atom.mk_minus ra) x' y'
-  | Mult (x,y) -> let x' = process_term_aux x in
-                  let y' = process_term_aux y in
-                  apply_bdec_atom (Atom.mk_mult ra) x' y'
-
-let process_cl (c : clause) : SmtAtom.Form.t list =
-  List.map (fun x -> try process_term (process_term_aux x) with
-                     | Form.NotWellTyped frm -> raise (Debug ("| process_cl: formula "^
-                        (Form.pform_to_string frm)^" is not well-typed |"))) c
-
-let process_rule (r: rule) : VeritSyntax.typ =
-  match r with
-  | AssumeAST -> Assume
-  | TrueAST -> True
-  | FalsAST -> Fals
-  | NotnotAST -> raise (Debug ("| process_rule: notnot should be eliminated|"))
-  | ThresoAST -> Threso
-  | ResoAST -> Reso
-  | TautAST -> Taut
-  | ReflAST -> Refl
-  | TransAST -> raise (Debug ("| process_rule: trans should be eliminated|"))
-  | CongAST -> raise (Debug ("| process_rule: cong should be eliminated|"))
-  | EqreAST -> Eqre
-  | EqtrAST -> Eqtr
-  | EqcoAST -> Eqco
-  | EqcpAST -> Eqcp
-  | AndAST -> And
-  | NorAST -> Nor
-  | OrAST -> Or
-  | NandAST -> Nand
-  | Xor1AST -> Xor1 
-  | Xor2AST -> Xor2
-  | Nxor1AST -> Nxor1 
-  | Nxor2AST -> Nxor2
-  | ImpAST -> Imp
-  | Nimp1AST -> Nimp1
-  | Nimp2AST -> Nimp2
-  | Equ1AST -> Equ1
-  | Equ2AST -> Equ2
-  | Nequ1AST -> Nequ1
-  | Nequ2AST -> Nequ2
-  | AndpAST -> Andp
-  | AndnAST -> Andn
-  | OrpAST -> Orp
-  | OrnAST -> Orn
-  | Xorp1AST -> Xorp1
-  | Xorp2AST -> Xorp2
-  | Xorn1AST -> Xorn1
-  | Xorn2AST -> Xorn2
-  | ImppAST -> Impp
-  | Impn1AST -> Impn1
-  | Impn2AST -> Impn2
-  | Equp1AST -> Equp1
-  | Equp2AST -> Equp2
-  | Equn1AST -> Equn1
-  | Equn2AST -> Equn2
-  | Ite1AST -> Ite1
-  | Ite2AST -> Ite2
-  | Itep1AST -> Itep1
-  | Itep2AST -> Itep2
-  | Iten1AST -> Iten1
-  | Iten2AST -> Iten2
-  | Nite1AST -> Nite1
-  | Nite2AST -> Nite2
-  | ConndefAST -> raise (Debug ("| process_rule: connective_def should be eliminated|"))
-  | AndsimpAST -> raise (Debug ("| process_rule: and_simplify should be eliminated|"))
-  | OrsimpAST -> raise (Debug ("| process_rule: or_simplify should be eliminated|"))
-  | NotsimpAST -> raise (Debug ("| process_rule: not_simplify should be eliminated|"))
-  | ImpsimpAST -> raise (Debug ("| process_rule: implies_simplify should be eliminated|"))
-  | EqsimpAST -> raise (Debug ("| process_rule: equiv_simplify should be eliminated|"))
-  | BoolsimpAST -> raise (Debug ("| process_rule: bool_simplify should be eliminated|"))
-  | AcsimpAST -> Flatten
-  | ItesimpAST -> raise (Debug ("| process_rule: ite_simplify should be eliminated|"))
-  | EqualsimpAST -> raise (Debug ("| process_rule: equal_simplify should be eliminated|"))
-  | DistelimAST -> Distelim
-  | LageAST -> Lage
-  | LiageAST -> Liage
-  | LataAST -> Lata
-  | LadeAST -> Lade
-  | DivsimpAST -> Divsimp
-  | ProdsimpAST -> Prodsimp
-  | UminussimpAST -> Uminussimp
-  | MinussimpAST -> Minussimp
-  | SumsimpAST -> Sumsimp
-  | CompsimpAST -> Compsimp
-  | LarweqAST -> Larweq
-  | ArithpolynormAST -> Arithpolynorm
-  | LiaRewriteAST -> LiaRewrite
-  | LamulposAST -> Lamulpos
-  | LamulnegAST -> Lamulneg
-  | BindAST -> Bind
-  | FinsAST -> Fins
-  | QcnfAST -> Qcnf
-  | AllsimpAST -> Allsimp
-  | RarerewriteAST -> Allsimp
-  | SameAST -> Same
-  | ContAST -> Same
-  | HoleAST -> Hole
-  | WeakenAST -> Weaken
-  | FlattenAST -> Flatten
-  | AnchorAST -> Hole
-  | DischargeAST -> Hole
-  | SubproofAST c -> Hole
-
-
-
-(* Preprocessing steps/transformations over certificate *)
+  
+  
+  
+  (* Preprocessing steps/transformations over certificate *)
 
 
 (* => Transformation Step: Replace named terms by their aliases, and store the alias-term 
@@ -5051,7 +5068,7 @@ let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
     | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1) ->
-        (* Printf.printf ("trivial clause at %s!\n") t1; *)
+        Printf.printf ("trivial clause at %s!\n") t1;
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
@@ -5090,7 +5107,7 @@ let process_trivial (c : certif) : certif =
                 if List.length replaced = 1 then
                   match replaced with
                   | [(t3, r3, c3, p3, a3)] ->
-                    (* Printf.printf ("recursive trivial clause at %s!\n") t3; *)
+                    Printf.printf ("recursive trivial clause at %s!\n") t3;
                     let ids' = find_res t t3 in
                     let _, _, new_res = try find_triv_lits c3 with (* t3 is trivial, its non-trivial part is carried forward *)
                                         | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
@@ -5127,7 +5144,7 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try 
   (let c1 = store_shared_terms c in
-  (* Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1); *)
+  Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1);
   let c2 = process_fins c1 in
   (* Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2); *)
   let c3 = process_hole c2 in
@@ -5137,7 +5154,7 @@ let preprocess_certif (c: certif) : certif =
   let c5 = process_same c4 in
   (* Printf.printf ("Certif after process_same: \n%s\n") (string_of_certif c5); *)
   let c6 = process_cong c5 in
-  (* Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6); *)
+  Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6);
   let c7 = process_trans c6 in
   (* Printf.printf ("Certif after process_trans: \n%s\n") (string_of_certif c7); *)
   let c8 = process_simplify c7 in
@@ -5147,7 +5164,7 @@ let preprocess_certif (c: certif) : certif =
   let c10 = process_subproof c9 in
   (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
-  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
+  Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11);
   c11) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 

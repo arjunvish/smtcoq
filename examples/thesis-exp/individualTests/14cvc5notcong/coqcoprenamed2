@@ -1,0 +1,118 @@
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/renamed.v
+     = false
+     : bool
+Certif after storing shared terms: 
+(a0, AssumeAST, (cl  ((not (or  (gt g) ((r ( ua)) = sa))))), [], [])
+(a1, AssumeAST, (cl  ((gt g))), [], [])
+(t1, OrnAST, (cl  ((or  (gt g) (sa = (r ( ua))))) ((not (gt g)))), [], [])
+(t2, ResoAST, (cl  ((or  (gt g) (sa = (r ( ua)))))), [ t1 a1], [])
+(t3, Equp2AST, (cl  ((not ((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua)))))))) ((not (not (or  (gt g) ((r ( ua)) = sa))))) ((not (or  (gt g) (sa = (r ( ua))))))), [], [])
+(t4, ReflAST, (cl  (((gt g) = (gt g)))), [], [])
+(t5, AllsimpAST, (cl  ((((r ( ua)) = sa) = (sa = (r ( ua)))))), [], [])
+(t6, CongAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua))))))), [ t4 t5], [])
+(t7, CongAST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua)))))))), [ t6], [])
+(t8, ResoAST, (cl  ((not (or  (gt g) (sa = (r ( ua))))))), [ t3 t7 a0], [])
+(t9, ResoAST, (cl ), [ t2 t8], [])
+
+Certif after process_cong: 
+(a0, AssumeAST, (cl  ((not (or  (gt g) ((r ( ua)) = sa))))), [], [])
+(a1, AssumeAST, (cl  ((gt g))), [], [])
+(t1, OrnAST, (cl  ((or  (gt g) (sa = (r ( ua))))) ((not (gt g)))), [], [])
+(t2, ResoAST, (cl  ((or  (gt g) (sa = (r ( ua)))))), [ t1 a1], [])
+(t3, Equp2AST, (cl  ((not ((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua)))))))) ((not (not (or  (gt g) ((r ( ua)) = sa))))) ((not (or  (gt g) (sa = (r ( ua))))))), [], [])
+(t4, ReflAST, (cl  (((gt g) = (gt g)))), [], [])
+(t5, AllsimpAST, (cl  ((((r ( ua)) = sa) = (sa = (r ( ua)))))), [], [])
+(x1, OrpAST, (cl  ((not (or  (gt g) ((r ( ua)) = sa)))) ((gt g)) (((r ( ua)) = sa))), [], [])
+(x3, Equp2AST, (cl  ((not (((r ( ua)) = sa) = (sa = (r ( ua)))))) ((not ((r ( ua)) = sa))) ((sa = (r ( ua))))), [], [])
+(x2, ResoAST, (cl  ((not ((r ( ua)) = sa))) ((sa = (r ( ua))))), [ x3 t5], [])
+(x5, OrnAST, (cl  ((or  (gt g) (sa = (r ( ua))))) ((not (sa = (r ( ua)))))), [], [ 1])
+(x4, OrnAST, (cl  ((or  (gt g) (sa = (r ( ua))))) ((not (gt g)))), [], [ 0])
+(x6, ResoAST, (cl  ((not (or  (gt g) ((r ( ua)) = sa)))) ((or  (gt g) (sa = (r ( ua)))))), [ x1 x2 x5 x4], [])
+(x7, Equn2AST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) ((r ( ua)) = sa))) ((or  (gt g) (sa = (r ( ua)))))), [], [])
+(x8, ResoAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) ((r ( ua)) = sa)))), [ x6 x7], [])
+(x9, OrpAST, (cl  ((not (or  (gt g) (sa = (r ( ua)))))) ((gt g)) ((sa = (r ( ua))))), [], [])
+(x11, Equp1AST, (cl  ((not (((r ( ua)) = sa) = (sa = (r ( ua)))))) (((r ( ua)) = sa)) ((not (sa = (r ( ua)))))), [], [])
+(x10, ResoAST, (cl  (((r ( ua)) = sa)) ((not (sa = (r ( ua)))))), [ x11 t5], [])
+(x13, OrnAST, (cl  ((or  (gt g) ((r ( ua)) = sa))) ((not ((r ( ua)) = sa)))), [], [ 1])
+(x12, OrnAST, (cl  ((or  (gt g) ((r ( ua)) = sa))) ((not (gt g)))), [], [ 0])
+(x14, ResoAST, (cl  ((not (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) ((r ( ua)) = sa)))), [ x9 x10 x13 x12], [])
+(x15, Equn1AST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((not (or  (gt g) (sa = (r ( ua))))))), [], [])
+(x16, ResoAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((not (or  (gt g) (sa = (r ( ua))))))), [ x14 x15], [])
+(t6, ResoAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua))))))), [ x8 x16], [])
+(x17, Equp1AST, (cl  ((not ((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua))))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((or  (gt g) (sa = (r ( ua)))))), [], [])
+(x18, ResoAST, (cl  ((not (or  (gt g) ((r ( ua)) = sa)))) ((or  (gt g) (sa = (r ( ua)))))), [ x17 t6], [])
+(x19, Equn1AST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((or  (gt g) ((r ( ua)) = sa))) ((or  (gt g) (sa = (r ( ua)))))), [], [])
+(x20, ResoAST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((or  (gt g) (sa = (r ( ua)))))), [ x18 x19], [])
+(x21, Equp2AST, (cl  ((not ((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua))))))) ((not (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) ((r ( ua)) = sa)))), [], [])
+(x22, ResoAST, (cl  ((not (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) ((r ( ua)) = sa)))), [ x21 t6], [])
+(x23, Equn2AST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((not (or  (gt g) (sa = (r ( ua))))))), [], [])
+(x24, ResoAST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((not (or  (gt g) (sa = (r ( ua))))))), [ x22 x23], [])
+(t7, ResoAST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua)))))))), [ x20 x24], [])
+(t8, ResoAST, (cl  ((not (or  (gt g) (sa = (r ( ua))))))), [ t3 t7 a0], [])
+(t9, ResoAST, (cl ), [ t2 t8], [])
+
+trivial clause at t3!
+trivial clause at x3!
+recursive trivial clause at x2!
+trivial clause at x2!
+trivial clause at x6!
+trivial clause at x11!
+recursive trivial clause at x10!
+trivial clause at x10!
+trivial clause at x14!
+trivial clause at x17!
+recursive trivial clause at x18!
+trivial clause at x18!
+trivial clause at x21!
+recursive trivial clause at x22!
+trivial clause at x22!
+Certif after process_trivial: 
+(a0, AssumeAST, (cl  ((not (or  (gt g) ((r ( ua)) = sa))))), [], [])
+(a1, AssumeAST, (cl  ((gt g))), [], [])
+(t1, OrnAST, (cl  ((or  (gt g) (sa = (r ( ua))))) ((not (gt g)))), [], [ 0])
+(t2, ResoAST, (cl  ((or  (gt g) (sa = (r ( ua)))))), [ t1 a1], [])
+(x25, Equn1AST, (cl  (((gt g) = (gt g))) ((not (gt g)))), [], [])
+(x26, Equn2AST, (cl  (((gt g) = (gt g))) ((gt g))), [], [])
+(t4, ResoAST, (cl  (((gt g) = (gt g)))), [ x25 x26], [])
+(x27, Equn1AST, (cl  ((((r ( ua)) = sa) = (sa = (r ( ua))))) ((not ((r ( ua)) = sa)))), [], [])
+(x28, Equn2AST, (cl  ((((r ( ua)) = sa) = (sa = (r ( ua))))) (((r ( ua)) = sa))), [], [])
+(t5, ResoAST, (cl  ((((r ( ua)) = sa) = (sa = (r ( ua)))))), [ x27 x28], [])
+(x1, OrpAST, (cl  ((not (or  (gt g) ((r ( ua)) = sa)))) ((gt g)) (((r ( ua)) = sa))), [], [])
+(x5, OrnAST, (cl  ((or  (gt g) (sa = (r ( ua))))) ((not (sa = (r ( ua)))))), [], [ 1])
+(x4, OrnAST, (cl  ((or  (gt g) (sa = (r ( ua))))) ((not (gt g)))), [], [ 0])
+          ------------------------------------------x1
+          ~((gt g) v (r ua = sa)), gt g, r ua = sa
+--------------------------------------------------------------------weaken
+(r ua = sa) != (sa = r ua), ~((gt g) v (r ua = sa)), gt g, r ua = sa
+(x30, WeakenAST, (cl  ((not (((r ( ua)) = sa) = (sa = (r ( ua)))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((gt g)) (((r ( ua)) = sa))), [ x1], [])
+(x7, Equn2AST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) ((r ( ua)) = sa))) ((or  (gt g) (sa = (r ( ua)))))), [], [])
+-------------------------------------------------------------------------------------------x7
+((gt g) v (r ua = sa)) = ((gt g) v (sa = r ua)), (gt g) v (r ua = sa), (gt g) v (sa = r ua)
+-------------------------------------------------------------------------------------------weaken
+((gt g) v (r ua = sa)) = ((gt g) v (sa = r ua)), (gt g) v (sa = r ua)
+(x31, WeakenAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) (sa = (r ( ua)))))), [ x7], [])
+(x8, ResoAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((or  (gt g) ((r ( ua)) = sa)))), [ x31], [])
+(x9, OrpAST, (cl  ((not (or  (gt g) (sa = (r ( ua)))))) ((gt g)) ((sa = (r ( ua))))), [], [])
+(x13, OrnAST, (cl  ((or  (gt g) ((r ( ua)) = sa))) ((not ((r ( ua)) = sa)))), [], [ 1])
+(x12, OrnAST, (cl  ((or  (gt g) ((r ( ua)) = sa))) ((not (gt g)))), [], [ 0])
+(x32, WeakenAST, (cl  ((not (((r ( ua)) = sa) = (sa = (r ( ua)))))) ((not (or  (gt g) (sa = (r ( ua)))))) ((gt g)) ((sa = (r ( ua))))), [ x9], [])
+(x15, Equn1AST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((not (or  (gt g) (sa = (r ( ua))))))), [], [])
+(x33, WeakenAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((not (or  (gt g) (sa = (r ( ua))))))), [ x15], [])
+(x16, ResoAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua)))))) ((not (or  (gt g) (sa = (r ( ua))))))), [ x33], [])
+---------------------------------------------------------------------x8    ------------------------------------------------------------------------x16
+((gt g) v (r ua = sa)) = ((gt g) v (sa = r ua)), (gt g) v (r ua = sa)      ((gt g) v (r ua = sa)) = ((gt g) v (sa = r ua)), ~((gt g) v (sa = r ua))
+---------------------------------------------------------------------------------------------------------------------------------------------------res
+                                             ((gt g) v (r ua = sa)) = ((gt g) v (sa = r ua))
+(t6, ResoAST, (cl  (((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua))))))), [ x8 x16], []) (*PROBLEM*)
+(x19, Equn1AST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((or  (gt g) ((r ( ua)) = sa))) ((or  (gt g) (sa = (r ( ua)))))), [], [])
+(x34, WeakenAST, (cl  ((not ((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua))))))) (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((or  (gt g) (sa = (r ( ua)))))), [ x19], [])
+(x20, ResoAST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((or  (gt g) (sa = (r ( ua)))))), [ x34 t6], [])
+(x23, Equn2AST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((not (or  (gt g) (sa = (r ( ua))))))), [], [])
+(x35, WeakenAST, (cl  ((not ((or  (gt g) ((r ( ua)) = sa)) = (or  (gt g) (sa = (r ( ua))))))) (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((not (or  (gt g) ((r ( ua)) = sa)))) ((not (or  (gt g) (sa = (r ( ua))))))), [ x23], [])
+(x24, ResoAST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua))))))) ((not (or  (gt g) (sa = (r ( ua))))))), [ x35 t6], [])
+(t7, ResoAST, (cl  (((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua)))))))), [ x20 x24], [])
+(x29, WeakenAST, (cl  ((not ((not (or  (gt g) ((r ( ua)) = sa))) = (not (or  (gt g) (sa = (r ( ua)))))))) ((not (or  (gt g) ((r ( ua)) = sa))))), [ a0], [])
+(t8, ResoAST, (cl  ((not (or  (gt g) (sa = (r ( ua))))))), [ x29 t7], [])
+(t9, ResoAST, (cl ), [ t2 t8], [])
+

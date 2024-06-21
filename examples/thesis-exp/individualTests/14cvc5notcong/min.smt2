@@ -1,0 +1,7 @@
+(set-logic AUFLIA)
+(declare-fun gt () Bool)
+(declare-fun r () Int)
+(declare-fun s () Int)
+(assert (! (not (or gt (= r s))) :named a0))
+(assert (! gt :named a1))
+(check-sat)
