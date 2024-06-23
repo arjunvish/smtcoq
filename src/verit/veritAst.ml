@@ -5083,8 +5083,10 @@ let process_trivial (c : certif) : certif =
               (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
               (match (List.find_opt (fun p -> if p = t1i then false else match get_cl p cog with
                                              | Some c2 -> (List.exists (eq_mod_dneg_symm x) c2) || (List.exists (eq_mod_dneg_symm notx) c2)
-                                             | None -> raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
-                                                              ^" can't fetch clause at premise "^p^" |"))) p3) with
+                                             | None -> false (* If we did the following, this exception would be raised when some resolution `t2` has premises
+                                                                p and q both of which are trivial: 
+                                                                raise (Debug ("| process_trivial_aux.replace_res: from id "^t3
+                                                                ^" can't fetch clause at premise "^p^" |"))*)) p3) with
               | Some pi -> 
                  let t2 = pi in
                  let c2 = match (get_cl t2 cog) with
@@ -5096,7 +5098,7 @@ let process_trivial (c : certif) : certif =
                  let p3new = (remove t2 (replace t1i t3a p3)) @ pids in
                  (* SMTCoq implicitly removes duplicates except when they are derived by Weaken, so we 
                     need to explicitly remove duplicates here in case `res @ c3a` has any *)
-                 (* Printf.printf ("Generating weakened clause %s!\n") (string_of_clause (to_uniq_mod_dneg_symm (res @ c3a))); *)
+                 (* Printf.printf ("Generating weakened clause %s at id %s associated with %s!\n") (string_of_clause (to_uniq_mod_dneg_symm (res @ c3a))) (t3a) (t3); *)
                  [(t3a, WeakenAST, to_uniq_mod_dneg_symm (res @ c3a), [t2], []);
                   (t3, ResoAST, c3, p3new, [])]
               | None -> [(t3, r3, c3, p3, a3)] (* Trivial clause is being resolved to generate another trivial clause *))

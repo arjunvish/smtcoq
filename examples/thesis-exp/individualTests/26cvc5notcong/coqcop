@@ -1,111 +1,107 @@
-     = false
-     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_15_27_694_6279318cvc5.v
 Certif after storing shared terms: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(t1, AllsimpAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [], [])
-(t2, CongAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ t1], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-
-Certif after process_fins: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(t1, AllsimpAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [], [])
-(t2, CongAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ t1], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-
-Certif after process_hole: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(t1, AllsimpAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [], [])
-(t2, CongAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ t1], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-/
-Certif after process_notnot: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(t1, AllsimpAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [], [])
-(t2, CongAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ t1], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-
-Certif after process_same: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(t1, AllsimpAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [], [])
-(t2, CongAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ t1], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-
-Certif after process_cong: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(t1, AllsimpAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [], [])
-(x1, Equp1AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not ((f ( x)) = a))) ((a = (f ( x))))), [], [])
-(x2, ResoAST, (cl  ((not ((f ( x)) = a))) ((a = (f ( x))))), [ x1 t1], [])
-(x3, Equn1AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) (((f ( x)) = a)) ((a = (f ( x))))), [], [])
-(x4, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((a = (f ( x))))), [ x2 x3], [])
-(x5, Equp2AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(x6, ResoAST, (cl  ((not (a = (f ( x))))) (((f ( x)) = a))), [ x5 t1], [])
-(x7, Equn2AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not ((f ( x)) = a))) ((not (a = (f ( x)))))), [], [])
-(x8, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not (a = (f ( x)))))), [ x6 x7], [])
-(t2, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ x4 x8], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-
-Certif after process_trans: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(t1, AllsimpAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [], [])
-(x1, Equp1AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not ((f ( x)) = a))) ((a = (f ( x))))), [], [])
-(x2, ResoAST, (cl  ((not ((f ( x)) = a))) ((a = (f ( x))))), [ x1 t1], [])
-(x3, Equn1AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) (((f ( x)) = a)) ((a = (f ( x))))), [], [])
-(x4, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((a = (f ( x))))), [ x2 x3], [])
-(x5, Equp2AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(x6, ResoAST, (cl  ((not (a = (f ( x))))) (((f ( x)) = a))), [ x5 t1], [])
-(x7, Equn2AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not ((f ( x)) = a))) ((not (a = (f ( x)))))), [], [])
-(x8, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not (a = (f ( x)))))), [ x6 x7], [])
-(t2, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ x4 x8], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-
-Certif after process_simplify: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(x9, Equn1AST, (cl  ((((f ( x)) = a) = (a = (f ( x))))) ((not ((f ( x)) = a)))), [], [])
-(x10, Equn2AST, (cl  ((((f ( x)) = a) = (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(t1, ResoAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [ x9 x10], [])
-(x1, Equp1AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not ((f ( x)) = a))) ((a = (f ( x))))), [], [])
-(x2, ResoAST, (cl  ((not ((f ( x)) = a))) ((a = (f ( x))))), [ x1 t1], [])
-(x3, Equn1AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) (((f ( x)) = a)) ((a = (f ( x))))), [], [])
-(x4, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((a = (f ( x))))), [ x2 x3], [])
-(x5, Equp2AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(x6, ResoAST, (cl  ((not (a = (f ( x))))) (((f ( x)) = a))), [ x5 t1], [])
-(x7, Equn2AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not ((f ( x)) = a))) ((not (a = (f ( x)))))), [], [])
-(x8, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not (a = (f ( x)))))), [ x6 x7], [])
-(t2, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ x4 x8], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
-
-Certif after process_proj: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(x9, Equn1AST, (cl  ((((f ( x)) = a) = (a = (f ( x))))) ((not ((f ( x)) = a)))), [], [])
-(x10, Equn2AST, (cl  ((((f ( x)) = a) = (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(t1, ResoAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [ x9 x10], [])
-(x1, Equp1AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not ((f ( x)) = a))) ((a = (f ( x))))), [], [])
-(x2, ResoAST, (cl  ((not ((f ( x)) = a))) ((a = (f ( x))))), [ x1 t1], [])
-(x3, Equn1AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) (((f ( x)) = a)) ((a = (f ( x))))), [], [])
-(x4, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((a = (f ( x))))), [ x2 x3], [])
-(x5, Equp2AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(x6, ResoAST, (cl  ((not (a = (f ( x))))) (((f ( x)) = a))), [ x5 t1], [])
-(x7, Equn2AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not ((f ( x)) = a))) ((not (a = (f ( x)))))), [], [])
-(x8, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not (a = (f ( x)))))), [ x6 x7], [])
-(t2, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ x4 x8], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
+(a0, AssumeAST, (cl  ((not (false)))), [], [])
+(a1, AssumeAST, (cl  ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))), [], [])
+(a2, AssumeAST, (cl  (((vars_d ( t_d)) = bot_d))), [], [])
+(a3, AssumeAST, (cl  (((vars_d ( s_d)) = bot_d))), [], [])
+(t1, Equp2AST, (cl  ((not ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))) ((not (or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))) ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))), [], [])
+(t2, AllsimpAST, (cl  ((((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d)))))), [], [])
+(t3, CongAST, (cl  (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d))))))), [ t2], [])
+(t4, AllsimpAST, (cl  ((((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d)))))), [], [])
+(t5, CongAST, (cl  (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d))))))), [ t4], [])
+(t6, CongAST, (cl  (((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))), [ t3 t5], [])
+(t7, ResoAST, (cl  ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))), [ t1 t6 a1], [])
+(t8, OrpAST, (cl  ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((not (bot_d = (vars_d ( t_d))))) ((not (bot_d = (vars_d ( s_d)))))), [], [])
+(t9, SameAST, (cl  ((bot_d = (vars_d ( t_d))))), [ a2], [])
+(t10, SameAST, (cl  ((bot_d = (vars_d ( s_d))))), [ a3], [])
+(t11, ResoAST, (cl  ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))), [ t8 t9 t10], [])
+(t12, ResoAST, (cl ), [ t7 t11], [])
 
 Certif after process_subproof: 
-(a0, AssumeAST, (cl  ((not ((not ((f ( x)) = a)) = (not (a = (f ( x)))))))), [], [])
-(x9, Equn1AST, (cl  ((((f ( x)) = a) = (a = (f ( x))))) ((not ((f ( x)) = a)))), [], [])
-(x10, Equn2AST, (cl  ((((f ( x)) = a) = (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(t1, ResoAST, (cl  ((((f ( x)) = a) = (a = (f ( x)))))), [ x9 x10], [])
-(x1, Equp1AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not ((f ( x)) = a))) ((a = (f ( x))))), [], [])
-(x2, ResoAST, (cl  ((not ((f ( x)) = a))) ((a = (f ( x))))), [ x1 t1], [])
-(x3, Equn1AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) (((f ( x)) = a)) ((a = (f ( x))))), [], [])
-(x4, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((a = (f ( x))))), [ x2 x3], []) (* PROBLEM *)
-f x != a, a = f x        (f x != a) = (a != f x), f x = a, a = f x
-------------------------------------------------------------------
-               (f x != a) = (a != f x), a = f x
-(x5, Equp2AST, (cl  ((not (((f ( x)) = a) = (a = (f ( x)))))) ((not (a = (f ( x))))) (((f ( x)) = a))), [], [])
-(x6, ResoAST, (cl  ((not (a = (f ( x))))) (((f ( x)) = a))), [ x5 t1], [])
-(x7, Equn2AST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not ((f ( x)) = a))) ((not (a = (f ( x)))))), [], [])
-(x8, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x)))))) ((not (a = (f ( x)))))), [ x6 x7], [])
-(t2, ResoAST, (cl  (((not ((f ( x)) = a)) = (not (a = (f ( x))))))), [ x4 x8], [])
-(t3, ResoAST, (cl ), [ t2 a0], [])
+(a0, AssumeAST, (cl  ((not (false)))), [], [])
+(a1, AssumeAST, (cl  ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))), [], [])
+(a2, AssumeAST, (cl  (((vars_d ( t_d)) = bot_d))), [], [])
+(a3, AssumeAST, (cl  (((vars_d ( s_d)) = bot_d))), [], [])
+(t1, Equp2AST, (cl  ((not ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))) ((not (or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))) ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))), [], [])
+(x37, Equn1AST, (cl  ((((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d))))) ((not ((vars_d ( t_d)) = bot_d)))), [], [])
+(x38, Equn2AST, (cl  ((((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d))))) (((vars_d ( t_d)) = bot_d))), [], [])
+(t2, ResoAST, (cl  ((((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d)))))), [ x37 x38], [])
+(x1, Equp1AST, (cl  ((not (((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d)))))) ((not ((vars_d ( t_d)) = bot_d))) ((bot_d = (vars_d ( t_d))))), [], [])
+(x2, ResoAST, (cl  ((not ((vars_d ( t_d)) = bot_d))) ((bot_d = (vars_d ( t_d))))), [ x1 t2], [])
+(x3, Equn1AST, (cl  (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d)))))) (((vars_d ( t_d)) = bot_d)) ((bot_d = (vars_d ( t_d))))), [], [])
+(x4, ResoAST, (cl  (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d)))))) ((bot_d = (vars_d ( t_d))))), [ x2 x3], [])
+(x5, Equp2AST, (cl  ((not (((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d)))))) ((not (bot_d = (vars_d ( t_d))))) (((vars_d ( t_d)) = bot_d))), [], [])
+(x6, ResoAST, (cl  ((not (bot_d = (vars_d ( t_d))))) (((vars_d ( t_d)) = bot_d))), [ x5 t2], [])
+(x7, Equn2AST, (cl  (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d)))))) ((not ((vars_d ( t_d)) = bot_d))) ((not (bot_d = (vars_d ( t_d)))))), [], [])
+(x8, ResoAST, (cl  (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d)))))) ((not (bot_d = (vars_d ( t_d)))))), [ x6 x7], [])
+(t3, ResoAST, (cl  (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d))))))), [ x4 x8], [])
+(x39, Equn1AST, (cl  ((((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d))))) ((not ((vars_d ( s_d)) = bot_d)))), [], [])
+(x40, Equn2AST, (cl  ((((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d))))) (((vars_d ( s_d)) = bot_d))), [], [])
+(t4, ResoAST, (cl  ((((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d)))))), [ x39 x40], [])
+(x9, Equp1AST, (cl  ((not (((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d)))))) ((not ((vars_d ( s_d)) = bot_d))) ((bot_d = (vars_d ( s_d))))), [], [])
+(x10, ResoAST, (cl  ((not ((vars_d ( s_d)) = bot_d))) ((bot_d = (vars_d ( s_d))))), [ x9 t4], [])
+(x11, Equn1AST, (cl  (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d)))))) (((vars_d ( s_d)) = bot_d)) ((bot_d = (vars_d ( s_d))))), [], [])
+(x12, ResoAST, (cl  (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d)))))) ((bot_d = (vars_d ( s_d))))), [ x10 x11], [])
+(x13, Equp2AST, (cl  ((not (((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d)))))) ((not (bot_d = (vars_d ( s_d))))) (((vars_d ( s_d)) = bot_d))), [], [])
+(x14, ResoAST, (cl  ((not (bot_d = (vars_d ( s_d))))) (((vars_d ( s_d)) = bot_d))), [ x13 t4], [])
+(x15, Equn2AST, (cl  (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d)))))) ((not ((vars_d ( s_d)) = bot_d))) ((not (bot_d = (vars_d ( s_d)))))), [], [])
+(x16, ResoAST, (cl  (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d)))))) ((not (bot_d = (vars_d ( s_d)))))), [ x14 x15], [])
+(t5, ResoAST, (cl  (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d))))))), [ x12 x16], [])
+(x17, OrpAST, (cl  ((not (or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))) ((not ((vars_d ( t_d)) = bot_d))) ((not ((vars_d ( s_d)) = bot_d)))), [], [])
+(x21, Equp2AST, (cl  ((not ((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d))))))) ((not (not ((vars_d ( s_d)) = bot_d)))) ((not (bot_d = (vars_d ( s_d)))))), [], [])
+(x20, ResoAST, (cl  ((not (not ((vars_d ( s_d)) = bot_d)))) ((not (bot_d = (vars_d ( s_d)))))), [ x21 t5], [])
+(x19, Equp2AST, (cl  ((not ((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d))))))) ((not (not ((vars_d ( t_d)) = bot_d)))) ((not (bot_d = (vars_d ( t_d)))))), [], [])
+(x18, ResoAST, (cl  ((not (not ((vars_d ( t_d)) = bot_d)))) ((not (bot_d = (vars_d ( t_d)))))), [ x19 t3], [])
+(x23, OrnAST, (cl  ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))) ((not (not (bot_d = (vars_d ( s_d))))))), [], [ 1])
+(x22, OrnAST, (cl  ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))) ((not (not (bot_d = (vars_d ( t_d))))))), [], [ 0])
+(x24, ResoAST, (cl  ((not (or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))) ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))), [ x17 x20 x18 x23 x22], [])
+(x25, Equn2AST, (cl  (((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d)))) ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))), [], [])
+(x26, ResoAST, (cl  (((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))), [ x24 x25], [])
+(x27, OrpAST, (cl  ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((not (bot_d = (vars_d ( t_d))))) ((not (bot_d = (vars_d ( s_d)))))), [], [])
+(x31, Equp1AST, (cl  ((not ((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d))))))) ((not ((vars_d ( s_d)) = bot_d))) ((not (not (bot_d = (vars_d ( s_d))))))), [], [])
+(x30, ResoAST, (cl  ((not ((vars_d ( s_d)) = bot_d))) ((not (not (bot_d = (vars_d ( s_d))))))), [ x31 t5], [])
+(x29, Equp1AST, (cl  ((not ((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d))))))) ((not ((vars_d ( t_d)) = bot_d))) ((not (not (bot_d = (vars_d ( t_d))))))), [], [])
+(x28, ResoAST, (cl  ((not ((vars_d ( t_d)) = bot_d))) ((not (not (bot_d = (vars_d ( t_d))))))), [ x29 t3], [])
+(x33, OrnAST, (cl  ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d)))) ((not (not ((vars_d ( s_d)) = bot_d))))), [], [ 1])
+(x32, OrnAST, (cl  ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d)))) ((not (not ((vars_d ( t_d)) = bot_d))))), [], [ 0])
+(x34, ResoAST, (cl  ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))), [ x27 x30 x28 x33 x32], [])
+(x35, Equn1AST, (cl  (((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((not (or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))) ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))), [], [])
+(x36, ResoAST, (cl  (((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))), [ x34 x35], [])
+(t6, ResoAST, (cl  (((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))), [ x26 x36], [])
+(t7, ResoAST, (cl  ((or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))), [ t1 t6 a1], [])
+(t8, OrpAST, (cl  ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d))))))) ((not (bot_d = (vars_d ( t_d))))) ((not (bot_d = (vars_d ( s_d)))))), [], [])
+(t11, ResoAST, (cl  ((not (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))), [ t8 a2 a3], [])
+(t12, ResoAST, (cl ), [ t7 t11], [])
+
+trivial clause at t1!
+Generating weakened clause (cl  ((not ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))) = (or  (not (bot_d = (vars_d ( t_d)))) (not (bot_d = (vars_d ( s_d)))))))) ((or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))) at id x41 associated with t7!
+trivial clause at x1!
+recursive trivial clause at x2!
+Generating weakened clause (cl  ((not (((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d)))))) (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d)))))) ((bot_d = (vars_d ( t_d))))) at id x42 associated with x4!
+trivial clause at x2!
+trivial clause at x5!
+recursive trivial clause at x6!
+Generating weakened clause (cl  ((not (((vars_d ( t_d)) = bot_d) = (bot_d = (vars_d ( t_d)))))) (((not ((vars_d ( t_d)) = bot_d)) = (not (bot_d = (vars_d ( t_d)))))) ((not (bot_d = (vars_d ( t_d)))))) at id x43 associated with x8!
+trivial clause at x6!
+trivial clause at x9!
+recursive trivial clause at x10!
+Generating weakened clause (cl  ((not (((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d)))))) (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d)))))) ((bot_d = (vars_d ( s_d))))) at id x44 associated with x12!
+trivial clause at x10!
+trivial clause at x13!
+recursive trivial clause at x14!
+Generating weakened clause (cl  ((not (((vars_d ( s_d)) = bot_d) = (bot_d = (vars_d ( s_d)))))) (((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d)))))) ((not (bot_d = (vars_d ( s_d)))))) at id x45 associated with x16!
+trivial clause at x14!
+trivial clause at x21!
+recursive trivial clause at x20!
+Generating weakened clause (cl  ((not ((not ((vars_d ( s_d)) = bot_d)) = (not (bot_d = (vars_d ( s_d))))))) ((not (or  (not ((vars_d ( t_d)) = bot_d)) (not ((vars_d ( s_d)) = bot_d))))) ((not ((vars_d ( t_d)) = bot_d))) ((not ((vars_d ( s_d)) = bot_d)))) at id x46 associated with x24!
+trivial clause at x20!
+trivial clause at x19!
+recursive trivial clause at x18!
+File "./x2020_08_03_17_15_27_694_6279318cvc5.v", line 8, characters 2-407:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_trivial_aux.replace_res: from id x24 can't fetch clause at premise x46 |
+Position: Line 17 Position 1
 
