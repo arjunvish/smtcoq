@@ -474,41 +474,44 @@ let rec negs_term (t : term) (i : int) : (int * term) =
   | Not t' -> negs_term t' (i+1)
   | t' -> (i, t'))
 
-(* Equality modulo symmetry of equality (but not equivalence) *)
-let rec eq_mod_symm (t1 : term) (t2 : term) : bool =
+(* Equality modulo double negation elimination and symmetry of equality (but not equivalence) *)
+let rec eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
   let check_arg_lists (x : term list) (y : term list) : bool =
     if List.length x = List.length y then
-      List.fold_left (&&) true (List.map2 (eq_mod_symm) x y)
+      List.fold_left (&&) true (List.map2 (eq_mod_dneg_symm) x y)
     else false in
-  match t1, t2 with
-  | Eq (x, y), Eq (a, b) -> 
-    let is_term = (fun x -> match snd (process_term_aux x) with
-                            | Form.Atom h -> 
-                                (match Atom.type_of h with 
-                                  | SmtBtype.Tbool -> false
-                                  | _ -> true)
-                            | _ -> true) in
-    if (is_term x && is_term y && is_term a && is_term b) then
-      (x = a && y = b) || (x = b && y = a)
-    else
-      (x = a && y = b)
-  | Or xs, Or ys -> check_arg_lists xs ys
-  | _, _ -> t1 = t2
+  let t1_negs, t1_bare = negs_term t1 0 in
+  let t2_negs, t2_bare = negs_term t2 0 in
+  if (t1_negs mod 2) <> (t2_negs mod 2) then false
+  else
+    match t1_bare, t2_bare with
+    | And xs, And ys -> check_arg_lists xs ys
+    | Or xs, Or ys -> check_arg_lists xs ys
+    | Imp xs, Imp ys -> check_arg_lists xs ys
+    | Xor xs, Xor ys -> check_arg_lists xs ys
+    | Ite xs, Ite ys -> check_arg_lists xs ys
+    | App (f1, xs), App (f2, ys) -> f1 = f2 && check_arg_lists xs ys
+    | Eq (x, y), Eq (a, b) -> 
+      let is_term = (fun x -> match snd (process_term_aux x) with
+                              | Form.Atom h -> 
+                                  (match Atom.type_of h with 
+                                    | SmtBtype.Tbool -> false
+                                    | _ -> true)
+                              | _ -> true) in
+      if (is_term x && is_term y && is_term a && is_term b) then
+        (x = a && y = b) || (x = b && y = a)
+      else
+        (x = a && y = b)
+    | _, _ -> t1_bare = t2_bare
 
 (* Negation modulo double negation elimination and symmetry of equality *)
 let neg_mod_dneg_symm (t1 : term) (t2 : term) : bool =
   let t1_negs, t1_bare = negs_term t1 0 in
   let t2_negs, t2_bare = negs_term t2 0 in
-  (eq_mod_symm t1_bare t2_bare) && ((t1_negs mod 2) <> (t2_negs mod 2))
-
-(* Equality modulo double negation elimination and symmetry of equality *)
-let eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
-  let t1_negs, t1_bare = negs_term t1 0 in
-  let t2_negs, t2_bare = negs_term t2 0 in
-  (eq_mod_symm t1_bare t2_bare) && ((t1_negs mod 2) = (t2_negs mod 2))
+  (eq_mod_dneg_symm t1_bare t2_bare) && ((t1_negs mod 2) <> (t2_negs mod 2))
 
 (* Remove duplicates in terms (meta) equality of terms modulo symmetry of (object) equality *)
-let to_uniq_mod_symm = to_uniq eq_mod_symm
+let to_uniq_mod_dneg_symm = to_uniq eq_mod_dneg_symm
 
 
 (* Term equality modulo alpha renaming of foralls *)
@@ -1242,7 +1245,7 @@ let process_cong (c : certif) : certif =
                         (i, ResoAST, [eq], eqn1i :: pids, []) ::
                         process_cong_aux t cog
                       else
-                      (* ASSUMPTION: we are not doing anything special for numdist = 3, so it fall-back to the numdist = 4 case *)
+                      (* ASSUMPTION: we are not doing anything special for numdist = 3, so it falls back to the numdist = 4 case *)
                       (* Case: x, y, a, b are distinct
                         -----  ---------------eqp1                                                                             
                         y = b  ~(y = b), y, ~b                                                                                 
@@ -5068,7 +5071,7 @@ let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) : certif =
     match c with
     | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1) ->
-        Printf.printf ("trivial clause at %s!\n") t1;
+        (* Printf.printf ("trivial clause at %s!\n") t1; *)
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
@@ -5093,7 +5096,8 @@ let process_trivial (c : certif) : certif =
                  let p3new = (remove t2 (replace t1i t3a p3)) @ pids in
                  (* SMTCoq implicitly removes duplicates except when they are derived by Weaken, so we 
                     need to explicitly remove duplicates here in case `res @ c3a` has any *)
-                 [(t3a, WeakenAST, to_uniq_mod_symm (res @ c3a), [t2], []);
+                 (* Printf.printf ("Generating weakened clause %s!\n") (string_of_clause (to_uniq_mod_dneg_symm (res @ c3a))); *)
+                 [(t3a, WeakenAST, to_uniq_mod_dneg_symm (res @ c3a), [t2], []);
                   (t3, ResoAST, c3, p3new, [])]
               | None -> [(t3, r3, c3, p3, a3)] (* Trivial clause is being resolved to generate another trivial clause *))
           | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1i^" |")) in
@@ -5107,7 +5111,7 @@ let process_trivial (c : certif) : certif =
                 if List.length replaced = 1 then
                   match replaced with
                   | [(t3, r3, c3, p3, a3)] ->
-                    Printf.printf ("recursive trivial clause at %s!\n") t3;
+                    (* Printf.printf ("recursive trivial clause at %s!\n") t3; *)
                     let ids' = find_res t t3 in
                     let _, _, new_res = try find_triv_lits c3 with (* t3 is trivial, its non-trivial part is carried forward *)
                                         | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
@@ -5144,7 +5148,7 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try 
   (let c1 = store_shared_terms c in
-  Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1);
+  (* Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1); *)
   let c2 = process_fins c1 in
   (* Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2); *)
   let c3 = process_hole c2 in
@@ -5154,7 +5158,7 @@ let preprocess_certif (c: certif) : certif =
   let c5 = process_same c4 in
   (* Printf.printf ("Certif after process_same: \n%s\n") (string_of_certif c5); *)
   let c6 = process_cong c5 in
-  Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6);
+  (* Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6); *)
   let c7 = process_trans c6 in
   (* Printf.printf ("Certif after process_trans: \n%s\n") (string_of_certif c7); *)
   let c8 = process_simplify c7 in
@@ -5164,7 +5168,7 @@ let preprocess_certif (c: certif) : certif =
   let c10 = process_subproof c9 in
   (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
-  Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11);
+  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
   c11) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 
