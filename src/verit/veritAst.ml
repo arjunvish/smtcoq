@@ -608,13 +608,16 @@ let rec term_eq (t1 : term) (t2 : term) : bool =
 
 let rec string_of_certif (c : certif) : string = 
   match c with
-  | (i, r, c, p, a) :: t -> 
-      let r' = string_of_rule r in
-      let c' = string_of_clause c in
-      let p' = List.fold_left concat_sp "" p in
-      let a' = List.fold_left concat_sp "" a in
-      "("^i^", "^r'^", "^c'^", ["^p'^"], ["^a'^"])\n"^(string_of_certif t)
+  | s :: t -> (string_of_step s)^"\n"^(string_of_certif t)
   | [] -> ""
+and string_of_step (s : step) : string = 
+  match s with
+  | (i, r, c, p, a) -> 
+    let r' = string_of_rule r in
+    let c' = string_of_clause c in
+    let p' = List.fold_left concat_sp "" p in
+    let a' = List.fold_left concat_sp "" a in
+    "("^i^", "^r'^", "^c'^", ["^p'^"], ["^a'^"])"
 and string_of_rule (r : rule) : string =
   match r with
   | AssumeAST -> "AssumeAST"
@@ -5055,7 +5058,7 @@ let find_res (c : certif) (i : id) : id list =
     | [] -> ids
   in find_res_aux c i []
 
-(* From cl, find terms (x, y) such that they are negations of each other *)
+(* From cl, find terms x and y such that they are negations of each other *)
 let find_triv_lits (cl : clause) : (term * term * clause) =
   let rec find_triv_lits_aux (cl : clause) : (term * term) =
     match cl with
@@ -5068,18 +5071,22 @@ let find_triv_lits (cl : clause) : (term * term * clause) =
   (l1, l2, remove l1 (remove l2 cl))
 
 let process_trivial (c : certif) : certif =
-  let rec process_trivial_aux (c : certif) (cog : certif) : certif =
+  let rec process_trivial_aux (c : certif) (cog : certif) (weakened_ids : id list) : certif =
     match c with
     | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1) ->
         (* Printf.printf ("trivial clause at %s!\n") t1; *)
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
-        let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, t3 *)
+        let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, all t3s *)
         (* For each t3 compute replacement [t3a; new t3]; if t3 generates yet another trivial clause, 
-           premises and residual clause must be carried over *)
-        let replace_res (t1i : id) (t3: id) (res : clause) (pids : id list) : certif =
+           premises and residual clause must be carried over;
+           t1i is the ID of the corresponding step with the trivial clause t1; 
+           res is the residual clause and pids the residual premise IDs that must be added to t3 in case of recursive trivial clause *)
+        (* replace_res uses cog, c1, x, notx from process_trivial_aux, so these need to passed to it if we want to move
+           replace_res out of this scope *)
+        let replace_res (t1i : id) (t3: id) (res : clause) (pids : id list) : certif = 
           match get_step t3 tl with
-          | Some (t3, r3, c3, p3, a3) ->
+          | Some ((t3, r3, c3, p3, a3) as s) ->
               (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
               (match (List.find_opt (fun p -> if p = t1i then false else match get_cl p cog with
                                              | Some c2 -> (List.exists (eq_mod_dneg_symm x) c2) || (List.exists (eq_mod_dneg_symm notx) c2)
@@ -5098,39 +5105,52 @@ let process_trivial (c : certif) : certif =
                  let p3new = (remove t2 (replace t1i t3a p3)) @ pids in
                  (* SMTCoq implicitly removes duplicates except when they are derived by Weaken, so we 
                     need to explicitly remove duplicates here in case `res @ c3a` has any *)
-                 (* Printf.printf ("Generating weakened clause %s at id %s associated with %s!\n") (string_of_clause (to_uniq_mod_dneg_symm (res @ c3a))) (t3a) (t3); *)
+                 (* Printf.printf ("Weakening step\n%s\nwith steps\n%s\n%s!\n") (string_of_step s) (string_of_step ((t3a, WeakenAST, to_uniq_mod_dneg_symm (res @ c3a), [t2], []))) (string_of_step (t3, ResoAST, c3, p3new, [])); *)
                  [(t3a, WeakenAST, to_uniq_mod_dneg_symm (res @ c3a), [t2], []);
                   (t3, ResoAST, c3, p3new, [])]
-              | None -> [(t3, r3, c3, p3, a3)] (* Trivial clause is being resolved to generate another trivial clause *))
+              | None -> (*Printf.printf ("Weakening step to itself:\n%s\n") (string_of_step s);*)
+                [s] (* Trivial clause is being resolved to generate another trivial clause *))
           | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1i^" |")) in
         (* Go through tl and replace all derivations of any id from ids, with replace_res(id),
-           where ids are IDs of all resolution steps that use i as a premise *)
-        let rec process_tl (tl : certif) (t1i : id) (ids : id list) (res : clause) (pids : id list) : certif =
+           where ids are IDs of all resolution steps that use i as a premise;
+           t1i is the ID of the corresponding step with the trivial clause t1; 
+           res is the residual clause and pids the residual premise IDs that must be added to t3 in case of recursive trivial clause;
+           weakened_ids stores the IDs of clauses that have already been processed by process_trivial so that when an ID is
+              reached via multiple paths, it is processed only once *)
+        let rec process_tl (tl : certif) (t1i : id) (ids : id list) (res : clause) (pids : id list) (weakened_ids : id list) : (certif * id list) =
           (match tl with
-          | (i, r, c, p, a) :: t -> 
-              if (List.exists ((=) i) ids) then 
-                let replaced = replace_res t1i i res pids in
+          | (i, r, c, p, a) :: t ->
+              (* If a step was already replaced before through another path down the proof, don't do it again. *)
+              if (not (List.exists ((=) i) weakened_ids)) && (List.exists ((=) i) ids) then 
+                let weakened_ids' = i :: weakened_ids in
+                let replaced = (*Printf.printf ("My weakened ids are %s, Weakening %s since it calls %s\n") (List.fold_left (^) "" weakened_ids) i t1i; *)replace_res t1i i res pids in
                 if List.length replaced = 1 then
+                (* Found a recursive trivial clause *)
                   match replaced with
                   | [(t3, r3, c3, p3, a3)] ->
-                    (* Printf.printf ("recursive trivial clause at %s!\n") t3; *)
+                    (* Printf.printf ("recursive trivial clause at %s! recursive to %s when accessing it from %s\n") t3 t1i i; *)
                     let ids' = find_res t t3 in
                     let _, _, new_res = try find_triv_lits c3 with (* t3 is trivial, its non-trivial part is carried forward *)
                                         | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
                     let new_pids = remove t1i p3 in
-                    let t' = process_tl t t3 ids' new_res new_pids in
-                    replaced @ process_tl t' t1i ids res pids
+                    (* Two recursive calls: one because this clause generates another trivial clause, and another is for general recursion *)
+                    let t', weakened_ids'' = process_tl t t3 ids' new_res new_pids weakened_ids' in
+                    let t'', weakened_ids''' = process_tl t' t1i ids res pids weakened_ids'' in
+                    replaced @ t'', weakened_ids'''
                   | _ -> raise (Debug ("| process_tl: replace_res returns a singleton list but matching a non-singleton case at id "^i^" |"))
-                else 
-                  replaced @ process_tl t t1i ids res pids
-              else 
-                (i, r, c, p, a) :: process_tl t t1i ids res pids
-          | [] -> []) in
-        process_trivial_aux (process_tl tl t1 ids [] []) cog
-    | (i, SubproofAST subcl, cl, p, a) :: tl -> (i, SubproofAST (process_trivial_aux subcl cog), cl, p, a) :: process_trivial_aux tl cog
-    | st :: tl -> st :: process_trivial_aux tl cog
+                else
+                  let t', weakened_ids'' = process_tl t t1i ids res pids weakened_ids' in
+                  replaced @ t', weakened_ids''
+              else
+                let t', weakened_ids' = process_tl t t1i ids res pids weakened_ids in
+                (i, r, c, p, a) :: t', weakened_ids'
+          | [] -> [], weakened_ids) in
+        let tl', weakened_ids' = process_tl tl t1 ids [] [] weakened_ids in
+        process_trivial_aux tl' cog weakened_ids'
+    | (i, SubproofAST subcl, cl, p, a) :: tl -> (i, SubproofAST (process_trivial_aux subcl cog weakened_ids), cl, p, a) :: process_trivial_aux tl cog weakened_ids
+    | st :: tl -> st :: process_trivial_aux tl cog weakened_ids
     | [] -> []
-  in process_trivial_aux c c
+  in process_trivial_aux c c []
 
 
 

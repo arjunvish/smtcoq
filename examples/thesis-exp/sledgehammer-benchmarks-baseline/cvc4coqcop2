@@ -1,0 +1,2721 @@
+After removing the 3 LIA files from consideration:
+131 successes
+4 Anomaly "Uncaught exception Not_found." (5 holes)
+2 Anomaly "Uncaught exception Stdlib.Parsing.Parse_error." (0 holes)
+1 LFSC typing error: expected formula, got (term Bool) (0 holes)
+
+82 files with holes
+     77 successful checks with holes
+     5 exception files with holes
+--------------------------------------------------
+Checker succeeds on 54 files fully (without holes)
+
+49 files without holes
+
+153 Holes:
+     120 Warning: hole for trust_f
+     33  WARNING: assuming the following hypothesis:
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/PNT_z32/x2020_08_04_17_45_26_739_9376730cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_3 (op_4 (op_2 op_1)) op_0) )
+2:input  ((not (op_3 (op_4 (op_2 op_1)) op_0)) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_05_23_096_5606264cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_7 (op_9 (op_10 (op_11 op_3 op_0) (op_1 op_13 op_5 op_4 op_3 op_12 op_6 op_8)) op_2) op_2) )
+2:input  ((not (op_7 (op_9 (op_10 (op_11 op_3 op_0) (op_1 op_13 op_5 op_4 op_3 op_12 op_6 op_8)) op_2) op_2)) )
+3:input  ((not false) )
+4:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.016 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_5 op_3) (op_5 op_2))) )
+2:input  ((= (op_5 op_2) (op_4 op_0)) )
+3:input  ((= (op_5 op_3) (op_4 op_1)) )
+4:input  ((= op_1 op_0) )
+Warning: hole for trust_f.
+5:hole  ((= (= op_1 op_0) (= op_1 op_0)) )
+6:(equiv1 ((not (= op_1 op_0)) (= op_1 op_0) )  5)
+7:(eq_congruent ((not (= op_1 op_0)) (= (op_4 op_1) (op_4 op_0)) ) )
+8:(eq_transitive ((not (= (op_5 op_3) (op_4 op_1))) (not (= (op_4 op_1) (op_4 op_0))) (not (= (op_5 op_2) (op_4 op_0))) (= (op_5 op_3) (op_5 op_2)) ) )
+9:(weaken ((not (= (op_5 op_3) (op_4 op_1))) (not (= (op_4 op_1) (op_4 op_0))) (not (= (op_5 op_2) (op_4 op_0))) (= (op_5 op_3) (op_5 op_2)) )  8)
+10:(resolution ()  9 7)
+11:(weaken ((= (op_5 op_3) (op_5 op_2)) (not (= (op_5 op_2) (op_4 op_0))) (not (= (op_5 op_3) (op_4 op_1))) (not (= op_1 op_0)) )  10)
+12:(resolution ()  11 4 3 2 1)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.011 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_04_968_5248672cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_50_546_5359382cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_1) (op_3 op_0)) )
+2:input  ((not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_1))) )
+3:input  ((op_5 op_4 op_6 (op_3 op_2) (op_3 op_0)) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_3 op_1) (op_3 op_0)) (= (op_3 op_1) (op_3 op_0))) )
+Warning: hole for trust_f.
+5:hole  ((= (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0)) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) )
+6:(equiv1 ((not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0)) )  5)
+7:(equiv1 ((not (= (op_3 op_1) (op_3 op_0))) (= (op_3 op_1) (op_3 op_0)) )  4)
+8:(eq_reflexive ((= (op_3 op_2) (op_3 op_2)) ) )
+9:(eq_reflexive ((= op_6 op_6) ) )
+10:(eq_reflexive ((= op_4 op_4) ) )
+11:(eq_congruent_pred ((not (= op_4 op_4)) (not (= op_6 op_6)) (not (= (op_3 op_2) (op_3 op_2))) (not (= (op_3 op_1) (op_3 op_0))) (not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_1)) ) )
+12:(resolution ()  11 10 9 8)
+13:(weaken ((not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_1)) (not (= (op_3 op_1) (op_3 op_0))) )  12)
+14:(resolution ()  13 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.011 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_43_355_6522276cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_1) (op_3 op_0)) )
+2:input  ((not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_1))) )
+3:input  ((op_5 op_4 op_6 (op_3 op_2) (op_3 op_0)) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_3 op_1) (op_3 op_0)) (= (op_3 op_1) (op_3 op_0))) )
+Warning: hole for trust_f.
+5:hole  ((= (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0)) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) )
+6:(equiv1 ((not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0)) )  5)
+7:(equiv1 ((not (= (op_3 op_1) (op_3 op_0))) (= (op_3 op_1) (op_3 op_0)) )  4)
+8:(eq_reflexive ((= (op_3 op_2) (op_3 op_2)) ) )
+9:(eq_reflexive ((= op_6 op_6) ) )
+10:(eq_reflexive ((= op_4 op_4) ) )
+11:(eq_congruent_pred ((not (= op_4 op_4)) (not (= op_6 op_6)) (not (= (op_3 op_2) (op_3 op_2))) (not (= (op_3 op_1) (op_3 op_0))) (not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_1)) ) )
+12:(resolution ()  11 10 9 8)
+13:(weaken ((not (op_5 op_4 op_6 (op_3 op_2) (op_3 op_0))) (op_5 op_4 op_6 (op_3 op_2) (op_3 op_1)) (not (= (op_3 op_1) (op_3 op_0))) )  12)
+14:(resolution ()  13 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_35_149_7629076cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_12 op_8 op_6 op_5 op_11 op_9 op_10 (op_7 op_4 op_3) (op_7 op_4 op_2)) )
+2:input  ((= op_2 op_1) )
+3:input  ((not (op_0 op_12 op_8 op_6 op_5 op_11 op_9 op_10 (op_7 op_4 op_3) (op_7 op_4 op_1))) )
+Warning: hole for trust_f.
+4:hole  ((= (= op_2 op_1) (= op_2 op_1)) )
+5:(equiv1 ((not (= op_2 op_1)) (= op_2 op_1) )  4)
+6:(eq_reflexive ((= op_4 op_4) ) )
+7:(eq_congruent ((not (= op_4 op_4)) (not (= op_2 op_1)) (= (op_7 op_4 op_2) (op_7 op_4 op_1)) ) )
+8:(eq_reflexive ((= (op_7 op_4 op_3) (op_7 op_4 op_3)) ) )
+9:(eq_reflexive ((= op_10 op_10) ) )
+10:(eq_reflexive ((= op_9 op_9) ) )
+11:(eq_reflexive ((= op_11 op_11) ) )
+12:(eq_reflexive ((= op_5 op_5) ) )
+13:(eq_reflexive ((= op_6 op_6) ) )
+14:(eq_reflexive ((= op_8 op_8) ) )
+15:(eq_reflexive ((= op_12 op_12) ) )
+16:(eq_congruent_pred ((not (= op_12 op_12)) (not (= op_8 op_8)) (not (= op_6 op_6)) (not (= op_5 op_5)) (not (= op_11 op_11)) (not (= op_9 op_9)) (not (= op_10 op_10)) (not (= (op_7 op_4 op_3) (op_7 op_4 op_3))) (not (= (op_7 op_4 op_2) (op_7 op_4 op_1))) (not (op_0 op_12 op_8 op_6 op_5 op_11 op_9 op_10 (op_7 op_4 op_3) (op_7 op_4 op_2))) (op_0 op_12 op_8 op_6 op_5 op_11 op_9 op_10 (op_7 op_4 op_3) (op_7 op_4 op_1)) ) )
+17:(resolution ()  16 15 14 13 12 11 10 9 8 7 6)
+18:(weaken ((op_0 op_12 op_8 op_6 op_5 op_11 op_9 op_10 (op_7 op_4 op_3) (op_7 op_4 op_1)) (not (= op_2 op_1)) (not (op_0 op_12 op_8 op_6 op_5 op_11 op_9 op_10 (op_7 op_4 op_3) (op_7 op_4 op_2))) )  17)
+19:(resolution ()  18 1 2 3)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.037 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_06_27_504_5933684cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_0 op_10 op_7 op_5 op_4 op_9 op_8 (op_6 op_3 op_2) (op_6 op_3 op_1))) )
+2:input  (false )
+Warning: hole for trust_f.
+3:hole  ((= true (not false)) )
+4:(equiv1 ((not true) (not false) )  3)
+5:(weaken ((not false) )  4)
+6:(resolution ()  2 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+     = true
+     : bool
+Done (Coq) [0.014 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_15_27_694_6279318cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((or (not (= (op_3 op_1) op_2)) (not (= (op_3 op_0) op_2))) )
+2:input  ((= (op_3 op_1) op_2) )
+3:input  ((not false) )
+4:input  ((= (op_3 op_0) op_2) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_3 op_0) op_2) (= (op_3 op_0) op_2)) )
+Warning: hole for trust_f.
+6:hole  ((= (or (not (= (op_3 op_1) op_2)) (not (= (op_3 op_0) op_2))) (or (not (= (op_3 op_1) op_2)) (not (= (op_3 op_0) op_2)))) )
+Warning: hole for trust_f.
+7:hole  ((= (= (op_3 op_1) op_2) (= (op_3 op_1) op_2)) )
+8:(equiv1 ((not (= (op_3 op_1) op_2)) (= (op_3 op_1) op_2) )  7)
+9:(equiv1 ((not (or (not (= (op_3 op_1) op_2)) (not (= (op_3 op_0) op_2)))) (or (not (= (op_3 op_1) op_2)) (not (= (op_3 op_0) op_2))) )  6)
+10:(or ((not (= (op_3 op_1) op_2)) (not (= (op_3 op_0) op_2)) )  1)
+11:(equiv1 ((not (= (op_3 op_0) op_2)) (= (op_3 op_0) op_2) )  5)
+12:(resolution ((not (= (op_3 op_0) op_2)) )  10 2)
+13:(resolution ()  4 12)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_1)) )
+2:input  ((= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0)) )
+3:input  ((not (= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_0))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0)) (= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0))) )
+5:(equiv1 ((not (= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0))) (= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0)) )  4)
+6:(eq_transitive ((not (= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_1))) (not (= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0))) (= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_0)) ) )
+7:(weaken ((not (= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_1))) (not (= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0))) (= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_0)) )  6)
+8:(weaken ((= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_0)) (not (= (op_3 op_7 op_4 op_6 op_5 op_1) (op_3 op_7 op_4 op_6 op_5 op_0))) (not (= (op_3 op_7 op_4 op_6 op_5 op_2) (op_3 op_7 op_4 op_6 op_5 op_1))) )  7)
+9:(resolution ()  8 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_12_58_132_6181512cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_5 op_3) (op_5 op_2))) )
+2:input  ((= (op_5 op_3) (op_4 op_1)) )
+3:input  ((= (op_5 op_2) (op_4 op_0)) )
+4:input  ((= op_1 op_0) )
+Warning: hole for trust_f.
+5:hole  ((= (= op_1 op_0) (= op_1 op_0)) )
+6:(equiv1 ((not (= op_1 op_0)) (= op_1 op_0) )  5)
+7:(eq_congruent ((not (= op_1 op_0)) (= (op_4 op_0) (op_4 op_1)) ) )
+8:(eq_transitive ((not (= (op_5 op_3) (op_4 op_1))) (not (= (op_4 op_0) (op_4 op_1))) (not (= (op_5 op_2) (op_4 op_0))) (not (= (op_5 op_2) (op_4 op_0))) (not (= (op_5 op_2) (op_4 op_0))) (= (op_5 op_3) (op_5 op_2)) ) )
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_12_58_132_6181512cvc4.v", line 8, characters 2-403:
+Error: Anomaly "Uncaught exception Not_found."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_28_446_6397402cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_22_36_035_6337544cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_49_644_6536112cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_1) (op_3 op_0)) )
+2:input  ((op_4 op_5 op_6 (op_3 op_2) (op_3 op_1)) )
+3:input  ((not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_3 op_1) (op_3 op_0)) (= (op_3 op_1) (op_3 op_0))) )
+5:(equiv1 ((not (= (op_3 op_1) (op_3 op_0))) (= (op_3 op_1) (op_3 op_0)) )  4)
+6:(eq_reflexive ((= (op_3 op_2) (op_3 op_2)) ) )
+7:(eq_reflexive ((= op_6 op_6) ) )
+8:(eq_reflexive ((= op_5 op_5) ) )
+9:(eq_congruent_pred ((not (= op_5 op_5)) (not (= op_6 op_6)) (not (= (op_3 op_2) (op_3 op_2))) (not (= (op_3 op_1) (op_3 op_0))) (not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_1))) (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) ) )
+10:(resolution ()  9 8 7 6)
+11:(weaken ((op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) (not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_1))) (not (= (op_3 op_1) (op_3 op_0))) )  10)
+12:(resolution ()  11 1 2 3)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.020 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_08_268_5321078cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_2) (op_3 op_1)) )
+2:input  ((op_4 op_5 op_6 (op_3 op_1) (op_3 op_0)) )
+3:input  ((not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0))) )
+4:(eq_reflexive ((= (op_3 op_0) (op_3 op_0)) ) )
+5:(eq_reflexive ((= op_6 op_6) ) )
+6:(eq_reflexive ((= op_5 op_5) ) )
+7:(eq_congruent_pred ((not (= op_5 op_5)) (not (= op_6 op_6)) (not (= (op_3 op_2) (op_3 op_1))) (not (= (op_3 op_0) (op_3 op_0))) (not (op_4 op_5 op_6 (op_3 op_1) (op_3 op_0))) (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) ) )
+8:(resolution ()  7 6 5 4)
+9:(weaken ((op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) (not (op_4 op_5 op_6 (op_3 op_1) (op_3 op_0))) (not (= (op_3 op_2) (op_3 op_1))) )  8)
+10:(resolution ()  9 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.012 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_43_615_6004000cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_0 op_10 op_7 op_6 op_5 op_9 op_8 op_2 op_1)) )
+2:input  ((= op_2 (op_4 op_3)) )
+3:input  ((or (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1) (= (op_4 op_3) op_1)) )
+4:input  ((not (= op_2 op_1)) )
+Warning: hole for trust_f.
+5:hole  ((= (or (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1) (= (op_4 op_3) op_1)) (or (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1) (= (op_4 op_3) op_1))) )
+Warning: hole for trust_f.
+6:hole  ((= (not (= op_2 op_1)) (not (= op_2 op_1))) )
+7:(equiv1 ((= op_2 op_1) (not (= op_2 op_1)) )  6)
+8:(equiv1 ((not (or (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1) (= (op_4 op_3) op_1))) (or (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1) (= (op_4 op_3) op_1)) )  5)
+9:(or ((op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1) (= (op_4 op_3) op_1) )  3)
+10:(weaken ((= (op_4 op_3) op_1) (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1) )  9)
+11:(eq_transitive ((not (= (op_4 op_3) op_1)) (not (= op_2 (op_4 op_3))) (= op_2 op_1) ) )
+12:(weaken ((not (= (op_4 op_3) op_1)) (not (= op_2 (op_4 op_3))) (= op_2 op_1) )  11)
+13:(weaken ((not (= op_2 (op_4 op_3))) (= op_2 op_1) (not (= (op_4 op_3) op_1)) )  12)
+14:(eq_reflexive ((= op_1 op_1) ) )
+15:(eq_reflexive ((= op_8 op_8) ) )
+16:(eq_reflexive ((= op_9 op_9) ) )
+17:(eq_reflexive ((= op_5 op_5) ) )
+18:(eq_reflexive ((= op_6 op_6) ) )
+19:(eq_reflexive ((= op_7 op_7) ) )
+20:(eq_reflexive ((= op_10 op_10) ) )
+21:(eq_congruent_pred ((not (= op_10 op_10)) (not (= op_7 op_7)) (not (= op_6 op_6)) (not (= op_5 op_5)) (not (= op_9 op_9)) (not (= op_8 op_8)) (not (= op_2 (op_4 op_3))) (not (= op_1 op_1)) (not (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1)) (op_0 op_10 op_7 op_6 op_5 op_9 op_8 op_2 op_1) ) )
+22:(resolution ()  21 20 19 18 17 16 15 14)
+23:(weaken ((op_0 op_10 op_7 op_6 op_5 op_9 op_8 op_2 op_1) (not (= op_2 (op_4 op_3))) (not (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1)) )  22)
+24:(resolution ((not (op_0 op_10 op_7 op_6 op_5 op_9 op_8 (op_4 op_3) op_1)) )  23 2 1)
+25:(resolution ((not (= (op_4 op_3) op_1)) )  13 4 2)
+26:(resolution ()  10 24 25)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.019 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_42_01_808_4961238cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_14_36_388_6025794cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_06_02_107_5638220cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_2) (op_3 op_4)) )
+2:input  ((op_0 op_1 (op_3 op_4)) )
+3:input  ((not (op_0 op_1 (op_3 op_2))) )
+4:(eq_reflexive ((= op_1 op_1) ) )
+5:(eq_congruent_pred ((not (= op_1 op_1)) (not (= (op_3 op_2) (op_3 op_4))) (not (op_0 op_1 (op_3 op_4))) (op_0 op_1 (op_3 op_2)) ) )
+6:(resolution ()  5 4)
+7:(weaken ((op_0 op_1 (op_3 op_2)) (not (op_0 op_1 (op_3 op_4))) (not (= (op_3 op_2) (op_3 op_4))) )  6)
+8:(resolution ()  7 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.015 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_49_010_6452792cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_2) (op_3 op_1)) )
+2:input  ((op_4 op_5 op_6 (op_3 op_1) (op_3 op_0)) )
+3:input  ((not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0))) )
+4:(eq_reflexive ((= (op_3 op_0) (op_3 op_0)) ) )
+5:(eq_reflexive ((= op_6 op_6) ) )
+6:(eq_reflexive ((= op_5 op_5) ) )
+7:(eq_congruent_pred ((not (= op_5 op_5)) (not (= op_6 op_6)) (not (= (op_3 op_2) (op_3 op_1))) (not (= (op_3 op_0) (op_3 op_0))) (not (op_4 op_5 op_6 (op_3 op_1) (op_3 op_0))) (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) ) )
+8:(resolution ()  7 6 5 4)
+9:(weaken ((op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) (not (op_4 op_5 op_6 (op_3 op_1) (op_3 op_0))) (not (= (op_3 op_2) (op_3 op_1))) )  8)
+10:(resolution ()  9 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_43_702_4662652cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_1 op_3) )
+2:input  ((= op_2 op_3) )
+3:input  ((not (op_0 op_1 op_2)) )
+4:(eq_reflexive ((= op_1 op_1) ) )
+5:(eq_congruent_pred ((not (= op_1 op_1)) (not (= op_2 op_3)) (not (op_0 op_1 op_3)) (op_0 op_1 op_2) ) )
+6:(resolution ()  5 4)
+7:(weaken ((op_0 op_1 op_2) (not (= op_2 op_3)) (not (op_0 op_1 op_3)) )  6)
+8:(resolution ()  7 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_07_140_4628884cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_7 (op_8 (op_9 (op_10 op_3 op_0) (op_1 op_12 op_5 op_4 op_3 op_11 op_6)) op_2) op_2) )
+2:input  ((not (op_7 (op_8 (op_9 (op_10 op_3 op_0) (op_1 op_12 op_5 op_4 op_3 op_11 op_6)) op_2) op_2)) )
+3:input  ((not false) )
+4:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_42_034_5998320cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_11 op_8 op_6 op_5 op_10 op_9 (op_7 op_4 op_3) (op_7 op_4 op_2)) )
+2:input  ((= op_2 op_1) )
+3:input  ((not (op_0 op_11 op_8 op_6 op_5 op_10 op_9 (op_7 op_4 op_3) (op_7 op_4 op_1))) )
+Warning: hole for trust_f.
+4:hole  ((= (= op_2 op_1) (= op_2 op_1)) )
+5:(equiv1 ((not (= op_2 op_1)) (= op_2 op_1) )  4)
+6:(eq_reflexive ((= op_4 op_4) ) )
+7:(eq_congruent ((not (= op_4 op_4)) (not (= op_2 op_1)) (= (op_7 op_4 op_2) (op_7 op_4 op_1)) ) )
+8:(eq_reflexive ((= (op_7 op_4 op_3) (op_7 op_4 op_3)) ) )
+9:(eq_reflexive ((= op_9 op_9) ) )
+10:(eq_reflexive ((= op_10 op_10) ) )
+11:(eq_reflexive ((= op_5 op_5) ) )
+12:(eq_reflexive ((= op_6 op_6) ) )
+13:(eq_reflexive ((= op_8 op_8) ) )
+14:(eq_reflexive ((= op_11 op_11) ) )
+15:(eq_congruent_pred ((not (= op_11 op_11)) (not (= op_8 op_8)) (not (= op_6 op_6)) (not (= op_5 op_5)) (not (= op_10 op_10)) (not (= op_9 op_9)) (not (= (op_7 op_4 op_3) (op_7 op_4 op_3))) (not (= (op_7 op_4 op_2) (op_7 op_4 op_1))) (not (op_0 op_11 op_8 op_6 op_5 op_10 op_9 (op_7 op_4 op_3) (op_7 op_4 op_2))) (op_0 op_11 op_8 op_6 op_5 op_10 op_9 (op_7 op_4 op_3) (op_7 op_4 op_1)) ) )
+16:(resolution ()  15 14 13 12 11 10 9 8 7 6)
+17:(weaken ((op_0 op_11 op_8 op_6 op_5 op_10 op_9 (op_7 op_4 op_3) (op_7 op_4 op_1)) (not (= op_2 op_1)) (not (op_0 op_11 op_8 op_6 op_5 op_10 op_9 (op_7 op_4 op_3) (op_7 op_4 op_2))) )  16)
+18:(resolution ()  17 1 2 3)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.019 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_55_014_5369464cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 op_1) (op_3 op_0)) )
+2:input  ((op_4 op_5 op_6 (op_3 op_2) (op_3 op_1)) )
+3:input  ((not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_3 op_1) (op_3 op_0)) (= (op_3 op_1) (op_3 op_0))) )
+5:(equiv1 ((not (= (op_3 op_1) (op_3 op_0))) (= (op_3 op_1) (op_3 op_0)) )  4)
+6:(eq_reflexive ((= (op_3 op_2) (op_3 op_2)) ) )
+7:(eq_reflexive ((= op_6 op_6) ) )
+8:(eq_reflexive ((= op_5 op_5) ) )
+9:(eq_congruent_pred ((not (= op_5 op_5)) (not (= op_6 op_6)) (not (= (op_3 op_2) (op_3 op_2))) (not (= (op_3 op_1) (op_3 op_0))) (not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_1))) (op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) ) )
+10:(resolution ()  9 8 7 6)
+11:(weaken ((op_4 op_5 op_6 (op_3 op_2) (op_3 op_0)) (not (op_4 op_5 op_6 (op_3 op_2) (op_3 op_1))) (not (= (op_3 op_1) (op_3 op_0))) )  10)
+12:(resolution ()  11 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_39_113_7636710cvc4.v
+Type-checking LFSC proof... Done [0.003 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 op_2 op_1)) )
+2:input  ((or (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1) (= (op_4 op_3) op_1)) )
+3:input  ((= op_2 (op_4 op_3)) )
+4:input  ((not (= op_2 op_1)) )
+Warning: hole for trust_f.
+5:hole  ((= (or (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1) (= (op_4 op_3) op_1)) (or (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1) (= (op_4 op_3) op_1))) )
+Warning: hole for trust_f.
+6:hole  ((= (not (= op_2 op_1)) (not (= op_2 op_1))) )
+7:(equiv1 ((= op_2 op_1) (not (= op_2 op_1)) )  6)
+8:(equiv1 ((not (or (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1) (= (op_4 op_3) op_1))) (or (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1) (= (op_4 op_3) op_1)) )  5)
+9:(or ((op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1) (= (op_4 op_3) op_1) )  2)
+10:(weaken ((= (op_4 op_3) op_1) (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1) )  9)
+11:(eq_transitive ((not (= (op_4 op_3) op_1)) (not (= op_2 (op_4 op_3))) (= op_2 op_1) ) )
+12:(weaken ((not (= (op_4 op_3) op_1)) (not (= op_2 (op_4 op_3))) (= op_2 op_1) )  11)
+13:(weaken ((not (= op_2 (op_4 op_3))) (= op_2 op_1) (not (= (op_4 op_3) op_1)) )  12)
+14:(eq_reflexive ((= op_1 op_1) ) )
+15:(eq_reflexive ((= op_9 op_9) ) )
+16:(eq_reflexive ((= op_8 op_8) ) )
+17:(eq_reflexive ((= op_10 op_10) ) )
+18:(eq_reflexive ((= op_5 op_5) ) )
+19:(eq_reflexive ((= op_6 op_6) ) )
+20:(eq_reflexive ((= op_7 op_7) ) )
+21:(eq_reflexive ((= op_11 op_11) ) )
+22:(eq_congruent_pred ((not (= op_11 op_11)) (not (= op_7 op_7)) (not (= op_6 op_6)) (not (= op_5 op_5)) (not (= op_10 op_10)) (not (= op_8 op_8)) (not (= op_9 op_9)) (not (= op_2 (op_4 op_3))) (not (= op_1 op_1)) (not (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1)) (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 op_2 op_1) ) )
+23:(resolution ()  22 21 20 19 18 17 16 15 14)
+24:(weaken ((op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 op_2 op_1) (not (= op_2 (op_4 op_3))) (not (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1)) )  23)
+25:(resolution ((not (op_0 op_11 op_7 op_6 op_5 op_10 op_8 op_9 (op_4 op_3) op_1)) )  24 3 1)
+26:(resolution ((not (= (op_4 op_3) op_1)) )  13 4 3)
+27:(resolution ()  10 25 26)
+ Done [0.002 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.026 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_41_942_6515590cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_10 op_6 op_5 op_4 op_9 op_7 op_8 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.011 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_48_855_5281470cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_48_838_5354134cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) )
+2:input  ((not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)))) )
+4:(equiv1 ((or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1)) (not (or (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1) (= (op_3 op_2) op_1))) )  3)
+5:(not_or ((not (op_0 op_9 op_6 op_5 op_4 op_8 op_7 (op_3 op_2) op_1)) )  2 0)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_21_12_689_9268514cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_8 op_9 op_2) )
+2:input  ((not (op_11 (op_7 (op_0 op_5)) (op_10 op_2 (op_7 (op_3 op_5))))) )
+3:input  ((op_8 op_9 op_6) )
+4:input  ((op_11 (op_7 (op_1 op_5)) (op_10 op_6 (op_7 (op_4 op_5)))) )
+5:input  ((op_11 (op_7 (op_0 op_5)) (op_10 op_2 (op_7 (op_3 op_5)))) )
+6:(resolution ()  5 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.012 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_41_03_832_8304788cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_5 op_0 (op_7 op_3))) )
+2:input  ((not (= op_3 op_3)) )
+3:input  ((op_6 op_3) )
+4:input  ((op_4 op_0 (op_1 (op_2 op_3))) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= op_3 op_3)) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= op_3 op_3) false )  5)
+10:(resolution (false )  2 9)
+11:(resolution ()  10 8)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_unit_rbt_d;
+              te_compdec := CompDec_A_unit_rbt_d
+            |}) Smt_var_empty_d Smt_var_empty_d) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_23_22_32_196_4983000cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_0 op_3) (op_1 op_3)) )
+2:input  ((= op_2 op_3) )
+3:input  ((not (= (op_0 op_2) (op_1 op_3))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_0 op_3) (op_1 op_3)) (= (op_0 op_3) (op_1 op_3))) )
+5:(equiv1 ((not (= (op_0 op_3) (op_1 op_3))) (= (op_0 op_3) (op_1 op_3)) )  4)
+6:(eq_congruent ((not (= op_2 op_3)) (= (op_0 op_3) (op_0 op_2)) ) )
+7:(eq_transitive ((not (= (op_0 op_3) (op_0 op_2))) (not (= (op_0 op_3) (op_1 op_3))) (not (= (op_0 op_3) (op_1 op_3))) (not (= (op_0 op_3) (op_1 op_3))) (= (op_0 op_2) (op_1 op_3)) ) )
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_23_22_32_196_4983000cvc4.v", line 8, characters 2-429:
+Error: Anomaly "Uncaught exception Not_found."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_10_14_273_5442982cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_0 op_3 op_1) (op_2 op_3 op_1)) )
+2:input  ((not (= (op_0 op_3 op_1) (op_2 op_3 op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (= (op_0 op_3 op_1) (op_2 op_3 op_1)) (= (op_0 op_3 op_1) (op_2 op_3 op_1))) )
+4:(equiv1 ((not (= (op_0 op_3 op_1) (op_2 op_3 op_1))) (= (op_0 op_3 op_1) (op_2 op_3 op_1)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_33_39_249_9488436cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= op_0 op_1)) )
+2:input  ((= op_0 op_1) )
+Warning: hole for trust_f.
+3:hole  ((= (= op_0 op_1) (= op_0 op_1)) )
+4:(equiv1 ((not (= op_0 op_1)) (= op_0 op_1) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_50_06_230_5063492cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_3 op_0 op_1) )
+2:input  ((not (and (op_3 op_0 op_1) (= (op_2 op_0 op_1) (op_2 op_0 op_1)))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (and (op_3 op_0 op_1) (= (op_2 op_0 op_1) (op_2 op_0 op_1)))) (not (op_3 op_0 op_1))) )
+4:(equiv1 ((and (op_3 op_0 op_1) (= (op_2 op_0 op_1) (op_2 op_0 op_1))) (not (op_3 op_0 op_1)) )  3)
+5:(resolution ((not (op_3 op_0 op_1)) )  2 4)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d &&
+       eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_Nat_set_d;
+              te_compdec := CompDec_Nat_set_d
+            |}) (Smt_var_image_d Smt_var_f_d Smt_var_s_d)
+         (Smt_var_image_d Smt_var_f_d Smt_var_s_d)) <--->
+    negb (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d)))
+
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_17_45_18_358_5383148cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_2 op_1 op_0)) )
+2:input  ((op_2 op_1 op_0) )
+Warning: hole for trust_f.
+3:hole  ((= (op_2 op_1 op_0) (op_2 op_1 op_0)) )
+4:(equiv1 ((not (op_2 op_1 op_0)) (op_2 op_1 op_0) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_46_56_736_8400646cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_8 op_1) )
+2:input  ((not (= op_1 op_7)) )
+3:input  ((not (= (op_5 op_3 (op_6 op_1) op_4) (op_5 op_3 (op_2 (op_6 op_1)) (op_0 (op_6 op_1))))) )
+4:input  ((= op_1 op_7) )
+5:(resolution ()  4 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_13_554_5028546cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_2 op_0 op_1) (op_2 op_0 op_1))) )
+Warning: hole for trust_f.
+2:hole  ((= (not (= (op_2 op_0 op_1) (op_2 op_0 op_1))) false) )
+Warning: hole for trust_f.
+3:hole  ((= true (not false)) )
+4:(equiv1 ((not true) (not false) )  3)
+5:(weaken ((not false) )  4)
+6:(equiv1 ((= (op_2 op_0 op_1) (op_2 op_0 op_1)) false )  2)
+7:(resolution (false )  1 6)
+8:(resolution ()  7 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_b_prod_d;
+              te_compdec := CompDec_A_b_prod_d
+            |}) (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)
+         (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (or (not (= (op_6 (op_7 (op_5 op_1)) op_0) (op_6 (+ (op_4 op_3) (op_4 (op_8 op_1))) op_0))) (= (op_2 (op_6 (op_7 (op_5 op_1)) op_0)) (op_2 (op_6 (+ (op_4 op_3) (op_4 (op_8 op_1))) op_0))))) )
+2:(not_or ((= (op_6 (op_7 (op_5 op_1)) op_0) (op_6 (+ (op_4 op_3) (op_4 (op_8 op_1))) op_0)) )  1 0)
+3:(not_or ((not (= (op_2 (op_6 (op_7 (op_5 op_1)) op_0)) (op_2 (op_6 (+ (op_4 op_3) (op_4 (op_8 op_1))) op_0)))) )  1 1)
+4:(eq_congruent ((not (= (op_6 (op_7 (op_5 op_1)) op_0) (op_6 (+ (op_4 op_3) (op_4 (op_8 op_1))) op_0))) (= (op_2 (op_6 (op_7 (op_5 op_1)) op_0)) (op_2 (op_6 (+ (op_4 op_3) (op_4 (op_8 op_1))) op_0))) ) )
+5:(resolution ()  4 3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_47_03_336_8415396cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) )
+2:input  ((op_13 op_1) )
+3:input  ((not (= op_1 op_11)) )
+4:input  ((= op_1 (op_12 op_4 op_5 op_6 op_7 op_8)) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1)))) false )  5)
+10:(resolution (false )  1 9)
+11:(resolution ()  10 8)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+         (Smt_var_fold_d Smt_var_min_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+         (Smt_var_fold_d Smt_var_min_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.017 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_47_51_743_5021316cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_1 op_0) )
+2:input  ((not (op_1 op_0)) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.003 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_45_899_5005750cvc4.v
+Type-checking LFSC proof...File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_45_899_5005750cvc4.v", line 8, characters 2-429:
+Error: LFSC typing error: expected formula, got (term Bool)
+
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_09_13_580_5081634cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_2 (op_4 op_0) (op_6 op_1)) )
+2:input  ((not (op_2 (op_4 (op_3 (op_4 op_0))) (op_6 (op_5 (op_6 op_1))))) )
+3:input  ((= (op_4 (op_3 (op_4 op_0))) (op_4 op_0)) )
+4:input  ((= (op_6 (op_5 (op_6 op_1))) (op_6 op_1)) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0)) (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) )
+Warning: hole for trust_f.
+6:hole  ((= (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1)) (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) )
+7:(equiv1 ((not (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0)) )  5)
+8:(equiv1 ((not (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1)) )  6)
+9:(eq_congruent_pred ((not (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) (not (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) (not (op_2 (op_4 op_0) (op_6 op_1))) (op_2 (op_4 (op_3 (op_4 op_0))) (op_6 (op_5 (op_6 op_1)))) ) )
+10:(weaken ((op_2 (op_4 (op_3 (op_4 op_0))) (op_6 (op_5 (op_6 op_1)))) (not (op_2 (op_4 op_0) (op_6 op_1))) (not (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) (not (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) )  9)
+11:(resolution ()  10 4 3 1 2)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_03_14_29_526_6590820cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_3 op_0) (op_4 (op_1 op_0) op_0 op_2 op_2)) )
+2:input  ((not (op_3 op_0)) )
+3:(and ((op_3 op_0) )  1 0)
+4:(resolution ()  3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_10_024_5021652cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_1 op_0 op_2) (op_1 op_0 op_2))) )
+Warning: hole for trust_f.
+2:hole  ((= (not (= (op_1 op_0 op_2) (op_1 op_0 op_2))) false) )
+Warning: hole for trust_f.
+3:hole  ((= true (not false)) )
+4:(equiv1 ((not true) (not false) )  3)
+5:(weaken ((not false) )  4)
+6:(equiv1 ((= (op_1 op_0 op_2) (op_1 op_0 op_2)) false )  2)
+7:(resolution (false )  1 6)
+8:(resolution ()  7 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_b_prod_d;
+              te_compdec := CompDec_A_b_prod_d
+            |}) (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)
+         (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc4.v
+Type-checking LFSC proof...File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc4.v", line 8, characters 2-429:
+Error: Anomaly "Uncaught exception Stdlib.Parsing.Parse_error."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_28_08_034_7411138cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_5 (op_7 op_3) op_0)) )
+2:input  ((op_4 op_0 (op_1 (op_2 op_3))) )
+3:input  ((not (= op_3 op_3)) )
+4:input  ((op_6 op_3) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= op_3 op_3)) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= op_3 op_3) false )  5)
+10:(resolution (false )  3 9)
+11:(resolution ()  10 8)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_unit_rbt_d;
+              te_compdec := CompDec_A_unit_rbt_d
+            |}) Smt_var_empty_d Smt_var_empty_d) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.011 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_19_224_8437724cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_8 op_1) )
+2:input  ((not (= op_1 op_7)) )
+3:input  ((not (= (op_5 op_4 (op_6 op_1) op_3) (op_5 op_4 (op_2 (op_6 op_1)) (op_0 (op_6 op_1))))) )
+4:input  ((= op_1 op_7) )
+5:(resolution ()  4 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_52_10_754_8440880cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_12 (op_7 (op_9 (op_0 op_6) (op_1 op_6))) (op_9 (op_7 (op_0 op_6)) (op_7 (op_1 op_6)))) )
+2:input  ((op_12 (op_7 (op_1 op_6)) (op_11 op_5 (op_4 op_6))) )
+3:input  ((op_12 (op_7 (op_0 op_6)) (op_11 op_2 (op_3 op_6))) )
+4:input  ((op_12 op_10 (op_4 op_6)) )
+5:input  ((op_8 op_10 op_2) )
+6:input  ((not (op_12 op_10 (op_3 op_6))) )
+7:input  ((op_8 op_10 op_5) )
+8:input  ((op_12 op_10 (op_3 op_6)) )
+9:(resolution ()  8 6)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.036 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_27_625_8447402cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) )
+2:input  ((op_13 op_1) )
+3:input  ((not (= op_1 op_11)) )
+4:input  ((= op_1 (op_12 op_4 op_5 op_6 op_7 op_8)) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1)))) false )  5)
+10:(resolution (false )  1 9)
+11:(resolution ()  10 8)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+         (Smt_var_fold_d Smt_var_max_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+         (Smt_var_fold_d Smt_var_max_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.013 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_04_464_17993960cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_4 op_0 (op_3 op_2)) )
+2:input  ((op_4 op_1 (op_3 op_2)) )
+3:input  ((not (op_4 op_0 (op_3 op_2))) )
+4:(resolution ()  1 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_04_38_502_4990434cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_2 op_0 op_1) )
+2:input  ((not (op_2 op_0 op_1)) )
+3:input  ((not false) )
+4:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_06_15_118_5385958cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_0 op_2 op_3) (op_1 op_2 op_3)) )
+2:input  ((not (= (op_0 op_2 op_3) (op_1 op_2 op_3))) )
+Warning: hole for trust_f.
+3:hole  ((= (= (op_0 op_2 op_3) (op_1 op_2 op_3)) (= (op_0 op_2 op_3) (op_1 op_2 op_3))) )
+4:(equiv1 ((not (= (op_0 op_2 op_3) (op_1 op_2 op_3))) (= (op_0 op_2 op_3) (op_1 op_2 op_3)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_16_51_570_4983100cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (not (= op_0 op_1)) (or (and op_0 (not op_1)) (and op_1 (not op_0))))) )
+2:(and_pos ((not (and op_1 (not op_0))) (not op_0) )  1)
+3:(weaken ((not op_0) (not (and op_1 (not op_0))) )  2)
+4:(and_pos ((not (and op_0 (not op_1))) (not op_1) )  1)
+5:(weaken ((not op_1) (not (and op_0 (not op_1))) )  4)
+6:(equiv_pos2 ((not (= op_0 op_1)) (not op_0) op_1 ) )
+7:(weaken ((not op_0) op_1 (not (= op_0 op_1)) )  6)
+8:(and_pos ((not (and op_0 (not op_1))) op_0 )  0)
+9:(weaken (op_0 (not (and op_0 (not op_1))) )  8)
+10:(equiv_pos1 ((not (= op_0 op_1)) op_0 (not op_1) ) )
+11:(weaken ((not op_1) (not (= op_0 op_1)) op_0 )  10)
+12:(or_neg ((or (and op_0 (not op_1)) (and op_1 (not op_0))) (not (and op_0 (not op_1))) )  0)
+13:(weaken ((not (and op_0 (not op_1))) (or (and op_0 (not op_1)) (and op_1 (not op_0))) )  12)
+14:(not_equiv1 ((not (= op_0 op_1)) (or (and op_0 (not op_1)) (and op_1 (not op_0))) )  1)
+15:(equiv_neg2 ((= op_0 op_1) op_0 op_1 ) )
+16:(weaken (op_1 (= op_0 op_1) op_0 )  15)
+17:(equiv_neg1 ((= op_0 op_1) (not op_0) (not op_1) ) )
+18:(weaken ((not op_0) (not op_1) (= op_0 op_1) )  17)
+19:(not_equiv2 ((= op_0 op_1) (not (or (and op_0 (not op_1)) (and op_1 (not op_0)))) )  1)
+20:(or_pos ((not (or (and op_0 (not op_1)) (and op_1 (not op_0)))) (and op_0 (not op_1)) (and op_1 (not op_0)) ) )
+21:(weaken ((and op_1 (not op_0)) (and op_0 (not op_1)) (not (or (and op_0 (not op_1)) (and op_1 (not op_0)))) )  20)
+22:(and_neg ((and op_0 (not op_1)) (not op_0) op_1 ) )
+23:(weaken ((not op_0) op_1 (and op_0 (not op_1)) )  22)
+24:(and_pos ((not (and op_1 (not op_0))) op_1 )  0)
+25:(weaken (op_1 (not (and op_1 (not op_0))) )  24)
+26:(or_neg ((or (and op_0 (not op_1)) (and op_1 (not op_0))) (not (and op_1 (not op_0))) )  1)
+27:(weaken ((not (and op_1 (not op_0))) (or (and op_0 (not op_1)) (and op_1 (not op_0))) )  26)
+28:(and_neg ((and op_1 (not op_0)) (not op_1) op_0 ) )
+29:(resolution ((not op_1) op_0 )  27 19 28 11)
+30:(resolution (op_0 )  21 14 25 16 29 9)
+31:(resolution (op_1 )  13 19 23 30 7 30)
+32:(resolution ((= op_0 op_1) )  18 31 30)
+33:(resolution ((or (and op_0 (not op_1)) (and op_1 (not op_0))) )  14 32)
+34:(resolution ((not (and op_0 (not op_1))) )  5 31)
+35:(resolution ((not (and op_1 (not op_0))) )  3 30)
+36:(resolution ()  21 33 34 35)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_10_288_8633312cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_11 (op_7 (op_1 op_6)) (op_10 op_5 (op_4 op_6))) )
+2:input  ((op_11 (op_7 (op_0 op_6)) (op_10 op_2 (op_3 op_6))) )
+3:input  ((op_11 op_9 (op_4 op_6)) )
+4:input  ((op_8 op_9 op_2) )
+5:input  ((not (op_11 op_9 (op_3 op_6))) )
+6:input  ((op_8 op_9 op_5) )
+7:input  ((op_11 op_9 (op_3 op_6)) )
+8:(resolution ()  7 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.013 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_51_42_656_5093812cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= op_1 (op_4 op_0 op_2)) )
+2:input  ((op_6 op_2 op_3 op_5) )
+3:input  ((not (= op_1 (op_4 op_0 op_2))) )
+Warning: hole for trust_f.
+4:hole  ((= (= op_1 (op_4 op_0 op_2)) (= op_1 (op_4 op_0 op_2))) )
+5:(equiv1 ((not (= op_1 (op_4 op_0 op_2))) (= op_1 (op_4 op_0 op_2)) )  4)
+6:(resolution ()  1 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_696_4987364cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_5 (op_2 op_0) (op_2 op_1)) (op_4 (op_3 op_0) (op_3 op_1))) )
+2:input  ((not (op_4 (op_3 op_0) (op_3 op_1))) )
+3:(and ((op_4 (op_3 op_0) (op_3 op_1)) )  1 1)
+4:(resolution ()  3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_050_4985034cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_4 (op_2 op_0) (op_2 op_1)) (op_5 (op_3 op_0) (op_3 op_1))) )
+2:input  ((not (op_4 (op_2 op_0) (op_2 op_1))) )
+3:(and ((op_4 (op_2 op_0) (op_2 op_1)) )  1 0)
+4:(resolution ()  3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_07_259_8627852cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_12 (op_7 (op_9 (op_0 op_6) (op_1 op_6))) (op_9 (op_7 (op_0 op_6)) (op_7 (op_1 op_6)))) )
+2:input  ((op_12 (op_7 (op_1 op_6)) (op_11 op_5 (op_4 op_6))) )
+3:input  ((op_12 (op_7 (op_0 op_6)) (op_11 op_2 (op_3 op_6))) )
+4:input  ((op_12 op_10 (op_4 op_6)) )
+5:input  ((op_12 op_10 (op_3 op_6)) )
+6:input  ((op_8 op_10 op_2) )
+7:input  ((not (op_12 op_10 (op_4 op_6))) )
+8:input  ((op_8 op_10 op_5) )
+9:(resolution ()  4 7)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.041 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_32_04_209_9474402cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= op_0 op_1)) )
+2:input  ((= op_0 op_1) )
+Warning: hole for trust_f.
+3:hole  ((= (= op_0 op_1) (= op_0 op_1)) )
+4:(equiv1 ((not (= op_0 op_1)) (= op_0 op_1) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.011 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_08_53_363_5071014cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= op_0 (op_3 op_1)) )
+2:input  ((= (op_3 (op_2 op_0)) (op_3 op_1)) )
+3:input  ((not (= (op_3 (op_2 op_0)) op_0)) )
+Warning: hole for trust_f.
+4:hole  ((= (not (= (op_3 (op_2 op_0)) op_0)) (not (= (op_3 (op_2 op_0)) op_0))) )
+5:(equiv1 ((= (op_3 (op_2 op_0)) op_0) (not (= (op_3 (op_2 op_0)) op_0)) )  4)
+6:(eq_transitive ((not (= op_0 (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (= (op_3 (op_2 op_0)) op_0) ) )
+7:(weaken ((not (= op_0 (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (= (op_3 (op_2 op_0)) op_0) )  6)
+8:(weaken ((= (op_3 (op_2 op_0)) op_0) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (not (= op_0 (op_3 op_1))) )  7)
+9:(resolution ()  8 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (or (not (= (op_2 (op_2 op_4)) (op_6 (op_3 op_1)))) (= (op_5 op_0 (op_2 (op_2 op_4))) (op_5 op_0 (op_6 (op_3 op_1)))))) )
+2:(not_or ((= (op_2 (op_2 op_4)) (op_6 (op_3 op_1))) )  1 0)
+3:(not_or ((not (= (op_5 op_0 (op_2 (op_2 op_4))) (op_5 op_0 (op_6 (op_3 op_1))))) )  1 1)
+4:(eq_reflexive ((= op_0 op_0) ) )
+5:(eq_congruent ((not (= op_0 op_0)) (not (= (op_2 (op_2 op_4)) (op_6 (op_3 op_1)))) (= (op_5 op_0 (op_2 (op_2 op_4))) (op_5 op_0 (op_6 (op_3 op_1)))) ) )
+6:(resolution ()  5 4)
+7:(weaken ((not (= (op_2 (op_2 op_4)) (op_6 (op_3 op_1)))) (= (op_5 op_0 (op_2 (op_2 op_4))) (op_5 op_0 (op_6 (op_3 op_1)))) )  6)
+8:(resolution ()  7 3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_00_883_17987914cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_4 op_0 (op_3 op_2)) )
+2:input  ((op_4 op_1 (op_3 op_2)) )
+3:input  ((not (op_4 op_0 (op_3 op_2))) )
+4:(resolution ()  1 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_37_53_950_9571100cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= op_0 op_1)) )
+2:input  ((= op_0 op_1) )
+Warning: hole for trust_f.
+3:hole  ((= (= op_0 op_1) (= op_0 op_1)) )
+4:(equiv1 ((not (= op_0 op_1)) (= op_0 op_1) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_28_18_949_9432688cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_4 op_0 (op_5 op_1 (op_3 op_2))) )
+2:input  ((not (op_4 op_0 (op_5 op_1 (op_3 op_2)))) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_28_01_687_5616730cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_0 op_2 op_3) (op_1 op_2 op_3)) )
+2:input  ((not (= (op_0 op_2 op_3) (op_1 op_2 op_3))) )
+Warning: hole for trust_f.
+3:hole  ((= (= (op_0 op_2 op_3) (op_1 op_2 op_3)) (= (op_0 op_2 op_3) (op_1 op_2 op_3))) )
+4:(equiv1 ((not (= (op_0 op_2 op_3) (op_1 op_2 op_3))) (= (op_0 op_2 op_3) (op_1 op_2 op_3)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_25_289_5134680cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_3 (op_2 op_0)) (op_3 op_1)) )
+2:input  ((= op_0 (op_3 op_1)) )
+3:input  ((not (= (op_3 (op_2 op_0)) op_0)) )
+Warning: hole for trust_f.
+4:hole  ((= (not (= (op_3 (op_2 op_0)) op_0)) (not (= (op_3 (op_2 op_0)) op_0))) )
+5:(equiv1 ((= (op_3 (op_2 op_0)) op_0) (not (= (op_3 (op_2 op_0)) op_0)) )  4)
+6:(eq_transitive ((not (= op_0 (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (= (op_3 (op_2 op_0)) op_0) ) )
+7:(weaken ((not (= op_0 (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) (= (op_3 (op_2 op_0)) op_0) )  6)
+8:(weaken ((= (op_3 (op_2 op_0)) op_0) (not (= op_0 (op_3 op_1))) (not (= (op_3 (op_2 op_0)) (op_3 op_1))) )  7)
+9:(resolution ()  8 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_44_183_5157124cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_2 (op_4 op_0) (op_6 op_1)) )
+2:input  ((not (op_2 (op_4 (op_3 (op_4 op_0))) (op_6 (op_5 (op_6 op_1))))) )
+3:input  ((= (op_4 (op_3 (op_4 op_0))) (op_4 op_0)) )
+4:input  ((= (op_6 (op_5 (op_6 op_1))) (op_6 op_1)) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0)) (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) )
+Warning: hole for trust_f.
+6:hole  ((= (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1)) (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) )
+7:(equiv1 ((not (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0)) )  5)
+8:(equiv1 ((not (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1)) )  6)
+9:(eq_congruent_pred ((not (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) (not (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) (not (op_2 (op_4 op_0) (op_6 op_1))) (op_2 (op_4 (op_3 (op_4 op_0))) (op_6 (op_5 (op_6 op_1)))) ) )
+10:(weaken ((op_2 (op_4 (op_3 (op_4 op_0))) (op_6 (op_5 (op_6 op_1)))) (not (op_2 (op_4 op_0) (op_6 op_1))) (not (= (op_4 (op_3 (op_4 op_0))) (op_4 op_0))) (not (= (op_6 (op_5 (op_6 op_1))) (op_6 op_1))) )  9)
+11:(resolution ()  10 4 3 1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_13_29_740_5029568cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_1 op_0) )
+2:input  ((not (op_1 op_0)) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_00_870_5908880cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_8 op_1) )
+2:input  ((not (= op_1 op_7)) )
+3:input  ((not (= (op_5 op_4 (op_6 op_1) op_3) (op_5 op_4 (op_2 (op_6 op_1)) (op_0 (op_6 op_1))))) )
+4:input  ((= op_1 op_7) )
+5:(resolution ()  4 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_33_14_874_5693428cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_5 op_0 (op_7 op_3))) )
+2:input  ((not (= op_3 op_3)) )
+3:input  ((op_6 op_3) )
+4:input  ((op_4 op_0 (op_1 (op_2 op_3))) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= op_3 op_3)) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= op_3 op_3) false )  5)
+10:(resolution (false )  2 9)
+11:(resolution ()  10 8)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_unit_rbt_d;
+              te_compdec := CompDec_A_unit_rbt_d
+            |}) Smt_var_empty_d Smt_var_empty_d) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_31_32_094_5725034cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_0 op_3 op_1) (op_2 op_3 op_1)) )
+2:input  ((not (= (op_0 op_3 op_1) (op_2 op_3 op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (= (op_0 op_3 op_1) (op_2 op_3 op_1)) (= (op_0 op_3 op_1) (op_2 op_3 op_1))) )
+4:(equiv1 ((not (= (op_0 op_3 op_1) (op_2 op_3 op_1))) (= (op_0 op_3 op_1) (op_2 op_3 op_1)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_15_23_16_143_4983100cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (not (= op_0 op_1)) (or (and op_0 (not op_1)) (and op_1 (not op_0))))) )
+2:(and_pos ((not (and op_1 (not op_0))) (not op_0) )  1)
+3:(weaken ((not op_0) (not (and op_1 (not op_0))) )  2)
+4:(and_pos ((not (and op_0 (not op_1))) (not op_1) )  1)
+5:(weaken ((not op_1) (not (and op_0 (not op_1))) )  4)
+6:(equiv_pos2 ((not (= op_0 op_1)) (not op_0) op_1 ) )
+7:(weaken ((not op_0) op_1 (not (= op_0 op_1)) )  6)
+8:(and_pos ((not (and op_0 (not op_1))) op_0 )  0)
+9:(weaken (op_0 (not (and op_0 (not op_1))) )  8)
+10:(equiv_pos1 ((not (= op_0 op_1)) op_0 (not op_1) ) )
+11:(weaken ((not op_1) (not (= op_0 op_1)) op_0 )  10)
+12:(or_neg ((or (and op_0 (not op_1)) (and op_1 (not op_0))) (not (and op_0 (not op_1))) )  0)
+13:(weaken ((not (and op_0 (not op_1))) (or (and op_0 (not op_1)) (and op_1 (not op_0))) )  12)
+14:(not_equiv1 ((not (= op_0 op_1)) (or (and op_0 (not op_1)) (and op_1 (not op_0))) )  1)
+15:(equiv_neg2 ((= op_0 op_1) op_0 op_1 ) )
+16:(weaken (op_1 (= op_0 op_1) op_0 )  15)
+17:(equiv_neg1 ((= op_0 op_1) (not op_0) (not op_1) ) )
+18:(weaken ((not op_0) (not op_1) (= op_0 op_1) )  17)
+19:(not_equiv2 ((= op_0 op_1) (not (or (and op_0 (not op_1)) (and op_1 (not op_0)))) )  1)
+20:(or_pos ((not (or (and op_0 (not op_1)) (and op_1 (not op_0)))) (and op_0 (not op_1)) (and op_1 (not op_0)) ) )
+21:(weaken ((and op_1 (not op_0)) (and op_0 (not op_1)) (not (or (and op_0 (not op_1)) (and op_1 (not op_0)))) )  20)
+22:(and_neg ((and op_0 (not op_1)) (not op_0) op_1 ) )
+23:(weaken ((not op_0) op_1 (and op_0 (not op_1)) )  22)
+24:(and_pos ((not (and op_1 (not op_0))) op_1 )  0)
+25:(weaken (op_1 (not (and op_1 (not op_0))) )  24)
+26:(or_neg ((or (and op_0 (not op_1)) (and op_1 (not op_0))) (not (and op_1 (not op_0))) )  1)
+27:(weaken ((not (and op_1 (not op_0))) (or (and op_0 (not op_1)) (and op_1 (not op_0))) )  26)
+28:(and_neg ((and op_1 (not op_0)) (not op_1) op_0 ) )
+29:(resolution ((not op_1) op_0 )  27 19 28 11)
+30:(resolution (op_0 )  21 14 25 16 29 9)
+31:(resolution (op_1 )  13 19 23 30 7 30)
+32:(resolution ((= op_0 op_1) )  18 31 30)
+33:(resolution ((or (and op_0 (not op_1)) (and op_1 (not op_0))) )  14 32)
+34:(resolution ((not (and op_0 (not op_1))) )  5 31)
+35:(resolution ((not (and op_1 (not op_0))) )  3 30)
+36:(resolution ()  21 33 34 35)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_04_536_4989628cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_5 (op_2 op_0) (op_2 op_1)) (op_4 (op_3 op_0) (op_3 op_1))) )
+2:input  ((not (op_4 (op_3 op_0) (op_3 op_1))) )
+3:(and ((op_4 (op_3 op_0) (op_3 op_1)) )  1 1)
+4:(resolution ()  3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_09_34_799_4995700cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_2 op_0 op_1) )
+2:input  ((not (op_2 op_0 op_1)) )
+3:input  ((not false) )
+4:(resolution ()  2 1)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_42_549_5864026cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) )
+2:input  ((op_13 op_1) )
+3:input  ((not (= op_1 op_11)) )
+4:input  ((= op_1 (op_12 op_4 op_5 op_6 op_7 op_8)) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1)))) false )  5)
+10:(resolution (false )  1 9)
+11:(resolution ()  10 8)
+ Done [0.001 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+         (Smt_var_fold_d Smt_var_min_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+         (Smt_var_fold_d Smt_var_min_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.017 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_18_31_06_963_5320700cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_2 op_1 op_0)) )
+2:input  ((op_2 op_1 op_0) )
+Warning: hole for trust_f.
+3:hole  ((= (op_2 op_1 op_0) (op_2 op_1 op_0)) )
+4:(equiv1 ((not (op_2 op_1 op_0)) (op_2 op_1 op_0) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_28_655_5053232cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_1 op_0 op_2) (op_1 op_0 op_2))) )
+Warning: hole for trust_f.
+2:hole  ((= (not (= (op_1 op_0 op_2) (op_1 op_0 op_2))) false) )
+Warning: hole for trust_f.
+3:hole  ((= true (not false)) )
+4:(equiv1 ((not true) (not false) )  3)
+5:(weaken ((not false) )  4)
+6:(equiv1 ((= (op_1 op_0 op_2) (op_1 op_0 op_2)) false )  2)
+7:(resolution (false )  1 6)
+8:(resolution ()  7 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_b_prod_d;
+              te_compdec := CompDec_A_b_prod_d
+            |}) (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)
+         (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_34_486_5840566cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_8 op_1) )
+2:input  ((not (= op_1 op_7)) )
+3:input  ((not (= (op_5 op_3 (op_6 op_1) op_4) (op_5 op_3 (op_2 (op_6 op_1)) (op_0 (op_6 op_1))))) )
+4:input  ((= op_1 op_7) )
+5:(resolution ()  4 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_23_22_38_994_4983000cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_0 op_3) (op_1 op_3)) )
+2:input  ((= op_2 op_3) )
+3:input  ((not (= (op_0 op_2) (op_1 op_3))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_0 op_3) (op_1 op_3)) (= (op_0 op_3) (op_1 op_3))) )
+5:(equiv1 ((not (= (op_0 op_3) (op_1 op_3))) (= (op_0 op_3) (op_1 op_3)) )  4)
+6:(eq_congruent ((not (= op_2 op_3)) (= (op_0 op_3) (op_0 op_2)) ) )
+7:(eq_transitive ((not (= (op_0 op_3) (op_0 op_2))) (not (= (op_0 op_3) (op_1 op_3))) (not (= (op_0 op_3) (op_1 op_3))) (not (= (op_0 op_3) (op_1 op_3))) (= (op_0 op_2) (op_1 op_3)) ) )
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_23_22_38_994_4983000cvc4.v", line 8, characters 2-427:
+Error: Anomaly "Uncaught exception Not_found."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_01_29_51_707_5106282cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_3 op_0 op_1) )
+2:input  ((not (and (op_3 op_0 op_1) (= (op_2 op_0 op_1) (op_2 op_0 op_1)))) )
+Warning: hole for trust_f.
+3:hole  ((= (not (and (op_3 op_0 op_1) (= (op_2 op_0 op_1) (op_2 op_0 op_1)))) (not (op_3 op_0 op_1))) )
+4:(equiv1 ((and (op_3 op_0 op_1) (= (op_2 op_0 op_1) (op_2 op_0 op_1))) (not (op_3 op_0 op_1)) )  3)
+5:(resolution ((not (op_3 op_0 op_1)) )  2 4)
+6:(resolution ()  1 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d &&
+       eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_Nat_set_d;
+              te_compdec := CompDec_Nat_set_d
+            |}) (Smt_var_image_d Smt_var_f_d Smt_var_s_d)
+         (Smt_var_image_d Smt_var_f_d Smt_var_s_d)) <--->
+    negb (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d)))
+
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_08_504_5931826cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) )
+2:input  ((op_13 op_1) )
+3:input  ((not (= op_1 op_11)) )
+4:input  ((= op_1 (op_12 op_4 op_5 op_6 op_7 op_8)) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))))) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1))) (op_9 op_3 (op_2 (op_10 op_1)) (op_0 (op_10 op_1)))) false )  5)
+10:(resolution (false )  1 9)
+11:(resolution ()  10 8)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+         (Smt_var_fold_d Smt_var_max_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+         (Smt_var_fold_d Smt_var_max_d
+            (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+            (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.014 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_16_11_074_5147710cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= op_1 (op_4 op_0 op_2)) )
+2:input  ((op_6 op_2 op_3 op_5) )
+3:input  ((not (= op_1 (op_4 op_0 op_2))) )
+Warning: hole for trust_f.
+4:hole  ((= (= op_1 (op_4 op_0 op_2)) (= op_1 (op_4 op_0 op_2))) )
+5:(equiv1 ((not (= op_1 (op_4 op_0 op_2))) (= op_1 (op_4 op_0 op_2)) )  4)
+6:(resolution ()  1 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_28_06_559_5486688cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_5 (op_7 op_3) op_0)) )
+2:input  ((not (= op_3 op_3)) )
+3:input  ((op_6 op_3) )
+4:input  ((op_4 op_0 (op_1 (op_2 op_3))) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= op_3 op_3)) false) )
+Warning: hole for trust_f.
+6:hole  ((= true (not false)) )
+7:(equiv1 ((not true) (not false) )  6)
+8:(weaken ((not false) )  7)
+9:(equiv1 ((= op_3 op_3) false )  5)
+10:(resolution (false )  2 9)
+11:(resolution ()  10 8)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_unit_rbt_d;
+              te_compdec := CompDec_A_unit_rbt_d
+            |}) Smt_var_empty_d Smt_var_empty_d) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_32_934_5066708cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_2 op_0 op_1) (op_2 op_0 op_1))) )
+Warning: hole for trust_f.
+2:hole  ((= (not (= (op_2 op_0 op_1) (op_2 op_0 op_1))) false) )
+Warning: hole for trust_f.
+3:hole  ((= true (not false)) )
+4:(equiv1 ((not true) (not false) )  3)
+5:(weaken ((not false) )  4)
+6:(equiv1 ((= (op_2 op_0 op_1) (op_2 op_0 op_1)) false )  2)
+7:(resolution (false )  1 6)
+8:(resolution ()  7 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_b_prod_d;
+              te_compdec := CompDec_A_b_prod_d
+            |}) (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)
+         (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)) <---> false))
+
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_03_628_4985034cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_4 (op_2 op_0) (op_2 op_1)) (op_5 (op_3 op_0) (op_3 op_1))) )
+2:input  ((not (op_4 (op_2 op_0) (op_2 op_1))) )
+3:(and ((op_4 (op_2 op_0) (op_2 op_1)) )  1 0)
+4:(resolution ()  3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc4.v
+Type-checking LFSC proof...File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc4.v", line 8, characters 2-409:
+Error: Anomaly "Uncaught exception Stdlib.Parsing.Parse_error."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/Zeta_cvc42/x2020_08_04_19_26_44_055_10527492cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= op_1 op_0) )
+2:input  ((not (= op_1 op_0)) )
+Warning: hole for trust_f.
+3:hole  ((= (not (= op_1 op_0)) (not (= op_1 op_0))) )
+4:(equiv1 ((= op_1 op_0) (not (= op_1 op_0)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.003 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_17_34_35_557_9411026cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_3 (op_4 (op_2 op_1)) op_0) )
+2:input  ((not (op_3 (op_4 (op_2 op_1)) op_0)) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_19_07_59_455_9387134cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_3 (op_4 (op_2 op_1)) op_0) )
+2:input  ((not (op_3 (op_4 (op_2 op_1)) op_0)) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_46_36_378_8617908cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2)) )
+2:input  ((= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_9 op_8 (op_4 op_1 op_6) op_3)) )
+3:input  ((not (= (op_9 op_8 (op_4 op_1 op_6) op_3) (op_4 (op_5 op_8 op_1 op_0) op_2))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2)) (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2))) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_9 op_8 (op_4 op_1 op_6) op_3)) (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_9 op_8 (op_4 op_1 op_6) op_3))) )
+6:(equiv1 ((not (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_9 op_8 (op_4 op_1 op_6) op_3))) (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_9 op_8 (op_4 op_1 op_6) op_3)) )  5)
+7:(equiv1 ((not (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2))) (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2)) )  4)
+8:(eq_transitive ((not (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_9 op_8 (op_4 op_1 op_6) op_3))) (not (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2))) (not (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2))) (not (= (op_10 op_8 (op_4 op_1 op_6) op_7) (op_4 (op_5 op_8 op_1 op_0) op_2))) (= (op_9 op_8 (op_4 op_1 op_6) op_3) (op_4 (op_5 op_8 op_1 op_0) op_2)) ) )
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_46_36_378_8617908cvc4.v", line 8, characters 2-411:
+Error: Anomaly "Uncaught exception Not_found."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_19_42_14_120_5961368cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_1 (op_2 (op_3 op_0))) (op_1 (op_2 (op_3 op_0))))) )
+Warning: hole for trust_f.
+2:hole  ((= (not (= (op_1 (op_2 (op_3 op_0))) (op_1 (op_2 (op_3 op_0))))) false) )
+Warning: hole for trust_f.
+3:hole  ((= true (not false)) )
+4:(equiv1 ((not true) (not false) )  3)
+5:(weaken ((not false) )  4)
+6:(equiv1 ((= (op_1 (op_2 (op_3 op_0))) (op_1 (op_2 (op_3 op_0)))) false )  2)
+7:(resolution (false )  1 6)
+8:(resolution ()  7 5)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true (true <---> negb false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (negb
+      (Smt_var_wf_d (Smt_var_collect_d (Smt_var_case_prod_d Smt_var_r_d)) <--->
+       Smt_var_wf_d (Smt_var_collect_d (Smt_var_case_prod_d Smt_var_r_d))) <--->
+    false))
+
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_29_35_898_5741632cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= op_11 op_9) )
+2:input  ((= op_10 op_8) )
+3:input  ((= op_4 op_1) )
+4:input  ((= op_11 op_10) )
+5:input  ((= op_3 (op_14 op_13 (op_7 (op_12 (op_6 op_1)) op_2) op_8)) )
+6:input  ((not (= op_0 op_3)) )
+7:input  ((= op_5 op_2) )
+8:input  ((= op_0 (op_14 op_13 (op_7 (op_12 (op_6 op_4)) op_5) op_9)) )
+Warning: hole for trust_f.
+9:hole  ((= (= op_4 op_1) (= op_4 op_1)) )
+Warning: hole for trust_f.
+10:hole  ((= (= op_10 op_8) (= op_10 op_8)) )
+Warning: hole for trust_f.
+11:hole  ((= (= op_11 op_9) (= op_11 op_9)) )
+Warning: hole for trust_f.
+12:hole  ((= (= op_5 op_2) (= op_5 op_2)) )
+Warning: hole for trust_f.
+13:hole  ((= (= op_11 op_10) (= op_11 op_10)) )
+14:(equiv1 ((not (= op_5 op_2)) (= op_5 op_2) )  12)
+15:(equiv1 ((not (= op_11 op_10)) (= op_11 op_10) )  13)
+16:(equiv1 ((not (= op_11 op_9)) (= op_11 op_9) )  11)
+17:(equiv1 ((not (= op_10 op_8)) (= op_10 op_8) )  10)
+18:(equiv1 ((not (= op_4 op_1)) (= op_4 op_1) )  9)
+19:(eq_transitive ((not (= op_10 op_8)) (not (= op_11 op_10)) (not (= op_11 op_9)) (= op_8 op_9) ) )
+20:(weaken ((not (= op_10 op_8)) (not (= op_11 op_10)) (not (= op_11 op_9)) (= op_8 op_9) )  19)
+21:(eq_congruent ((not (= op_4 op_1)) (= (op_6 op_4) (op_6 op_1)) ) )
+22:(eq_congruent ((not (= (op_6 op_4) (op_6 op_1))) (= (op_12 (op_6 op_4)) (op_12 (op_6 op_1))) ) )
+23:(eq_congruent ((not (= (op_12 (op_6 op_4)) (op_12 (op_6 op_1)))) (not (= op_5 op_2)) (= (op_7 (op_12 (op_6 op_4)) op_5) (op_7 (op_12 (op_6 op_1)) op_2)) ) )
+24:(eq_reflexive ((= op_13 op_13) ) )
+25:(eq_congruent ((not (= op_13 op_13)) (not (= (op_7 (op_12 (op_6 op_4)) op_5) (op_7 (op_12 (op_6 op_1)) op_2))) (not (= op_8 op_9)) (= (op_14 op_13 (op_7 (op_12 (op_6 op_4)) op_5) op_9) (op_14 op_13 (op_7 (op_12 (op_6 op_1)) op_2) op_8)) ) )
+26:(eq_transitive ((not (= op_0 (op_14 op_13 (op_7 (op_12 (op_6 op_4)) op_5) op_9))) (not (= (op_14 op_13 (op_7 (op_12 (op_6 op_4)) op_5) op_9) (op_14 op_13 (op_7 (op_12 (op_6 op_1)) op_2) op_8))) (not (= op_3 (op_14 op_13 (op_7 (op_12 (op_6 op_1)) op_2) op_8))) (= op_0 op_3) ) )
+27:(weaken ((not (= op_0 (op_14 op_13 (op_7 (op_12 (op_6 op_4)) op_5) op_9))) (not (= (op_14 op_13 (op_7 (op_12 (op_6 op_4)) op_5) op_9) (op_14 op_13 (op_7 (op_12 (op_6 op_1)) op_2) op_8))) (not (= op_3 (op_14 op_13 (op_7 (op_12 (op_6 op_1)) op_2) op_8))) (= op_0 op_3) )  26)
+28:(resolution ()  27 25 24 23 22 21 20)
+29:(weaken ((= op_0 op_3) (not (= op_3 (op_14 op_13 (op_7 (op_12 (op_6 op_1)) op_2) op_8))) (not (= op_0 (op_14 op_13 (op_7 (op_12 (op_6 op_4)) op_5) op_9))) (not (= op_5 op_2)) (not (= op_4 op_1)) (not (= op_10 op_8)) (not (= op_11 op_9)) (not (= op_11 op_10)) )  28)
+30:(resolution ()  29 4 1 2 3 7 8 5 6)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.026 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_43_975_7545750cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_2 op_3 op_0 op_1) (not (op_2 op_3 op_1 op_0))) )
+2:input  ((and (op_2 op_3 op_1 op_0) (not (op_2 op_3 op_0 op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (and (op_2 op_3 op_1 op_0) (not (op_2 op_3 op_0 op_1))) (and (op_2 op_3 op_1 op_0) (not (op_2 op_3 op_0 op_1)))) )
+4:(equiv1 ((not (and (op_2 op_3 op_1 op_0) (not (op_2 op_3 op_0 op_1)))) (and (op_2 op_3 op_1 op_0) (not (op_2 op_3 op_0 op_1))) )  3)
+5:(and ((not (op_2 op_3 op_0 op_1)) )  2 1)
+6:(and ((op_2 op_3 op_0 op_1) )  1 0)
+7:(resolution ()  6 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_19_53_992_5730614cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_11 (op_15 op_14 op_0 op_3) (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4)))))) )
+2:input  ((and (= op_6 (op_15 op_14 op_0 op_3)) (op_17 op_14 op_3)) )
+3:input  ((not (op_11 op_6 (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4))))))) )
+4:(and ((= op_6 (op_15 op_14 op_0 op_3)) )  2 0)
+5:(eq_reflexive ((= (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4))))) (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4)))))) ) )
+6:(eq_congruent_pred ((not (= op_6 (op_15 op_14 op_0 op_3))) (not (= (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4))))) (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4))))))) (not (op_11 (op_15 op_14 op_0 op_3) (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4))))))) (op_11 op_6 (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4)))))) ) )
+7:(resolution ()  6 5)
+8:(weaken ((op_11 op_6 (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4)))))) (not (= op_6 (op_15 op_14 op_0 op_3))) (not (op_11 (op_15 op_14 op_0 op_3) (op_9 op_13 (op_16 op_19 (op_18 op_14 (op_5 op_2 (op_10 (op_7 op_0 (op_12 op_1 op_8)) op_4))))))) )  7)
+9:(resolution ()  8 1 4 3)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.018 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_21_54_301_5765740cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_10 op_19 op_3 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))))) )
+2:input  ((op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))))) )
+3:input  ((=> (and (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))))) (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))))) (op_10 op_19 op_3 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))))) )
+4:input  ((op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))))) )
+5:(and_neg ((and (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))))) (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))))) (not (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))))))) (not (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))))) ) )
+6:(weaken ((not (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))))) (and (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))))) (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))))) (not (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))))))) )  5)
+7:(implies ((not (and (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))))) (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))))))) (op_10 op_19 op_3 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) )  3)
+8:(weaken ((op_10 op_19 op_3 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (not (and (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))))) (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))))))) )  7)
+9:(resolution ((not (and (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))))) (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))) (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4)))) (op_12 op_3 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))))))) )  8 1)
+10:(resolution ((not (op_13 (op_9 (op_18 op_16 (op_5 op_2 (op_11 op_0 op_4))) (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4)))) (op_8 op_15 (op_17 op_19 (op_18 op_16 (op_5 op_2 (op_11 (op_6 op_0 (op_14 op_1 op_7)) op_4))))))) )  6 9 2)
+11:(resolution ()  4 10)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.017 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_42_834_7543784cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_1 op_2 op_0 op_0) (not (op_1 op_2 op_0 op_0))) )
+Warning: hole for trust_f.
+2:hole  ((= (and (op_1 op_2 op_0 op_0) (not (op_1 op_2 op_0 op_0))) (and (op_1 op_2 op_0 op_0) (not (op_1 op_2 op_0 op_0)))) )
+3:(equiv1 ((not (and (op_1 op_2 op_0 op_0) (not (op_1 op_2 op_0 op_0)))) (and (op_1 op_2 op_0 op_0) (not (op_1 op_2 op_0 op_0))) )  2)
+4:(and ((op_1 op_2 op_0 op_0) )  1 0)
+5:(and ((not (op_1 op_2 op_0 op_0)) )  1 1)
+6:(resolution ()  5 4)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_44_56_253_5688612cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_8 (op_6 op_2 op_1) (op_5 (op_7 (op_4 op_3)) op_0))) )
+2:input  ((op_8 (op_6 op_2 op_1) (op_5 (op_7 (op_4 op_3)) op_0)) )
+Warning: hole for trust_f.
+3:hole  ((= (op_8 (op_6 op_2 op_1) (op_5 (op_7 (op_4 op_3)) op_0)) (op_8 (op_6 op_2 op_1) (op_5 (op_7 (op_4 op_3)) op_0))) )
+4:(equiv1 ((not (op_8 (op_6 op_2 op_1) (op_5 (op_7 (op_4 op_3)) op_0))) (op_8 (op_6 op_2 op_1) (op_5 (op_7 (op_4 op_3)) op_0)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_39_123_7537830cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_2 op_1 op_0 op_0) (not (op_2 op_1 op_0 op_0))) )
+Warning: hole for trust_f.
+2:hole  ((= (and (op_2 op_1 op_0 op_0) (not (op_2 op_1 op_0 op_0))) (and (op_2 op_1 op_0 op_0) (not (op_2 op_1 op_0 op_0)))) )
+3:(equiv1 ((not (and (op_2 op_1 op_0 op_0) (not (op_2 op_1 op_0 op_0)))) (and (op_2 op_1 op_0 op_0) (not (op_2 op_1 op_0 op_0))) )  2)
+4:(and ((op_2 op_1 op_0 op_0) )  1 0)
+5:(and ((not (op_2 op_1 op_0 op_0)) )  1 1)
+6:(resolution ()  5 4)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.004 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_05_57_088_7410378cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0)) (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1)))) )
+2:(and_neg ((and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0)) (not (op_3 op_2 op_0 op_1)) (not (op_3 op_2 op_1 op_0)) ) )
+3:(weaken ((not (op_3 op_2 op_0 op_1)) (not (op_3 op_2 op_1 op_0)) (and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0)) )  2)
+4:(and_pos ((not (and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0))) (op_3 op_2 op_0 op_1) )  0)
+5:(weaken ((op_3 op_2 op_0 op_1) (not (and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0))) )  4)
+6:(and_pos ((not (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1))) (op_3 op_2 op_0 op_1) )  1)
+7:(weaken ((op_3 op_2 op_0 op_1) (not (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1))) )  6)
+8:(and_pos ((not (and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0))) (op_3 op_2 op_1 op_0) )  1)
+9:(weaken ((op_3 op_2 op_1 op_0) (not (and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0))) )  8)
+10:(not_equiv2 ((not (and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0))) (not (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1))) )  1)
+11:(and_neg ((and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1)) (not (op_3 op_2 op_1 op_0)) (not (op_3 op_2 op_0 op_1)) ) )
+12:(weaken ((not (op_3 op_2 op_0 op_1)) (not (op_3 op_2 op_1 op_0)) (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1)) )  11)
+13:(not_equiv1 ((and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0)) (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1)) )  1)
+14:(and_pos ((not (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1))) (op_3 op_2 op_1 op_0) )  0)
+15:(weaken ((op_3 op_2 op_1 op_0) (not (and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1))) )  14)
+16:(resolution ((op_3 op_2 op_0 op_1) )  13 7 5)
+17:(resolution ((op_3 op_2 op_1 op_0) )  13 15 9)
+18:(resolution ((and (op_3 op_2 op_1 op_0) (op_3 op_2 op_0 op_1)) )  12 17 16)
+19:(resolution ((and (op_3 op_2 op_0 op_1) (op_3 op_2 op_1 op_0)) )  3 17 16)
+20:(resolution ()  10 18 19)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_13 op_8) (op_5 (op_14 op_17 (op_7 (op_4 (op_19 op_16) (op_9 op_1 op_10)))))) )
+2:input  ((= (op_22 op_8 op_6) (op_22 op_3 op_15)) )
+3:input  ((not (= (op_21 op_20 (op_12 (op_18 (op_11 op_2)) op_0) (op_22 op_8 op_6)) (op_21 op_20 (op_12 (op_18 (op_11 op_2)) op_0) (op_22 op_3 op_15)))) )
+4:(eq_reflexive ((= (op_12 (op_18 (op_11 op_2)) op_0) (op_12 (op_18 (op_11 op_2)) op_0)) ) )
+5:(eq_reflexive ((= op_20 op_20) ) )
+6:(eq_congruent ((not (= op_20 op_20)) (not (= (op_12 (op_18 (op_11 op_2)) op_0) (op_12 (op_18 (op_11 op_2)) op_0))) (not (= (op_22 op_8 op_6) (op_22 op_3 op_15))) (= (op_21 op_20 (op_12 (op_18 (op_11 op_2)) op_0) (op_22 op_8 op_6)) (op_21 op_20 (op_12 (op_18 (op_11 op_2)) op_0) (op_22 op_3 op_15))) ) )
+7:(resolution ()  6 5 4)
+8:(weaken ((= (op_21 op_20 (op_12 (op_18 (op_11 op_2)) op_0) (op_22 op_8 op_6)) (op_21 op_20 (op_12 (op_18 (op_11 op_2)) op_0) (op_22 op_3 op_15))) (not (= (op_22 op_8 op_6) (op_22 op_3 op_15))) )  7)
+9:(resolution ()  8 2 3)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.025 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_47_436_7058806cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_5 (op_4 op_3 op_1 op_2) op_0) (op_6 op_3 op_2)) )
+2:input  ((not (op_6 op_3 op_2)) )
+3:(and ((op_6 op_3 op_2) )  1 1)
+4:(resolution ()  3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_51_54_844_7791092cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_9 (op_6 (op_4 op_3) (op_8 op_1 op_2)) (op_10 (op_7 op_5 op_0))) )
+2:input  ((not (op_9 (op_6 (op_4 op_3) (op_8 op_1 op_2)) (op_10 (op_7 op_5 op_0)))) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((=> (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8))) op_9) )
+2:input  ((not op_9) )
+Warning: hole for trust_f.
+3:hole  ((= (=> (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8))) op_9) (=> (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8))) op_9)) )
+4:(equiv1 ((not (=> (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8))) op_9)) (=> (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8))) op_9) )  3)
+5:(implies ((not (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)))) op_9 )  1)
+6:(weaken (op_9 (not (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)))) )  5)
+7:(implies_neg1 ((=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8))) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) ) )
+8:(implies_neg2 ((=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8))) (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8) ) )
+9:(resolution ((not (=> (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) (not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)))) )  6 2)
+10:(resolution ((not (= (op_5 op_10 op_2 op_1 (op_7 op_0 (op_11 op_4 (op_6 op_3)))) op_8)) )  7 9)
+11:(resolution ()  8 10 9)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.010 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_14 op_6 (op_8 op_3)) (op_13 op_12 (op_11 op_2 op_5) op_10))) )
+2:input  ((= (op_13 op_12 (op_11 op_2 op_5) op_10) (op_7 op_12 op_2 op_1 op_4)) )
+3:input  ((= op_4 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) )
+4:input  ((= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3))) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3))) (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3)))) )
+6:(equiv1 ((not (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3)))) (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3))) )  5)
+7:(eq_reflexive ((= op_1 op_1) ) )
+8:(eq_reflexive ((= op_2 op_2) ) )
+9:(eq_reflexive ((= op_12 op_12) ) )
+10:(eq_congruent ((not (= op_12 op_12)) (not (= op_2 op_2)) (not (= op_1 op_1)) (not (= op_4 (op_9 op_0 (op_14 op_6 (op_8 op_3))))) (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_7 op_12 op_2 op_1 op_4)) ) )
+11:(eq_transitive ((not (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3)))) (not (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_7 op_12 op_2 op_1 op_4))) (not (= (op_13 op_12 (op_11 op_2 op_5) op_10) (op_7 op_12 op_2 op_1 op_4))) (= (op_14 op_6 (op_8 op_3)) (op_13 op_12 (op_11 op_2 op_5) op_10)) ) )
+12:(weaken ((not (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3)))) (not (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_7 op_12 op_2 op_1 op_4))) (not (= (op_13 op_12 (op_11 op_2 op_5) op_10) (op_7 op_12 op_2 op_1 op_4))) (= (op_14 op_6 (op_8 op_3)) (op_13 op_12 (op_11 op_2 op_5) op_10)) )  11)
+13:(resolution ()  12 10 9 8 7)
+14:(weaken ((= (op_14 op_6 (op_8 op_3)) (op_13 op_12 (op_11 op_2 op_5) op_10)) (not (= (op_13 op_12 (op_11 op_2 op_5) op_10) (op_7 op_12 op_2 op_1 op_4))) (not (= op_4 (op_9 op_0 (op_14 op_6 (op_8 op_3))))) (not (= (op_7 op_12 op_2 op_1 (op_9 op_0 (op_14 op_6 (op_8 op_3)))) (op_14 op_6 (op_8 op_3)))) )  13)
+15:(resolution ()  14 4 3 2 1)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.020 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_22_19_856_8862020cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_11 op_1) )
+2:input  ((=> (op_11 op_1) (op_10 (op_9 op_8 op_0) (op_5 (op_6 (op_7 op_8 (op_4 op_3))) (op_9 op_8 op_2)))) )
+3:input  ((not (op_10 (op_9 op_8 op_0) (op_5 (op_6 (op_7 op_8 (op_4 op_3))) (op_9 op_8 op_2)))) )
+4:(implies ((not (op_11 op_1)) (op_10 (op_9 op_8 op_0) (op_5 (op_6 (op_7 op_8 (op_4 op_3))) (op_9 op_8 op_2))) )  2)
+5:(weaken ((op_10 (op_9 op_8 op_0) (op_5 (op_6 (op_7 op_8 (op_4 op_3))) (op_9 op_8 op_2))) (not (op_11 op_1)) )  4)
+6:(resolution ((not (op_11 op_1)) )  5 3)
+7:(resolution ()  1 6)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.012 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_47_44_675_8643846cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_17 op_21) op_1) )
+2:input  ((= (op_22 op_15) op_1) )
+3:input  ((= (op_23 op_19) op_1) )
+4:input  ((= (op_23 op_11) op_1) )
+5:input  ((= (op_17 (op_28 (op_14 op_8 op_13))) (op_10 op_1)) )
+6:input  ((= (op_22 op_20) op_1) )
+7:input  ((= (op_24 op_5) op_1) )
+8:input  ((= (op_22 op_3) op_1) )
+9:input  ((= (op_24 op_12) op_1) )
+10:input  ((op_16 op_0 op_1) )
+11:input  ((= (op_22 op_13) op_1) )
+12:input  ((= (op_17 op_25) op_1) )
+13:input  ((not (= (op_9 (op_29 op_27 op_7 op_25) op_0) (op_9 op_3 op_0))) )
+14:input  ((not (= op_1 op_18)) )
+15:input  ((= (op_22 op_7) op_1) )
+16:input  ((= (op_23 op_4) op_1) )
+17:input  ((= (op_17 op_26) op_1) )
+18:input  ((= (op_22 op_6) op_1) )
+19:input  ((= (op_29 op_27 op_7 op_25) op_3) )
+20:input  ((= (op_24 op_2) op_1) )
+Warning: hole for trust_f.
+21:hole  ((= (= (op_29 op_27 op_7 op_25) op_3) (= (op_29 op_27 op_7 op_25) op_3)) )
+22:(equiv1 ((not (= (op_29 op_27 op_7 op_25) op_3)) (= (op_29 op_27 op_7 op_25) op_3) )  21)
+23:(eq_reflexive ((= op_0 op_0) ) )
+24:(eq_congruent ((not (= (op_29 op_27 op_7 op_25) op_3)) (not (= op_0 op_0)) (= (op_9 (op_29 op_27 op_7 op_25) op_0) (op_9 op_3 op_0)) ) )
+25:(resolution ()  24 23)
+26:(weaken ((= (op_9 (op_29 op_27 op_7 op_25) op_0) (op_9 op_3 op_0)) (not (= (op_29 op_27 op_7 op_25) op_3)) )  25)
+27:(resolution ()  26 19 13)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.057 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_10 op_1 (op_8 op_11 (op_18 (op_16 op_13 op_17 op_4 op_12 op_3) (op_15 (op_7 op_6 (op_9 op_2 op_5))) op_0))) )
+2:input  ((= (op_14 (op_7 op_6 op_2)) (op_8 op_11 (op_18 (op_16 op_13 op_17 op_4 op_12 op_3) (op_15 (op_7 op_6 (op_9 op_2 op_5))) op_0))) )
+3:input  ((not (op_10 op_1 (op_14 (op_7 op_6 op_2)))) )
+4:(eq_reflexive ((= op_1 op_1) ) )
+5:(eq_congruent_pred ((not (= op_1 op_1)) (not (= (op_14 (op_7 op_6 op_2)) (op_8 op_11 (op_18 (op_16 op_13 op_17 op_4 op_12 op_3) (op_15 (op_7 op_6 (op_9 op_2 op_5))) op_0)))) (not (op_10 op_1 (op_8 op_11 (op_18 (op_16 op_13 op_17 op_4 op_12 op_3) (op_15 (op_7 op_6 (op_9 op_2 op_5))) op_0)))) (op_10 op_1 (op_14 (op_7 op_6 op_2))) ) )
+6:(resolution ()  5 4)
+7:(weaken ((op_10 op_1 (op_14 (op_7 op_6 op_2))) (not (= (op_14 (op_7 op_6 op_2)) (op_8 op_11 (op_18 (op_16 op_13 op_17 op_4 op_12 op_3) (op_15 (op_7 op_6 (op_9 op_2 op_5))) op_0)))) (not (op_10 op_1 (op_8 op_11 (op_18 (op_16 op_13 op_17 op_4 op_12 op_3) (op_15 (op_7 op_6 (op_9 op_2 op_5))) op_0)))) )  6)
+8:(resolution ()  7 1 2 3)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.020 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0)) )
+2:input  ((= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0)) )
+3:input  ((not (= (op_4 (op_7 op_6 op_2 op_3) op_0) (op_4 op_1 op_0))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0)) (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0))) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0)) (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0))) )
+6:(equiv1 ((not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0))) (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0)) )  5)
+7:(equiv1 ((not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0))) (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0)) )  4)
+8:(eq_transitive ((not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0))) (not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0))) (= (op_4 (op_7 op_6 op_2 op_3) op_0) (op_4 op_1 op_0)) ) )
+9:(weaken ((not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0))) (not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0))) (= (op_4 (op_7 op_6 op_2 op_3) op_0) (op_4 op_1 op_0)) )  8)
+10:(weaken ((= (op_4 (op_7 op_6 op_2 op_3) op_0) (op_4 op_1 op_0)) (not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 op_1 op_0))) (not (= (op_4 (op_8 op_6 op_2 op_5) op_0) (op_4 (op_7 op_6 op_2 op_3) op_0))) )  9)
+11:(resolution ()  10 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.014 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_31_31_371_7343286cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (and (op_6 op_7 op_0 op_3) (op_6 op_7 op_3 op_0))) )
+2:input  ((op_5 op_3 (op_4 op_1 op_2)) )
+3:input  ((op_6 op_7 op_3 op_0) )
+4:input  ((op_6 op_7 op_0 op_3) )
+5:(not_and ((not (op_6 op_7 op_0 op_3)) (not (op_6 op_7 op_3 op_0)) )  1)
+6:(weaken ((not (op_6 op_7 op_3 op_0)) (not (op_6 op_7 op_0 op_3)) )  5)
+7:(resolution ((not (op_6 op_7 op_0 op_3)) )  6 3)
+8:(resolution ()  4 7)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_24_40_122_5680112cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((=> (op_6 op_4 op_2) (op_3 op_1 (op_5 op_4 op_0 op_2))) )
+2:input  ((op_6 op_4 op_2) )
+3:input  ((not (op_3 op_1 (op_5 op_4 op_0 op_2))) )
+4:(implies ((not (op_6 op_4 op_2)) (op_3 op_1 (op_5 op_4 op_0 op_2)) )  1)
+5:(weaken ((op_3 op_1 (op_5 op_4 op_0 op_2)) (not (op_6 op_4 op_2)) )  4)
+6:(resolution ()  5 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_01_16_644_5442968cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((=> (not (op_2 (op_1 op_0) op_0)) false) )
+2:input  ((not (op_2 (op_1 op_0) op_0)) )
+Warning: hole for trust_f.
+3:hole  ((= (=> (not (op_2 (op_1 op_0) op_0)) false) (op_2 (op_1 op_0) op_0)) )
+4:(equiv1 ((not (=> (not (op_2 (op_1 op_0) op_0)) false)) (op_2 (op_1 op_0) op_0) )  3)
+5:(resolution ((op_2 (op_1 op_0) op_0) )  1 4)
+6:(resolution ()  5 2)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true
+   ((negb (Smt_var_true_clss_d (Smt_var_i_of_d Smt_var_n_d) Smt_var_n_d) --->
+     false) <--->
+    Smt_var_true_clss_d (Smt_var_i_of_d Smt_var_n_d) Smt_var_n_d))
+
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (or (not (= (op_14 op_11 op_2) (op_4 (op_7 (op_13 op_11) (op_12 (op_5 op_3 (op_8 (op_10 (op_6 op_1) (op_9 op_0 op_3)) op_2))))))) (= (op_6 (op_14 op_11 op_2)) (op_6 (op_4 (op_7 (op_13 op_11) (op_12 (op_5 op_3 (op_8 (op_10 (op_6 op_1) (op_9 op_0 op_3)) op_2))))))))) )
+2:(not_or ((= (op_14 op_11 op_2) (op_4 (op_7 (op_13 op_11) (op_12 (op_5 op_3 (op_8 (op_10 (op_6 op_1) (op_9 op_0 op_3)) op_2)))))) )  1 0)
+3:(not_or ((not (= (op_6 (op_14 op_11 op_2)) (op_6 (op_4 (op_7 (op_13 op_11) (op_12 (op_5 op_3 (op_8 (op_10 (op_6 op_1) (op_9 op_0 op_3)) op_2)))))))) )  1 1)
+4:(eq_congruent ((not (= (op_14 op_11 op_2) (op_4 (op_7 (op_13 op_11) (op_12 (op_5 op_3 (op_8 (op_10 (op_6 op_1) (op_9 op_0 op_3)) op_2))))))) (= (op_6 (op_14 op_11 op_2)) (op_6 (op_4 (op_7 (op_13 op_11) (op_12 (op_5 op_3 (op_8 (op_10 (op_6 op_1) (op_9 op_0 op_3)) op_2))))))) ) )
+5:(resolution ()  4 3 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.015 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_46_15_427_5720368cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_7 op_6 (op_9 (op_4 op_1))) (op_3 (op_5 op_6 (op_2 op_1)))) )
+2:input  ((op_8 (op_7 op_6 (op_9 (op_4 op_0))) (op_7 op_6 (op_9 (op_4 op_1)))) )
+3:input  ((not (op_8 (op_7 op_6 (op_9 (op_4 op_0))) (op_3 (op_5 op_6 (op_2 op_1))))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_7 op_6 (op_9 (op_4 op_1))) (op_3 (op_5 op_6 (op_2 op_1)))) (= (op_7 op_6 (op_9 (op_4 op_1))) (op_3 (op_5 op_6 (op_2 op_1))))) )
+5:(equiv1 ((not (= (op_7 op_6 (op_9 (op_4 op_1))) (op_3 (op_5 op_6 (op_2 op_1))))) (= (op_7 op_6 (op_9 (op_4 op_1))) (op_3 (op_5 op_6 (op_2 op_1)))) )  4)
+6:(eq_reflexive ((= (op_7 op_6 (op_9 (op_4 op_0))) (op_7 op_6 (op_9 (op_4 op_0)))) ) )
+7:(eq_congruent_pred ((not (= (op_7 op_6 (op_9 (op_4 op_0))) (op_7 op_6 (op_9 (op_4 op_0))))) (not (= (op_7 op_6 (op_9 (op_4 op_1))) (op_3 (op_5 op_6 (op_2 op_1))))) (not (op_8 (op_7 op_6 (op_9 (op_4 op_0))) (op_7 op_6 (op_9 (op_4 op_1))))) (op_8 (op_7 op_6 (op_9 (op_4 op_0))) (op_3 (op_5 op_6 (op_2 op_1)))) ) )
+8:(resolution ()  7 6)
+9:(weaken ((op_8 (op_7 op_6 (op_9 (op_4 op_0))) (op_3 (op_5 op_6 (op_2 op_1)))) (not (op_8 (op_7 op_6 (op_9 (op_4 op_0))) (op_7 op_6 (op_9 (op_4 op_1))))) (not (= (op_7 op_6 (op_9 (op_4 op_1))) (op_3 (op_5 op_6 (op_2 op_1))))) )  8)
+10:(resolution ()  9 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.011 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_39_24_709_8527638cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) )
+2:input  ((=> (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6))) )
+3:input  ((not (= (op_16 op_15 (op_17 op_7 (op_11 op_5)) (op_4 (op_18 (op_10 op_6 op_9)))) (op_16 op_15 (op_14 op_2 op_6) (op_4 (op_18 (op_10 op_6 op_9)))))) )
+Warning: hole for trust_f.
+4:hole  ((= (=> (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6))) (=> (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6)))) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13))) )
+6:(equiv1 ((= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13) (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) )  5)
+7:(equiv1 ((not (=> (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6)))) (=> (not (= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13)) (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6))) )  4)
+8:(implies ((= (op_8 op_15 op_2 op_1 (op_12 op_0 (op_17 op_7 (op_11 op_3)))) op_13) (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6)) )  2)
+9:(eq_reflexive ((= (op_4 (op_18 (op_10 op_6 op_9))) (op_4 (op_18 (op_10 op_6 op_9)))) ) )
+10:(eq_reflexive ((= op_15 op_15) ) )
+11:(eq_congruent ((not (= op_15 op_15)) (not (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6))) (not (= (op_4 (op_18 (op_10 op_6 op_9))) (op_4 (op_18 (op_10 op_6 op_9))))) (= (op_16 op_15 (op_17 op_7 (op_11 op_5)) (op_4 (op_18 (op_10 op_6 op_9)))) (op_16 op_15 (op_14 op_2 op_6) (op_4 (op_18 (op_10 op_6 op_9))))) ) )
+12:(resolution ()  11 10 9)
+13:(weaken ((= (op_16 op_15 (op_17 op_7 (op_11 op_5)) (op_4 (op_18 (op_10 op_6 op_9)))) (op_16 op_15 (op_14 op_2 op_6) (op_4 (op_18 (op_10 op_6 op_9))))) (not (= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6))) )  12)
+14:(resolution ((= (op_17 op_7 (op_11 op_5)) (op_14 op_2 op_6)) )  8 1)
+15:(resolution ()  13 14 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.019 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_26_46_622_8897120cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_6 op_3 op_1 (op_5 op_0 (op_7 op_2 (op_4 op_1)))) )
+2:input  ((not (op_6 op_3 op_1 (op_5 op_0 (op_7 op_2 (op_4 op_1))))) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_27_449_8841898cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_20 op_4) op_0) )
+2:input  ((= (op_19 op_2) op_0) )
+3:input  ((not (= op_0 op_15)) )
+4:input  ((= (op_19 op_6) op_0) )
+5:input  ((= (op_14 op_22) op_0) )
+6:input  ((= (op_19 op_5) op_0) )
+7:input  ((not (= (op_14 op_22) (op_19 op_5))) )
+8:input  ((= (op_20 op_10) op_0) )
+9:input  ((= (op_19 op_17) op_0) )
+10:input  ((= (op_20 op_1) op_0) )
+11:input  ((= (op_21 op_16) op_0) )
+12:input  ((= (op_21 op_3) op_0) )
+13:input  ((= (op_19 op_11) op_0) )
+14:input  ((= (op_14 op_18) op_0) )
+15:input  ((= (op_21 op_9) op_0) )
+16:input  ((= (op_19 op_13) op_0) )
+17:input  ((= (op_14 (op_24 (op_12 op_7 op_11))) (op_8 op_0)) )
+18:input  ((= (op_14 op_23) op_0) )
+Warning: hole for trust_f.
+19:hole  ((= (= (op_14 op_22) op_0) (= (op_14 op_22) op_0)) )
+Warning: hole for trust_f.
+20:hole  ((= (= (op_19 op_5) op_0) (= (op_19 op_5) op_0)) )
+21:(equiv1 ((not (= (op_19 op_5) op_0)) (= (op_19 op_5) op_0) )  20)
+22:(equiv1 ((not (= (op_14 op_22) op_0)) (= (op_14 op_22) op_0) )  19)
+23:(eq_transitive ((not (= (op_14 op_22) op_0)) (not (= (op_14 op_22) op_0)) (not (= (op_14 op_22) op_0)) (not (= (op_19 op_5) op_0)) (= (op_14 op_22) (op_19 op_5)) ) )
+24:(weaken ((not (= (op_14 op_22) op_0)) (not (= (op_14 op_22) op_0)) (not (= (op_14 op_22) op_0)) (not (= (op_19 op_5) op_0)) (= (op_14 op_22) (op_19 op_5)) )  23)
+25:(weaken ((= (op_14 op_22) (op_19 op_5)) (not (= (op_19 op_5) op_0)) (not (= (op_14 op_22) op_0)) )  24)
+26:(resolution ()  25 5 6 7)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.054 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_03_52_352_5382930cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_3 op_2 op_1)) )
+2:input  ((op_3 op_0 op_1) )
+3:input  ((= op_0 op_2) )
+Warning: hole for trust_f.
+4:hole  ((= (= op_0 op_2) (= op_0 op_2)) )
+5:(equiv1 ((not (= op_0 op_2)) (= op_0 op_2) )  4)
+6:(eq_reflexive ((= op_1 op_1) ) )
+7:(eq_congruent_pred ((not (= op_0 op_2)) (not (= op_1 op_1)) (not (op_3 op_0 op_1)) (op_3 op_2 op_1) ) )
+8:(resolution ()  7 6)
+9:(weaken ((not (= op_0 op_2)) (not (op_3 op_0 op_1)) (op_3 op_2 op_1) )  8)
+10:(resolution ()  9 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_29_090_8844184cvc4.v
+Type-checking LFSC proof... Done [0.003 s]
+Converting LFSC proof to SMTCoq...1:input  ((= op_16 (op_3 (op_22 (op_12 op_5 op_11)))) )
+2:input  ((op_20 op_18 op_6 op_17 op_0 op_15 op_13 op_14 op_10 op_8 op_1) )
+3:input  ((= op_14 (op_24 op_18 op_9 op_16)) )
+4:input  ((= op_7 (op_2 (op_22 (op_12 op_5 op_11)))) )
+5:input  ((= op_13 (op_19 op_18 op_5 op_7)) )
+6:input  ((not (op_20 op_18 op_6 op_17 op_0 (op_23 op_18 op_11 op_16) (op_19 op_18 op_5 op_7) (op_24 op_18 op_9 op_16) (op_21 op_18 op_4 op_7) op_8 op_1)) )
+7:input  ((= op_15 (op_23 op_18 op_11 op_16)) )
+8:input  ((= op_10 (op_21 op_18 op_4 op_7)) )
+9:(eq_reflexive ((= op_1 op_1) ) )
+10:(eq_reflexive ((= op_8 op_8) ) )
+11:(eq_reflexive ((= op_0 op_0) ) )
+12:(eq_reflexive ((= op_17 op_17) ) )
+13:(eq_reflexive ((= op_6 op_6) ) )
+14:(eq_reflexive ((= op_18 op_18) ) )
+15:(eq_congruent_pred ((not (= op_18 op_18)) (not (= op_6 op_6)) (not (= op_17 op_17)) (not (= op_0 op_0)) (not (= op_15 (op_23 op_18 op_11 op_16))) (not (= op_13 (op_19 op_18 op_5 op_7))) (not (= op_14 (op_24 op_18 op_9 op_16))) (not (= op_10 (op_21 op_18 op_4 op_7))) (not (= op_8 op_8)) (not (= op_1 op_1)) (not (op_20 op_18 op_6 op_17 op_0 op_15 op_13 op_14 op_10 op_8 op_1)) (op_20 op_18 op_6 op_17 op_0 (op_23 op_18 op_11 op_16) (op_19 op_18 op_5 op_7) (op_24 op_18 op_9 op_16) (op_21 op_18 op_4 op_7) op_8 op_1) ) )
+16:(resolution ()  15 14 13 12 11 10 9)
+17:(weaken ((op_20 op_18 op_6 op_17 op_0 (op_23 op_18 op_11 op_16) (op_19 op_18 op_5 op_7) (op_24 op_18 op_9 op_16) (op_21 op_18 op_4 op_7) op_8 op_1) (not (= op_13 (op_19 op_18 op_5 op_7))) (not (= op_15 (op_23 op_18 op_11 op_16))) (not (= op_10 (op_21 op_18 op_4 op_7))) (not (= op_14 (op_24 op_18 op_9 op_16))) (not (op_20 op_18 op_6 op_17 op_0 op_15 op_13 op_14 op_10 op_8 op_1)) )  16)
+18:(resolution ()  17 2 3 8 7 5 6)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.037 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((= op_2 (op_6 op_9 (op_12 op_3 (op_5 op_1)))) )
+2:input  ((not (= op_2 (op_6 op_0 (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8)))) )
+3:input  ((= op_2 (op_6 op_0 (op_12 op_3 (op_5 op_1)))) )
+4:input  ((= (op_12 op_3 (op_5 op_1)) (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8)) )
+5:input  ((= op_9 op_0) )
+Warning: hole for trust_f.
+6:hole  ((= (= (op_12 op_3 (op_5 op_1)) (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8)) (= (op_12 op_3 (op_5 op_1)) (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) )
+7:(equiv1 ((not (= (op_12 op_3 (op_5 op_1)) (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) (= (op_12 op_3 (op_5 op_1)) (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8)) )  6)
+8:(eq_reflexive ((= op_0 op_0) ) )
+9:(eq_congruent ((not (= op_0 op_0)) (not (= (op_12 op_3 (op_5 op_1)) (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) (= (op_6 op_0 (op_12 op_3 (op_5 op_1))) (op_6 op_0 (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) ) )
+10:(eq_transitive ((not (= op_2 (op_6 op_0 (op_12 op_3 (op_5 op_1))))) (not (= (op_6 op_0 (op_12 op_3 (op_5 op_1))) (op_6 op_0 (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8)))) (= op_2 (op_6 op_0 (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) ) )
+11:(weaken ((not (= op_2 (op_6 op_0 (op_12 op_3 (op_5 op_1))))) (not (= (op_6 op_0 (op_12 op_3 (op_5 op_1))) (op_6 op_0 (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8)))) (= op_2 (op_6 op_0 (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) )  10)
+12:(resolution ()  11 9 8)
+13:(weaken ((= op_2 (op_6 op_0 (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) (not (= op_2 (op_6 op_0 (op_12 op_3 (op_5 op_1))))) (not (= (op_12 op_3 (op_5 op_1)) (op_11 (op_10 op_3 (op_4 op_1 op_7)) op_8))) )  12)
+14:(resolution ()  13 4 3 2)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.022 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5)))) )
+2:input  ((= op_6 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) )
+3:input  ((=> (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6))) )
+4:input  ((not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) )
+Warning: hole for trust_f.
+5:hole  ((= (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11))) )
+Warning: hole for trust_f.
+6:hole  ((= (=> (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6))) (=> (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6)))) )
+Warning: hole for trust_f.
+7:hole  ((= (not (= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5)))) (not (= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5))))) )
+8:(equiv1 ((= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5))) (not (= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5)))) )  7)
+9:(equiv1 ((= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11) (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) )  5)
+10:(equiv1 ((not (=> (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6)))) (=> (not (= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11)) (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6))) )  6)
+11:(implies ((= (op_8 op_13 op_2 op_1 (op_10 op_0 (op_14 op_7 (op_9 op_3)))) op_11) (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6)) )  3)
+12:(eq_reflexive ((= op_2 op_2) ) )
+13:(eq_congruent ((not (= op_2 op_2)) (not (= op_6 (op_10 op_4 (op_14 op_7 (op_9 op_5))))) (= (op_12 op_2 op_6) (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5))))) ) )
+14:(eq_transitive ((not (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6))) (not (= (op_12 op_2 op_6) (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))))) (= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5))) ) )
+15:(weaken ((not (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6))) (not (= (op_12 op_2 op_6) (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))))) (= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5))) )  14)
+16:(resolution ()  15 13 12)
+17:(weaken ((= (op_12 op_2 (op_10 op_4 (op_14 op_7 (op_9 op_5)))) (op_14 op_7 (op_9 op_5))) (not (= op_6 (op_10 op_4 (op_14 op_7 (op_9 op_5))))) (not (= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6))) )  16)
+18:(resolution ((= (op_14 op_7 (op_9 op_5)) (op_12 op_2 op_6)) )  11 4)
+19:(resolution ()  17 18 2 1)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.018 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_25_33_668_8333304cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_12 op_4 op_1) op_9) )
+2:input  ((and (= (op_11 op_10 op_9 (op_6 op_8 op_0)) (op_12 op_4 (op_7 op_2 op_0))) (op_13 op_9 (op_3 op_5 op_0))) )
+3:input  ((not (op_13 (op_12 op_4 op_1) (op_3 op_5 op_0))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_12 op_4 op_1) op_9) (= (op_12 op_4 op_1) op_9)) )
+5:(and ((op_13 op_9 (op_3 op_5 op_0)) )  2 1)
+6:(equiv1 ((not (= (op_12 op_4 op_1) op_9)) (= (op_12 op_4 op_1) op_9) )  4)
+7:(eq_reflexive ((= (op_3 op_5 op_0) (op_3 op_5 op_0)) ) )
+8:(eq_congruent_pred ((not (= (op_12 op_4 op_1) op_9)) (not (= (op_3 op_5 op_0) (op_3 op_5 op_0))) (not (op_13 op_9 (op_3 op_5 op_0))) (op_13 (op_12 op_4 op_1) (op_3 op_5 op_0)) ) )
+9:(resolution ()  8 7)
+10:(weaken ((op_13 (op_12 op_4 op_1) (op_3 op_5 op_0)) (not (op_13 op_9 (op_3 op_5 op_0))) (not (= (op_12 op_4 op_1) op_9)) )  9)
+11:(resolution ()  10 1 5 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.016 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_23_25_559_8874768cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_4 op_1) op_0) )
+2:input  ((= (op_3 op_2) op_0) )
+3:input  ((not (= (op_3 op_2) (op_4 op_1))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_3 op_2) op_0) (= (op_3 op_2) op_0)) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_4 op_1) op_0) (= (op_4 op_1) op_0)) )
+6:(equiv1 ((not (= (op_3 op_2) op_0)) (= (op_3 op_2) op_0) )  4)
+7:(equiv1 ((not (= (op_4 op_1) op_0)) (= (op_4 op_1) op_0) )  5)
+8:(eq_transitive ((not (= (op_3 op_2) op_0)) (not (= (op_4 op_1) op_0)) (= (op_3 op_2) (op_4 op_1)) ) )
+9:(weaken ((not (= (op_3 op_2) op_0)) (not (= (op_4 op_1) op_0)) (= (op_3 op_2) (op_4 op_1)) )  8)
+10:(weaken ((= (op_3 op_2) (op_4 op_1)) (not (= (op_3 op_2) op_0)) (not (= (op_4 op_1) op_0)) )  9)
+11:(resolution ()  10 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_04_807_5590668cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((=> (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0) false) )
+2:input  ((op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0) )
+Warning: hole for trust_f.
+3:hole  ((= (=> (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0) false) (not (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0))) )
+Warning: hole for trust_f.
+4:hole  ((= (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0) (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0)) )
+5:(equiv1 ((not (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0)) (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0) )  4)
+6:(equiv1 ((not (=> (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0) false)) (not (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0)) )  3)
+7:(resolution ((not (op_6 (op_4 (op_5 (op_7 op_2 op_1) op_3)) op_0)) )  1 6)
+8:(resolution ()  7 2)
+ Done [0.000 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_true_cls_d
+       (Smt_var_sup_d
+          (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+             Smt_var_cc_d)) Smt_var_d_d ---> false) <--->
+    negb
+      (Smt_var_true_cls_d
+         (Smt_var_sup_d
+            (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+               Smt_var_cc_d)) Smt_var_d_d)))
+
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_01_57_407_5584508cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_5 (op_4 op_2 op_1 op_0) op_3) )
+2:input  ((not (op_5 (op_4 op_2 op_1 op_0) op_3)) )
+3:input  ((not false) )
+4:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_46_40_335_5636392cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_16 op_4 op_1 op_2) )
+2:input  ((not (= (op_14 op_4 op_1 op_2 op_0) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0)))))) )
+3:input  ((=> (op_16 op_4 op_1 op_2) (= (op_14 op_4 op_1 op_2 op_0) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0)))))) )
+4:(implies ((not (op_16 op_4 op_1 op_2)) (= (op_14 op_4 op_1 op_2 op_0) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0))))) )  3)
+5:(not_equiv2 ((not (op_14 op_4 op_1 op_2 op_0)) (not (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0))))) )  2)
+6:(weaken ((not (= (op_14 op_4 op_1 op_2 op_0) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0)))))) (op_14 op_4 op_1 op_2 op_0) (not (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0))))) )  2)
+7:(weaken ((not (= (op_14 op_4 op_1 op_2 op_0) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0)))))) (not (op_14 op_4 op_1 op_2 op_0)) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0)))) )  2)
+8:(not_equiv1 ((op_14 op_4 op_1 op_2 op_0) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0)))) )  2)
+9:(resolution ((= (op_14 op_4 op_1 op_2 op_0) (op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0))))) )  4 1)
+10:(resolution ((op_14 op_4 op_1 op_2 op_0) )  8 6 9)
+11:(resolution ((op_9 (op_5 op_10 (op_6 (op_15 op_4 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))) (op_11 op_2 (op_7 (op_13 op_0) (op_8 op_1 (op_13 op_0)))))) (op_3 (op_12 op_0) (op_8 op_1 (op_12 op_0)))) )  7 10 9)
+12:(resolution ()  5 11 10)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.013 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_52_48_419_6580796cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_3 (op_2 op_1) op_0)) )
+2:input  ((op_3 (op_2 op_1) op_0) )
+3:input  ((not false) )
+4:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_42_55_636_5603382cvc4.v
+Type-checking LFSC proof... Done [0.000 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_2 op_1) op_0) )
+2:input  ((not (= (op_2 op_1) op_0)) )
+Warning: hole for trust_f.
+3:hole  ((= (not (= (op_2 op_1) op_0)) (not (= (op_2 op_1) op_0))) )
+4:(equiv1 ((= (op_2 op_1) op_0) (not (= (op_2 op_1) op_0)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_50_649_7061430cvc4.v
+Type-checking LFSC proof... Done [0.002 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_8 op_1 (op_4 (op_4 (op_12 (op_7 op_3 op_2)) (op_13 (op_7 op_3 op_2))) (op_14 (op_7 op_3 op_2))))) )
+2:input  ((op_6 (op_5 op_2) (op_9 op_3)) )
+3:input  ((op_10 op_11 op_1 op_0) )
+4:input  ((op_8 op_1 (op_4 (op_4 (op_12 (op_7 op_3 op_2)) (op_13 (op_7 op_3 op_2))) (op_14 (op_7 op_3 op_2)))) )
+5:(resolution ()  4 1)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.017 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_15_13_395_5646634cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0)) )
+2:input  ((not (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0))) )
+Warning: hole for trust_f.
+3:hole  ((= (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0)) (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0))) )
+Warning: hole for trust_f.
+4:hole  ((= (not (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0))) (not (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0)))) )
+5:(equiv1 ((or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0)) (not (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0))) )  4)
+6:(not_or ((not (= (op_4 op_3 op_1 op_2) op_0)) )  2 0)
+7:(not_or ((not (op_5 (op_4 op_3 op_1 op_2) op_0)) )  2 1)
+8:(equiv1 ((not (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0))) (or (= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0)) )  3)
+9:(or ((= (op_4 op_3 op_1 op_2) op_0) (op_5 (op_4 op_3 op_1 op_2) op_0) )  1)
+10:(resolution ()  9 7 6)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_43_29_785_5626822cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((op_3 op_0 op_1 op_2) )
+2:input  ((not (op_3 op_0 op_1 op_2)) )
+3:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_36_57_199_5464880cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_3 op_2 op_0)) )
+2:input  ((op_3 op_1 op_0) )
+3:input  ((= op_1 op_2) )
+Warning: hole for trust_f.
+4:hole  ((= (= op_1 op_2) (= op_1 op_2)) )
+5:(equiv1 ((not (= op_1 op_2)) (= op_1 op_2) )  4)
+6:(eq_reflexive ((= op_0 op_0) ) )
+7:(eq_congruent_pred ((not (= op_1 op_2)) (not (= op_0 op_0)) (not (op_3 op_1 op_0)) (op_3 op_2 op_0) ) )
+8:(resolution ()  7 6)
+9:(weaken ((not (= op_1 op_2)) (not (op_3 op_1 op_0)) (op_3 op_2 op_0) )  8)
+10:(resolution ()  9 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.007 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_03_707_5588814cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((=> (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))) false) )
+2:input  ((not false) )
+3:input  ((=> (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) false) )
+4:input  ((or (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3)))) )
+Warning: hole for trust_f.
+5:hole  ((= (=> (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))) false) (not (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))))) )
+Warning: hole for trust_f.
+6:hole  ((= (=> (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) false) (not (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)))) )
+Warning: hole for trust_f.
+7:hole  ((= (or (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3)))) (or (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))))) )
+8:(equiv1 ((not (=> (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) false)) (not (and (op_7 op_0 op_1) (= (op_2 op_0) op_6))) )  6)
+9:(resolution ((not (and (op_7 op_0 op_1) (= (op_2 op_0) op_6))) )  3 8)
+10:(weaken ((not (and (op_7 op_0 op_1) (= (op_2 op_0) op_6))) (op_7 op_0 op_1) )  9)
+11:(not_and ((not (op_7 op_0 op_1)) (not (= (op_2 op_0) op_6)) )  9)
+12:(equiv1 ((not (=> (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))) false)) (not (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3)))) )  5)
+13:(resolution ((not (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3)))) )  1 12)
+14:(weaken ((not (and (op_7 op_0 op_1) (= (op_2 op_0) op_6))) (= (op_2 op_0) op_6) )  9)
+15:(equiv1 ((not (or (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))))) (or (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3)))) )  7)
+16:(or ((and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) (op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))) )  4)
+17:(weaken ((op_5 (op_4 (op_8 op_0)) (op_4 (op_8 op_3))) (and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) )  16)
+18:(resolution ((and (op_7 op_0 op_1) (= (op_2 op_0) op_6)) )  17 13)
+19:(resolution ((= (op_2 op_0) op_6) )  14 18)
+20:(resolution ((op_7 op_0 op_1) )  10 18)
+21:(resolution ()  11 19 20)
+ Done [0.001 s]
+Coq checker...
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_member_d Smt_var_d_d Smt_var_n_d &&
+     eqb_of_compdec
+       (te_compdec
+          {|
+            te_carrier := Smt_sort_A_literal_multiset_d;
+            te_compdec := CompDec_A_literal_multiset_d
+          |}) (Smt_var_s_d Smt_var_d_d) Smt_var_zero_d ---> false) <--->
+    negb
+      (Smt_var_member_d Smt_var_d_d Smt_var_n_d &&
+       eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_literal_multiset_d;
+              te_compdec := CompDec_A_literal_multiset_d
+            |}) (Smt_var_s_d Smt_var_d_d) Smt_var_zero_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_less_d (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_d))
+       (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_da)) ---> false) <--->
+    negb
+      (Smt_var_less_d (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_d))
+         (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_da)))))
+
+     = true
+     : bool
+Done (Coq) [0.016 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_20_00_872_8811318cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_8 op_7 (op_4 (op_6 (op_3 op_2)) op_0) op_5) op_1) )
+2:input  ((not (= (op_8 op_7 (op_4 (op_6 (op_3 op_2)) op_0) op_5) op_1)) )
+Warning: hole for trust_f.
+3:hole  ((= (not (= (op_8 op_7 (op_4 (op_6 (op_3 op_2)) op_0) op_5) op_1)) (not (= (op_8 op_7 (op_4 (op_6 (op_3 op_2)) op_0) op_5) op_1))) )
+4:(equiv1 ((= (op_8 op_7 (op_4 (op_6 (op_3 op_2)) op_0) op_5) op_1) (not (= (op_8 op_7 (op_4 (op_6 (op_3 op_2)) op_0) op_5) op_1)) )  3)
+5:(resolution ()  1 2)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.008 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_25_416_8839786cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_19 op_4) op_0) )
+2:input  ((= (op_19 op_10) op_0) )
+3:input  ((= (op_14 op_2) op_0) )
+4:input  ((= (op_14 op_11) op_0) )
+5:input  ((= (op_21 op_9) op_0) )
+6:input  ((= (op_14 op_5) op_0) )
+7:input  ((not (= op_0 op_15)) )
+8:input  ((not (= (op_14 op_11) (op_14 op_5))) )
+9:input  ((= (op_20 op_22) op_0) )
+10:input  ((= (op_14 op_13) op_0) )
+11:input  ((= (op_21 op_3) op_0) )
+12:input  ((= (op_20 op_18) op_0) )
+13:input  ((= (op_19 op_1) op_0) )
+14:input  ((= (op_21 op_16) op_0) )
+15:input  ((= (op_14 op_6) op_0) )
+16:input  ((= (op_20 (op_24 (op_12 op_7 op_11))) (op_8 op_0)) )
+17:input  ((= (op_20 op_23) op_0) )
+18:input  ((= (op_14 op_17) op_0) )
+Warning: hole for trust_f.
+19:hole  ((= (= (op_14 op_11) op_0) (= (op_14 op_11) op_0)) )
+Warning: hole for trust_f.
+20:hole  ((= (= (op_14 op_5) op_0) (= (op_14 op_5) op_0)) )
+21:(equiv1 ((not (= (op_14 op_5) op_0)) (= (op_14 op_5) op_0) )  20)
+22:(equiv1 ((not (= (op_14 op_11) op_0)) (= (op_14 op_11) op_0) )  19)
+23:(eq_transitive ((not (= (op_14 op_11) op_0)) (not (= (op_14 op_11) op_0)) (not (= (op_14 op_11) op_0)) (not (= (op_14 op_5) op_0)) (= (op_14 op_11) (op_14 op_5)) ) )
+24:(weaken ((not (= (op_14 op_11) op_0)) (not (= (op_14 op_11) op_0)) (not (= (op_14 op_11) op_0)) (not (= (op_14 op_5) op_0)) (= (op_14 op_11) (op_14 op_5)) )  23)
+25:(weaken ((= (op_14 op_11) (op_14 op_5)) (not (= (op_14 op_5) op_0)) (not (= (op_14 op_11) op_0)) )  24)
+26:(resolution ()  25 4 6 8)
+ Done [0.001 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.055 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_16_516_5600148cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((not (op_10 op_0 (op_11 op_7 (op_11 op_7 (op_4 op_2) op_5) op_3))) )
+2:input  ((op_10 op_0 (op_11 op_7 (op_11 op_7 (op_4 op_2) op_5) op_3)) )
+3:input  ((op_6 op_0 (op_8 op_7 (op_8 op_7 op_1 op_5) op_3)) )
+4:input  ((op_12 op_7 (op_9 op_5 op_3)) )
+5:(resolution ()  2 1)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.011 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_40_12_306_5528196cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((=> (and (op_8 op_1 op_2) (op_5 (op_4 op_2) (op_9 op_3))) (op_7 op_0 (op_6 op_3 op_2))) )
+2:input  ((op_8 op_1 op_2) )
+3:input  ((not (op_7 op_0 (op_6 op_3 op_2))) )
+4:input  ((op_5 (op_4 op_2) (op_9 op_3)) )
+5:(and_neg ((and (op_8 op_1 op_2) (op_5 (op_4 op_2) (op_9 op_3))) (not (op_8 op_1 op_2)) (not (op_5 (op_4 op_2) (op_9 op_3))) ) )
+6:(implies ((not (and (op_8 op_1 op_2) (op_5 (op_4 op_2) (op_9 op_3)))) (op_7 op_0 (op_6 op_3 op_2)) )  1)
+7:(weaken ((op_7 op_0 (op_6 op_3 op_2)) (not (and (op_8 op_1 op_2) (op_5 (op_4 op_2) (op_9 op_3)))) )  6)
+8:(resolution ((not (and (op_8 op_1 op_2) (op_5 (op_4 op_2) (op_9 op_3)))) )  7 3)
+9:(resolution ((not (op_5 (op_4 op_2) (op_9 op_3))) )  5 2 8)
+10:(resolution ()  4 9)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.009 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_40_281_7539822cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((and (op_3 op_2 op_0 op_1) (not (op_3 op_2 op_1 op_0))) )
+2:input  ((and (op_3 op_2 op_1 op_0) (not (op_3 op_2 op_0 op_1))) )
+Warning: hole for trust_f.
+3:hole  ((= (and (op_3 op_2 op_1 op_0) (not (op_3 op_2 op_0 op_1))) (and (op_3 op_2 op_1 op_0) (not (op_3 op_2 op_0 op_1)))) )
+4:(equiv1 ((not (and (op_3 op_2 op_1 op_0) (not (op_3 op_2 op_0 op_1)))) (and (op_3 op_2 op_1 op_0) (not (op_3 op_2 op_0 op_1))) )  3)
+5:(and ((not (op_3 op_2 op_0 op_1)) )  2 1)
+6:(and ((op_3 op_2 op_0 op_1) )  1 0)
+7:(resolution ()  6 5)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.005 s]
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-baseline/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_01_007_5595370cvc4.v
+Type-checking LFSC proof... Done [0.001 s]
+Converting LFSC proof to SMTCoq...1:input  ((= (op_4 op_1) op_0) )
+2:input  ((= (op_3 op_2) op_0) )
+3:input  ((not (= (op_3 op_2) (op_4 op_1))) )
+Warning: hole for trust_f.
+4:hole  ((= (= (op_3 op_2) op_0) (= (op_3 op_2) op_0)) )
+Warning: hole for trust_f.
+5:hole  ((= (= (op_4 op_1) op_0) (= (op_4 op_1) op_0)) )
+6:(equiv1 ((not (= (op_3 op_2) op_0)) (= (op_3 op_2) op_0) )  4)
+7:(equiv1 ((not (= (op_4 op_1) op_0)) (= (op_4 op_1) op_0) )  5)
+8:(eq_transitive ((not (= (op_3 op_2) op_0)) (not (= (op_4 op_1) op_0)) (= (op_3 op_2) (op_4 op_1)) ) )
+9:(weaken ((not (= (op_3 op_2) op_0)) (not (= (op_4 op_1) op_0)) (= (op_3 op_2) (op_4 op_1)) )  8)
+10:(weaken ((= (op_3 op_2) (op_4 op_1)) (not (= (op_3 op_2) op_0)) (not (= (op_4 op_1) op_0)) )  9)
+11:(resolution ()  10 1 2 3)
+ Done [0.000 s]
+Coq checker...
+     = true
+     : bool
+Done (Coq) [0.006 s]

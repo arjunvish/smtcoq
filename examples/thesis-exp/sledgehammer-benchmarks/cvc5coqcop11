@@ -1,0 +1,1013 @@
+Removed the exception from process_trivial_aux.replace_res:
+126 successes
+10 Assertion failed
+1 find_triv_lits_aux: clause doesn't have trivial literals (in `28cvc5`)
+1 failures (in `62cvc5`)
+
+64 holes
+__ files with holes
+     _ successful checks with holes
+     _ failed checks/exception files with holes (7/1 I think)
+-------------------------------------------------------------
+Checker succeeds on _ files fully (without holes)
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/PNT_z32/x2020_08_04_17_45_26_739_9376730cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_05_23_096_5606264cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716cvc5.v", line 8, characters 2-389:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_04_968_5248672cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_50_546_5359382cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d) <--->
+    Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_43_355_6522276cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d) <--->
+    Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_35_149_7629076cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_06_27_504_5933684cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_15_27_694_6279318cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098cvc5.v", line 8, characters 2-389:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_12_58_132_6181512cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_28_446_6397402cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_22_36_035_6337544cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_49_644_6536112cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_08_268_5321078cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_43_615_6004000cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_42_01_808_4961238cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_14_36_388_6025794cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_06_02_107_5638220cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_23_49_010_6452792cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_43_702_4662652cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_33_07_140_4628884cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_17_08_42_034_5998320cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_55_014_5369464cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_56_39_113_7636710cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_15_24_41_942_6515590cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_50_48_855_5281470cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_51_48_838_5354134cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_21_12_689_9268514cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_41_03_832_8304788cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_23_22_32_196_4983000cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_10_14_273_5442982cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_33_39_249_9488436cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_00_50_06_230_5063492cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d && true <--->
+    Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_Nat_set_d; te_compdec := CompDec_Nat_set_d
+         |}) (Smt_var_image_d Smt_var_f_d Smt_var_s_d)
+      (Smt_var_image_d Smt_var_f_d Smt_var_s_d) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_17_45_18_358_5383148cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_member_d Smt_var_bot_d Smt_var_a_d <--->
+    Smt_var_member_d Smt_var_bot_d Smt_var_a_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_46_56_736_8400646cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_13_554_5028546cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)
+      (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_39_12_904_5134392cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_47_03_336_8415396cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_47_51_743_5021316cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_45_899_5005750cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_p_d || Smt_var_q_d <---> Smt_var_p_d || Smt_var_q_d) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (ifb Smt_var_p_d true Smt_var_q_d <---> Smt_var_p_d || Smt_var_q_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_09_13_580_5081634cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_03_14_29_526_6590820cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_38_10_024_5021652cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)
+      (Smt_var_pair_d Smt_var_top_d Smt_var_top_da) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v", line 8, characters 2-415:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_28_08_034_7411138cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_19_224_8437724cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_52_10_754_8440880cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_07_48_27_625_8447402cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_04_464_17993960cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_04_38_502_4990434cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_19_06_15_118_5385958cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_15_16_51_570_4983100cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_10_288_8633312cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_18_51_42_656_5093812cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_696_4987364cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_05_37_49_050_4985034cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_08_55_07_259_8627852cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_32_04_209_9474402cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_09_08_53_363_5071014cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_11_33_512_5107654cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_14_32_00_883_17987914cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_37_53_950_9571100cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_23_09_28_18_949_9432688cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_28_01_687_5616730cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_25_289_5134680cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_13_44_183_5157124cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_13_29_740_5029568cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_00_870_5908880cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_33_14_874_5693428cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_31_32_094_5725034cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_15_23_16_143_4983100cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_04_536_4989628cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_09_09_34_799_4995700cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_42_549_5864026cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_18_31_06_963_5320700cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_member_d Smt_var_bot_d Smt_var_a_d <--->
+    Smt_var_member_d Smt_var_bot_d Smt_var_a_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_28_655_5053232cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)
+      (Smt_var_pair_d Smt_var_top_d Smt_var_top_da) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_36_34_486_5840566cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_23_22_38_994_4983000cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_01_29_51_707_5106282cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d && true <--->
+    Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_Nat_set_d; te_compdec := CompDec_Nat_set_d
+         |}) (Smt_var_image_d Smt_var_f_d Smt_var_s_d)
+      (Smt_var_image_d Smt_var_f_d Smt_var_s_d) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_38_08_504_5931826cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_23_19_16_11_074_5147710cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_08_28_06_559_5486688cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_32_934_5066708cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)
+      (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da) <---> true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_cvc4/x2020_07_24_05_49_03_628_4985034cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v", line 8, characters 2-395:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Zeta_cvc42/x2020_08_04_19_26_44_055_10527492cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_17_34_35_557_9411026cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/PNT_cvc42/x2020_08_04_19_07_59_455_9387134cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_46_36_378_8617908cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_19_42_14_120_5961368cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_wf_d (Smt_var_collect_d (Smt_var_case_prod_d Smt_var_r_d)) <--->
+     Smt_var_wf_d (Smt_var_collect_d (Smt_var_case_prod_d Smt_var_r_d))) <--->
+    true))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_29_35_898_5741632cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |})
+      (Smt_var_subst_cls_d Smt_var_subst_atm_d
+         (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_da))
+            Smt_var_dAa_d) Smt_var_sigma_dc)
+      (Smt_var_subst_cls_d Smt_var_subst_atm_d
+         (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_da))
+            Smt_var_dAa_d) Smt_var_sigma_dc) <---> true))
+
+     = false
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_43_975_7545750cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d) <--->
+    Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d)))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_19_53_992_5730614cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_21_54_301_5765740cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_42_834_7543784cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d) <--->
+    Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d)))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_44_56_253_5688612cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_true_cls_d (Smt_var_interp_d Smt_var_s_d Smt_var_n_d)
+      (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_d))
+         Smt_var_d_d) <--->
+    Smt_var_true_cls_d (Smt_var_interp_d Smt_var_s_d Smt_var_n_d)
+      (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_d))
+         Smt_var_d_d)))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_39_123_7537830cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d) <--->
+    Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d)))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_05_57_088_7410378cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_18_11_899_8806006cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_47_436_7058806cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_51_54_844_7791092cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854cvc5.v", line 8, characters 2-397:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_tl: at id x19 || find_triv_lits_aux: clause doesn't have trivial literals (x and ~x for some x) |
+Position: Line 17 Position 1
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284cvc5.v", line 8, characters 2-397:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_22_19_856_8862020cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_47_44_675_8643846cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_47_44_675_8643846cvc5.v", line 8, characters 2-397:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v", line 8, characters 2-397:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120cvc5.v", line 8, characters 2-397:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_31_31_371_7343286cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_24_40_122_5680112cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_01_16_644_5442968cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   ((negb (Smt_var_true_clss_d (Smt_var_i_of_d Smt_var_n_d) Smt_var_n_d) --->
+     false) <--->
+    Smt_var_true_clss_d (Smt_var_i_of_d Smt_var_n_d) Smt_var_n_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_37_31_677_6064540cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_46_15_427_5720368cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_39_24_709_8527638cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_26_46_622_8897120cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_27_449_8841898cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_03_52_352_5382930cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_c_d Smt_var_zero_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_29_090_8844184cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_01_486_8397120cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562cvc5.v", line 8, characters 2-397:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_25_33_668_8333304cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_23_25_559_8874768cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_04_807_5590668cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_true_cls_d
+       (Smt_var_sup_d
+          (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+             Smt_var_cc_d)) Smt_var_d_d ---> false) <--->
+    negb
+      (Smt_var_true_cls_d
+         (Smt_var_sup_d
+            (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+               Smt_var_cc_d)) Smt_var_d_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_true_cls_d
+      (Smt_var_sup_d
+         (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+            Smt_var_cc_d)) Smt_var_d_d <--->
+    Smt_var_true_cls_d
+      (Smt_var_sup_d
+         (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+            Smt_var_cc_d)) Smt_var_d_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_01_57_407_5584508cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_46_40_335_5636392cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_52_48_419_6580796cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_42_55_636_5603382cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_23_18_50_649_7061430cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_15_13_395_5646634cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_43_29_785_5626822cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_36_57_199_5464880cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_da_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_da_d Smt_var_zero_d))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_03_707_5588814cvc5.v
+File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_03_707_5588814cvc5.v", line 8, characters 2-397:
+Error:
+Anomaly
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+Please report at http://coq.inria.fr/bugs/.
+
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_20_00_872_8811318cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_21_25_416_8839786cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_16_516_5600148cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_01_40_12_306_5528196cvc5.v
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_21_17_40_281_7539822cvc5.v
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d) <--->
+    Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d)))
+
+     = true
+     : bool
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_02_17_01_007_5595370cvc5.v
+     = true
+     : bool
