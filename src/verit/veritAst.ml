@@ -1225,15 +1225,32 @@ let process_cong (c : certif) : certif =
                         let resi2 = generate_id () in
                         let xy = Eq (x, y) in
                         let ab = Eq (a, b) in
-                          imp @
-                          ((eqcpi1, EqtrAST, (prem_negs @ [Not xy; ab]), [], []) ::
-                           (eqn2i, Equn2AST, [eq; xy; ab], [], []) ::
-                           (resi1, ResoAST, (prem_negs @ [ab; eq]), [eqcpi1; eqn2i], []) ::
-                           (eqcpi2, EqtrAST, (prem_negs @ [Not ab; xy]), [], []) ::
-                           (eqn1i, Equn1AST, [eq; Not xy; Not ab], [], []) ::
-                           (resi2, ResoAST, (prem_negs @ [Not ab; eq]), [eqcpi2; eqn1i], []) ::
-                           (i, ResoAST, [eq], resi1 :: resi2 :: pids, []) ::
-                           process_cong_aux t cog)
+                        (* Here, we also accounts for variants 
+                            x = a       y = a             x = a       x = b
+                            -----------------     and     -----------------
+                            (x = y) = (a = a)             (x = x) = (a = b)
+                        *)
+                        let der1, der2 = 
+                          if a = b then
+                            [(resi1, EqtrAST, (prem_negs @ [xy]), [], [])], 
+                            [(eqn1i, Equn1AST, [eq; Not xy; Not ab], [], []);
+                             (eqcpi2, EqreAST, [ab], [], []);
+                             (resi2, ResoAST, ([eq; Not xy]), [eqcpi2; eqn1i], [])]
+                          else if x = y then
+                            [(eqn1i, Equn1AST, [eq; Not xy; Not ab], [], []);
+                             (eqcpi1, EqtrAST, (prem_negs @ [ab]), [], []);
+                             (resi1, ResoAST, (prem_negs @ [eq; Not xy]), [eqn1i; eqcpi1], [])],
+                            [(resi2, EqreAST, ([xy]), [], [])]
+                          else
+                            [(eqcpi1, EqtrAST, (prem_negs @ [Not xy; ab]), [], []);
+                             (eqn2i, Equn2AST, [eq; xy; ab], [], []);
+                             (resi1, ResoAST, (prem_negs @ [ab; eq]), [eqcpi1; eqn2i], [])],
+                            [(eqcpi2, EqtrAST, (prem_negs @ [Not ab; xy]), [], []);
+                             (eqn1i, Equn1AST, [eq; Not xy; Not ab], [], []);
+                             (resi2, ResoAST, (prem_negs @ [Not ab; eq]), [eqcpi2; eqn1i], [])] in
+                          (imp @ der1 @ der2 @ 
+                          (i, ResoAST, [eq], resi1 :: resi2 :: pids, []) ::
+                          process_cong_aux t cog)
                     (* x, y, a, b are (bool) formulas *)
                     else
                     (* iff predicate *)
