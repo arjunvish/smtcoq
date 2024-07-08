@@ -1,0 +1,18 @@
+ID,Hypotheses,Goal,Abducts,Abduct,Time,Result,smt,Comment
+"Rewrite, GOAL #5",,S (length l + 0) = S (length l),1,(Init.Nat.add ((length (A:=A)) l) 0) = ((length (A:=A)) l),0.628,abduce success,Unsupported predicate,
+"Rewrite, GOAL #12",,nth (length l + n - length l) l' d = nth n l' d,1,(Init.Nat.sub (Init.Nat.add ((length (A:=A)) l) n) ((length (A:=A)) l)) = n,7.439,abduce success,Works,
+"Rewrite, GOAL #55",,rev l = rev l ++ [],1,((app (A:=A)) (rev l) []) = (rev l),1.264,abduce success,Works,
+"Rewrite, GOAL #113",length l <= 0; length l = 0,firstn (length l) l = l,2,(firstn ((length (A:=A)) l) l) = l,0.15,abduce success,Works,
+"Rewrite, GOAL #132",,length l = length l - 0,1,(Init.Nat.sub ((length (A:=A)) l) 0) = ((length (A:=A)) l),0.483,abduce success,Nat predicate,
+"Rewrite, GOAL #147",,rev (skipn (length (rev l) - x) l) = rev (skipn (length l - x) l),2,((length (A:=A)) ((rev (A:=A)) l)) = ((length (A:=A)) l),1.847,abduce success,Works,
+"Rewrite, GOAL #165",,Init.Nat.min (length l) 0 = 0,1,(Init.Nat.min ((length (A:=A)) l) 0) = 0,0.214,abduce success,Nat predicate,
+"Rewrite, GOAL #185",(nodup l) = l,x :: nodup l = x :: l,1,(nodup l) = l,0.099,abduce success,Unsupported predicate,
+"Rewrite, GOAL #213",,seq start len2 = seq (start + 0) len2,1,(Init.Nat.add start 0) = start,0.257,abduce success,Works,
+"Rewrite, GOAL #217",,seq start (S len) = seq start (len + 1),1,(Init.Nat.add len (S 0)) = (S len),3.715,abduce success,Works,
+"Rewrite, GOAL #218",,seq start (S len) = seq start (S (len + 0)),1,(Init.Nat.add len 0) = len,0.173,abduce success,Works,
+"Rewrite, GOAL #233",,repeat x (length (repeat x n)) = repeat x n,1,((length (A:=A)) (repeat x n)) = n,0.133,abduce success,Unsupported predicate,
+"Apply, GOAL #1",l ++ [] = l,l ++ [] = l,1,((app (A:=A)) l []) = l,0.091,abduce success,Works,
+"Apply, GOAL #113",,firstn (length l1) l1 = l1,1,(firstn ((length (A:=A)) l1) l1) = l1,0.208,abduce success,Works,
+"Apply, GOAL #120",,combine l [] = [],1,((combine (A:=A) (B:=B)) l []) = [],0.084,abduce success,Unsupported predicate,
+"Apply, GOAL #136",NoDup l -> nodup l = l; NoDup l,x :: nodup l = x :: l,1,(nodup l) = l,0.084,abduce success,Unsupported predicate,
+"Apply, GOAL #216",concat l = [] <-> Forall (fun x : list A => x = []) l; Forall (fun x : list A => x = []) l,concat l = [],1,((concat (A:=A)) l) = [],0.096,abduce success,Works,Works in suggesting to the user to apply local hypotheses.

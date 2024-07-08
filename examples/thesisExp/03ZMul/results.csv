@@ -1,0 +1,115 @@
+File,ID,Lemma,Result,Time,Hypotheses,Goal,Abduct,Comments
+Numbers/Cyclic/Int31/Cyclic31.v,mul_0_l 1,mul_0_l,timeout,,[|p|] < 31,(0 * 2 ^ [|p|] + [|addmuldiv31 (31 - p) w 0|] / 2 ^ (31 - [|p|])) mod wB = [|w|] mod 2 ^ [|p|],,"Extra symbols confusing the smt solver, also not sure what generalize is doing."
+Numbers/Cyclic/Int31/Cyclic31.v,mul_0_r 2,mul_0_r,abduce success,1.514,0 <= j,Z.succ j * 0 + Z.succ j <= ((Z.succ j + 0) / 2 + 1) ^ 2,,Need to axiomatize division to isolate abduct. Not sure what lia is doing.
+Numbers/Cyclic/Int31/Cyclic31.v,mul_1_l 23,mul_1_l,timeout,,Many,z <= [|b|] * z,,
+Numbers/Cyclic/Int31/Cyclic31.v,mul_1_l 24,mul_1_l,timeout,,Many,((2 *' [|x|]) *' 2 ^ Z.of_nat n) = ([|x|] *' (2 *' 2 ^ Z.of_nat n)),,
+Numbers/Cyclic/Int31/Cyclic31.v,mul_1_l 25,mul_1_l,exception,,Many,2 ^ Z.of_nat 31 / 2 <= 2 ^ Z.of_nat 0 * [|x|] < 2 ^ Z.of_nat 31,,
+Numbers/Cyclic/Int31/Cyclic31.v,mul_1_l 26,mul_1_l,abduce success,0.566,,j * k + j <= (j + k) / 2 * ((j + k) / 2) + (j + k) / 2 * 1 + (1 * ((j + k) / 2) + 1 * 1) -> j + k - 1 <= (j + k) / 2 + (j + k) / 2 -> j * k + j * 1 + (1 * k + 1 * 1) + (j + 1) <= (j + k) / 2 * ((j + k) / 2) + (j + k) / 2 * 1 + (j + k) / 2 * 1 + (1 * ((j + k) / 2) + 1 * 1 + 1 * 1) + (1 * ((j + k) / 2) + 1 * 1 + 1 * 1),(mul' 1 k) = k,There are multiple applications of mul_1_l and mul_1_r and this only works for the last application.
+Numbers/Cyclic/Int31/Cyclic31.v,mul_1_l 27,mul_1_l,timeout,,1 < i; 0 <= i - 2; 1 <= (i / 2 *' i / 2),i - 1 <= i / 2 + i / 2 -> i < (i / 2 *' i / 2) + i / 2 + (1 *' i / 2 + 1),,Can't do the deduction but smt works after rewriting mul_1_l so it should be abduced.
+Numbers/Cyclic/Int31/Cyclic31.v,mul_1_l 28,mul_1_l,timeout,,[|r|] + (1 *' Int31_Specs.wB) = (([|j|] *' [|j|]) + phi2 ih il) / [|j|]; ,0 < [|r|] / 2 + [|v30|] < [|j|],,"Can't do the deduction, smt also doesnt work after rewriting mul_1_l so lia might be doing something more. Also leaving out many hypotheses."
+Numbers/Cyclic/Int31/Cyclic31.v,mul_1_l 29,mul_1_l,timeout,,Many,[|ih|] * base + [|il|] < ([|ih|] + 1) * base,,
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 10,mul_add_distr_r,exception,,Many,[|ih|] * base + [|il|] < ([|ih|] + 1) * base + 0,,"Extra symbols confusing the smt solver, also don't know what auto is doing."
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 11,mul_add_distr_r,timeout,,Many,([|ih1|] + 2) * base <= [|ih|] * base,,"Extra symbols confusing the smt solver, also don't know what nia is doing."
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 12,mul_add_distr_r,timeout,,Many,[|ih|] * base + [|il|] < ([|ih|] + 1) * base,,"Extra symbols confusing the smt solver, also not sure what auto is doing."
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 5,mul_add_distr_r,timeout,,Many,(((2 *' [|x|]) + 1 *' 2 ^ Z.of_nat n) + (2 *' [|y|]) mod Int31_Specs.wB / 2 ^ (31 - Z.of_nat n)) mod Int31_Specs.wB = (([|x|] *' (2 *' 2 ^ Z.of_nat n)) + [|y|] / 2 ^ (31 - Z.succ (Z.of_nat n))) mod Int31_Specs.wB,,"The rest of the proof is large and intractable with lemmas over Z.pow, wB, usages of ring and its variants."
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 6,mul_add_distr_r,timeout,,0 <= j,((j + 1) / 2 *' (j + 1) / 2) >= 0 -> j + 1 - 1 <= (j + 1) / 2 + (j + 1) / 2 -> j + 1 <= ((j + 1) / 2 *' (j + 1) / 2) + ((j + 1) / 2 *' 1) + ((1 *' (j + 1) / 2) + (1 *' 1)),,Need to axiomatize division to isolate abduct.
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 7,mul_add_distr_r,timeout,,0 <= j; 0 <= k,j * k + j <= ((j + k) / 2 + 1) * ((j + k) / 2) + ((j + k) / 2 + 1) -> j + k - 1 <= (j + k) / 2 + (j + k) / 2 -> (j + 1) * k + (j + 1) + (j + 1) <= ((j + k) / 2 + 1 + 1) * ((j + k) / 2) + ((j + k) / 2 + 1 + 1) + ((j + k) / 2 + 1 + 1),,Need to axiomatize division to isolate abduct.
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 8,mul_add_distr_r,timeout,,1 < i; 0 <= i - 2,(i - 2) / 2 * ((i - 2) / 2) >= 0 -> (2 > 0 -> 0 <= i - 2 -> 0 <= (i - 2) / 2) -> 1 <= 1 * 1 + 1 * ((i - 2) / 2) + ((i - 2) / 2 * 1 + (i - 2) / 2 * ((i - 2) / 2)),,Need to axiomatize division to isolate abduct.
+Numbers/Cyclic/Int31/Cyclic31.v,mul_add_distr_r 9,mul_add_distr_r,timeout,,1 < i; 0 <= i - 2; 1 <= (i / 2) ^ 2,i - 1 <= i / 2 + i / 2 -> i < (i / 2 + 1) ^ 2,,"Multiple abducts, but doesn't work when they are asserted."
+omega/OmegaLemmas.v,mul_1_l 32,mul_1_l,abduce success,0.345,x < y; 1 * y < - z * y,x <> - z * y,(mul' 1 y) = y,
+omega/OmegaLemmas.v,mul_add_distr_r 15,mul_add_distr_r,timeout,,,((v *' c1) + l1 *' k1) + ((v *' c2) + l2 *' k2) = ((v *' c1) *' k1) + ((v *' c2) *' k2) + ((l1 *' k1) + (l2 *' k2)),,"Multiple abducts, but doesn't work when they are asserted."
+omega/OmegaLemmas.v,mul_add_distr_r 16,mul_add_distr_r,timeout,,,((v1 *' c1) + l1 *' k1) + l2 = ((v1 *' c1) *' k1) + (l1 *' k1) + l2,,"Multiple abducts, but doesn't work when they are asserted."
+omega/OmegaLemmas.v,mul_add_distr_r 17,mul_add_distr_r,timeout,,,l1 + ((v2 *' c2) + l2 *' k2) = ((v2 *' c2) *' k2) + (l1 + (l2 *' k2)),,"Multiple abducts, but doesn't work when they are asserted."
+omega/OmegaLemmas.v,mul_add_distr_r 18,mul_add_distr_r,timeout,,,(v *' c1) + l1 + ((v *' c2) + l2 *' k2) =  (v *' c1) + ((v *' c2) *' k2) + (l1 + (l2 *' k2)),,"Multiple abducts, but doesn't work when they are asserted."
+omega/OmegaLemmas.v,mul_add_distr_r 19,mul_add_distr_r,timeout,,,((v *' c) + l *' k) = ((v *' c) *' k) + (l *' k),,"Multiple abducts, but doesn't work when they are asserted."
+omega/OmegaLemmas.v,mul_opp_r 7,mul_opp_r,smt success,,,,,
+Reals/Abstract/ConstructiveLUB.v,mul_1_l 10,mul_1_l,timeout,,Many,Z.of_nat (S i) = (1 * Z.pos (1 * Pos.of_nat (S i)))%Z,,Pos lemmas are necessary to close the goal
+Reals/Abstract/ConstructiveLUB.v,mul_1_l 6,mul_1_l,timeout,,Many,(1 * Z.pos p <= 1 * Z.pos (Pos.of_nat (S i)))%Z,,Pos lemmas are necessary to close the goal
+Reals/Abstract/ConstructiveLUB.v,mul_1_l 7,mul_1_l,timeout,,Many,(1 * Z.pos p <= 1 * Z.pos (Pos.of_nat (S i)))%Z,,Pos lemmas are necessary to close the goal
+Reals/Abstract/ConstructiveLUB.v,mul_1_l 8,mul_1_l,timeout,,Many,(1 * Z.pos p <= 1 * Z.pos (Pos.of_nat (S i)))%Z,,Pos lemmas are necessary to close the goal
+Reals/Abstract/ConstructiveLUB.v,mul_1_l 9,mul_1_l,timeout,,Many,(1 * Z.pos (Pos.of_nat (S i)) <= 1 * Z.pos (Pos.of_nat (Init.Nat.max (S i) (S p))))%Z,,Pos lemmas are necessary to close the goal
+Reals/Abstract/ConstructiveRealsMorphisms.v,mul_1_l 19,mul_1_l,timeout,,(Pos.to_nat p <= i)%nat,(1 * Z.pos p <= 1 * Z.pos (Pos.of_nat i))%Z,p <= (Pos.of_nat i),
+Reals/Abstract/ConstructiveRealsMorphisms.v,mul_1_l 20,mul_1_l,timeout,,(Pos.to_nat p <= i)%nat,(1 * Z.pos p <= 1 * Z.pos (Pos.of_nat i))%Z,p <= (Pos.of_nat i),
+Reals/Abstract/ConstructiveRealsMorphisms.v,mul_1_l 21,mul_1_l,timeout,,(Pos.to_nat p <= i)%nat,(1 * Z.pos p <= 1 * Z.pos (Pos.of_nat i))%Z,,
+Reals/Abstract/ConstructiveRealsMorphisms.v,mul_1_l 22,mul_1_l,timeout,,(n <= n0)%nat,(1 * Z.pos (Pos.of_nat n) <= 1 * Z.pos (Pos.of_nat n0))%Z,(Pos.of_nat n) <= (Pos.of_nat n0),
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 11,mul_1_l,timeout,,Many,(1 * Z.pos (4 * n) <= 1 * Z.pos (4 * p))%Z,,SMTCoq is discarding lemma `(n <= p)%positive` which it needs to prove the goal. Also Pos lemmas are necessary to close the goal
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 12,mul_1_l,timeout,,Many,(1 * Z.pos (4 * n) <= 1 * Z.pos (4 * q))%Z,,SMTCoq is discarding lemma `(n <= p)%positive` which it needs to prove the goal. Also Pos lemmas are necessary to close the goal
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 13,mul_1_l,timeout,,Many,(1 * Z.pos (3 * n) <= 1 * Z.pos (4 * p))%Z,,SMTCoq is discarding lemma `(n <= q)%positive` which it needs to prove the goal. Also Pos lemmas are necessary to close the goal
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 14,mul_1_l,timeout,,Many,(1 * Z.pos (3 * n) <= 1 * Z.pos (4 * n))%Z,,SMTCoq is discarding lemma `(n <= q)%positive` which it needs to prove the goal. Also Pos lemmas are necessary to close the goal
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 15,mul_1_l,timeout,,Many,(1 * Z.pos (3 * n) < 1 * Z.pos (4 * q))%Z,,Pos lemmas are necessary to close the goal
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 16,mul_1_l,exception,,Many,(1 * Z.pos (4 * 2 ^ n') <= 1 * Z.pos (4 * 2 ^ p'))%Z,,Pos lemmas are necessary to close the goal
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 17,mul_1_l,exception,,Many,(1 * Z.pos (4 * 2 ^ n') <= 1 * Z.pos (4 * 2 ^ q'))%Z,,Pos lemmas are necessary to close the goal
+Reals/Cauchy/ConstructiveRcomplete.v,mul_1_l 18,mul_1_l,exception,,Many,(1 * Z.pos (4 * p) <= 1 * Z.pos (4 * 2 ^ (p + 1)))%Z,,Pos lemmas are necessary to close the goal
+Reals/ClassicalDedekindReals.v,mul_1_l 5,mul_1_l,timeout,,Many,(1 * Z.pos p <= 1 * Z.pos (Pos.of_nat (S (Pos.to_nat p))))%Z,,SMTCoq can't send lemmas over nat and pos
+setoid_ring/InitialRing.v,mul_1_l 30,mul_1_l,smt success,,,"forall x : Z, (1 * x)%Z = x",,
+setoid_ring/InitialRing.v,mul_add_distr_r 13,mul_add_distr_r,timeout,,,(x + y *' z) = ((x *' z) + (y *' z))%Z,,
+setoid_ring/Ncring_initial.v,mul_1_l 31,mul_1_l,exception,,,,,
+setoid_ring/Ncring_initial.v,mul_add_distr_r 14,mul_add_distr_r,exception,,,,,
+ZArith/BinInt.v,mul_0_r 1,mul_0_r,smt success,,,(n + m) * 0 = n * 0 + m * 0,,
+ZArith/BinInt.v,mul_1_l 1,mul_1_l,abduce success,0.167,,n * m + 1 * m = n * m + m,(mul' 1 m) = m,
+ZArith/BinInt.v,mul_1_l 2,mul_1_l,abduce success,0.792,,2 * q * b + (2 * r + 1) = 2 * q * b + (1 * b + (2 * r + 1 - b)),(mul' 1 b) = b,
+ZArith/BinInt.v,mul_1_l 3,mul_1_l,abduce success,0.777,,2 * q * b + 2 * r = 2 * q * b + (1 * b + (2 * r - b)),(mul' 1 b) = b,
+ZArith/BinInt.v,mul_1_l 4,mul_1_l,abduce success,0.176,,n + n = 1 * n + 1 * n,(mul' 1 n) = n,
+ZArith/BinInt.v,mul_add_distr_r 1,mul_add_distr_r,timeout,,1 * m = m,n * m + 1 * m = n * m + m,,"Multiple abducts, but doesn't work when they are asserted."
+ZArith/BinInt.v,mul_add_distr_r 2,mul_add_distr_r,timeout,,1 * b = b,2 * q * b + 2 * r + 1 = (2 * q + 1) * b + (2 * r + 1 - b),,"Multiple abducts, but doesn't work when they are asserted."
+ZArith/BinInt.v,mul_add_distr_r 3,mul_add_distr_r,timeout,,1 * b = b,2 * q * b + 2 * r = (2 * q + 1) * b + (2 * r - b),,"Multiple abducts, but doesn't work when they are asserted."
+ZArith/BinInt.v,mul_add_distr_r 4,mul_add_distr_r,abduce success,0.342,,n + n = (1 + 1) * n,(mul' 2 n) = n + n,"smt works for the entire proof but fails after one step in, at which point abduce works."
+ZArith/BinInt.v,mul_opp_r 1,mul_opp_r,timeout,,,,,Lemma applied multiple times
+ZArith/BinInt.v,mul_opp_r 2,mul_opp_r,exception,,,- pos r = (pos b *' - (1)) + pos b + - pos r,,
+ZArith/BinInt.v,mul_opp_r 3,mul_opp_r,timeout,,,- neg r = pos b * - (1) + pos b + - neg r,,The new assertions don't change the abduct.
+ZArith/BinInt.v,mul_opp_r 4,mul_opp_r,partial,8.948,,- neg r = pos b * - (1) + pos b + - neg r,(mul' b 0 - 1) + b = 0,Different but useful abduct than what was expected
+ZArith/BinInt.v,mul_opp_r 5,mul_opp_r,timeout,,n = (m *' pos p),n = - (m *' neg p),,
+ZArith/BinInt.v,mul_opp_r 6,mul_opp_r,timeout,,n = m * neg p,n = - (m * pos p),,
+QArith/QArith_base.v,mul_reg_r 1,mul_reg_r,timeout,,Many,(Qnum x *' QDen z) = (Qnum z *' QDen x),,Asserting the premises of the lemma doesn't help find the conclusion.
+QArith/Qcanon.v,mul_1_l 33,mul_1_l,exception,,,a = 1 * aa /\ Z.pos b = 1 * bb -> aa # Z.to_pos bb = a # b,,Need to axiomatize Q operators
+Reals/Cauchy/QExtra.v,mul_0_l 2,mul_0_l,timeout,,(0 * Z.pos Qden < Qnum * 1)%Z; (0 * Z.pos Qden0 < Qnum0 * 1)%Z,(0 * (Z.pos Qden * Z.pos Qden0) < Qnum * Qnum0 * 1)%Z,,"Multiple abducts, but doesn't work when they are asserted."
+Reals/Cauchy/QExtra.v,mul_0_l 3,mul_0_l,abduce success,0.601,((0 *' 0) <= (xn *' Z.pos yd))%Z,(0 <= (xn *' Z.pos yd))%Z,(mul' 0 0) = 0,
+Reals/Cauchy/QExtra.v,mul_0_l 4,mul_0_l,abduce success,0.685,((0 *' 0) <= (zn *' Z.pos td))%Z,(0 <= (zn *' Z.pos td))%Z,(mul' 0 0) = 0,
+Reals/Cauchy/QExtra.v,mul_0_l 5,mul_0_l,abduce success,5.677,((0 *' 0) < (xn *' Z.pos yd))%Z,(0 < (xn *' Z.pos yd))%Z,(mul' 0 0) = 0,
+Reals/Cauchy/QExtra.v,mul_0_l 6,mul_0_l,abduce success,7.393,((0 *' 0) < (zn *' Z.pos td))%Z,(0 < (zn *' Z.pos td))%Z,(mul' 0 0) = 0,
+Reals/Cauchy/QExtra.v,mul_0_l 7,mul_0_l,abduce success,0.572,((0 *' 0) < (zn *' Z.pos td))%Z,(0 < (zn *' Z.pos td))%Z,(mul' 0 0) = 0,
+Reals/Cauchy/QExtra.v,mul_0_l 8,mul_0_l,abduce success,0.885,((0 *' 0) < (zn *' Z.pos td))%Z,(0 < (zn *' Z.pos td))%Z,(mul' 0 0) = 0,
+QArith/Qreduction.v,mul_reg_l 1,mul_reg_l,timeout,,Many,1 = x' * x,,Asserting the premise of the lemma doesn't help find the conclusion. There is also a mul_1_r that I am not able to abduce.
+QArith/Qreduction.v,mul_reg_l 2,mul_reg_l,timeout,,Many,1 = x' * x,,Asserting the premise of the lemma doesn't help find the conclusion. There is also a mul_1_r that I am not able to abduce.
+QArith/Qreduction.v,mul_reg_l 3,mul_reg_l,timeout,,Many,(aa *' dd) = (bb *' cc),,Asserting the premise of the lemma doesn't help find the conclusion.
+QArith/Qround.v,mul_0_r 3,mul_0_r,partial,0.027s,,0%Z = (n * 0 / 1)%Z,(Z.div 0 1) = 0,"The successful abduct isn't about mul, its about div!"
+QArith/Qround.v,opp_eq_mul_m1 1,opp_eq_mul_m1,timeout,,,(n / Z.neg p)%Z = (n * -1 / Z.pos p)%Z,,SMT solver might not be able to reason about pos and neg in the end.
+ZArith/Zdiv.v,opp_eq_mul_m1 2,opp_eq_mul_m1,timeout,,,"forall a b : Z, 0 <= Z.sgn (a / b) * Z.sgn a * Z.sgn b",,Deeply nested
+ZArith/Zdiv.v,mul_0_r 4,mul_0_r,smt success,,,0 = c * 0,,Require Import SMTCoq.SMTCoq changes the behavior of certain tactics such as `zero_or_not`.
+ZArith/Zdiv.v,mul_0_r 5,mul_0_r,smt success,,,0 = c * 0,,
+ZArith/Zdiv.v,mul_0_r 6,mul_0_r,smt success,,,0 = a mod b * 0,,
+Numbers/Cyclic/ZModulo/ZModulo.v,mul_1_l 34,mul_1_l,exception,,Many,1 * wB + 0 mod wB = x mod wB + 1,,
+Numbers/Cyclic/ZModulo/ZModulo.v,mul_1_l 35,mul_1_l,exception,,wB <= x mod wB + y mod wB,1 * wB + (x mod wB + y mod wB - wB) mod wB = x mod wB + y mod wB,,
+Numbers/Cyclic/ZModulo/ZModulo.v,mul_1_l 36,mul_1_l,exception,,Many,1 * wB + (x mod wB + y mod wB + 1 - wB) mod wB = x mod wB + y mod wB + 1,,
+Numbers/Cyclic/ZModulo/ZModulo.v,mul_1_l 37,mul_1_l,exception,,Many,Z.gcd a b <= q * Z.gcd a b,,
+ZArith/Znumtheory.v,mul_reg_l 4,mul_reg_l,timeout,,(d *' a) = (d *' c),a = c,,Asserting the premise of the lemma doesn't help find the conclusion.
+ZArith/Znumtheory.v,mul_0_r 7,mul_0_r,smt success,,,~ x * 0 > 0,,
+ZArith/Znumtheory.v,mul_reg_l 5,mul_reg_r,exception,,Many,(x | 1),,
+ZArith/Znumtheory.v,mul_1_l 38,mul_1_l,smt success,,,n = 1 * n,,
+ZArith/Znumtheory.v,mul_1_l 39,mul_1_l,partial,,1 <= q; 0 <= p,p <= (q *' p),p <= (mul' 1 p),See `missinghyp.v` for reproduction of this problem in isolation: SMTCoq seems to be silently removing a hypothesis when interacting with verit.
+ZArith/Znumtheory.v,mul_1_l 40,mul_1_l,timeout,,Many,a < (a *' a),,1. SMTCoq seems to be silently removing a hypothesis when interacting with verit. 2. It discards lemmas over ints as unsupported which is unexpected.
+ZArith/Zpow_alt.v,mul_1_l 41,mul_1_l,abduce success,0.153,,f k = f (1 * k),(mul' 1 k) = k,"We need the tactic to drop quantifiers for this to work. There is a simple quantifier instantiation that maybe we should get to work, but verit returns unknown."
+ZArith/Zpow_facts.v,mul_0_r 8,mul_0_r,exception,,Many,0 = p ^ n,,
+ZArith/Zpower.v,mul_1_l 42,mul_1_l,exception,,,Zpower_nat z (0 + m) = 1 * Zpower_nat z m,,
+ZArith/Zpower.v,mul_1_l 43,mul_1_l,smt success,,r < d,r < 2 * d,,There are other non-linear hypotheses that makes veriT fail initially.
+ZArith/Zpower.v,mul_add_distr_r 15,mul_add_distr_r,timeout,,x = ((2 *' Z.pos q) + 1 *' d) + r,x = ((2 *' Z.pos q) *' d) + (d + r) /\ 0 <= d + r < (2 *' d),,"Multiple abducts, but doesn't work when they are asserted."
+ZArith/Zpower.v,mul_1_l 44,mul_1_l,abduce success,1.899,x = 2 * Z.pos q * d + 1 * d + r,x = 2 * Z.pos q * d + (d + r) /\ 0 <= d + r < 2 * d,(mul' 1 d) = d,
+ZArith/Zpower.v,mul_1_l 45,mul_1_l,smt success,,,,,
+ZArith/Zpower.v,mul_1_l 46,mul_1_l,timeout,,,x = ((2 *' Z.neg q) *' d) - (1 *' (2 *' d)) + (d + r),,"verit raises error ""opp not on Z"""
+ZArith/Zpower.v,mul_1_l 47,mul_1_l,abduce success,1.037,,(Z.neg q + Z.neg q *' d) - (1 *' d) = (Z.neg q + Z.neg q *' d) - d,,"verit raises error ""opp not on Z"""
+ZArith/Zpower.v,mul_1_l 48,mul_1_l,smt success,,,x = -1 * (2 * d) + (d + r),,
+ZArith/Zquot.v,mul_opp_r 8,mul_opp_r,timeout,,,(0 <= - a -> b <> 0 -> 0 <= Z.rem (- a) b < Z.abs b) ->,,smt solver needs to know more about the other uninterpreted symbols.
+,,,,# Goals,,,,
+,,# Abduce Success,17,100,,,,
+,,# SMT Success,11,100,,,,
+,,# Timeout,53,100,,,,
+,,# Exception,16,100,,,,
+,,# Partial,3,100,,,,
+,mul_0_r,8,,,,,,
+,mul_1_l,48,,,,,,
+,mul_opp_r,8,,,,,,
+,mul_add_distr_r,20,,,,,,
+,mul_0_l,8,,,,,,
+,mul_reg_l,4,,,,,,
+,mul_reg_r,2,,,,,,
+,opp_eq_mul_m1,2,,,,,,
