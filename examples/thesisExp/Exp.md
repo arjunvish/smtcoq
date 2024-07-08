@@ -1,5 +1,5 @@
 Assuming you're in a Linux-based system (tested on Ubuntu 20.04),
-the following provide a shorter set of instructions to run our experiments
+the following provide a complete set of instructions to run our experiments
 on the abduce tactic.
 
 ## 1. Download the solvers from the links and add them to your path:
@@ -60,3 +60,7 @@ coqide List-apply.v List-rewrite.v
 Each test unit is preceded by a comment `(* GOAL #n )` where `n` is the goal number.
 
 ### Experiments over Z.Mul
+Experiments are run over files from the Coq standard library that use lemmas over multiplication. All files 
+can be found in `03Mul` and the goals are spread across the files and can be identified by the `(* Test Unit *)`
+comment. This is followed by a comment that identifies the goal from `results.csv`, the call to `abduce`, 
+and the output of the call.
