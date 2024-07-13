@@ -143,7 +143,7 @@ issue.
 ### cvc5
 
 cvc5 versions [1.1.0](https://github.com/cvc5/cvc5/releases/tag/cvc5-1.1.0) and 
-[1.1.2](https://github.com/cvc5/cvc5/releases/tag/cvc5-1.1.2))
+[1.1.2](https://github.com/cvc5/cvc5/releases/tag/cvc5-1.1.2).
 The `cvc5` binary must be present in your PATH to use it through SMTCoq.
 
 
