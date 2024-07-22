@@ -1225,7 +1225,7 @@ let process_cong (c : certif) : certif =
                         let resi2 = generate_id () in
                         let xy = Eq (x, y) in
                         let ab = Eq (a, b) in
-                        (* Here, we also accounts for variants 
+                        (* Here, we also account for variants 
                             x = a       y = a             x = a       x = b
                             -----------------     and     -----------------
                             (x = y) = (a = a)             (x = x) = (a = b)
@@ -4086,8 +4086,8 @@ let rec process_simplify (c : certif) : certif =
          let orni1 = generate_id () in
          let orni2 = generate_id () in
          let a2b = [(itep1i, Itep1AST, [Not lhs; c; x], [], []);
-                    (orni1, OrnAST, [rhs; Not c], [], ["1"]);
-                    (orni2, OrnAST, [rhs; Not x], [], ["2"]);
+                    (orni1, OrnAST, [rhs; Not c], [], ["0"]);
+                    (orni2, OrnAST, [rhs; Not x], [], ["1"]);
                     (generate_id (), ResoAST, [rhs], [itep1i; orni1; orni2; a2bi], [])] in
          (*
              RTL:
