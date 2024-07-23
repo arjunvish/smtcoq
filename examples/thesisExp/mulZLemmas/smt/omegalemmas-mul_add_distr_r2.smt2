@@ -1,0 +1,18 @@
+(set-option :print-success true)
+(set-option :produce-assignments true)
+(set-option :produce-abducts true)
+(set-option :incremental true)
+(set-logic QF_UFLIA)
+(set-option :sygus-core-connective false)
+(declare-fun v1 () Int)
+(declare-fun k1 () Int)
+(declare-fun l1 () Int)
+(declare-fun l2 () Int)
+(declare-fun mul (Int Int ) Int)
+(declare-fun c1 () Int)
+(assert (= (mul v1 (mul c1 k1)) (mul (mul v1 c1) k1)))
+(assert (= (+ (mul (mul v1 c1) k1) (+ (mul l1 k1) l2)) (+ (+ (mul (mul v1 c1) k1) (mul l1 k1)) l2)))
+(get-abduct A (= (+ (mul (+ (mul v1 c1) l1) k1) l2) (+ (mul v1 (mul c1 k1)) (+ (mul l1 k1) l2))))
+
+;sygus-stream
+;(define-fun __internal_abduct () Bool (and (= l1 0) (= l1 (mul l1 k1))))

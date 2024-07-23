@@ -1,0 +1,25 @@
+(* Test Unit *)
+
+(* Test Unit *) (* Result: abduce success *)
+(* Test Unit *) (* Result: smt success *)
+(* Test Unit *) (* Result: timeout *)
+(* Test Unit *) (* Result: exception *)
+(* Test Unit *) (* Result: partial *)
+
+(* Output: 
+
+Fail timeout
+
+(* Additional *)
+
+
+Todo:
+- Can we add additionals?
+- Mult experiments in LPAR set
+- Search for mul_comm also to add to experiment set
+- Change success definition.
+
+Can't poke holes.
+Poked holes.
+abduce success.
+smt success.

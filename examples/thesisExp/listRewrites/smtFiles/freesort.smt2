@@ -1,0 +1,8 @@
+(set-logic QF_SAT)
+(declare-sort Tindex_0 0)
+(declare-sort Tindex_1 0)
+(declare-sort Tindex_2 0)
+(assert (not false))
+(assert (forall ( (SMTCoqRelName9 Tindex_0) ) false))
+(check-sat)
+(exit)

@@ -1,0 +1,18 @@
+(set-option :print-success true)
+(set-option :produce-assignments true)
+(set-option :produce-abducts true)
+(set-option :incremental true)
+(set-logic QF_UFLIA)
+(set-option :sygus-core-connective false)
+(declare-fun r () Int)
+(declare-fun mul (Int Int ) Int)
+(declare-fun b () Int)
+(assert (= (mul b 1) b))
+(assert (= (+ (- b) b) 0))
+(get-abduct A (= (- r) (+ (+ (mul b (- 1)) b) (- r))))
+;(define-fun A () Bool (= (+ (mul b (- 0 1)) b) 0))
+
+;sygus-stream
+;(define-fun __internal_abduct () Bool (= b (- 0 (mul b (- 0 1)))))
+;(define-fun __internal_abduct () Bool (= b (- 0 (mul (mul b 1) (- 0 1)))))
+;(define-fun __internal_abduct () Bool (= 0 (+ (mul b 1) (mul b (- 0 1)))))

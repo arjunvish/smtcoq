@@ -1,0 +1,46 @@
+(* Header for experiments over multiplication *)
+Require Import SMTCoq.SMTCoq.
+Definition mul' := Z.mul.
+Notation "x *' y" := (mul' x y) (at level 100).
+
+fold mul' in *. Fail timeout 20 (time abduce 1).
+
+(* Optional *)
+Definition div' := Z.div.
+Notation "x /' y" := (div' x y) (at level 100).
+
+
+(* For lia *)
+Require Import Psatz.
+
+
+(* For checking if SMT solver works *)
+Require Import SMTCoq.SMTCoq. smt.
+
+
+(* For running abduce *)
+Require Import SMTCoq.SMTCoq.
+Fail timeout 20 (time abduce 1).
+
+
+(* Logic for abduce tactic that uses sygus-stream abducts *)
+call_abduce i j k
+i = no. of abducts
+j = cvc5 config
+k = timeout
+
+i j k	Action
+0 0 0	find as many abducts as possible in 20 seconds (default options)
+0 0 1	find as many abducts as possible in k seconds (default options)
+0 1 0	find as many abducts as possible in 20 seconds with j config
+0 1 1	find as many abducts as possible in k seconds with j config
+1 0 0	find i abducts (default options)
+1 0 1	find i abducts with a k second timeout (default options)
+1 1 0	find i abducts with j config
+1 1 1	find i abducts with j config with a k second timeout
+
+
+(* For experiments with SMTCoq master *)
+Add Rec LoadPath "/home/arjun/Desktop/smtcoq/smtcoq/src" as SMTCoq.
+Require Import SMTCoq.SMTCoq.
+Fail timeout 20 (time abduce 1).
