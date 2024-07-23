@@ -21,7 +21,7 @@ has type:  (-> Tindex_1 Tindex_0)
 not subtype: Tindex_0
 in term : (op_3 (as op_1 Tindex_0) op_2) ).
     The problem is that since f is an argument to flat_map, its type is   
-    coerced into a single type. The right thing to do here would be to 
+    coerced into a non-functional type. The right thing to do here would be to 
     recognize that this is a higher order function application and throw 
     an error saying the solver wouldn't support it *)
 Abort.

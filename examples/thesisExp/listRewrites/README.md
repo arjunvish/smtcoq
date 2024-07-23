@@ -172,17 +172,18 @@ The proof file is very straightforward:
 This happens with apply goal #39.
 
 ## Out of bounds
-SMTCoq returns `Uncaught exception Invalid_argument("index out of bounds").` This is an SMTCoq bug, see and report `indexoutofboundsBugReport.v` to Chantal.
+SMTCoq returns `Uncaught exception Invalid_argument("index out of bounds").` This seens to be an SMTCoq bug, see `indexoutofboundsBugReport.v`.
 
 ## Not subtype
-SMTCoq returns `Solver error: (error argument type is not a subtype of the function's argument type.)`. This is an SMTCoq bug, see `notsubtypeBugReport.v`. When SMTCoq sees applications of higher-order functions, instead of returning an exception to the user saying they aren't supported by the SMT solver, it coerces the function type of the argument to a flat type. Its not clear in what situations this coercion is happening though, we are not able to reproduce this with a smaller example (maybe the quantified hypothesis plays a role as well?).
+SMTCoq returns `Solver error: (error argument type is not a subtype of the function's argument type.)`. Also seems to be an issue with SMTCoq, see `notsubtypeBugReport.v`. When SMTCoq sees applications of higher-order functions, instead of returning an exception to the user saying they aren't supported by the SMT solver, it coerces the function type of the argument to a flat type. Its not clear in what situations this coercion is happening though, I am not able to reproduce this with a smaller example (maybe the quantified hypothesis plays a role as well?).
 
 ## Atom not of expected type
-SMTCoq returns `exception "Atom not of expected type"`. This is an SMTCoq bug, see `atomnotexptypeBugReport.v`. From terminal, I get message: `Incorrect type: wanted Tindex_2, got Bool`. Terms `true` and `false` of type Bool are parsed into variables of type Bool in the SMT file, not sure if this is what the issue is.
+SMTCoq returns `exception "Atom not of expected type"`. Again, seems like an SMTCoq issue, see `atomnotexptypeBugReport.v`. From terminal, I get message: `Incorrect type: wanted Tindex_2, got Bool`. Terms `true` and `false` of type Bool are parsed into variables of type Bool in the SMT file, not sure if this is what the issue is.
 
 ## Free sort
-SMTCoq returns `Solver error: (error Parse Error: <stdin>:4.13: Free sort symbols not allowed in QF_SAT ).` The tactic sets the logic to `QF_SAT` and then tries to declare a sort symbol. 
-It should be setting the sort to `QF_UF`. This is an SMTCoq bug, see `freesortBugReport.v`.
+SMTCoq returns `Solver error: (error Parse Error: <stdin>:4.13: Free sort symbols not allowed in QF_SAT ).` 
+The tactic sets the logic to `QF_SAT` and then tries to declare a sort symbol. 
+It should be setting the sort to `QF_UF`. See `freesortBugReport.v`.
 This seems to happen only when the goal is False. So SMTCoq asserts `not false` and it 
 recognizes that it only needs logic `QF_SAT`. When the `cvc4` tactic is called, this happens 
 correctly, but when `abduce` is called, it tries to declare a sort for the list types and this

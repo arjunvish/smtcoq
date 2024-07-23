@@ -10,7 +10,8 @@ Lemma filter_map : forall (f g : A -> bool) (l : list A),
       - inversion H as [H1]. apply IHl in H1. rewrite H1. reflexivity.
       - inversion H as [H1]. apply IHl in H1. rewrite H1. reflexivity.
       - assert (Ha : In a (filter g l)). { rewrite <- H. apply in_eq. }
-        apply filter_In in Ha. destruct Ha as [_ Hga']. (* verit. *)
+        apply filter_In in Ha. destruct Ha as [_ Hga']. 
+        Fail verit.
 (* Anomaly
 "Uncaught exception Failure("Atom op_1 (aka g) is not of the expected type")."  
 Please report at http://coq.inria.fr/bugs/.
