@@ -1,20 +1,39 @@
-The benchmarks in this directory from the Carcara paper artifact. The `artifact/sample` directory has a representative sample of 5% of the SMTLIB benchmarks 
-for the theories in consideration for the paper. This directory contains only the `QF_UF` benchmarks from that sample.
-There are 208 `.smt2` files in this benchmark set now (and their corresponding veriT proof files).
+# Thesis Tests
+This directory contains experiments conduct for my PhD thesis. The benchmarks came originally from Mathias Fleury. Details (from an email forwarded by Haniel):
+- 4260 SMT files
+- Each file solvable within 12s by either veriT, cvc4, or Z3.
+- The folder name indicates the origin of the problems: PNT (Prime_Number_Theorem), BO (Lambda_Free_KBOs), Green (Green Theorem), Zeta (\Zeta(3) is irrational), HOL-Library (extended standard library of Isabelle).
+- All of them have logic `AUFLIA` (in the final set of benchmarks we have 3 files with the `la_generic` rule which is really not much coverage from LIA, so after our reduction of the files, we effectively test for `QF_UF`).
 
-Before the initial experiment can be run the following issues have to be fixed:
-1. Identifiers have `$` in their name which the SMTCoq parser doesn't allow. Either change the parser to accept it in identifier names (tried briefly but not able to 
-    do this) or replace all occurrences of `$` with `D` (hopefully `$` is only used in identifier names).
-2. coqc complains when filenames have a `.` in it before the extension of the file. Replace all `.` within filenames to `_`.
-3. The verit parser must be able to parse lets and then we need to add a transformation to remove all lets
-Initial experiment to test checker (this checks the checker on the files with their corresponding veriT-new alethe proofs):
-1. Run `genBmarks.sh` which will: go through all the `.smt2` files in the directory, add a statement to check the file with its corresponding `.smt2.proof` file to 
-    `qfuf.v` and also create a `.v` file that independently checks this file, add a call to `coqc` on the independent files to a separate script `coqclist.sh` so that they can be called independently.
-2. Run `qfuf.v` and store results in `qfufop`. See how many of the tests return `true` by searching for `true` (or `=true`) in this file. For more fine-grained 
-    error-checking, run `coqclist.sh`, store its output in `coqclistop` and check the error trace there.
+We reduced these files to remove proofs over quantifiers, and a couple of rules that we don't support. We did that in 3 steps:
+1. We don't support any proofs/rules containing existential quantifiers. So we simply removed all SMT files that contained `exists`. This reduced the number to 1190.
+2. Next we removed all files that contained Real types and `forall`. Additionally we removed any files whose veriT proofs contained the following rules:
+    - `qnt_cnf` - a rule that normalizes universally quantifier formulas.
+    - `sko_forall` - a rule for skolemization of universally quantified formulas
+    - `onepoint` - a rule that eliminates quantified variables that can have only one value
+    - `qnt_simplify` - a rule that simplifies a universally quantified formula with a constant predicate
+    - `bfun_elim` - a rule that simplifies boolean functions (it involves quantifiers)
+    - `ac_simp` - a rule that simplifies nested occurrences of `and` and `or` by recursive flattening and duplicate removal
+This left us with 141 files.
+3. Finally, we removed the 3 files with LIA in them, leaving 138 files.
 
-Final experiment (that should go into the thesis):
-- Remove all `.smt2.proof` files because we'll regenerate these proof files along with proofs from the other solver on the same machine.
-For each benchmark `bname.smt2`, 
-1. Generate `bname.cvc5proof` from cvc5, `bname.veritoldproof` from veriT2016, `bnameveritproof` from veriT.
-2. Run each `.smt2` file with its corresponding 3 proof files and check the output.
+We ran our experiments on these 138 files and presented them in the thesis. VeriT results are uninteresting, all tests are checkable both with veriT-2016 and alethe. cvc4 vs cvc5 is more interesting:
+| Solver | # Benchmarks | # Successes | # Successes with Holes | # Failures | # Holes | # Files with holes |
+|--------|--------------|-------------|------------------------|------------|---------|--------------------|
+| CVC4 | 138 | 54 | 77 | 7  | 153 | 82 |
+| cvc5 | 138 | 84 | 44 | 10 | 66  | 44 |
+
+`cvc5coqcop14` is the file that contains all the test results
+
+Goals:
+- Enumerate all holes
+- Can we use veriT-old to elaborate all 44 holes?
+- All 10 failed checks raise the same exception. To find a solution, find the individual tests and debug.
+```
+"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
+```
+- Support `ac_simp`. A solution from notes:
+  To implement a transformation for `ac_simp`:
+    1. Add the non-Imm version of `Flatten` to SMTCoq, with duplicate removal, and restrict it to Ands and Ors.
+    2. Encode `ac_simp` using `Flatten`. Account for duplicates.
+- Support LIA. Run some tests.

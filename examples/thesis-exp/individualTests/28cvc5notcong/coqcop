@@ -1,0 +1,201 @@
+
+/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks-cvc5-old/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854cvc5.v
+Certif after storing shared terms: 
+(a0, AssumeAST, (cl  ((not t))), [], [])
+(a1, AssumeAST, (cl  ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))), [], [])
+(t1, NotnotAST, (cl  ((not (not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [], [])
+(t2, Equp2AST, (cl  ((not ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)))) ((not (imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))) ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [], [])
+(t3, AllsimpAST, (cl  ((((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [], [])
+(t4, CongAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ t3], [])
+(t5, CongAST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ t4 t4], [])
+(t6, ReflAST, (cl  ((t = t))), [], [])
+(t7, CongAST, (cl  (((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)))), [ t5 t6], [])
+(t8, ResoAST, (cl  ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [ t2 t7 a1], [])
+(t9, ImpAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) (t)), [ t8], [])
+(t10, ResoAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ t9 a0], [])
+(t11, Nimp2AST, (cl  ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ t10], [])
+(t12, ResoAST, (cl  ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ t1 t11], [])
+(t13, ResoAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ t9 a0], [])
+(t14, Nimp1AST, (cl  ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ t13], [])
+(t15, ResoAST, (cl ), [ t12 t14], [])
+
+Certif after process_subproof: 
+(a0, AssumeAST, (cl  ((not t))), [], [])
+(a1, AssumeAST, (cl  ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))), [], [])
+(t2, Equp2AST, (cl  ((not ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)))) ((not (imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))) ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [], [])
+(x51, Equn1AST, (cl  ((((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))), [], [])
+(x52, Equn2AST, (cl  ((((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))), [], [])
+(t3, ResoAST, (cl  ((((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x51 x52], [])
+(x1, Equp1AST, (cl  ((not (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [], [])
+(x2, ResoAST, (cl  ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ x1 t3], [])
+(x3, Equn1AST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [], [])
+(x4, ResoAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ x2 x3], [])
+(x5, Equp2AST, (cl  ((not (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))), [], [])
+(x6, ResoAST, (cl  ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))), [ x5 t3], [])
+(x7, Equn2AST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [], [])
+(x8, ResoAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x6 x7], [])
+(t4, ResoAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x4 x8], [])
+(x9, ImppAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))), [], [])
+(x10, Equp2AST, (cl  ((not ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [], [])
+(x11, ResoAST, (cl  ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x10 t4], [])
+(x12, Equp1AST, (cl  ((not ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [], [])
+(x13, ResoAST, (cl  ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x12 t4], [])
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x9 x11 x13], [])
+(x15, Impn1AST, (cl  ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [], [])
+(x16, Impn2AST, (cl  ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [], [])
+(x17, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x14 x15 x16], [])
+(x18, Equn1AST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [], [])
+(x19, ResoAST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))))), [ x17 x18], [])
+(x20, ImppAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [], [])
+(x21, Equp2AST, (cl  ((not ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [], [])
+(x22, ResoAST, (cl  ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x21 t4], [])
+(x23, Equp1AST, (cl  ((not ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [], [])
+(x24, ResoAST, (cl  ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x23 t4], [])
+(x25, ResoAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))), [ x20 x22 x24], [])
+(x26, Impn1AST, (cl  ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))), [], [])
+(x27, Impn2AST, (cl  ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))), [], [])
+(x28, ResoAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))), [ x25 x26 x27], [])
+(x29, Equn2AST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [], [])
+(x30, ResoAST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))), [ x28 x29], [])
+(t5, ResoAST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ x30 x19], [])
+(x49, Equn1AST, (cl  ((t = t)) ((not t))), [], [])
+(x50, Equn2AST, (cl  ((t = t)) (t)), [], [])
+(t6, ResoAST, (cl  ((t = t))), [ x49 x50], [])
+(x31, ImppAST, (cl  ((not (imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) (t)), [], [])
+(x32, Equp1AST, (cl  ((not ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))) ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [], [])
+(x33, ResoAST, (cl  ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ x32 t5], [])
+(x34, ResoAST, (cl  ((not (imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))) (t) ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ x31 x33], [])
+(x35, Impn1AST, (cl  ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [], [])
+(x36, Impn2AST, (cl  ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)) ((not t))), [], [])
+(x37, ResoAST, (cl  ((not (imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))) ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [ x34 x35 x36], [])
+(x38, Equn1AST, (cl  (((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))) ((not (imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))) ((not (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)))), [], [])
+(x39, ResoAST, (cl  (((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))) ((not (imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t)))), [ x37 x38], [])
+(x40, ImppAST, (cl  ((not (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))) ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) (t)), [], [])
+(x41, Equp2AST, (cl  ((not ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [], [])
+(x42, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x41 t5], [])
+(x43, ResoAST, (cl  ((not (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) (t)), [ x40 x42], [])
+(x44, Impn1AST, (cl  ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t)) ((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))), [], [])
+(x45, Impn2AST, (cl  ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t)) ((not t))), [], [])
+(x46, ResoAST, (cl  ((not (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))) ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))), [ x43 x44 x45], [])
+(x47, Equn2AST, (cl  (((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))) ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t)) ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [], [])
+(x48, ResoAST, (cl  (((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))) ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))), [ x46 x47], [])
+(t7, ResoAST, (cl  (((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)))), [ x48 x39], [])
+(t8, ResoAST, (cl  ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [ t2 t7 a1], [])
+(t9, ImpAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) (t)), [ t8], [])
+(t10, ResoAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ t9 a0], [])
+(t11, Nimp2AST, (cl  ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ t10], [])
+(t12, ResoAST, (cl  ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ t11], [])
+(t13, ResoAST, (cl  ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ t9 a0], [])
+(t14, Nimp1AST, (cl  ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ t13], [])
+(t15, ResoAST, (cl ), [ t12 t14], [])
+
+trivial clause at t2!
+Weakening t8 since it calls t2
+Weakening step
+(t8, ResoAST, (cl  ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [ t2 t7 a1], [])
+with steps
+(x53, WeakenAST, (cl  ((not ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t) = (imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t)))) ((imp  (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) t))), [ a1], [])
+(t8, ResoAST, (cl  ((imp  (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) t))), [ x53 t7], [])!
+trivial clause at x1!
+Weakening x2 since it calls x1
+Weakening step to itself:
+(x2, ResoAST, (cl  ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ x1 t3], [])
+recursive trivial clause at x2! recursive to x1 when accessing it from x2
+Weakening x4 since it calls x2
+Weakening step
+(x4, ResoAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ x2 x3], [])
+with steps
+(x54, WeakenAST, (cl  ((not (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ x3], [])
+(x4, ResoAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))), [ x54 t3], [])!
+trivial clause at x2!
+trivial clause at x5!
+Weakening x6 since it calls x5
+Weakening step to itself:
+(x6, ResoAST, (cl  ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))), [ x5 t3], [])
+recursive trivial clause at x6! recursive to x5 when accessing it from x6
+Weakening x8 since it calls x6
+Weakening step
+(x8, ResoAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x6 x7], [])
+with steps
+(x55, WeakenAST, (cl  ((not (((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o) = (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x7], [])
+(x8, ResoAST, (cl  (((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x55 t3], [])!
+trivial clause at x6!
+trivial clause at x9!
+Weakening x14 since it calls x9
+Weakening step
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x9 x11 x13], [])
+with steps
+(x56, WeakenAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x11], [])
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x56 x13], [])!
+trivial clause at x10!
+Weakening x11 since it calls x10
+Weakening step to itself:
+(x11, ResoAST, (cl  ((not (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x10 t4], [])
+recursive trivial clause at x11! recursive to x10 when accessing it from x11
+trivial clause at x11!
+trivial clause at x12!
+Weakening x13 since it calls x12
+Weakening step to itself:
+(x13, ResoAST, (cl  ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x12 t4], [])
+recursive trivial clause at x13! recursive to x12 when accessing it from x13
+Weakening x14 since it calls x13
+Weakening step to itself:
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x56 x13], [])
+recursive trivial clause at x14! recursive to x13 when accessing it from x14
+Weakening x17 since it calls x14
+Weakening step
+(x17, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x14 x15 x16], [])
+with steps
+(x57, WeakenAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))), [ x15], [])
+(x17, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x57 x16 x56], [])!
+trivial clause at x13!
+Weakening x14 since it calls x13
+Weakening step to itself:
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x56 x13], [])
+recursive trivial clause at x14! recursive to x13 when accessing it from x14
+trivial clause at x56!
+Weakening x14 since it calls x56
+Weakening step
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x56 x13], [])
+with steps
+(x58, WeakenAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x13], [])
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x58], [])!
+Weakening x17 since it calls x56
+Weakening step
+(x17, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x57 x16 x56], [])
+with steps
+(x59, WeakenAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x16], [])
+(x17, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x57 x59], [])!
+trivial clause at x58!
+Weakening x14 since it calls x58
+Weakening step to itself:
+(x14, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) ((not (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x58], [])
+recursive trivial clause at x14! recursive to x58 when accessing it from x14
+trivial clause at x14!
+trivial clause at x57!
+Weakening x17 since it calls x57
+Weakening step to itself:
+(x17, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x57 x59], [])
+recursive trivial clause at x17! recursive to x57 when accessing it from x17
+Weakening x19 since it calls x17
+Weakening step
+(x19, ResoAST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))))), [ x17 x18], [])
+with steps
+(x60, WeakenAST, (cl  ((not ((not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) = (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))) (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))))))), [ x18], [])
+(x19, ResoAST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))))), [ x60 x59], [])!
+trivial clause at x59!
+Weakening x17 since it calls x59
+Weakening step to itself:
+(x17, ResoAST, (cl  ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))))) ((imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))), [ x57 x59], [])
+recursive trivial clause at x17! recursive to x59 when accessing it from x17
+Weakening x19 since it calls x59
+Weakening step to itself:
+(x19, ResoAST, (cl  (((imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o))) = (imp  (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a)))))))))) (not (o = (S ( sa s m (pl ( d (im ( neg (mset ( a))))))))))))) ((not (imp  (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)) (not ((S ( sa s m (pl ( d (im ( neg (mset ( a)))))))) = o)))))), [ x60 x59], [])
+recursive trivial clause at x19! recursive to x59 when accessing it from x19
+File "./x2020_07_29_03_33_34_830_8439854cvc5.v", line 8, characters 2-323:
+Error:
+Verit.import_trace: preprocessing certificate
+Error: VeritSyntax.Debug
+Message: | VeritAst.preprocess_certif: failed to preprocess || process_tl: at id x19 || find_triv_lits_aux: clause doesn't have trivial literals (x and ~x for some x) |
+Position: Line 18 Position 1
+

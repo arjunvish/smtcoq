@@ -1,0 +1,19 @@
+1:(input ((= e cls)))
+2:(input ((= cls f)))
+3:(input ((not (= (= e f) (= cls cls)))))
+4:(not_equiv2 ((not (= e f)) (not (= cls cls))) 3)
+5:(eq_reflexive ((= cls cls)))
+6:(resolution ((not (= e f))) 4 5)
+7:(eq_transitive ((not (= e cls)) (not (= cls f)) (= e f)))
+8:(resolution () 7 1 2 6)
+
+x = a       y = a
+-----------------
+(x = y) = (a = a)
+
+                            ---------------------------------eqn1   -----eq_refl
+                            (x = y) = (a = a), x != y, a != a       a = a
+---------------------eqtr   ----------------------------------------------res       -----       -----
+x != a, a != y, x = y                  (x = y) = (a = a), x != y                    x = a       y = a
+------------------------------------------------------------------------------------------------------res
+                                        (x = y) = (a = a)

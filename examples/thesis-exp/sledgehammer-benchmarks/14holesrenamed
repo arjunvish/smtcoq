@@ -1,0 +1,439 @@
+Frequency   Hole
+16          ~T = F
+8           (F = T) = F
+4           (T = F) = F
+4           Smt_var_empty_d Smt_var_empty_d = true
+4           Some formula over Smt_var_c_d Smt_var_zero_d
+4           Some formula over Smt_var_pair_d (2 might be different from the other two)
+2           Reflexive formula over Smt_var_comp_hd_d 
+2           Reflexive formula over Smt_var_member_d
+2           x && T = x over Smt_var_inj_on_d
+2           Some formula over Smt_var_image_d
+2           Some formula over Smt_var_fold_d
+2           x && ~y = x && ~y over Smt_var_subsumes_d
+2           x && ~x = x & ~x over Smt_var_generalizes_d
+1           x || y = y || x over Smt_var_p_d
+1           ite(x,T,y) = x || y over Smt_var_p_d
+1           Reflexive formula over Smt_var_wf_d
+1           Reflexive formula over Smt_var_true_cls_d
+1           Some formula over
+1           Reflexive formula over Smt_var_nth_d
+1           ~x -> F = x over Smt_var_true_clss_d
+1           Some formula over Smt_var_da_d
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d) <--->
+    Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d) <--->
+    Smt_var_comp_hd_d Smt_var_gt_sym_d Smt_var_ground_heads_var_d
+      (Smt_var_head_d Smt_var_ua_d) (Smt_var_head_d Smt_var_sa_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d && true <--->
+    Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_Nat_set_d; te_compdec := CompDec_Nat_set_d
+         |}) (Smt_var_image_d Smt_var_f_d Smt_var_s_d)
+      (Smt_var_image_d Smt_var_f_d Smt_var_s_d) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_member_d Smt_var_bot_d Smt_var_a_d <--->
+    Smt_var_member_d Smt_var_bot_d Smt_var_a_d))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)
+      (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_p_d || Smt_var_q_d <---> Smt_var_p_d || Smt_var_q_d) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (ifb Smt_var_p_d true Smt_var_q_d <---> Smt_var_p_d || Smt_var_q_d))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)
+      (Smt_var_pair_d Smt_var_top_d Smt_var_top_da) <---> true))
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      Smt_var_c_d Smt_var_zero_d))
+
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_min_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_member_d Smt_var_bot_d Smt_var_a_d <--->
+    Smt_var_member_d Smt_var_bot_d Smt_var_a_d))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_top_d Smt_var_top_da)
+      (Smt_var_pair_d Smt_var_top_d Smt_var_top_da) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d && true <--->
+    Smt_var_inj_on_d Smt_var_f_d Smt_var_s_d))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_Nat_set_d; te_compdec := CompDec_Nat_set_d
+         |}) (Smt_var_image_d Smt_var_f_d Smt_var_s_d)
+      (Smt_var_image_d Smt_var_f_d Smt_var_s_d) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec {| te_carrier := Smt_sort_A_d; te_compdec := CompDec_A_d |})
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d)))
+      (Smt_var_fold_d Smt_var_max_d
+         (Smt_var_tl_d (Smt_var_keys_d Smt_var_ta_d))
+         (Smt_var_hd_d (Smt_var_keys_d Smt_var_ta_d))) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_unit_rbt_d;
+           te_compdec := CompDec_A_unit_rbt_d
+         |}) Smt_var_empty_d Smt_var_empty_d <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_b_prod_d;
+           te_compdec := CompDec_A_b_prod_d
+         |}) (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da)
+      (Smt_var_pair_d Smt_var_bot_d Smt_var_bot_da) <---> true))
+WARNING: assuming the following hypothesis:
+(is_true ((false <---> true) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_wf_d (Smt_var_collect_d (Smt_var_case_prod_d Smt_var_r_d)) <--->
+     Smt_var_wf_d (Smt_var_collect_d (Smt_var_case_prod_d Smt_var_r_d))) <--->
+    true))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |})
+      (Smt_var_subst_cls_d Smt_var_subst_atm_d
+         (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_da))
+            Smt_var_dAa_d) Smt_var_sigma_dc)
+      (Smt_var_subst_cls_d Smt_var_subst_atm_d
+         (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_da))
+            Smt_var_dAa_d) Smt_var_sigma_dc) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d) <--->
+    Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d) <--->
+    Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_subsumes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_true_cls_d (Smt_var_interp_d Smt_var_s_d Smt_var_n_d)
+      (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_d))
+         Smt_var_d_d) <--->
+    Smt_var_true_cls_d (Smt_var_interp_d Smt_var_s_d Smt_var_n_d)
+      (Smt_var_plus_d (Smt_var_sum_mset_d (Smt_var_mset_d Smt_var_cs_d))
+         Smt_var_d_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d) <--->
+    Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_c_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true (negb true <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |})
+      (Smt_var_nth_d
+         (Smt_var_subst_cls_lists_d Smt_var_subst_atm_d Smt_var_cs0_d
+            Smt_var_eta_s0_d) Smt_var_i_d)
+      (Smt_var_nth_d
+         (Smt_var_subst_cls_lists_d Smt_var_subst_atm_d Smt_var_cs0_d
+            Smt_var_eta_s0_d) Smt_var_i_d) <---> true))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   ((negb (Smt_var_true_clss_d (Smt_var_i_of_d Smt_var_n_d) Smt_var_n_d) --->
+     false) <--->
+    Smt_var_true_clss_d (Smt_var_i_of_d Smt_var_n_d) Smt_var_n_d))
+
+WARNING: assuming the following hypothesis:
+(is_true ((true <---> false) <---> false))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_c_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_c_d Smt_var_zero_d))
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_true_cls_d
+       (Smt_var_sup_d
+          (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+             Smt_var_cc_d)) Smt_var_d_d ---> false) <--->
+    negb
+      (Smt_var_true_cls_d
+         (Smt_var_sup_d
+            (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+               Smt_var_cc_d)) Smt_var_d_d)))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_true_cls_d
+      (Smt_var_sup_d
+         (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+            Smt_var_cc_d)) Smt_var_d_d <--->
+    Smt_var_true_cls_d
+      (Smt_var_sup_d
+         (Smt_var_image_d (Smt_var_production_d Smt_var_s_d Smt_var_n_d)
+            Smt_var_cc_d)) Smt_var_d_d))
+
+WARNING: assuming the following hypothesis:
+(is_true
+   (eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_da_d Smt_var_zero_d <--->
+    eqb_of_compdec
+      (te_compdec
+         {|
+           te_carrier := Smt_sort_A_literal_multiset_d;
+           te_compdec := CompDec_A_literal_multiset_d
+         |}) Smt_var_da_d Smt_var_zero_d))
+WARNING: assuming the following hypothesis:
+(is_true
+   (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d) <--->
+    Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_d_d Smt_var_c_d &&
+    negb (Smt_var_generalizes_d Smt_var_subst_atm_d Smt_var_c_d Smt_var_d_d)))

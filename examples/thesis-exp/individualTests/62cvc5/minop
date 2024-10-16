@@ -1,0 +1,48 @@
+     = false
+     : bool
+Certif after storing shared terms: 
+(a1, AssumeAST, (cl  ((e = cls))), [], [])
+(a2, AssumeAST, (cl  ((f = cls))), [], [])
+(a3, AssumeAST, (cl  ((not ((e = f) = (cls = cls))))), [], [])
+(t5, CongAST, (cl  (((e = f) = (cls = cls)))), [ a1 a2], [])
+(t6, ResoAST, (cl ), [ t5 a3], [])
+
+Certif after process_cong: 
+(a1, AssumeAST, (cl  ((e = cls))), [], [])
+(a2, AssumeAST, (cl  ((f = cls))), [], [])
+(a3, AssumeAST, (cl  ((not ((e = f) = (cls = cls))))), [], [])
+(x1, EqtrAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (e = f))) ((cls = cls))), [], [])
+(x3, Equn2AST, (cl  (((e = f) = (cls = cls))) ((e = f)) ((cls = cls))), [], [])
+(x5, ResoAST, (cl  ((not (e = cls))) ((not (f = cls))) ((cls = cls)) (((e = f) = (cls = cls)))), [ x1 x3], [])
+(x2, EqtrAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (cls = cls))) ((e = f))), [], [])
+(x4, Equn1AST, (cl  (((e = f) = (cls = cls))) ((not (e = f))) ((not (cls = cls)))), [], [])
+(x6, ResoAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (cls = cls))) (((e = f) = (cls = cls)))), [ x2 x4], [])
+(t5, ResoAST, (cl  (((e = f) = (cls = cls)))), [ x5 x6 a1 a2], [])
+(t6, ResoAST, (cl ), [ t5 a3], [])
+
+Certif after process_subproof: 
+(a1, AssumeAST, (cl  ((e = cls))), [], [])
+(a2, AssumeAST, (cl  ((f = cls))), [], [])
+(a3, AssumeAST, (cl  ((not ((e = f) = (cls = cls))))), [], [])
+(x1, EqtrAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (e = f))) ((cls = cls))), [], [])
+(x3, Equn2AST, (cl  (((e = f) = (cls = cls))) ((e = f)) ((cls = cls))), [], [])
+(x5, ResoAST, (cl  ((not (e = cls))) ((not (f = cls))) ((cls = cls)) (((e = f) = (cls = cls)))), [ x1 x3], [])
+(x2, EqtrAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (cls = cls))) ((e = f))), [], [])
+(x4, Equn1AST, (cl  (((e = f) = (cls = cls))) ((not (e = f))) ((not (cls = cls)))), [], [])
+(x6, ResoAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (cls = cls))) (((e = f) = (cls = cls)))), [ x2 x4], [])
+(t5, ResoAST, (cl  (((e = f) = (cls = cls)))), [ x5 x6 a1 a2], [])
+(t6, ResoAST, (cl ), [ t5 a3], [])
+
+Certif after process_trivial: 
+(a1, AssumeAST, (cl  ((e = cls))), [], [])
+(a2, AssumeAST, (cl  ((f = cls))), [], [])
+(a3, AssumeAST, (cl  ((not ((e = f) = (cls = cls))))), [], [])
+(x1, EqtrAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (e = f))) ((cls = cls))), [], [])
+(x3, Equn2AST, (cl  (((e = f) = (cls = cls))) ((e = f)) ((cls = cls))), [], [])
+(x5, ResoAST, (cl  ((not (e = cls))) ((not (f = cls))) ((cls = cls)) (((e = f) = (cls = cls)))), [ x1 x3], [])
+(x2, EqtrAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (cls = cls))) ((e = f))), [], [])
+(x4, Equn1AST, (cl  (((e = f) = (cls = cls))) ((not (e = f))) ((not (cls = cls)))), [], [])
+(x6, ResoAST, (cl  ((not (e = cls))) ((not (f = cls))) ((not (cls = cls))) (((e = f) = (cls = cls)))), [ x2 x4], [])
+(t5, ResoAST, (cl  (((e = f) = (cls = cls)))), [ x5 x6 a1 a2], [])
+(t6, ResoAST, (cl ), [ t5 a3], [])
+

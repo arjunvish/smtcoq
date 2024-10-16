@@ -1,0 +1,5 @@
+(assume a1 (= e cls))
+(assume a2 (= f cls))
+(assume a3 (not (= (= e f) (= cls cls))))
+(step t5 (cl (= (= e f) (= cls cls))) :rule cong :premises (a1 a2))
+(step t6 (cl) :rule resolution :premises (t5 a3))

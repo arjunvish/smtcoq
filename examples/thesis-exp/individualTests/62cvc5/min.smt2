@@ -1,0 +1,10 @@
+; --proof-with-sharing --index-fresh-sorts --proof-define-skolems --proof-prune --proof-merge --disable-print-success --disable-banner --max-time=30
+(set-option :produce-proofs true)
+(set-logic AUFLIA)
+(declare-fun e () Int)
+(declare-fun f () Int)
+(declare-fun cls () Int)
+(assert (= e cls))
+(assert (= f cls))
+(assert (not (= (= e f) (= cls cls))))
+(check-sat)
