@@ -33,4 +33,8 @@ Solution:
 When we remove t1 from the certificate, we need to also remove all steps that are used by 
 t1 and no other step.
 
-- Create a table of step IDs to 
+- When I remove step i from certif c
+(i, r, cl, ps, a)
+- For each p in ps, 
+    - I check c for any step that uses p
+    - If such a step doesn't exist, I remove p from c

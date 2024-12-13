@@ -5181,10 +5181,11 @@ let step_used (i : id) (c : certif) : bool =
                List.exists (fun p -> p = i) ps) c
 
 let rec process_unused (c : certif) : certif =
-  (* aux will remove all unused steps in c; it will return a tuple contain the modified certif
-     and a bool flag that is true if at least one step has been removed *)
+  (* aux will remove all unused steps in c; it will return a tuple containing 
+     1.the modified certif 2. a bool flag that is true if at least one step has been removed *)
   let rec aux (c : certif) : certif * bool =
     match c with
+    | h :: [] -> (c, false)
     | h :: tl ->
         let i = get_id h in
         let (tlc, b) = aux tl in
@@ -5194,7 +5195,7 @@ let rec process_unused (c : certif) : certif =
         else
           (* Keep h and use flag from recursive call *)
           (h :: tlc, b)
-    | [] -> ([], false)
+    | [] -> (c, false)
   in
   (* Keep applying process_unused until no steps are removed *)
   match (aux c) with
@@ -5219,7 +5220,7 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try 
   (let c1 = store_shared_terms c in
-  Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1);
+  (* Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1); *)
   let c2 = process_fins c1 in
   (* Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2); *)
   let c3 = process_hole c2 in
@@ -5239,9 +5240,9 @@ let preprocess_certif (c: certif) : certif =
   let c10 = process_subproof c9 in
   (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
-  Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11);
+  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
   let c12 = process_unused c11 in
-  Printf.printf ("Certif after process_unused: \n%s\n") (string_of_certif c12);
+  (* Printf.printf ("Certif after process_unused: \n%s\n") (string_of_certif c12); *)
   c12) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 

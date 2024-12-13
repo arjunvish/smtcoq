@@ -1,3 +1,13 @@
+Added process_unused to remove any unused steps:
+131 successes
+7 failures
+
+68 holes
+__ files with holes
+     _ successful checks with holes
+     _ failed checks/exception files with holes 
+-------------------------------------------------
+Checker succeeds on _ files fully (without holes)
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/PNT_z32/x2020_08_04_17_45_26_739_9376730cvc5.v
      = true
@@ -14,12 +24,8 @@
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_00_26_055_7846716cvc5.v", line 8, characters 2-389:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = false
+     : bool
 
 
 
@@ -87,12 +93,8 @@ WARNING: assuming the following hypothesis:
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/BO_cvc42/x2020_08_03_16_40_35_239_4899098cvc5.v", line 8, characters 2-389:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = false
+     : bool
 
 
 
@@ -447,12 +449,8 @@ WARNING: assuming the following hypothesis:
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/HOL-Library/smt_verit/x2020_07_24_02_50_00_147_4983028cvc5.v", line 8, characters 2-415:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = false
+     : bool
 
 
 
@@ -882,12 +880,8 @@ WARNING: assuming the following hypothesis:
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/isabelle-mirabelle/Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v", line 8, characters 2-395:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = false
+     : bool
 
 
 
@@ -1065,23 +1059,15 @@ WARNING: assuming the following hypothesis:
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_33_34_830_8439854cvc5.v", line 8, characters 2-397:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = true
+     : bool
 
 
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_31_29_566_8412284cvc5.v", line 8, characters 2-397:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = false
+     : bool
 
 
 
@@ -1119,23 +1105,15 @@ WARNING: assuming the following hypothesis:
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_00_24_03_784_9778214cvc5.v", line 8, characters 2-397:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = false
+     : bool
 
 
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_03_48_18_914_8656120cvc5.v", line 8, characters 2-397:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = false
+     : bool
 
 
 
@@ -1242,12 +1220,8 @@ WARNING: assuming the following hypothesis:
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_29_04_00_10_997_8754562cvc5.v", line 8, characters 2-397:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
-
+     = true
+     : bool
 
 
 
@@ -1368,12 +1342,34 @@ WARNING: assuming the following hypothesis:
 
 
 /home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_03_707_5588814cvc5.v
-File "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/thesis-exp/sledgehammer-benchmarks/Benchmarks/Ordered_Resolution_Prover_veriT/x2020_07_28_22_02_03_707_5588814cvc5.v", line 8, characters 2-397:
-Error:
-Anomaly
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-Please report at http://coq.inria.fr/bugs/.
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_member_d Smt_var_d_d Smt_var_n_d &&
+     eqb_of_compdec
+       (te_compdec
+          {|
+            te_carrier := Smt_sort_A_literal_multiset_d;
+            te_compdec := CompDec_A_literal_multiset_d
+          |}) (Smt_var_s_d Smt_var_d_d) Smt_var_zero_d ---> false) <--->
+    negb
+      (Smt_var_member_d Smt_var_d_d Smt_var_n_d &&
+       eqb_of_compdec
+         (te_compdec
+            {|
+              te_carrier := Smt_sort_A_literal_multiset_d;
+              te_compdec := CompDec_A_literal_multiset_d
+            |}) (Smt_var_s_d Smt_var_d_d) Smt_var_zero_d)))
 
+WARNING: assuming the following hypothesis:
+(is_true
+   ((Smt_var_less_d (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_d))
+       (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_da)) ---> false) <--->
+    negb
+      (Smt_var_less_d (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_d))
+         (Smt_var_max_d (Smt_var_atms_of_d Smt_var_d_da)))))
+
+     = true
+     : bool
 
 
 
