@@ -1,16 +1,18 @@
 # Folder Content Description
 
-Created on 11/16, this directory stores all 10 benchmarks for which SMTCoq currently raises an `assertion failed` using cvc5. These are the 10 failed checks from the PhD thesis. Each file is in the `<n><n>` directory (`<n>` is a digit).
+Created on 11/16, this directory stores all 7 benchmarks for which SMTCoq currently fails using cvc5. 
+Each file is in the `<n><n>` directory (`<n>` is a digit).
 
-All of them raise the exact same exception:
+10 benchmarks including this one used to raise the exact same exception:
 ```
 "File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
 ```
-SMTCoq creates a doubly linked list with each step of the
-proof as a node. All nodes must be linked to their 
-predecessor and successor. This assertion is raised when
-one of them isn't. The most likely cause is that we 
-are creating a proof step that is never referenced.
+SOLVED: The issue was that when `process_trivial` removes a step `t` that derive trivial clauses from the certif, it sometimes leaves behind other steps that become unused since `t` is the only step that uses them. Instead of dealing with this within `process_trivial`, I have added a transformation process_unused which goes through the certificate and recursively removes all unused steps. That seems to have fixed the issue.
+
+Now, the checker returns `false` for 7 of these 10: `01`, `02`, `03`, `04`, `06`, `07`, `08`.
+
+The following is from the previous iteration of the experiments before the unused clause removal problem was
+solved.
 
 ## Tracing Back
 
@@ -52,3 +54,4 @@ be (1) `process_trivial` and its helper functions
 including `eq_mod_dneg` and `neg_mod_dneg` (2) 
 `allSimpAST` case of `process_simplify`.
 - Pick the smallest example and debug (smallest is `05`, next smalles is `10`)
+
