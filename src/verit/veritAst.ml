@@ -5075,7 +5075,7 @@ let find_res (c : certif) (i : id) : id list =
     | [] -> ids
   in find_res_aux c i []
 
-(* From cl, find terms x and y such that they are negations of each other *)
+(* From cl, find terms x and y such that they are negations of each other. Also returns cl without x and y *)
 let find_triv_lits (cl : clause) : (term * term * clause) =
   let rec find_triv_lits_aux (cl : clause) : (term * term) =
     match cl with
@@ -5090,12 +5090,13 @@ let find_triv_lits (cl : clause) : (term * term * clause) =
 let process_trivial (c : certif) : certif =
   let rec process_trivial_aux (c : certif) (cog : certif) (weakened_ids : id list) : certif =
     match c with
+    (* Match if c1 is trivial *)
     | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1) ->
         (* Printf.printf ("trivial clause at %s!\n") t1; *)
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, all t3s *)
-        (* For each t3 compute replacement [t3a; new t3]; if t3 generates yet another trivial clause, 
+        (* For each t3 compute replacement [t3a; new_t3]; if t3 generates yet another trivial clause, 
            premises and residual clause must be carried over;
            t1i is the ID of the corresponding step with the trivial clause t1; 
            res is the residual clause and pids the residual premise IDs that must be added to t3 in case of recursive trivial clause *)
@@ -5171,6 +5172,37 @@ let process_trivial (c : certif) : certif =
 
 
 
+(* Remove any steps that are unused. Doing this might make other steps in the certificate unused. 
+   So this procedure must be applied to a fixpoint. *)
+
+(* Is step i used in certificate c? *)
+let step_used (i : id) (c : certif) : bool =
+  List.exists (fun (_, _, _, ps, _) -> 
+               List.exists (fun p -> p = i) ps) c
+
+let rec process_unused (c : certif) : certif =
+  (* aux will remove all unused steps in c; it will return a tuple contain the modified certif
+     and a bool flag that is true if at least one step has been removed *)
+  let rec aux (c : certif) : certif * bool =
+    match c with
+    | h :: tl ->
+        let i = get_id h in
+        let (tlc, b) = aux tl in
+        if not (step_used i tl) then
+          (* Remove h and set flag *)
+          (tlc, true)
+        else
+          (* Keep h and use flag from recursive call *)
+          (h :: tlc, b)
+    | [] -> ([], false)
+  in
+  (* Keep applying process_unused until no steps are removed *)
+  match (aux c) with
+  (* | c', _ -> c' *)
+  | (c', true) -> process_unused c'
+  | (c', false) -> c'
+
+
 (* Final processing and linking of AST *)
 (* Ordering constraint:
    1. process_proj before process_subproof because subproof turns all projection
@@ -5208,7 +5240,9 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
   Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11);
-  c11) with
+  let c12 = process_unused c11 in
+  Printf.printf ("Certif after process_unused: \n%s\n") (string_of_certif c12);
+  c12) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 
 let rec process_certif (c : certif) : VeritSyntax.id list =
@@ -5231,7 +5265,7 @@ let rec process_certif (c : certif) : VeritSyntax.id list =
       (* Process next step for linking *)
       let t' = process_certif t in
       if List.length t' > 0 then (
-        let x = List.hd t' in
+        let x = (try (List.hd t') with | Failure _ -> raise (Debug ("| FOUND THE MOTHERFUCKER |"))) in
         try SmtTrace.link (get_clause res) (get_clause x) with
         | Debug s -> raise (Debug ("| VeritAst.process_certif: linking clauses |"^s))
         ) else ();

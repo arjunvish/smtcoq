@@ -1,0 +1,36 @@
+(x10, AndnAST, (cl  ((and  (M (d n)) (z = (s d)))) ((not (M (d n)))) ((not (z = (s d))))), [], [])
+(x12, Equp2AST, (cl  ((not (((s d) = z) = (z = (s d))))) ((not ((s d) = z))) ((z = (s d)))), [], [])
+(x13, ResoAST, (cl  ((not ((s d) = z))) ((z = (s d)))), [ x12 t2], [])
+(x14, AndpAST, (cl  ((not (and  (M (d n)) ((s d) = z)))) (((s d) = z))), [], [ 1])
+(x15, ResoAST, (cl  ((not (and  (M (d n)) ((s d) = z)))) ((z = (s d)))), [ x13 x14], [])
+(x11, AndpAST, (cl  ((not (and  (M (d n)) ((s d) = z)))) ((M (d n)))), [], [ 0])
+(x16, ResoAST, (cl  ((not (and  (M (d n)) ((s d) = z)))) ((and  (M (d n)) (z = (s d))))), [ x10 x15 x11], [])
+
+-------------------------------------------------x10    ---------------------------------------x15  
+(M (d n)) ^ (z = (s d)), ~(M (d n)), ~(z = (s d))       ~((M (d n)) ^ ((s d) = z)), (z = (s d))     
+---------------------------------------------------------------------------------------------------res  -------------------------------------x11
+            (M (d n)) ^ (z = (s d)), ~(M (d n)), ~((M (d n)) ^ ((s d) = z))                             ~((M (d n)) ^ ((s d) = z)), (M (d n))
+            ---------------------------------------------------------------------------------------------------------------------------------res
+                                                    (M (d n)) ^ (z = (s d)), ~((M (d n)) ^ ((s d) = z))
+
+Simplified:
+-------------------------------------------------x10    ---------------------------------------x15  -------------------------------------x11
+(M (d n)) ^ (z = (s d)), ~(M (d n)), ~(z = (s d))       ~((M (d n)) ^ ((s d) = z)), (z = (s d))     ~((M (d n)) ^ ((s d) = z)), (M (d n))
+----------------------------------------------------------------------------------------------------------------------------------------res
+                                            (M (d n)) ^ (z = (s d)), ~((M (d n)) ^ ((s d) = z))
+
+(* => Transformation Step: Remove trivial clauses that prove `C, x, ~x` for any `C` and `x` since these clauses     
+      cause the checker to fail *)
+(* Transformation (similar for `t2: C2, ~x`):
+   t1: C1, x, ~x                                            ...
+       ...                                              t2: C2, x                                      
+   t2: C2, x                                     -->        ...
+       ...                                              t3a: C1, C2, x       by Weaken [t2]
+   t3: C3, x        by Resolution [L t1 M t2 N]         t3: C3, x            by Resolution [L t3a M t2 N]
+*)
+
+Solution:
+When we remove t1 from the certificate, we need to also remove all steps that are used by 
+t1 and no other step.
+
+- Create a table of step IDs to 
