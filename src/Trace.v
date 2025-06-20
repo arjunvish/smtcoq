@@ -199,6 +199,7 @@ Module Cnf_Checker.
   Inductive step :=
   | Res (pos:int) (res:resolution)
   | ImmFlatten (pos:int) (cid:clause_id) (lf:_lit)
+  | Flatten (pos: int) (l: _lit)
   | CTrue (pos:int)
   | CFalse (pos:int)
   | BuildDef (pos:int) (l:_lit)
@@ -216,6 +217,7 @@ Module Cnf_Checker.
     match st with
     | Res pos res => S.set_resolve s pos res
     | ImmFlatten pos cid lf => S.set_clause s pos (check_flatten t_form s cid lf)
+    | Flatten pos l => S.set_clause s pos (check_flatten2 t_form l)
     | CTrue pos => S.set_clause s pos Cnf.check_True
     | CFalse pos => S.set_clause s pos Cnf.check_False
     | BuildDef pos l => S.set_clause s pos (check_BuildDef t_form l)
@@ -235,6 +237,7 @@ Module Cnf_Checker.
     intros rho rhobv t_form Ht s H; destruct (Form.check_form_correct rho rhobv _ Ht) as [[Ht1 Ht2] Ht3]; intros [pos res|pos cid lf|pos|pos|pos l|pos l|pos l i|pos cid|pos cid|pos cid i]; simpl; try apply S.valid_set_clause; auto.
     apply S.valid_set_resolve; auto.
     apply valid_check_flatten; auto; try discriminate; intros a1 a2; unfold is_true; rewrite Int63.eqb_spec; intro; subst a1; auto.
+    apply valid_check_flatten2; auto.
     apply valid_check_True; auto.
     apply valid_check_False; auto.
     apply valid_check_BuildDef; auto.
@@ -327,6 +330,7 @@ Inductive step :=
   | Res (pos:int) (res:resolution)
   | Weaken (pos:int) (cid:clause_id) (cl:list _lit)
   | ImmFlatten (pos:int) (cid:clause_id) (lf:_lit)
+  | Flatten (pos:int) (l:_lit)
   | CTrue (pos:int)
   | CFalse (pos:int)
   | Tautology (pos:int) (cid:clause_id) (l:_lit)
@@ -382,6 +386,7 @@ Inductive step :=
       | Res pos res => S.set_resolve s pos res
       | Weaken pos cid cl => S.set_weaken s pos cid cl
       | ImmFlatten pos cid lf => S.set_clause s pos (check_flatten t_atom t_form s cid lf)
+      | Flatten pos l => S.set_clause s pos (check_flatten2 t_form l)
       | CTrue pos => S.set_clause s pos Cnf.check_True
       | CFalse pos => S.set_clause s pos Cnf.check_False
       | Tautology pos cid l => S.set_clause s pos (check_Tautology s cid l)
@@ -447,6 +452,7 @@ Inductive step :=
     - apply valid_check_flatten; auto with smtcoq_core; intros h1 h2 H.
       + rewrite (Syntactic.check_hatom_correct_bool _ _ _ Ha1 Ha2 _ _ H); auto with smtcoq_core.
       + rewrite (Syntactic.check_neg_hatom_correct_bool _ _ _ H10 Ha1 Ha2 _ _ H); auto with smtcoq_core.
+    - apply valid_check_flatten2; auto with smtcoq_core.
     - apply valid_check_True; auto with smtcoq_core.
     - apply valid_check_False; auto with smtcoq_core.
     - apply valid_check_Tautology; auto with smtcoq_core.
@@ -552,6 +558,7 @@ Inductive step :=
       | Res pos _
       | Weaken pos _ _
       | ImmFlatten pos _ _
+      | Flatten pos _
       | CTrue pos
       | CFalse pos
       | Tautology pos _ _
@@ -611,6 +618,7 @@ Inductive step :=
   | Name_Res
   | Name_Weaken
   | Name_ImmFlatten
+  | Name_Flatten
   | Name_CTrue
   | Name_CFalse
   | Name_Tautology
@@ -656,6 +664,7 @@ Inductive step :=
     | Res _ _ => Name_Res
     | Weaken _ _ _ => Name_Weaken
     | ImmFlatten _ _ _ => Name_ImmFlatten
+    | Flatten _ _ => Name_Flatten
     | CTrue _ => Name_CTrue
     | CFalse _ => Name_CFalse
     | Tautology _ _ _ => Name_Tautology
@@ -810,6 +819,7 @@ Register Cnf_Checker.checker_eq as SMTCoq.Trace.Cnf_Checker.checker_eq.
 Register Cnf_Checker.step as SMTCoq.Trace.Cnf_Checker.step.
 Register Cnf_Checker.Res as SMTCoq.Trace.Cnf_Checker.Res.
 Register Cnf_Checker.ImmFlatten as SMTCoq.Trace.Cnf_Checker.ImmFlatten.
+Register Cnf_Checker.Flatten as SMTCoq.Trace.Cnf_Checker.Flatten.
 Register Cnf_Checker.CTrue as SMTCoq.Trace.Cnf_Checker.CTrue.
 Register Cnf_Checker.CFalse as SMTCoq.Trace.Cnf_Checker.CFalse.
 Register Cnf_Checker.BuildDef as SMTCoq.Trace.Cnf_Checker.BuildDef.
@@ -832,6 +842,7 @@ Register Euf_Checker.name_step as SMTCoq.Trace.Euf_Checker.name_step.
 Register Euf_Checker.Name_Res as SMTCoq.Trace.Euf_Checker.Name_Res.
 Register Euf_Checker.Name_Weaken as SMTCoq.Trace.Euf_Checker.Name_Weaken.
 Register Euf_Checker.Name_ImmFlatten as SMTCoq.Trace.Euf_Checker.Name_ImmFlatten.
+Register Euf_Checker.Name_Flatten as SMTCoq.Trace.Euf_Checker.Name_Flatten.
 Register Euf_Checker.Name_CTrue as SMTCoq.Trace.Euf_Checker.Name_CTrue.
 Register Euf_Checker.Name_CFalse as SMTCoq.Trace.Euf_Checker.Name_CFalse.
 Register Euf_Checker.Name_Tautology as SMTCoq.Trace.Euf_Checker.Name_Tautology.
@@ -874,6 +885,7 @@ Register Euf_Checker.step as SMTCoq.Trace.Euf_Checker.step.
 Register Euf_Checker.Res as SMTCoq.Trace.Euf_Checker.Res.
 Register Euf_Checker.Weaken as SMTCoq.Trace.Euf_Checker.Weaken.
 Register Euf_Checker.ImmFlatten as SMTCoq.Trace.Euf_Checker.ImmFlatten.
+Register Euf_Checker.Flatten as SMTCoq.Trace.Euf_Checker.Flatten.
 Register Euf_Checker.CTrue as SMTCoq.Trace.Euf_Checker.CTrue.
 Register Euf_Checker.CFalse as SMTCoq.Trace.Euf_Checker.CFalse.
 Register Euf_Checker.Tautology as SMTCoq.Trace.Euf_Checker.Tautology.

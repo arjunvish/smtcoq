@@ -305,6 +305,8 @@ Section FLATTEN.
 
   Local Notation get_form := (PArray.get t_form).
 
+  Local Notation get_hash := (PArray.get t_form) (only parsing).
+
   Definition remove_not l :=
     match get_form (Lit.blit l) with
       | Fnot2 _ l' => if Lit.is_pos l then l' else Lit.neg l'
@@ -397,6 +399,11 @@ Section FLATTEN.
       | _ => C._true
     end.
 
+  Definition check_flatten2 l :=
+    match get_hash (Lit.blit l) with
+      | Fiff a b => if check_flatten_aux a b then l::nil else C._true
+      | _ => C._true
+    end.
 
   (** Correctness proofs *)
   Variable interp_atom : atom -> bool.
@@ -410,6 +417,7 @@ Section FLATTEN.
 
   Local Notation interp_var := (interp_state_var interp_atom interp_bvatom t_form).
   Local Notation interp_lit := (Lit.interp interp_var).
+  Local Notation rho := (Form.interp_state_var interp_atom interp_bvatom t_form).
 
   Lemma interp_Fnot2 : forall i l, interp interp_atom interp_bvatom t_form (Fnot2 i l) = interp_lit l.
   Proof.
@@ -582,6 +590,9 @@ Section FLATTEN.
     intros; apply C.interp_true; auto.
     intros i [ |l q] Heq; try apply C.interp_true; auto; case_eq (check_flatten_aux i lf); intro Heq2; try apply C.interp_true; auto; unfold C.valid; simpl; rewrite <- (check_flatten_aux_correct _ _ Heq2); unfold S.valid in Hs; generalize (Hs cid); rewrite Heq; auto.
   Qed.
+
+  Lemma valid_check_flatten2 : forall l, C.valid rho (check_flatten2 l).
+  Proof. Admitted.
 
 End FLATTEN.
 
