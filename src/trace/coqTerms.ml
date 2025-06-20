@@ -314,6 +314,7 @@ let ceuf_checker_name_step = euf_checker_gc "name_step"
 let ceuf_checker_Name_Res = euf_checker_gc "Name_Res"
 let ceuf_checker_Name_Weaken = euf_checker_gc "Name_Weaken"
 let ceuf_checker_Name_ImmFlatten = euf_checker_gc "Name_ImmFlatten"
+let ceuf_checker_Name_Flatten = euf_checker_gc "Name_Flatten"
 let ceuf_checker_Name_CTrue = euf_checker_gc "Name_CTrue"
 let ceuf_checker_Name_CFalse = euf_checker_gc "Name_CFalse"
 let ceuf_checker_Name_BuildDef = euf_checker_gc "Name_BuildDef"
@@ -366,7 +367,7 @@ coqTerm * coqTerm * coqTerm *
 coqTerm * coqTerm * coqTerm *
 coqTerm * coqTerm * coqTerm *
 coqTerm * coqTerm * coqTerm *
-coqTerm * coqTerm
+coqTerm * coqTerm * coqTerm
 let make_certif_ops prefix args =
   let gc = gc prefix in
   let gen_constant c =
@@ -375,7 +376,7 @@ let make_certif_ops prefix args =
       | None -> gc c in
  (gen_constant "step",
   gen_constant "Res", gen_constant "Weaken", gen_constant "ImmFlatten",
-  gen_constant "CTrue", gen_constant "CFalse",
+  gen_constant "Flatten", gen_constant "CTrue", gen_constant "CFalse",
   gen_constant "Tautology",
   gen_constant "BuildDef", gen_constant "BuildDef2",
   gen_constant "BuildProj",

@@ -19,6 +19,7 @@ type 'hform rule =
 
   (* Simplification *)
   | ImmFlatten of 'hform clause * 'hform
+  | Flatten of 'hform
 
   (* CNF Transformations *)
   | True

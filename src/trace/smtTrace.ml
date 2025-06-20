@@ -351,7 +351,7 @@ let build_certif first_root confl =
 
 
 let to_coq to_lit interp (cstep,
-    cRes, cWeaken, cImmFlatten,
+    cRes, cWeaken, cImmFlatten, cFlatten,
     cTrue, cFalse, cTaut, cBuildDef, 
     cBuildDef2, cBuildProj, cImmBuildProj,cImmBuildDef,
     cImmBuildDef2, cDistElim, cIdent, 
@@ -392,6 +392,7 @@ let to_coq to_lit interp (cstep,
               | Weaken (c',l') ->
                 mklApp cWeaken [|out_c c;out_c c'; out_cl l'|]
 	            | ImmFlatten (c',f) -> mklApp cImmFlatten [|out_c c;out_c c'; out_f f|]
+              | Flatten f -> mklApp cFlatten [|out_c c; out_f f|]
               | True -> mklApp cTrue [|out_c c|]
 	            | False -> mklApp cFalse [|out_c c|]
               | Tautology (c', l) -> 

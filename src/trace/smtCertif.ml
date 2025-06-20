@@ -21,6 +21,7 @@ type 'hform rule =
 
   (* Simplification *)
   | ImmFlatten of 'hform clause * 'hform
+  | Flatten of 'hform
 
   (* CNF Transformations *)
   | True
@@ -264,7 +265,7 @@ let used_clauses r =
   | Hole (cs, _) -> cs
   | Forall_inst (c, _) | Qf_lemma (c, _) -> [c]
 
-  | True | False | BuildDef _ 
+  | True | False | Flatten _ | BuildDef _ 
   | BuildDef2 _ | BuildProj _ | DistElim _
   | EqTr _ | EqCgr _ | EqCgrP _ | LiaMicromega _ 
   | LiaDiseq _ | BBVar _ | BBConst _ | BBDiseq _
@@ -284,6 +285,7 @@ let to_string r =
                          begin match x with
                            | Weaken _ -> "Weaken"
                            | ImmFlatten _ -> "ImmFlatten"
+                           | Flatten _ -> "Flatten"
                            | True -> "True"
                            | False -> "False"
                            | Tautology _ -> "Tautology"

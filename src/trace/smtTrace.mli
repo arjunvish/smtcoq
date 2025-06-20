@@ -64,7 +64,7 @@ val to_coq :
   CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t *
   CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t *
   CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t *
-  CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t ->
+  CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t * CoqInterface.constr Lazy.t->
   'a SmtCertif.clause ->
   ('a SmtCertif.clause -> CoqInterface.types * CoqInterface.constr) option ->
   CoqInterface.constr * 'a SmtCertif.clause *

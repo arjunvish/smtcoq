@@ -247,7 +247,7 @@ type certif_ops =
   coqTerm * coqTerm * coqTerm *
   coqTerm * coqTerm * coqTerm *
   coqTerm * coqTerm * coqTerm *
-  coqTerm * coqTerm
+  coqTerm * coqTerm * coqTerm
 
 val csat_checker_valid : coqTerm
 val csat_checker_interp_var : coqTerm
@@ -279,6 +279,7 @@ val ceuf_checker_name_step : coqTerm
 val ceuf_checker_Name_Res : coqTerm
 val ceuf_checker_Name_Weaken : coqTerm
 val ceuf_checker_Name_ImmFlatten : coqTerm
+val ceuf_checker_Name_Flatten : coqTerm
 val ceuf_checker_Name_CTrue : coqTerm
 val ceuf_checker_Name_CFalse : coqTerm
 val ceuf_checker_Name_BuildDef : coqTerm

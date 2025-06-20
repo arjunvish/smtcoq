@@ -77,6 +77,7 @@ let pp_kind fmt c =
     | ImmFlatten (c,l) ->
 	Format.fprintf fmt "(ImmFlatten %i %a)"
 	  c.id pp_form l
+    | Flatten l -> Format.fprintf fmt "(Flatten %a)" pp_form l
     | True -> Format.fprintf fmt "True"
     | False -> Format.fprintf fmt "False"
     | BuildDef l -> Format.fprintf fmt "(BuildDef %a)" pp_form l

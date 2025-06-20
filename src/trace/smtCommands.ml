@@ -32,6 +32,7 @@ let cname_step = CoqTerms.ceuf_checker_name_step
 let cName_Res = CoqTerms.ceuf_checker_Name_Res
 let cName_Weaken = CoqTerms.ceuf_checker_Name_Weaken
 let cName_ImmFlatten = CoqTerms.ceuf_checker_Name_ImmFlatten
+let cName_Flatten = CoqTerms.ceuf_checker_Name_Flatten
 let cName_CTrue = CoqTerms.ceuf_checker_Name_CTrue
 let cName_CFalse = CoqTerms.ceuf_checker_Name_CFalse
 let cName_BuildDef = CoqTerms.ceuf_checker_Name_BuildDef
@@ -394,6 +395,7 @@ let checker_debug (rt, ro, ra, rf, roots, max_id, confl) =
          if CoqInterface.eq_constr n (Lazy.force cName_Res ) then "Res"
          else if CoqInterface.eq_constr n (Lazy.force cName_Weaken) then "Weaken"
          else if CoqInterface.eq_constr n (Lazy.force cName_ImmFlatten) then "ImmFlatten"
+         else if CoqInterface.eq_constr n (Lazy.force cName_Flatten) then "Flatten"
          else if CoqInterface.eq_constr n (Lazy.force cName_CTrue) then "CTrue"
          else if CoqInterface.eq_constr n (Lazy.force cName_CFalse ) then "CFalse"
          else if CoqInterface.eq_constr n (Lazy.force cName_BuildDef) then "BuildDef"
