@@ -1,13 +1,14 @@
 # Folder Content Description
 
-Created on 11/16, this directory stores all 7 benchmarks for which SMTCoq currently fails using cvc5. 
+Created on 11/16/24, this directory stores all 7 benchmarks for which SMTCoq currently fails using cvc5. 
 Each file is in the `<n><n>` directory (`<n>` is a digit).
 
 10 benchmarks including this one used to raise the exact same exception:
 ```
 "File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
 ```
-SOLVED: The issue was that when `process_trivial` removes a step `t` that derive trivial clauses from the certif, it sometimes leaves behind other steps that become unused since `t` is the only step that uses them. Instead of dealing with this within `process_trivial`, I have added a transformation process_unused which goes through the certificate and recursively removes all unused steps. That seems to have fixed the issue.
+## Solution
+The issue was that when `process_trivial` removes a step `t` that derive trivial clauses from the certif, it sometimes leaves behind other steps that become unused since `t` is the only step that uses them. Instead of dealing with this within `process_trivial`, I have added a transformation process_unused which goes through the certificate and recursively removes all unused steps. That seems to have fixed the issue.
 
 Now, the checker returns `false` for 7 of these 10: `01`, `02`, `03`, `04`, `06`, `07`, `08`.
 
