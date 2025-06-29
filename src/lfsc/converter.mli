@@ -10,8 +10,12 @@
 (**************************************************************************)
 
 
-type solver = Zchaff | Verit
-val usage : string
-val string_of_solver : solver -> string
-val verifier_of_solver : solver -> string -> string -> bool
-val run : solver -> string -> string -> unit
+module Make (T : Translator_sig.S) :
+sig
+  val ignore_all_decls : Ast.term -> Ast.term
+  val ignore_preproc : Ast.term -> Ast.term
+  val produce_inputs_preproc : Ast.term -> Ast.term
+  val rm_duplicates : ('a -> 'a -> bool) -> 'a list -> 'a list
+  val convert_pt : Ast.term -> int
+  val clear : unit -> unit
+end

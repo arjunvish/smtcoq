@@ -4,9 +4,10 @@
 SMTCoq is a [Coq](http://coq.inria.fr) plugin that checks proof witnesses coming from external SAT and SMT solvers. It provides:
 * a certified checker for proof witnesses coming from the SAT solver [ZChaff](http://www.princeton.edu/~chaff/zchaff.html) and the SMT solvers [veriT](http://www.verit-solver.org) and [CVC4](http://cvc4.cs.stanford.edu/web). This checker increases the confidence in these tools by checking their answers a posteriori and allows to import new theroems proved by these solvers in Coq;
 * decision procedures through new tactics that discharge some Coq goals to ZChaff, veriT, CVC4, and their combination.
+* abducts for goals that external solvers fail to prove, which represent possibly missing hypotheses that would allow them to prove the goal, using the cvc5 SMT solver.
 
 ## Installation and use
-SMTCoq is freely available as an [opam package](https://coq.inria.fr/opam/extra-dev/packages/coq-smtcoq) and on [GitHub](https://github.com/smtcoq/smtcoq). See the [INSTALL.md](https://github.com/smtcoq/smtcoq/blob/master/INSTALL.md) file for instructions on how to install SMTCoq and the supported provers.
+SMTCoq is freely available as an [opam package](https://coq.inria.fr/opam/extra-dev/packages/coq-smtcoq) and on [GitHub](https://github.com/smtcoq/smtcoq). See the [INSTALL.md](INSTALL.md) file for instructions on how to install SMTCoq and the supported provers.
 
 See [the examples](https://github.com/smtcoq/smtcoq/blob/master/examples/Example.v) to see how to use SMTCoq. More details are given in the [USE.md](https://github.com/smtcoq/smtcoq/blob/master/USE.md) file.
 
@@ -51,15 +52,15 @@ End group.
 ## Want to participate?
 
 SMTCoq is an ambitious, collaborative project: everyone is welcome!
-There are many and varied enhancement to do. You can have a look at the
-[task list](https://github.com/smtcoq/smtcoq/issues/40) or propose your
-own improvements!
+There are many and varied enhancement to do: join the [SMTCoq
+forum](https://framateam.org/smtcoq) to discuss!
 
 ## People
 ### Current team
 * [Clark Barrett](http://www.cs.nyu.edu/~barrett) (Stanford University)
-* [Valentin Blot](https://valentinblot.org/pro) (Université Paris-Sud, Université Paris-Diderot)
+* [Valentin Blot](https://valentinblot.org/pro) (Inria)
 * Amina Bousalem (Université Paris-Sud)
+* [Louise Dubois de Prisque](https://louiseddp.github.io) (Inria)
 * [Burak Ekici](http://ekiciburak.github.io/) (The University of Iowa)
 * Quentin Garchery (Université Paris-Sud, Inria)
 * [Benjamin Grégoire](https://www-sop.inria.fr/members/Benjamin.Gregoire/) (Inria Sophia Antipolis)
@@ -69,6 +70,7 @@ own improvements!
 * [Andrew Reynolds](http://homepage.divms.uiowa.edu/~ajreynol) (The University of Iowa)
 * [Laurent Théry](https://www-sop.inria.fr/marelle/Laurent.Thery/moi.html) (Inria Sophia Antipolis)
 * [Cesare Tinelli](http://homepage.cs.uiowa.edu/~tinelli/) (The University of Iowa)
+* [Pierre Vial](https://pierrevial.github.io) (Formal Land)
 
 ### Past contributors
 * Mikaël Armand (Inria Sophia Antipolis)

@@ -10,13 +10,13 @@
 (**************************************************************************)
 
 
-Require Import Bool Int63 Psatz PArray BinNat BinPos ZArith SMT_classes_instances.
+Require Import Bool Uint63 Psatz PArray BinNat BinPos ZArith SMT_classes_instances.
 Require Import Misc State BVList. (* FArray Equalities DecidableTypeEx. *)
 Require FArray.
 Require List .
 Local Open Scope list_scope.
 Local Open Scope array_scope.
-Local Open Scope int63_scope.
+Local Open Scope uint63_scope.
 
 #[export] Hint Unfold is_true : smtcoq_core.
 
@@ -539,10 +539,10 @@ Module Typ.
     Fixpoint cast_refl A:
       cast A A = Cast (fun P (H : P A) => H).
     Proof.
-      destruct A;simpl;trivial.
-      do 2 rewrite cast_refl. easy.
-      rewrite N_cast_refl;trivial.
-      rewrite N_cast_refl;trivial.
+      destruct A;simpl; try reflexivity.
+      - do 2 rewrite cast_refl. reflexivity.
+      - rewrite N_cast_refl. reflexivity.
+      - rewrite N_cast_refl. reflexivity.
     Qed.
 
 
@@ -619,21 +619,21 @@ Module Typ.
 
     Fixpoint reflect_eqb x y: reflect (x = y) (eqb x y).
     Proof.
-      destruct x;destruct y;simpl;try constructor;trivial;try discriminate.
-      apply iff_reflect.
-      split.
-      intro H. inversion H. subst.
-      rewrite andb_true_iff.
-      split;
-      [specialize (reflect_eqb y1 y1) | specialize (reflect_eqb y2 y2)];
-      apply reflect_iff in reflect_eqb; apply reflect_eqb; auto.
-      intros.
-      rewrite andb_true_iff in H; destruct H.
-      apply (reflect_iff _ _ (reflect_eqb x1 y1)) in H.
-      apply (reflect_iff _ _ (reflect_eqb x2 y2)) in H0.
-      subst; auto.
-      apply iff_reflect. rewrite N.eqb_eq. split;intros H;[inversion H | subst]; trivial.
-      apply iff_reflect. rewrite N.eqb_eq. split;intros H;[inversion H | subst]; trivial.
+      destruct x;destruct y;simpl;try constructor; try reflexivity;try discriminate.
+      - apply iff_reflect.
+        split.
+        + intro H. inversion H. subst.
+          rewrite andb_true_iff.
+          split;
+            [specialize (reflect_eqb y1 y1) | specialize (reflect_eqb y2 y2)];
+            apply reflect_iff in reflect_eqb; apply reflect_eqb; auto.
+        + intros.
+          rewrite andb_true_iff in H; destruct H.
+          apply (reflect_iff _ _ (reflect_eqb x1 y1)) in H.
+          apply (reflect_iff _ _ (reflect_eqb x2 y2)) in H0.
+          subst; auto.
+      - apply iff_reflect. rewrite N.eqb_eq. split;intros H;[inversion H | subst]; trivial.
+      - apply iff_reflect. rewrite N.eqb_eq. split;intros H;[inversion H | subst]; trivial.
     Qed.
 
     Lemma eqb_spec : forall x y, eqb x y <-> x = y.
@@ -851,10 +851,10 @@ Module Atom.
     | Acop o, Acop o' => cop_eqb o o'
     | Auop o t, Auop o' t' => uop_eqb o o' && (t =? t')
     | Abop o t1 t2, Abop o' t1' t2' => bop_eqb o o' && (t1 =? t1') && (t2 =? t2')
-    | Anop o t, Anop o' t' => nop_eqb o o' && list_beq Int63.eqb t t'
+    | Anop o t, Anop o' t' => nop_eqb o o' && list_beq Uint63.eqb t t'
     | Atop o t1 t2 t3, Atop o' t1' t2' t3' =>
       top_eqb o o' && (t1 =? t1') && (t2 =? t2') && (t3 =? t3')
-    | Aapp a la, Aapp b lb => (a =? b) && list_beq Int63.eqb la lb
+    | Aapp a la, Aapp b lb => (a =? b) && list_beq Uint63.eqb la lb
     | _, _ => false
     end.
 

@@ -219,9 +219,9 @@ type 'hform rule =
 
   (* Possibility to introduce "holes" in proofs (that should be filled in Coq) *)
   | Hole of ('hform clause) list * 'hform list
-
-  (* Quantifiers *)
+  (* Instantiation of quantified lemmas *)
   | Forall_inst of 'hform clause * 'hform
+  (* Quantifier-free inputs *)
   | Qf_lemma of 'hform clause * 'hform
 
 and 'hform clause = {

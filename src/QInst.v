@@ -27,6 +27,13 @@ Proof.
    installed when we compile SMTCoq. *)
 Qed.
 
+Lemma impl2_split a b c:
+  implb a (implb b c) = true -> (negb a) || (negb b) || c = true.
+Proof.
+  intro H.
+  destruct a; destruct b; destruct c; trivial.
+Qed.
+
 Lemma impl_split2 a b c:
   implb a (b || c) = true -> (negb a) || b || c = true.
 Proof.
@@ -117,6 +124,13 @@ Proof.
   destruct a; destruct b; destruct c; intuition.
 Qed.
 
+Lemma eqb_or_split2 a b c:
+  Bool.eqb c (a || b) = true -> c || negb a || negb b = true.
+Proof.
+  intro H.
+  destruct a; destruct b; destruct c; intuition.
+Qed.
+
 (** verit silently transforms an <implb a (b && c)> into a <or (not a)
     b> or into a <or (not a) c> when instantiating such a quantified
     theorem. *)
@@ -125,7 +139,6 @@ Lemma impl_and_split_right a b c:
 Proof.
   intro H.
   destruct a; destruct c; intuition.
-  now rewrite andb_false_r in H.
 Qed.
 
 Lemma impl_and_split_left a b c:
@@ -180,7 +193,9 @@ Ltac vauto :=
                        | eapply impl_and_split_left; apply_sym H
                        ]
                | [ |- (negb ?A || ?B || ?C) = true ] =>
-                 first [ eapply eqb_or_split; apply_sym H
+                 first [ eapply impl2_split; apply_sym H
+                       | eapply eqb_or_split; apply_sym H
+                       | eapply eqb_or_split2; apply_sym H
                        | eapply impl_split2; apply_sym H
                        | eapply impl_split211; apply_sym H
                        | eapply impl_split212; apply_sym H

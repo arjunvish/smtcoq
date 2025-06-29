@@ -1,45 +1,59 @@
 # List of user's files and name of the final program (edit this part)
 
-USERFILES=smtcoq.ml smtcoq.mli
-PROGRAM=smtcoq
+USERFILES=smtcoq.ml
 # USERFILES=test.ml
-# PROGRAM=test
-# USERFILES=../../../../examples/example.ml
-# PROGRAM=../../../../examples/example
+PROGRAM=smtcoq
 
 
 # Compilation
 
-COQTOP=$(COQBIN)../
+LIB=smtcoq_extr.cmx
+
+COQLIBPATH=$(shell ocamlfind query coq-core)/
 
 FLAGS=-rectypes
-COMPILEFLAGS=-cclib -lunix
+COMPILEFLAGS=-for-pack Smtcoq_extr
+PROGRAMFLAGS=-cclib -lunix -linkall
+LIBFLAGS=-cclib -lunix -pack
 
-SMTLIB=-I .. -I ../zchaff -I ../verit -I ../trace -I ../smtlib2 -I ../lia -I ../euf -I ../cnf -I ../../3rdparty/alt-ergo
-COQLIB=-I ${COQTOP}kernel -I ${COQTOP}lib -I ${COQTOP}library -I ${COQTOP}parsing -I ${COQTOP}pretyping -I ${COQTOP}interp -I ${COQTOP}proofs -I ${COQTOP}tactics -I ${COQTOP}toplevel -I ${COQTOP}plugins/btauto -I ${COQTOP}plugins/cc -I ${COQTOP}plugins/decl_mode -I ${COQTOP}plugins/extraction -I ${COQTOP}plugins/field -I ${COQTOP}plugins/firstorder -I ${COQTOP}plugins/fourier -I ${COQTOP}plugins/funind -I ${COQTOP}plugins/micromega -I ${COQTOP}plugins/nsatz -I ${COQTOP}plugins/omega -I ${COQTOP}plugins/quote -I ${COQTOP}plugins/ring -I ${COQTOP}plugins/romega -I ${COQTOP}plugins/rtauto -I ${COQTOP}plugins/setoid_ring -I ${COQTOP}plugins/syntax -I ${COQTOP}plugins/xml -I /usr/lib/ocaml/camlp5
+SMTLIB=-I ..
 
-CMXA=nums.cmxa str.cmxa unix.cmxa gramlib.cmxa dynlink.cmxa ${COQTOP}kernel/byterun/coq_fix_code.o ${COQTOP}kernel/byterun/coq_interp.o ${COQTOP}kernel/byterun/coq_memory.o ${COQTOP}kernel/byterun/coq_values.o clib.cmxa lib.cmxa kernel.cmxa library.cmxa pretyping.cmxa interp.cmxa proofs.cmxa parsing.cmxa tactics.cmxa toplevel.cmxa micromega_plugin.cmxa smtcoq.cmxa
-CMI=extrNative.cmi sat_checker.cmi zchaff_checker.cmi smt_checker.cmi verit_checker.cmi
-CMX=extrNative.cmx sat_checker.cmx zchaff_checker.cmx smt_checker.cmx verit_checker.cmx
-USERML=$(filter %.ml,$(USERFILES))
-USERCMX=$(USERML:%.ml=%.cmx)
+COQCMX=unix.cmxa threads.cmxa nums.cmxa str.cmxa zarith.cmxa dynlink.cmxa findlib.cmxa findlib_dynload.cmxa clib.cmxa config.cmxa boot.cmxa lib.cmxa coqworkmgrapi.cmxa gramlib.cmxa kernel.cmxa library.cmxa engine.cmxa pretyping.cmxa interp.cmxa proofs.cmxa parsing.cmxa printing.cmxa tactics.cmxa vernac.cmxa sysinit.cmxa stm.cmxa toplevel.cmxa ltac_plugin.cmxa micromega_plugin.cmxa coqrun.cmxa
+SMTCOQCMX=smtcoq_plugin.cmx
+
+MLIFILES=utils.mli sat_checker.mli zchaff_checker.mli smt_checker.mli verit_checker.mli
+MLFILES=utils.ml sat_checker.ml zchaff_checker.ml smt_checker.ml verit_checker.ml
+CMI=$(MLIFILES:%.mli=%.cmi)
+CMX=$(MLFILES:%.ml=%.cmx)
+
 USERMLI=$(filter %.mli,$(USERFILES))
+USERML=$(filter %.ml,$(USERFILES))
 USERCMI=$(USERMLI:%.mli=%.cmi)
+USERCMX=$(USERML:%.ml=%.cmx)
+
+COQUNITS=kernel lib library parsing pretyping interp proofs tactics toplevel \
+         clib gramlib engine config printing vernac stm coqworkmgrapi sysinit \
+         boot vm plugins.ltac plugins.micromega
 
 OCAMLC=ocamlc
 OCAMLOPT=ocamlopt
+OCAMLFIND=ocamlfind
+OCAMLFINDLIB=-thread -package zarith,num,findlib $(foreach x,$(COQUNITS),-package coq-core.$(x))
 
 
-all: $(PROGRAM)
+all: $(LIB) $(PROGRAM)
 
 %.cmi: %.mli
-	$(OCAMLC) -c $(FLAGS) $(SMTLIB) $(COQLIB) $<
+	$(OCAMLFIND) $(OCAMLC) $(OCAMLFINDLIB) -c $(FLAGS) $(SMTLIB) $<
 
 %.cmx: %.ml
-	$(OCAMLOPT) -c $(FLAGS) $(SMTLIB) $(COQLIB) $<
+	$(OCAMLFIND) $(OCAMLOPT) $(OCAMLFINDLIB) -c $(FLAGS) $(COMPILEFLAGS) $(SMTLIB) $<
 
-$(PROGRAM): $(CMI) $(CMX) $(USERCMI) $(USERCMX)
-	$(OCAMLOPT) $(FLAGS) $(SMTLIB) $(COQLIB) -o $@ $(COMPILEFLAGS) $(CMXA) $(CMX) $(USERCMX)
+$(LIB): $(CMI) $(CMX)
+	$(OCAMLFIND) $(OCAMLOPT) $(FLAGS) $(OCAMLFINDLIB) $(SMTLIB) -o $@ $(LIBFLAGS) $(CMX)
+
+$(PROGRAM): $(LIB) $(USERCMI) $(USERCMX)
+	$(OCAMLFIND) $(OCAMLOPT) $(FLAGS) $(OCAMLFINDLIB) $(SMTLIB) -o $@ $(PROGRAMFLAGS) $(COQCMX) $(SMTCOQCMX) $(LIB) $(USERCMX)
 
 
 .PHONY: clean mrproper

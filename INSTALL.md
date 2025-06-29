@@ -13,11 +13,66 @@ You will also need to [install the provers](#installation-of-the-provers)
 you want to use.
 
 
-## Installation via opam (recommended)
+## Installation of version 2.0 via opam (recommended)
 
 ### In an existing switch
 
 You need to have OCaml version >= 4.09 and Coq >= 8.11.
+
+Simply add the coq-extra-dev repo to opam:
+```bash
+opam repo add coq-released https://coq.inria.fr/opam/released
+```
+and install SMTCoq:
+```bash
+opam install coq-smtcoq
+```
+
+### In a new switch
+
+Create a switch:
+```bash
+opam switch create ocaml-base-compiler.4.09.0
+eval $(opam env)
+```
+add the Coq repos to opam:
+```bash
+opam repo add coq-released https://coq.inria.fr/opam/released
+```
+and install SMTCoq:
+```bash
+opam install coq-smtcoq
+```
+
+### If you are new to opam
+
+We recommended to install the required packages from
+[opam](https://opam.ocaml.org). Once you have installed opam on your system you
+should issue the following command:
+
+```bash
+opam init
+```
+
+which will initialize the opam installation and prompt for modifying the shell
+init file.
+
+Once opam is installed you should still issue
+
+```bash
+eval `opam config env`
+```
+
+(this is not necessary if you start another session in your shell).
+
+Then follow the instructions of the previous section.
+
+
+## Installation of the development version via opam
+
+### In an existing switch
+
+You need to have OCaml version >= 4.09 and Coq 8.13.
 
 Simply add the coq-extra-dev repo to opam:
 ```bash
@@ -132,7 +187,6 @@ but you might need to install some extra packages and libraries for your system
 Compile and install SMTCoq by using the following commands in the src directory.
 
 ```bash
-./configure.sh
 make
 make install
 ```
@@ -148,6 +202,9 @@ To use SMTCoq, we recommend installing the following two SMT solvers:
 SMTCoq also supports the following SAT solver for propositional reasoning:
 
 - [ZChaff](http://www.princeton.edu/~chaff/zchaff.html)
+
+SMTCoq finally provides an abduction tactic using the
+[cvc5](https://cvc5.github.io) SMT solver.
 
 Please download the solvers you would like to use via the links below
 (since SMTCoq might not support other versions), and follow the
@@ -210,6 +267,16 @@ make
 This will produce an executable called `veriT` that you should add to
 your path. If you encounter problems to compile it, please report an
 issue.
+
+
+### cvc5
+
+Use version 1.0.7 that is available
+[here](https://github.com/cvc5/cvc5/releases/tag/cvc5-1.0.7) either as a
+Linux, Windows, or MacOS binary, or from the sources.
+
+Whatever solution you choose, a binary called `cvc5` must be present in
+your PATH to use it through SMTCoq.
 
 
 ### ZChaff
