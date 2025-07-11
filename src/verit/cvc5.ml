@@ -178,7 +178,7 @@ let export out_channel rt ro lsmt =
 
 exception Unknown
 
-let call_cvc5 _ rt ro ra_quant rf_quant first lsmt =
+let call_cvc5 timeout _ _ rt ro ra_quant rf_quant first lsmt =
   let (filename, outchan) = Filename.open_temp_file "cvc5_coq" ".smt2" in
   export outchan rt ro lsmt;
   close_out outchan;
@@ -186,6 +186,11 @@ let call_cvc5 _ rt ro ra_quant rf_quant first lsmt =
   let wname, woc = Filename.open_temp_file "warnings_cvc5" ".log" in
   close_out woc;
   let command = "cvc5 --dump-proofs --proof-prune-input --proof-format-mode=alethe --simplification=none --dag-thres=0 --lang=smt2 --proof-granularity=dsl-rewrite " ^ filename ^ " | tail -n +2 > " ^ logfilename ^ " 2> " ^ wname in
+  let command = 
+    match timeout with
+      | Some i -> "timeout "^(string_of_int i)^" "^command
+      | None -> command
+  in
   Format.eprintf "%s@." command;
   let t0 = Sys.time () in
   let exit_code = Sys.command command in
@@ -211,7 +216,7 @@ let call_cvc5 _ rt ro ra_quant rf_quant first lsmt =
           CoqInterface.error ("cvc5 failed with the error: " ^ l)
       done
     with End_of_file -> () in
-
+  if exit_code = 124 (*code for timeout*) then (close_in win; Sys.remove wname; let _ = CoqInterface.anomaly "cvc5 timed out" in ());
   try
     if exit_code <> 0 then CoqInterface.warning "cvc5-non-zero-exit-code" ("Cvc5.call_cvc5: command " ^ command ^ " exited with code " ^ string_of_int exit_code);
     raise_warnings_errors ();
@@ -226,7 +231,7 @@ let call_cvc5 _ rt ro ra_quant rf_quant first lsmt =
 let cvc5_logic =
   SL.of_list [LUF; LLia]
 
-let tactic_gen vm_cast lcpl lcepl =
+let tactic_gen vm_cast timeout lcpl lcepl =
   (* Transform the tuple of lemmas given by the user into a list *)
   let lcpl =
     let lcpl = EConstr.Unsafe.to_constr lcpl in
@@ -244,6 +249,6 @@ let tactic_gen vm_cast lcpl lcepl =
   let rf = VeritSyntax.rf in
   let ra_quant = VeritSyntax.ra_quant in
   let rf_quant = VeritSyntax.rf_quant in
-  SmtCommands.tactic call_cvc5 cvc5_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl
+  SmtCommands.tactic 0 (call_cvc5 timeout) cvc5_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl
 let tactic = tactic_gen vm_cast_true
 let tactic_no_check = tactic_gen (fun _ -> vm_cast_true_no_check)

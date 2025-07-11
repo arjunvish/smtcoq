@@ -79,7 +79,7 @@ let import_trace ra_quant rf_quant filename first lsmt =
    | VeritSyntax.Debug s -> CoqInterface.error 
       ("Verit.import_trace: processing certificate\nError: VeritSyntax.Debug\nMessage: "^
         s^"\nPosition: "^(print_position lexbuf))
-   | CErrors.UserError (x,y) -> CoqInterface.error 
+   | CErrors.UserError y -> CoqInterface.error 
       ("Verit.import_trace: processing certificate \nError: Cerrors.UserError "^
         (Pp.string_of_ppcmds y)^"\nPosition: "^(print_position lexbuf))
    | Failure f -> CoqInterface.error ("Verit.import_trace: processing certificate \nError: Failure\nMessage: "^

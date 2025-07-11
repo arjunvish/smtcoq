@@ -41,4 +41,4 @@ verit/veritParser.ml verit/veritParser.mli : verit/veritParser.mly
 %.ml %.mli :  %.mly
 	$(CAMLYACC) $<
 
-smtcoq_plugin.mlpack.d :  verit/veritParser.ml verit/veritLexer.ml ../3rdparty/alt-ergo/smtlib2_parse.ml ../3rdparty/alt-ergo/smtlib2_lex.ml smtlib2/sExprParser.ml smtlib2/sExprLexer.ml
+smtcoq_plugin.mlpack.d :  verit/veritParser.ml verit/veritLexer.ml ../3rdparty/alt-ergo/smtlib2_parse.ml ../3rdparty/alt-ergo/smtlib2_lex.ml smtlib2/sExprParser.ml smtlib2/sExprLexer.ml lfsc/lfscParser.ml lfsc/lfscLexer.ml

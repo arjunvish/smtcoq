@@ -366,7 +366,7 @@ let th_res p = match app_name (deref p).ttype with
   | _ -> assert false
 
 
-type clause_res_id = NewCl of int | OldCl of int
+type clause_res_id = NewCl of string | OldCl of string
 
 
 let clause_mod_eqsymm cl =

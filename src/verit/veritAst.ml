@@ -399,7 +399,7 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | ImpsimpAST -> raise (Debug ("| process_rule: implies_simplify should be eliminated|"))
   | EqsimpAST -> raise (Debug ("| process_rule: equiv_simplify should be eliminated|"))
   | BoolsimpAST -> raise (Debug ("| process_rule: bool_simplify should be eliminated|"))
-  | AcsimpAST -> Flatten
+  | AcsimpAST -> Flat
   | ItesimpAST -> raise (Debug ("| process_rule: ite_simplify should be eliminated|"))
   | EqualsimpAST -> raise (Debug ("| process_rule: equal_simplify should be eliminated|"))
   | DistelimAST -> Distelim
@@ -426,8 +426,8 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | SameAST -> Same
   | ContAST -> Same
   | HoleAST -> Hole
-  | WeakenAST -> Weaken
-  | FlattenAST -> Flatten
+  | WeakenAST -> Weak
+  | FlattenAST -> Flat
   | AnchorAST -> Hole
   | DischargeAST -> Hole
   | SubproofAST c -> Hole

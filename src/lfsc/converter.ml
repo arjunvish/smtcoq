@@ -25,7 +25,7 @@ module Make (T : Translator_sig.S) = struct
 
   (** Environment for {!lem} *)
   type env = {
-    clauses : int list;     (** Accumulated clauses *)
+    clauses : string list;  (** Accumulated clauses *)
     ax : bool;              (** Force use of axiomatic rules? *)
     mpred : bool MTerm.t;   (** map for positivity of predicates in cong *)
     assum : Hstring.t list; (** Assumptions that were not used *)
@@ -329,7 +329,7 @@ module Make (T : Translator_sig.S) = struct
 
   
 
-  (** Convert the local proof of a [satlem]. We use decductive style rules when
+  (** Convert the local proof of a [satlem]. We use deductive style rules when
       possible but revert to axiomatic ones when the context forces us to. *)
   and lem ?(toplevel=false) env p = match app_name p with
     | Some (n, [l1; l2; x; r])
@@ -571,20 +571,20 @@ module Make (T : Translator_sig.S) = struct
         | Some (n, [a; b; r]) when n == H.not_or_elim ->
           let env = lem env r in
           let clauses = match env.clauses with
-            | [id] when not env.ax -> mk_clause_cl Nor [not_ a] [id; 0] :: []
+             | [id] when not env.ax -> mk_clause_cl Nor [not_ a] [id; "0"] :: []
             | _ ->
               let a_or_b = or_ a b in
-              mk_clause_cl Orn [a_or_b; not_ a] [0] :: env.clauses
+              mk_clause_cl Orn [a_or_b; not_ a] ["0"] :: env.clauses
           in
           { env with clauses }
 
         | _ ->
           let env = lem env r in
           let clauses = match env.clauses with
-            | [id] when not env.ax -> mk_clause_cl And [a] [id; 0] :: []
+            | [id] when not env.ax -> mk_clause_cl And [a] [id; "0"] :: []
             | _ ->
               let a_and_b = th_res r in
-              mk_clause_cl Andp [not_ a_and_b; a] [0] :: env.clauses
+              mk_clause_cl Andp [not_ a_and_b; a] ["0"] :: env.clauses
           in
           { env with clauses }
       end
@@ -605,20 +605,20 @@ module Make (T : Translator_sig.S) = struct
         | Some (n, [a; b; r]) when n == H.not_or_elim ->
           let env = lem env r in
           let clauses = match env.clauses with
-            | [id] when not env.ax -> mk_clause_cl Nor [not_ b] [id; 1] :: []
+            | [id] when not env.ax -> mk_clause_cl Nor [not_ b] [id; "1"] :: []
             | _ ->
               let a_or_b = or_ a b in
-              mk_clause_cl Orn [a_or_b; not_ b] [1] :: env.clauses
+              mk_clause_cl Orn [a_or_b; not_ b] ["1"] :: env.clauses
           in
           { env with clauses }
 
         | _ ->
           let env = lem env r in
           let clauses = match env.clauses with
-            | [id] when not env.ax -> mk_clause_cl And [b] [id; 1] :: []
+            | [id] when not env.ax -> mk_clause_cl And [b] [id; "1"] :: []
             | _ ->
               let a_and_b = th_res r in
-              mk_clause_cl Andp [not_ a_and_b; b] [1] :: env.clauses
+              mk_clause_cl Andp [not_ a_and_b; b] ["1"] :: env.clauses
           in
           { env with clauses }
       end

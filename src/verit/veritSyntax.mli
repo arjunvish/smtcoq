@@ -16,60 +16,25 @@ exception Sat
 exception Debug of string
 type typ = 
   | Assume (* Inpu *)
-  | True
-  | Fals
+  | True | Fals
   | Threso (* New *)
-  | Reso
+  | Reso 
   | Taut (* New *)
   | Refl (* New *)
-  | Eqre
-  | Eqtr
-  | Eqco
-  | Eqcp
-  | And
-  | Nor
-  | Or
-  | Nand
-  | Xor1 
-  | Xor2
-  | Nxor1 
-  | Nxor2
-  | Imp
-  | Nimp1
-  | Nimp2
-  | Equ1
-  | Equ2
-  | Nequ1
-  | Nequ2
-  | Andp
-  | Andn
-  | Orp
-  | Orn
-  | Xorp1
-  | Xorp2
-  | Xorn1
-  | Xorn2
-  | Impp
-  | Impn1
-  | Impn2
-  | Equp1
-  | Equp2
-  | Equn1
-  | Equn2
-  | Ite1
-  | Ite2
-  | Itep1
-  | Itep2
-  | Iten1
-  | Iten2
-  | Nite1
-  | Nite2
+  | Eqre | Eqtr | Eqco | Eqcp
+  | And | Nor | Or | Nand
+  | Xor1 | Xor2 | Nxor1 | Nxor2
+  | Imp | Nimp1 | Nimp2
+  | Equ1 | Equ2 | Nequ1 | Nequ2
+  | Andp | Andn | Orp | Orn
+  | Xorp1 | Xorp2 | Xorn1 | Xorn2
+  | Impp | Impn1 | Impn2 
+  | Equp1 | Equp2 | Equn1 | Equn2
+  | Ite1 | Ite2 | Itep1 | Itep2
+  | Iten1 | Iten2 | Nite1 | Nite2
   | Acsimp (* New *)
   | Distelim (* New *)
-  | Lage
-  | Liage
-  | Lata
-  | Lade
+  | Lage | Liage | Lata | Lade
   | Divsimp (* New *)
   | Prodsimp (* New *)
   | Uminussimp (* New *)
@@ -85,10 +50,12 @@ type typ =
   | Fins
   | Qcnf (* New *)
   | Allsimp (* New (cvc5) *)
-  | Same (* Internal *)
-  | Weaken
-  | Flatten
-  | Hole
+  | Same | Weak | Flat | Hole
+  | Bbva | Bbconst | Bbeq | Bbdis 
+  | Bbop | Bbadd | Bbmul | Bbult 
+  | Bbslt | Bbnot | Bbneg | Bbconc 
+  | Bbextr | Bbzext | Bbsext | Bbshl | Bbshr 
+  | Row1 | Row2 | Exte
 
 val is_iff : SmtAtom.Form.t -> bool
 val is_eq : SmtAtom.Form.t -> bool

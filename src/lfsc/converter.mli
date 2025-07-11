@@ -16,6 +16,6 @@ sig
   val ignore_preproc : Ast.term -> Ast.term
   val produce_inputs_preproc : Ast.term -> Ast.term
   val rm_duplicates : ('a -> 'a -> bool) -> 'a list -> 'a list
-  val convert_pt : Ast.term -> int
+  val convert_pt : Ast.term -> string
   val clear : unit -> unit
 end

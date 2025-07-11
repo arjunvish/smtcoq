@@ -290,74 +290,87 @@ Tactic Notation "cvc5_bool_base_auto" constr(h) := cvc5_bool_base h; auto with t
 Tactic Notation "cvc5_bool_no_check_base_auto" constr(h) := cvc5_bool_no_check_base h; auto with typeclass_instances.
 
 Tactic Notation "cvc5_bool" constr(h) :=
-  let Hs := get_hyps in
-  match Hs with
-  | Some ?Hs => cvc5_bool_base_auto (Some (h, Hs))
+  let tac :=
+  ltac2:(h |- get_hyps_cont_ltac1
+  (ltac1:(h hs |- 
+  match hs with
+  | Some ?hs => cvc5_bool_base_auto (Some (h, hs))
   | None => cvc5_bool_base_auto (Some h)
   end;
-  vauto.
+  vauto) h)) in tac h.
 
 Tactic Notation "cvc5_bool"           :=
-  let Hs := get_hyps in
-  cvc5_bool_base_auto Hs; vauto.
+  ltac2:(get_hyps_cont_ltac1 ltac1:(hs |- cvc5_bool_base_auto hs; vauto)).
 
 Tactic Notation "cvc5_bool_no_check" constr(h) :=
-  let Hs := get_hyps in
-  match Hs with
-  | Some ?Hs => cvc5_bool_no_check_base_auto (Some (h, Hs))
+  let tac :=
+  ltac2:(h |- get_hyps_cont_ltac1 (ltac1:(h hs |-
+  match hs with
+  | Some ?hs => cvc5_bool_no_check_base_auto (Some (h, hs))
   | None => cvc5_bool_no_check_base_auto (Some h)
   end;
-  vauto.
+  vauto) h)) in tac h.
 
 Tactic Notation "cvc5_bool_no_check"           :=
-  let Hs := get_hyps in
-  fun Hs => cvc5_bool_no_check_base_auto Hs; vauto.
+  ltac2:(get_hyps_cont_ltac1 ltac1:(hs |- cvc5_bool_no_check_base_auto hs; vauto)).
 
 (* cvc5 Prop *)
 Tactic Notation "cvc5" constr(h) :=
-  prop2bool;
-  [ .. | prop2bool_hyps h;
-         [ .. | let Hs := get_hyps in
-                match Hs with
-                | Some ?Hs =>
-                  prop2bool_hyps Hs;
-                  [ .. | cvc5_bool_base_auto (Some (h, Hs)) ]
-                | None => cvc5_bool_base_auto (Some h)
-                end; vauto
-         ]
-  ].
+  let tac :=
+  ltac2:(h |- intros ; get_hyps_cont_ltac1
+  (ltac1:(h hs |- let hs :=
+    lazymatch hs with
+    | Some ?hs => constr:(Some (h, hs))
+    | None => constr:(Some h)
+    end
+  in
+  add_compdecs hs;
+  [ .. | prop2bool;
+         lazymatch hs with
+         | Some ?hs => prop2bool_hyps hs
+         | None => idtac
+         end;
+         [ .. | cvc5_bool_base_auto hs; vauto ]
+  ]) h)) in tac h.
+
 Tactic Notation "cvc5"           :=
-  prop2bool;
-  [ .. | let Hs := get_hyps in
-         match Hs with
-         | Some ?Hs =>
-           prop2bool_hyps Hs;
-           [ .. | cvc5_bool_base_auto (Some Hs) ]
-         | None => cvc5_bool_base_auto (@None nat)
-         end; vauto
-  ].
+  ltac2:(intros ; get_hyps_cont_ltac1 ltac1:(Hs |-
+  add_compdecs Hs;
+  [ .. | prop2bool;
+         lazymatch Hs with
+         | Some ?Hs => prop2bool_hyps Hs
+         | None => idtac
+         end;
+         [ .. | cvc5_bool_base_auto Hs; vauto ]
+  ])).
+
 Tactic Notation "cvc5_no_check" constr(h) :=
-  prop2bool;
-  [ .. | prop2bool_hyps h;
-         [ .. | let Hs := get_hyps in
-                match Hs with
-                | Some ?Hs =>
-                  prop2bool_hyps Hs;
-                  [ .. | cvc5_bool_no_check_base_auto (Some (h, Hs)) ]
-                | None => cvc5_bool_no_check_base_auto (Some h)
-                end; vauto
-         ]
-  ].
+  let tac :=
+  ltac2:(h |- intros; get_hyps_cont_ltac1  (ltac1:(h Hs |- let Hs :=
+    lazymatch Hs with
+    | Some ?Hs => constr:(Some (h, Hs))
+    | None => constr:(Some h)
+    end
+  in
+  add_compdecs Hs;
+  [ .. | prop2bool;
+         lazymatch Hs with
+         | Some ?Hs => prop2bool_hyps Hs
+         | None => idtac
+         end;
+         [ .. | cvc5_bool_no_check_base_auto Hs; vauto ]
+  ]) h)) in tac h.
+
 Tactic Notation "cvc5_no_check"           :=
-  prop2bool;
-  [ .. | let Hs := get_hyps in
-         match Hs with
-         | Some ?Hs =>
-           prop2bool_hyps Hs;
-           [ .. | cvc5_bool_no_check_base_auto (Some Hs) ]
-         | None => cvc5_bool_no_check_base_auto (@None nat)
-         end; vauto
-  ].
+  ltac2:(intros; get_hyps_cont_ltac1 ltac1:(Hs |-
+  add_compdecs Hs;
+  [ .. | prop2bool;
+         lazymatch Hs with
+         | Some ?Hs => prop2bool_hyps Hs
+         | None => idtac
+         end;
+         [ .. | cvc5_bool_no_check_base_auto Hs; vauto ]
+  ])).
 
 (*Ltac cvc4            := prop2bool; [ .. | cvc4_bool; bool2prop ].
 Ltac cvc4_no_check   := prop2bool; [ .. | cvc4_bool_no_check; bool2prop ].*)

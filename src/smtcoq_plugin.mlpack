@@ -32,6 +32,17 @@ VeritAst
 VeritParser
 VeritLexer
 
+Shashcons
+Hstring
+Type
+Ast
+Builtin
+Translator_sig
+Tosmtcoq
+Converter
+LfscParser
+LfscLexer
+
 Smtlib2_genConstr
 
 SmtCommands

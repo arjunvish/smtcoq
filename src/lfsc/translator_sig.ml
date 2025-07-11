@@ -108,23 +108,23 @@ module type S = sig
   (** Print a clause (for debugging purposes) *)
   val print_clause : formatter -> clause -> unit
 
-  (** Manually resgister a clause with an integer identifier *)
-  val register_clause_id : clause -> int -> unit
+  (** Manually register a clause with an integer identifier *)
+  val register_clause_id : clause -> string -> unit
 
   (** Create a new clause as the result of a rule application with a list of
-      intgeger arguments. These can be either previously defined clause
-      identifiers or an arbitrary positive integer depending on the rule.  It
+      string id arguments. These can be either previously defined clause
+      identifiers or an arbitrary string id depending on the rule. It
       returns the identifier of the newly created resulting clause. The
-      optional arguemnt [reuse] ([true] by default) says if we should reuse
+      optional argument [reuse] ([true] by default) says if we should reuse
       clauses that were previously deduced, in this case the rule application
       will not be created and it returns the identifier of this pre-existing
       clause. *)
-  val mk_clause : ?reuse:bool -> rule -> clause -> int list -> int
+  val mk_clause : ?reuse:bool -> rule -> clause -> string list -> string
 
   (** Same as {!mk_clause} but with an hybrid representation for clauses. This
       is just used to avoid creating unecessary terms for these clauses when
       they are built by hand. *)
-  val mk_clause_cl : ?reuse:bool -> rule -> term list -> int list -> int
+  val mk_clause_cl : ?reuse:bool -> rule -> term list -> string list -> string
 
   (** Create an input unit clause. It is given an identifier that is not
       returned. *)
@@ -137,15 +137,15 @@ module type S = sig
   val register_prop_abstr : term -> term -> unit
 
   (** Returns the identifier of a previously deduced clause. *)
-  val get_clause_id : clause -> int
+  val get_clause_id : clause -> string
 
   (** Returns the identifier of a unit input clause given its name, as
       intoduced by the proprocessor of CVC4 in the LFSC proof. *)
-  val get_input_id : Hstring.t -> int
+  val get_input_id : Hstring.t -> string
 
   val register_decl : Hstring.t -> term -> unit
 
-  val register_decl_id : Hstring.t -> int -> unit
+  val register_decl_id : Hstring.t -> string -> unit
 
   (** register an alias name for a term *)
   val register_alias : Hstring.t -> term -> unit

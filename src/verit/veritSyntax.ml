@@ -22,60 +22,25 @@ exception Sat
 
 type typ = 
   | Assume (* Inpu *)
-  | True
-  | Fals
+  | True | Fals
   | Threso (* New *)
-  | Reso
+  | Reso 
   | Taut (* New *)
   | Refl (* New *)
-  | Eqre
-  | Eqtr
-  | Eqco
-  | Eqcp
-  | And
-  | Nor
-  | Or
-  | Nand
-  | Xor1 
-  | Xor2
-  | Nxor1 
-  | Nxor2
-  | Imp
-  | Nimp1
-  | Nimp2
-  | Equ1
-  | Equ2
-  | Nequ1
-  | Nequ2
-  | Andp
-  | Andn
-  | Orp
-  | Orn
-  | Xorp1
-  | Xorp2
-  | Xorn1
-  | Xorn2
-  | Impp
-  | Impn1
-  | Impn2
-  | Equp1
-  | Equp2
-  | Equn1
-  | Equn2
-  | Ite1
-  | Ite2
-  | Itep1
-  | Itep2
-  | Iten1
-  | Iten2
-  | Nite1
-  | Nite2
+  | Eqre | Eqtr | Eqco | Eqcp
+  | And | Nor | Or | Nand
+  | Xor1 | Xor2 | Nxor1 | Nxor2
+  | Imp | Nimp1 | Nimp2
+  | Equ1 | Equ2 | Nequ1 | Nequ2
+  | Andp | Andn | Orp | Orn
+  | Xorp1 | Xorp2 | Xorn1 | Xorn2
+  | Impp | Impn1 | Impn2 
+  | Equp1 | Equp2 | Equn1 | Equn2
+  | Ite1 | Ite2 | Itep1 | Itep2
+  | Iten1 | Iten2 | Nite1 | Nite2
   | Acsimp (* New *)
   | Distelim (* New *)
-  | Lage
-  | Liage
-  | Lata
-  | Lade
+  | Lage | Liage | Lata | Lade
   | Divsimp (* New *)
   | Prodsimp (* New *)
   | Uminussimp (* New *)
@@ -91,11 +56,12 @@ type typ =
   | Fins
   | Qcnf (* New *)
   | Allsimp (* New (cvc5) *)
-  | Same
-  | Weaken
-  | Flatten
-  | Hole
-
+  | Same | Weak | Flat | Hole
+  | Bbva | Bbconst | Bbeq | Bbdis 
+  | Bbop | Bbadd | Bbmul | Bbult 
+  | Bbslt | Bbnot | Bbneg | Bbconc 
+  | Bbextr | Bbzext | Bbsext | Bbshl | Bbshr 
+  | Row1 | Row2 | Exte
 
 (* About equality *)
 
@@ -584,8 +550,8 @@ let to_add = ref []
   | Qcnf -> "Qcnf"
   | Allsimp -> "Allsimp"
   | Same -> "Same"
-  | Weaken -> "Weaken"
-  | Flatten -> "Flatten"
+  | Weak -> "Weak"
+  | Flat -> "Flat"
   | Hole -> "Hole"
 
 let mk_clause_to_string (id,typ,value,ids_params,args) = 
@@ -714,14 +680,97 @@ let mk_clause (id,typ,value,ids_params,args) =
         (match ids_params with
          | [i] -> Same (get_clause i)
          | _ -> raise (Debug ("| VeritSyntax.mk_clause: unexpected form of Same, might be caused by bind subproof at id "^id^" |")))
-      | Weaken -> 
+      | Weak -> 
         (match ids_params with
           | [i] -> Other (Weaken ((get_clause i), value))
-          | _ -> raise (Debug ("| VeritSyntax.mk_clause: unexpected form of Weaken, expected exactly one premise at id "^id^" |")))
-      | Flatten ->
+          | _ -> raise (Debug ("| VeritSyntax.mk_clause: unexpected form of Weak, expected exactly one premise at id "^id^" |")))
+      | Flat ->
         (match ids_params, value with
           | [i], [v] -> Other(ImmFlatten ((get_clause i), v))
-          | _ -> raise (Debug ("| VeritSyntax.mk_clause: unexpected form of Flatten, expected exactly one premise at id "^id^" |")))
+          | _ -> raise (Debug ("| VeritSyntax.mk_clause: unexpected form of Flat, expected exactly one premise at id "^id^" |")))
+      (* Bit blasting *)
+      | Bbva ->
+         (match value with
+           | [f] -> Other (BBVar f)
+           | _ -> assert false)
+      | Bbconst ->
+         (match value with
+           | [f] -> Other (BBConst f)
+           | _ -> assert false)
+      | Bbeq ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBEq (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbdis ->
+         (match value with
+           | [f] -> Other (BBDiseq f)
+           | __ -> assert false)
+      | Bbop ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBOp (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbadd ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBAdd (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbmul ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBMul (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbult ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBUlt (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbslt ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBSlt (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbconc ->
+         (match ids_params, value with
+           | [id1;id2], [f] ->
+             Other (BBConc (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbextr ->
+         (match ids_params, value with
+           | [id], [f] -> Other (BBExtr (get_clause id, f))
+           | _, _ -> assert false)
+      | Bbzext ->
+         (match ids_params, value with
+           | [id], [f] -> Other (BBZextn (get_clause id, f))
+           | _, _ -> assert false)
+      | Bbsext ->
+         (match ids_params, value with
+           | [id], [f] -> Other (BBSextn (get_clause id, f))
+           | _, _ -> assert false)
+      | Bbshl ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBShl (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbshr ->
+         (match ids_params, value with
+           | [id1;id2], [f] -> Other (BBShr (get_clause id1, get_clause id2, f))
+           | _, _ -> assert false)
+      | Bbnot ->
+         (match ids_params, value with
+           | [id], [f] -> Other (BBNot (get_clause id, f))
+           | _, _ -> assert false)
+      | Bbneg ->
+         (match ids_params, value with
+           | [id], [f] -> Other (BBNeg (get_clause id, f))
+           | _, _ -> assert false)
+
+      | Row1 ->
+         (match value with
+           | [f] -> Other (RowEq f)
+           | _ -> assert false)
+
+      | Exte ->
+         (match value with
+           | [f] -> Other (Ext f)
+           | _ -> assert false)
+      
+      | Row2 -> Other (RowNeq value)
+      
       (* Not implemented *)
       | Bind -> raise (Debug ("| VeritSyntax.mk_clause: unimplemented rule bind at id "^id^" |"))
       | Qcnf -> raise (Debug ("| VeritSyntax.mk_clause: unimplemented rule qnt_cnf at id "^id^" |")))

@@ -92,7 +92,7 @@ let import_trace first parse lexbuf =
       (* Afterwards, the SMTCoq libraries will produce the remaining, you do
          not have to care *)
       let first =
-        let aux = VeritSyntax.get_clause 1 in
+        let aux = VeritSyntax.get_clause "1" in
         match first, aux.value with
         | Some (root,l), Some (fl::nil) ->
           (* Format.eprintf "Root: %a ,,,,,,\n\ *)

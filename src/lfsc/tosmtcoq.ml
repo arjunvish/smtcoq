@@ -50,7 +50,7 @@ end
 let clauses_ids = HCl.create 201
 let ids_clauses = Hashtbl.create 201
 let propvars = HT.create 201
-let inputs : int HS.t = HS.create 13
+let inputs : string HS.t = HS.create 13
 let alias_tbl = HS.create 17
 let memo_terms = HT.create 31
 (* let termalias_tbl = HT.create 17 *)
@@ -491,7 +491,7 @@ let print_clause fmt cl =
 
 
 
-type clause_res_id = NewCl of int | OldCl of int
+type clause_res_id = NewCl of string | OldCl of string
 
 
 let register_clause_id cl id =
@@ -510,18 +510,19 @@ let new_clause_id ?(reuse=true) cl =
   with Not_found ->
     incr cl_cpt;
     let id = !cl_cpt in
-    register_clause_id cl id;
-    NewCl id
+    let id_str = string_of_int id in
+    register_clause_id cl id_str;
+    NewCl id_str
 
 
 let mk_clause ?(reuse=true) rule cl args =
   match new_clause_id ~reuse cl with
   | NewCl id ->
     if show_veritproof then
-      eprintf "%d:(%s %a %a)@." id (string_of_rule rule)
+      eprintf "%s:(%s %a %a)@." id (string_of_rule rule)
         print_clause cl
-        (fun fmt -> List.iter (fprintf fmt " %d")) args;
-    VeritSyntax.mk_clause (id, (get_rule rule), cl, args)
+        (fun fmt -> List.iter (fprintf fmt " %s")) args;
+    VeritSyntax.mk_clause (id, (get_rule rule), cl, args, [])
   | OldCl id ->
     (* Format.eprintf "old_clause %d@." id; *)
     id
@@ -537,8 +538,8 @@ let mk_input name formula =
    | NewCl id ->
      register_clause_id cl id;
      HS.add inputs name id;
-     if show_veritproof then eprintf "%d:input  %a@." id print_clause cl;
-     VeritSyntax.mk_clause (id, VeritSyntax.Inpu, cl, []) |> ignore
+     if show_veritproof then eprintf "%s:input  %a@." id print_clause cl;
+     VeritSyntax.mk_clause (id, VeritSyntax.Assume, cl, [], []) |> ignore
    | OldCl _ -> ()
 
 
@@ -548,8 +549,8 @@ let mk_admit_preproc name formula =
    | NewCl id ->
      register_clause_id cl id;
      HS.add inputs name id;
-     if show_veritproof then eprintf "%d:hole  %a@." id print_clause cl;
-     VeritSyntax.mk_clause (id, VeritSyntax.Hole, cl, []) |> ignore
+     if show_veritproof then eprintf "%s:hole  %a@." id print_clause cl;
+     VeritSyntax.mk_clause (id, VeritSyntax.Hole, cl, [], []) |> ignore
    | OldCl _ -> ()
 
 
