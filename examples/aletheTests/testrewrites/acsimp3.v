@@ -28,5 +28,5 @@
    Local Open Scope int63_scope.
    
    Section Acsimp.
-     Verit_Checker "smt/acsimp.smt2" "proof/acsimp.pf".
+     Verit_Checker "smt/acsimp3.smt2" "proof/acsimp3.pf".
    End Acsimp.

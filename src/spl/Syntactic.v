@@ -353,7 +353,7 @@ Section FLATTEN.
 
   Variable check_atom check_neg_atom : atom -> atom -> bool.
 
-  Definition check_flatten_body frec (l lf:_lit) :=
+  Definition check_imm_flatten_body frec (l lf:_lit) :=
     let l := remove_not l in
       let lf := remove_not lf in
         if l =? lf then true
@@ -387,21 +387,21 @@ Section FLATTEN.
                 | Fatom a1, Fatom a2 => check_neg_atom a1 a2
                 | _, _ => false (* We maybe need to extend the rule here ... *)
               end.
-  (* Register check_flatten_body as PrimInline. *)
+  (* Register check_imm_flatten_body as PrimInline. *)
 
-  Definition check_flatten_aux l lf :=
-    foldi (fun _ => check_flatten_body) 0 (PArray.length t_form) (fun _ _ => false) l lf.
+  Definition check_imm_flatten_aux l lf :=
+    foldi (fun _ => check_imm_flatten_body) 0 (PArray.length t_form) (fun _ _ => false) l lf.
 
-  Definition check_flatten s cid lf :=
+  Definition check_imm_flatten s cid lf :=
     match S.get s cid with
       | l :: nil =>
-        if check_flatten_aux l lf then lf::nil else C._true
+        if check_imm_flatten_aux l lf then lf::nil else C._true
       | _ => C._true
     end.
 
-  Definition check_flatten2 l :=
+  Definition check_flatten l :=
     match get_hash (Lit.blit l) with
-      | Fiff a b => if check_flatten_aux a b then l::nil else C._true
+      | Fiff a b => if check_imm_flatten_aux a b then l::nil else C._true
       | _ => C._true
     end.
 
@@ -506,15 +506,15 @@ Section FLATTEN.
     intros;rewrite Hrec, IHl, orb_assoc;trivial.
   Qed.
 
-  Lemma check_flatten_aux_correct : forall l lf,
-    check_flatten_aux l lf = true ->
+  Lemma check_imm_flatten_aux_correct : forall l lf,
+    check_imm_flatten_aux l lf = true ->
     interp_lit l = interp_lit lf.
   Proof.
-    unfold check_flatten_aux.
+    unfold check_imm_flatten_aux.
     apply foldi_ind.
     apply leb_0.
     discriminate.
-    intros i cont _ Hle Hrec l lf;unfold check_flatten_body.
+    intros i cont _ Hle Hrec l lf;unfold check_imm_flatten_body.
     rewrite <- (remove_not_correct l), <- (remove_not_correct lf).
     generalize (remove_not l) (remove_not lf);clear l lf;intros l lf.
     destruct (reflect_eqb l lf);[ intros;subst;trivial | ].
@@ -583,15 +583,15 @@ Section FLATTEN.
 
   Hypothesis Hwf: Valuation.wf interp_var.
 
-  Lemma valid_check_flatten : forall s, S.valid interp_var s ->
-    forall cid lf, C.valid interp_var (check_flatten s cid lf).
+  Lemma valid_check_imm_flatten : forall s, S.valid interp_var s ->
+    forall cid lf, C.valid interp_var (check_imm_flatten s cid lf).
   Proof.
-    unfold check_flatten; intros s Hs cid lf; case_eq (S.get s cid).
+    unfold check_imm_flatten; intros s Hs cid lf; case_eq (S.get s cid).
     intros; apply C.interp_true; auto.
-    intros i [ |l q] Heq; try apply C.interp_true; auto; case_eq (check_flatten_aux i lf); intro Heq2; try apply C.interp_true; auto; unfold C.valid; simpl; rewrite <- (check_flatten_aux_correct _ _ Heq2); unfold S.valid in Hs; generalize (Hs cid); rewrite Heq; auto.
+    intros i [ |l q] Heq; try apply C.interp_true; auto; case_eq (check_imm_flatten_aux i lf); intro Heq2; try apply C.interp_true; auto; unfold C.valid; simpl; rewrite <- (check_imm_flatten_aux_correct _ _ Heq2); unfold S.valid in Hs; generalize (Hs cid); rewrite Heq; auto.
   Qed.
 
-  Lemma valid_check_flatten2 : forall l, C.valid rho (check_flatten2 l).
+  Lemma valid_check_flatten : forall l, C.valid rho (check_flatten l).
   Proof. Admitted.
 
 End FLATTEN.

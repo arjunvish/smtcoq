@@ -211,13 +211,15 @@ Module Cnf_Checker.
 
   Local Open Scope list_scope.
 
-  Local Notation check_flatten t_form := (check_flatten t_form (fun i1 i2 => i1 =? i2) (fun _ _ => false)) (only parsing).
+  Local Notation check_imm_flatten t_form := (check_imm_flatten t_form (fun i1 i2 => i1 =? i2) (fun _ _ => false)) (only parsing).
 
+  Local Notation check_flatten t_form := (check_flatten t_form (fun i1 i2 => i1 =? i2) (fun _ _ => false)) (only parsing).
+  
   Definition step_checker t_form s (st:step) :=
     match st with
     | Res pos res => S.set_resolve s pos res
-    | ImmFlatten pos cid lf => S.set_clause s pos (check_flatten t_form s cid lf)
-    | Flatten pos l => S.set_clause s pos (check_flatten2 t_form l)
+    | ImmFlatten pos cid lf => S.set_clause s pos (check_imm_flatten t_form s cid lf)
+    | Flatten pos l => S.set_clause s pos (check_flatten t_form l)
     | CTrue pos => S.set_clause s pos Cnf.check_True
     | CFalse pos => S.set_clause s pos Cnf.check_False
     | BuildDef pos l => S.set_clause s pos (check_BuildDef t_form l)
@@ -234,10 +236,10 @@ Module Cnf_Checker.
       forall st : step, S.valid (Form.interp_state_var rho rhobv t_form)
         (step_checker t_form s st).
   Proof.
-    intros rho rhobv t_form Ht s H; destruct (Form.check_form_correct rho rhobv _ Ht) as [[Ht1 Ht2] Ht3]; intros [pos res|pos cid lf|pos|pos|pos l|pos l|pos l i|pos cid|pos cid|pos cid i]; simpl; try apply S.valid_set_clause; auto.
+    intros rho rhobv t_form Ht s H; destruct (Form.check_form_correct rho rhobv _ Ht) as [[Ht1 Ht2] Ht3]; intros [pos res|pos cid lf|pos l|pos|pos|pos l|pos l|pos l i|pos cid|pos cid|pos cid i]; simpl; try apply S.valid_set_clause; auto.
     apply S.valid_set_resolve; auto.
+    apply valid_check_imm_flatten; auto; try discriminate; intros a1 a2; unfold is_true; rewrite Int63.eqb_spec; intro; subst a1; auto.
     apply valid_check_flatten; auto; try discriminate; intros a1 a2; unfold is_true; rewrite Int63.eqb_spec; intro; subst a1; auto.
-    apply valid_check_flatten2; auto.
     apply valid_check_True; auto.
     apply valid_check_False; auto.
     apply valid_check_BuildDef; auto.
@@ -379,14 +381,16 @@ Inductive step :=
 
   Local Open Scope list_scope.
 
+  Local Notation check_imm_flatten t_atom t_form := (check_imm_flatten t_form (check_hatom t_atom) (check_neg_hatom t_atom)) (only parsing).
+
   Local Notation check_flatten t_atom t_form := (check_flatten t_form (check_hatom t_atom) (check_neg_hatom t_atom)) (only parsing).
 
   Definition step_checker s (st:step) :=
     match st with
       | Res pos res => S.set_resolve s pos res
       | Weaken pos cid cl => S.set_weaken s pos cid cl
-      | ImmFlatten pos cid lf => S.set_clause s pos (check_flatten t_atom t_form s cid lf)
-      | Flatten pos l => S.set_clause s pos (check_flatten2 t_form l)
+      | ImmFlatten pos cid lf => S.set_clause s pos (check_imm_flatten t_atom t_form s cid lf)
+      | Flatten pos l => S.set_clause s pos (check_flatten t_atom t_form l)
       | CTrue pos => S.set_clause s pos Cnf.check_True
       | CFalse pos => S.set_clause s pos Cnf.check_False
       | Tautology pos cid l => S.set_clause s pos (check_Tautology s cid l)
@@ -440,7 +444,7 @@ Inductive step :=
     set (empty_bv := (fun (a:Atom.atom) s => BITVECTOR_LIST.zeros s)).
     intros rho H1 H2 H10 s Hs. destruct (Form.check_form_correct (Atom.interp_form_hatom t_i t_func t_atom) (Atom.interp_form_hatom_bv t_i t_func t_atom) _ H1)
     as [[Ht1 Ht2] Ht3]. destruct (Atom.check_atom_correct _ H2) as
-    [Ha1 Ha2]. intros [pos res|pos cid c|pos cid lf|pos|pos|pos cid l|pos l|pos l|pos l i|pos cid
+    [Ha1 Ha2]. intros [pos res|pos cid c|pos cid lf|pos l|pos|pos|pos cid l|pos l|pos l|pos l i|pos cid
     |pos cid|pos cid i|pos cl l|pos l fl|pos l fl
     |pos l1 l2 fl| pos cl c|pos l|pos orig res l|pos orig res|pos res|pos res|pos orig1 orig2 res
     |pos orig res|pos orig res|pos orig1 orig2 res|pos orig1 orig2 res
@@ -449,10 +453,12 @@ Inductive step :=
     |pos res|pos prem_id prem concl p|pos lemma plemma concl p]; simpl; try apply S.valid_set_clause; auto with smtcoq_core.
     - apply S.valid_set_resolve; auto with smtcoq_core.
     - apply S.valid_set_weaken; auto with smtcoq_core.
+    - apply valid_check_imm_flatten; auto with smtcoq_core; intros h1 h2 H.
+      + rewrite (Syntactic.check_hatom_correct_bool _ _ _ Ha1 Ha2 _ _ H); auto with smtcoq_core.
+      + rewrite (Syntactic.check_neg_hatom_correct_bool _ _ _ H10 Ha1 Ha2 _ _ H); auto with smtcoq_core.
     - apply valid_check_flatten; auto with smtcoq_core; intros h1 h2 H.
       + rewrite (Syntactic.check_hatom_correct_bool _ _ _ Ha1 Ha2 _ _ H); auto with smtcoq_core.
       + rewrite (Syntactic.check_neg_hatom_correct_bool _ _ _ H10 Ha1 Ha2 _ _ H); auto with smtcoq_core.
-    - apply valid_check_flatten2; auto with smtcoq_core.
     - apply valid_check_True; auto with smtcoq_core.
     - apply valid_check_False; auto with smtcoq_core.
     - apply valid_check_Tautology; auto with smtcoq_core.

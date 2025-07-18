@@ -655,8 +655,8 @@ let mk_clause (id,typ,value,ids_params,args) =
           | [i] -> Other (ImmBuildProj (get_clause i,1))
           | _ -> raise (Debug ("| VeritSyntax.mk_clause: expecting exactly one premise at id "^id^" |")))
       | Acsimp ->
-        (match ids_params, value with
-        | [i], [v] -> Other (ImmFlatten(get_clause i, v))
+        (match value with
+        | l :: _ -> Other (Flatten l)
         | _ -> raise (Debug ("| VeritSyntax.mk_clause: expecting singleton clause and exactly one premise at id "^id^" |")))
       (* From cvc5 *)
       | Allsimp ->
