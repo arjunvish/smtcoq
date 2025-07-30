@@ -46,6 +46,7 @@ LfscLexer
 Smtlib2_genConstr
 
 SmtCommands
+Lfsc
 
 Verit
 
