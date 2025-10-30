@@ -25,16 +25,23 @@ that SMTCoq supports or by extending its checker to support `ac_simp`. A solutio
   To implement a transformation for `ac_simp`:
     - Add the non-Imm version of `Flatten` to SMTCoq, with duplicate removal, and restrict it to Ands and Ors.
     - Encode `ac_simp` using `Flatten`. Account for duplicates.
-2. For the subset of `QF_UF` that the checker supports, it currently shows that it's support 
+3. For the subset of `QF_UF` that the checker supports, it currently shows that it's support 
 for cvc5 through alethe is "better" than its previous support for cvc4 (thesis benchmarks). 
 This is because it leaves a lesser number of holes over the same benchmarks. 
 However, there are still many holes, and we want to get to 0 holes. Possible solutions:
     - Can we use veriT-old to elaborate all 44 holes?
-3. Fully support `QF_LIA`. Currently, we are able to take the Alethe LIA rules and simply 
+4. Fully support `QF_LIA`. Currently, we are able to take the Alethe LIA rules and simply 
 pass them to the Micromega checker in Coq. Issues arise when there are rewrites that have
 LIA and EUF mixed because Micromega can only work with pure LIA rules. For example, it 
 can easily prove `1 = 1` but it can't prove `2 > 1 = true` because it sees a mixed logic.
-4. A rule for `tautology` was added but currently doesn't seem to work. 
+5. A rule for `tautology` was added but currently doesn't seem to work. 
     - Add a clear test case demonstrates what's wrong with the current `tautology` checker
     - Fix the checker for `tautology`
     - Prove the `tautology` checker correct
+6. Update this branch to coq8.17. It currently runs coq8.13. Most of this port is done and
+resides in the [veritAstBackup](https://github.com/arjunvish/smtcoq/tree/veritAstBackup) branch,
+but it has some issues. Specifically, `make` wasn't installing the plug-in fully. I needed to 
+run `make install` to have it work. Investigate, fix, run all the tests and once we're sure
+that the port is sound, move all the changes from the last few commits to that branch 
+(these commits only consists of added documentation and organizing of tests) and start using
+that one (this should become back up and that should have a better name, maybe `alethe`).
