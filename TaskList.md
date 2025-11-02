@@ -34,9 +34,7 @@ However, there are still many holes, and we want to get to 0 holes. Possible sol
 pass them to the Micromega checker in Coq. Issues arise when there are rewrites that have
 LIA and EUF mixed because Micromega can only work with pure LIA rules. For example, it 
 can easily prove `1 = 1` but it can't prove `2 > 1 = true` because it sees a mixed logic.
-5. A rule for `tautology` was added but currently doesn't seem to work. 
-    - Add a clear test case demonstrates what's wrong with the current `tautology` checker
-    - Fix the checker for `tautology`
+5. A checker for the `tautology` rule was added and seems to work.
     - Prove the `tautology` checker correct
 6. Update this branch to coq8.17. It currently runs coq8.13. Most of this port is done and
 resides in the [veritAstBackup](https://github.com/arjunvish/smtcoq/tree/veritAstBackup) branch,
