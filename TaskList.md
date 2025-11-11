@@ -25,6 +25,8 @@ that SMTCoq supports or by extending its checker to support `ac_simp`. A solutio
   To implement a transformation for `ac_simp`:
     - Add the non-Imm version of `Flatten` to SMTCoq, with duplicate removal, and restrict it to Ands and Ors.
     - Encode `ac_simp` using `Flatten`. Account for duplicates.
+There is a partial implementation in [this](https://github.com/arjunvish/smtcoq/tree/acsimp) branch which is
+documented in [this](https://github.com/arjunvish/smtcoq/blob/acsimp/ACSIMP.md) file.
 3. For the subset of `QF_UF` that the checker supports, it currently shows that it's support 
 for cvc5 through alethe is "better" than its previous support for cvc4 (thesis benchmarks). 
 This is because it leaves a lesser number of holes over the same benchmarks. 
