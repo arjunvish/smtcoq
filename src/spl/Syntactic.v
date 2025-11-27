@@ -307,12 +307,14 @@ Section FLATTEN.
 
   Local Notation get_hash := (PArray.get t_form) (only parsing).
 
+  (* Removes double negations from literal *)
   Definition remove_not l :=
     match get_form (Lit.blit l) with
       | Fnot2 _ l' => if Lit.is_pos l then l' else Lit.neg l'
       | _ => l
     end.
 
+  (* Given And [x1; ...; xn], return Some {|x1; ... ; xn|} *)
   Definition get_and l :=
     let l := remove_not l in
       if Lit.is_pos l then
@@ -322,6 +324,7 @@ Section FLATTEN.
         end
         else None.
 
+  (* Given Or [x1; ...; xn], return Some {|x1; ... ; xn|} *)
   Definition get_or l :=
     let l := remove_not l in
       if Lit.is_pos l then
@@ -331,6 +334,12 @@ Section FLATTEN.
         end
         else None.
 
+  (* Given 
+     1. get_and/get_or
+     2. frec
+     3. largs
+     4. l  
+     fold the args of the and/or in l using frec *)  
   Definition flatten_op_body (get_op:_lit -> option (array _lit))
     (frec : list _lit -> _lit -> list _lit)
     (largs:list _lit) (l:_lit) : list _lit :=
@@ -340,7 +349,6 @@ Section FLATTEN.
     end.
   (* Register flatten_op_body as PrimInline. *)
 
-
   Definition flatten_op_lit (get_op:_lit -> option (array _lit)) max :=
     foldi (fun _ => flatten_op_body get_op) 0 max (fun largs l => l::largs).
 
@@ -349,7 +357,6 @@ Section FLATTEN.
 
   Definition flatten_or t :=
     foldi (fun i x => flatten_op_lit get_or (PArray.length t_form) x (t.[i])) 0 (length t) nil.
-
 
   Variable check_atom check_neg_atom : atom -> atom -> bool.
 
@@ -399,9 +406,104 @@ Section FLATTEN.
       | _ => C._true
     end.
 
+  (* Added by Arjun: Non-imm version of flatten *)
+
+  Fixpoint isIn (x : _lit) (l : list _lit) : bool :=
+    match l with
+      | h :: t => if h =? x then true else isIn x t 
+      | nil => false
+    end.
+
+  Fixpoint remove_dups (l : list _lit) : list _lit :=
+    match l with
+      | h :: t => if isIn h t then remove_dups t else h :: (remove_dups t)
+      | nil => nil
+    end.
+
+  (* Given 
+     1. get_and/get_or
+     2. frec
+     3. largs
+     4. l  
+     fold the args of the and/or in l using frec
+  Definition flatten_op_body2 (get_op:_lit -> option (array _lit))
+    (frec : list _lit -> _lit -> list _lit)
+    (largs:list _lit) (l:_lit) : list _lit :=
+    match get_op l with
+      | Some a => foldi (fun i x => remove_dups (frec x (a.[i]))) 0 (length a) largs
+      | None => l::largs
+    end.
+  (* Register flatten_op_body as PrimInline. *)
+  
+
+  Definition flatten_op_lit2 (get_op:_lit -> option (array _lit)) max :=
+    foldi (fun _ => flatten_op_body2 get_op) 0 max (fun largs l => l::largs).*)
+
+  Definition flatten_and2 t :=
+    foldi (fun i x => 
+           remove_dups (flatten_op_lit get_and (PArray.length t_form) x (t.[i]))) 
+    0 (length t) nil.
+
+  Definition flatten_or2 t :=
+    foldi (fun i x => 
+           remove_dups (flatten_op_lit get_or (PArray.length t_form) x (t.[i]))) 
+    0 (length t) nil.
+Check flatten_and2.
+Check Lit.blit. Check get_form.
+  Definition check_flatten_body frec (l lf:_lit) :=
+    let l := remove_not l in
+      let lf := remove_not lf in
+        if l =? lf then true
+          else if 1 land (l lxor lf) =? 0 then
+            match get_form (Lit.blit l), get_form (Lit.blit lf) with
+              | Fatom a1, Fatom a2 => check_atom a1 a2
+              | Ftrue, Ftrue => true
+              | Ffalse, Ffalse => true
+              | Fand args1, Fand args2 =>
+                let args1 := flatten_and2 args1 in
+                  let args2 := flatten_and2 args2 in
+                    (match args1, args2 with
+                      | arg1 :: nil, arg2 :: nil => arg1 =? arg2
+                      | _, _ => forallb2 frec args1 args2
+                     end)
+              | Fand args1, l2 =>
+                let args1 := flatten_and2 args1 in
+                    (match args1 with
+                      | arg1 :: nil => arg1 =? (Lit.blit lf)
+                      | _ => false
+                     end)
+              | For args1, For args2 =>
+                let args1 := flatten_or2 args1 in
+                  let args2 := flatten_or2 args2 in
+                    (match args1, args2 with
+                      | arg1 :: nil, arg2 :: nil => arg1 =? arg2
+                      | _, _ => forallb2 frec args1 args2
+                     end)
+              | Fxor l1 l2, Fxor lf1 lf2 =>
+                frec l1 lf1 && frec l2 lf2
+              | Fimp args1, Fimp args2 =>
+                if PArray.length args1 =? PArray.length args2 then
+                  aforallbi (fun i l => frec l (args2.[i])) args1
+                  else false
+              | Fiff l1 l2, Fiff lf1 lf2 =>
+                frec l1 lf1 && frec l2 lf2
+              | Fite l1 l2 l3, Fite lf1 lf2 lf3 =>
+                frec l1 lf1 && frec l2 lf2 && frec l3 lf3
+              | _, _ => false
+            end
+            else
+              match get_form (Lit.blit l), get_form (Lit.blit lf) with
+                | Fatom a1, Fatom a2 => check_neg_atom a1 a2
+                | _, _ => false (* We maybe need to extend the rule here ... *)
+              end.
+  (* Register check_flatten_body as PrimInline. *)
+
+  Definition check_flatten_aux l lf :=
+    foldi (fun _ => check_flatten_body) 0 (PArray.length t_form) (fun _ _ => false) l lf.
+
   Definition check_flatten l :=
     match get_hash (Lit.blit l) with
-      | Fiff a b => if check_imm_flatten_aux a b then l::nil else C._true
+      | Fiff a b => if check_flatten_aux a b then l::nil else C._true
       | _ => C._true
     end.
 

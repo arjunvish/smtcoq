@@ -1,0 +1,3 @@
+(assume h1 (not (= (and c c) (and c))))
+(step t2 (cl (= (and c c) (and c))) :rule ac_simp)
+(step t3 (cl) :rule resolution :premises (h1 t2))

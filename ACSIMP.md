@@ -70,14 +70,28 @@ and a (and b c)
 ```
 
 ## Approach 3
-Add `Flatten` - the non `Imm` version of `ImmFlatten` to `SmtCertif`. Use the Coq code that already exists for
+### Task: Add `Flatten` - the non `Imm` version of `ImmFlatten` to `SmtCertif`. 
+Use the Coq code that already exists for
 the checker for `ImmFlatten` in SMTCoq. It should be 
 reusable. Now `ac_simp` simply reduces to `Flatten`.
 
+***Done***
 This works for flattening! Note that it doesn't work if the literals in the or/and are reordered, but this 
 should be okay. For example: `ac_simp` can't prove `(= (or a b c) (or (or b a) c))` but it can prove
 `(= (or a b c) (or (or a b) c))`.
 
-However, it doesn't work for duplicate removal. This needs to be added to the checker maybe. From 
-`examples/aletheTests/testrewrites/`, `acsimp.v` and `acsimp2.v` are successful tests for flattening in
+### Task:  Prove `Flatten` correct
+
+### Task: Add duplicate removal
+`ac_simp` doesn't work for duplicate removal. This needs to be added to the checker. From `examples/aletheTests/testrewrites/`, `acsimp.
+v` and `acsimp2.v` are successful tests for flattening in
 by `ac_simp` and `acsimp3.v` is a failed test showing that duplicate removal doesn't work.
+
+***Done***
+From `examples/aletheTests/testrewrites/`, tests `acsimp.v` through `acsimp4.v` all pass. We needed to thread duplicate removal through 
+with flattening.
+
+### Task: Add and/or removal
+`ac_simp` currently isn't reducing singleton `and` and `or` terms. For example, it's okay with `(= (and c c) (and c))` in `acsimp6`
+but fails with `(= (and c c) c)` in `acsimp7`. Fix this case as well. This should also fix `acsimp5` which is just a slightly 
+non-trivial case.
