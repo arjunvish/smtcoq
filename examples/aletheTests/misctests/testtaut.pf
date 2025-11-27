@@ -1,0 +1,4 @@
+(assume h1 (or true (not true)))
+(assume h2 (not true))
+(step t3 (cl true) :rule tautology :premises (h1))
+(step t4 (cl) :rule resolution :premises (h2 t3))
