@@ -1,6 +1,5 @@
-Add Rec LoadPath "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/src" as SMTCoq.
 Require Import SMTCoq.SMTCoq.
 Require Import Bool.
 Section Benchmark.
-  Verit_Checker "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/congxor.smt2" "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/congxor.pf".
+  Verit_Checker "congxor.smt2" "congxor.pf".
 End Benchmark.

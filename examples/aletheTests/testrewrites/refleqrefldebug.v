@@ -1,4 +1,3 @@
-Add Rec LoadPath "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/src" as SMTCoq.
 Require Import SMTCoq.SMTCoq.
 Require Import Bool.
 Require Import Int31.
@@ -6,8 +5,8 @@ Local Open Scope int31_scope.
 
 Section TestrefleqreflDebug.
   Parse_certif_verit t_i2 t_func2 t_atom2 t_form2 root2 used_roots2 trace2
-  "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/testrewrites/smt/refleqrefl.smt2"
-  "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/testrewrites/proof/refleqrefl.pf".
+  "smt/refleqrefl.smt2"
+  "proof/refleqrefl.pf".
   Definition nclauses2 := Eval vm_compute in (match trace2 with Certif a _ _ => a end). (* Size of the state *)
   Print nclauses2.
   Definition c2 := Eval vm_compute in (match trace2 with Certif _ a _ => a end). (* Certificate *)

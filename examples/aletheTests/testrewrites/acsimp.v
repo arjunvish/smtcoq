@@ -14,8 +14,7 @@
    If you are using native-coq instead of Coq 8.9, replace it with:
      Require Import SMTCoq.
    *)
-   Add Rec LoadPath "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/src" as SMTCoq.
-
+   
    Require Import SMTCoq.SMTCoq.
    Require Import Bool.
    
@@ -28,5 +27,5 @@
    Local Open Scope int63_scope.
    
    Section Acsimp.
-     Verit_Checker "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testrewrites/smt/acsimp.smt2" "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testrewrites/proof/acsimp.pf".
+     Verit_Checker "smt/acsimp.smt2" "proof/acsimp.pf".
    End Acsimp.

@@ -9,13 +9,6 @@
 (*                                                                        *)
 (**************************************************************************)
 
-
-(* [Require Import SMTCoq.SMTCoq.] loads the SMTCoq library.
-   If you are using native-coq instead of Coq 8.9, replace it with:
-     Require Import SMTCoq.
-   *)
-   Add Rec LoadPath "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/src" as SMTCoq.
-
    Require Import SMTCoq.SMTCoq.
    Require Import Bool.
    
@@ -28,13 +21,13 @@
    Local Open Scope int63_scope.
    (*
    Section CongP.
-     Verit_Checker "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/conglt.smt2" "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/conglt.pf".
+     Verit_Checker "conglt.smt2" "conglt.pf".
    End CongP.
 
    Section CongP2.
-     Verit_Checker "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/conglt2.smt2" "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/conglt2.pf".
+     Verit_Checker "conglt2.smt2" "conglt2.pf".
    End CongP2.
 *)
    Section CongP3.
-     Verit_Checker "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/conglt3.smt2" "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/testcong/conglt3.pf".
+     Verit_Checker "conglt3.smt2" "conglt3.pf".
    End CongP3.

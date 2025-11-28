@@ -9,13 +9,6 @@
 (*                                                                        *)
 (**************************************************************************)
 
-
-(* [Require Import SMTCoq.SMTCoq.] loads the SMTCoq library.
-   If you are using native-coq instead of Coq 8.9, replace it with:
-     Require Import SMTCoq.
-   *)
-Add Rec LoadPath "/home/arjun/Desktop/smtcoq-veritAst/smtcoq/src" as SMTCoq.
-
 Require Import SMTCoq.SMTCoq.
 Require Import Bool.
 
@@ -36,8 +29,7 @@ Local Open Scope array_scope.
    
 Section Checker_SmtEx1Debug.
   Parse_certif_verit t_i1 t_func1 t_atom1 t_form1 root1 used_roots1 trace1 
-  "/home/arjun/Desktop/smtcoq-veritAst/smtcoq/examples/aletheTests/sanitychecktests/test1.smt2" 
-  "/home/arjun/Desktop/smtcoq-veritAst/smtcoq/examples/aletheTests/sanitychecktests/test1.pf".
+  "test1.smt2" "test1.pf".
   (*
   Structures_standard.v
   ---------------------

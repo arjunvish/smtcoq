@@ -1,4 +1,3 @@
-Add Rec LoadPath "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/src" as SMTCoq.
 Require Import SMTCoq.SMTCoq.
 Require Import Bool.
 Require Import Int31.
@@ -6,8 +5,8 @@ Local Open Scope int31_scope.
 
 Section Testnotsimp3Debug.
   Parse_certif_verit t_i3 t_func3 t_atom3 t_form3 root3 used_roots3 trace3
-  "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/testrewrites/smt/notsimp3.smt2"
-  "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/testrewrites/proof/notsimp3.pf".
+  "smt/notsimp3.smt2"
+  "proof/notsimp3.pf".
   Definition nclauses3 := Eval vm_compute in (match trace3 with Certif a _ _ => a end). (* Size of the state *)
   Print nclauses3.
   Definition c3 := Eval vm_compute in (match trace3 with Certif _ a _ => a end). (* Certificate *)

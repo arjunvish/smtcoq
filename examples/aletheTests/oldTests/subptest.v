@@ -9,13 +9,6 @@
 (*                                                                        *)
 (**************************************************************************)
 
-
-(* [Require Import SMTCoq.SMTCoq.] loads the SMTCoq library.
-   If you are using native-coq instead of Coq 8.9, replace it with:
-     Require Import SMTCoq.
-   *)
-Add Rec LoadPath "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/src" as SMTCoq.
-
 Require Import SMTCoq.SMTCoq.
 Require Import Bool.
 
@@ -35,9 +28,9 @@ Local Open Scope int31_scope.
 Local Open Scope array_scope.
 Local Open Scope int63_scope.
 Section Subproof.
-  Verit_Checker "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/oldTests/subproof.smt2" "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/examples/aletheTests/oldTests/subproof.pf".
+  Verit_Checker "subproof.smt2" "subproof.pf".
 End Subproof.
 
 (*Section Subproof2.
-  Verit_Checker "../examples/aletheTests/oldTests/subproof2.smt2" "../examples/aletheTests/oldTests/subproof2.pf".
+  Verit_Checker "subproof2.smt2" "subproof2.pf".
 End Subproof2.*)

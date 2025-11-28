@@ -9,13 +9,6 @@
 (*                                                                        *)
 (**************************************************************************)
 
-
-(* [Require Import SMTCoq.SMTCoq.] loads the SMTCoq library.
-   If you are using native-coq instead of Coq 8.9, replace it with:
-     Require Import SMTCoq.
-   *)
-Add Rec LoadPath "/home/arjun/Desktop/smtcoq-veritAst/smtcoq/src" as SMTCoq.
-
 Require Import SMTCoq.SMTCoq.
 Require Import Bool.
 
@@ -36,13 +29,13 @@ Local Open Scope array_scope.
 Local Open Scope int63_scope.
 
 Section AndSimp.
-  Verit_Checker "../examples/aletheTests/oldTests/andsimp.smt2" "../examples/aletheTests/oldTests/andsimp.pf".
+  Verit_Checker "andsimp.smt2" "andsimp.pf".
 End AndSimp.
 
 Section NotSimp1.
-  Verit_Checker "../examples/aletheTests/oldTests/notsimp1.smt2" "../examples/aletheTests/oldTests/notsimp1.pf".
+  Verit_Checker "notsimp1.smt2" "notsimp1.pf".
 End NotSimp1.
 
 Section NotSimp2.
-  Verit_Checker "../examples/aletheTests/oldTests/notsimp2.smt2" "../examples/aletheTests/oldTests/notsimp2.pf".
+  Verit_Checker "notsimp2.smt2" "notsimp2.pf".
 End NotSimp2.
