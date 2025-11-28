@@ -15,3 +15,8 @@ be relevant anymore.
 Over the years, I've collected many different sets of benchmarks to test the checker on. These
 are too large to reside on Github. They have been zipped up and stored in Google drive. You can 
 find these (with a description) [here](https://drive.google.com/file/d/19PNYb8OEVnHzeGbZPRqAM0wkcxy1W3vh/view?usp=sharing). A subset of them have found their way to `thesis-exp` which has a separate description.
+
+The following tests from this directory currently fail
+- testcong/testp.v
+- testcong/conglt.v
+- testrewrites/coq/testeqsimp11.v
