@@ -43,6 +43,9 @@ can easily prove `1 = 1` but it can't prove `2 > 1 = true` because it sees a mix
 resides in the [veritAstBackup](https://github.com/arjunvish/smtcoq/tree/veritAstBackup) branch,
 but it has some issues. Specifically, `make` wasn't installing the plug-in fully. I needed to 
 run `make install` to have it work. Investigate, fix, run all the tests and once we're sure
+8. Some of the tests from the alethe test collection fail. These need to be fixed. A list is at
+the bottom of [this](https://github.com/arjunvish/smtcoq/blob/veritAstBackup/examples/aletheTests/README.md)
+file.
 that the port is sound, move all the changes from the last few commits to that branch 
 (these commits only consists of added documentation and organizing of tests) and start using
 that one (this should become back up and that should have a better name, maybe `alethe`).
