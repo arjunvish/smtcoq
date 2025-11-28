@@ -46,3 +46,6 @@ run `make install` to have it work. Investigate, fix, run all the tests and once
 that the port is sound, move all the changes from the last few commits to that branch 
 (these commits only consists of added documentation and organizing of tests) and start using
 that one (this should become back up and that should have a better name, maybe `alethe`).
+8. Some of the tests from the alethe test collection fail. These need to be fixed. A list is at
+the bottom of [this](https://github.com/arjunvish/smtcoq/blob/veritAstBackup/examples/aletheTests/README.md)
+file.
