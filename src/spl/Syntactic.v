@@ -307,14 +307,15 @@ Section FLATTEN.
 
   Local Notation get_hash := (PArray.get t_form) (only parsing).
 
-  (* Removes double negations from literal *)
+  (** [remove_not l] removes double negations from literal [l] *)
   Definition remove_not l :=
     match get_form (Lit.blit l) with
       | Fnot2 _ l' => if Lit.is_pos l then l' else Lit.neg l'
       | _ => l
     end.
 
-  (* Given And [x1; ...; xn], return Some {|x1; ... ; xn|} *)
+  (** Given [And [x1; ...; xn]], [get_and l] returns 
+      [Some {|x1; ... ; xn|}] *)
   Definition get_and l :=
     let l := remove_not l in
       if Lit.is_pos l then
@@ -324,7 +325,8 @@ Section FLATTEN.
         end
         else None.
 
-  (* Given Or [x1; ...; xn], return Some {|x1; ... ; xn|} *)
+  (** Given [Or [x1; ...; xn]], [get_or l] returns 
+      [Some {|x1; ... ; xn|}] *)
   Definition get_or l :=
     let l := remove_not l in
       if Lit.is_pos l then
@@ -334,12 +336,16 @@ Section FLATTEN.
         end
         else None.
 
-  (* Given 
-     1. get_and/get_or
-     2. frec
-     3. largs
-     4. l  
-     fold the args of the and/or in l using frec *)  
+  (* The following functions all use foldi *)
+  (** [foldi {A} f from to acc] folds the application of [f] over all elements of [A]
+      starting at [A.[from]] and ending at [A.[to]] with accumulator [acc]
+      where f : int -> A -> A. In other words,
+      [foldi {A} f from to acc = f to ... (f from+1 (f from acc))] *)
+
+  (** [flatten_op_body get_op frec largs l] first gets [Some {|x0; ... ; xn-1|}]
+      via [get_op l] and then folds [frec] over the elements of {|x0; ... ; xn-1|}
+      starting with accumulator largs. In other words, it is
+      f (len a) ... (f 1 (f 0 largs)) = frec ... (frec (frec largs x0) x1) ... xn-1 *)  
   Definition flatten_op_body (get_op:_lit -> option (array _lit))
     (frec : list _lit -> _lit -> list _lit)
     (largs:list _lit) (l:_lit) : list _lit :=
@@ -349,9 +355,20 @@ Section FLATTEN.
     end.
   (* Register flatten_op_body as PrimInline. *)
 
+  (* The function used to fold. Given 
+     1. get_and/get_or
+     2. max (int)
+     3. literal list to fold over
+     4. index to start at (int)
+      flatten_op_lit
+     : (int -> option (array int)) ->
+       int -> list int -> int -> list int*)
+  (** [flatten_op_lit get_op max] applies [flatten_op_body get_op] from*)
   Definition flatten_op_lit (get_op:_lit -> option (array _lit)) max :=
     foldi (fun _ => flatten_op_body get_op) 0 max (fun largs l => l::largs).
 
+  (* Takes the arguments to an and (as an array) and converts it to a
+     list of literals by folding it with flatten_op_lit *)
   Definition flatten_and t :=
     foldi (fun i x => flatten_op_lit get_and (PArray.length t_form) x (t.[i])) 0 (length t) nil.
 
@@ -406,7 +423,15 @@ Section FLATTEN.
       | _ => C._true
     end.
 
-  (* Added by Arjun: Non-imm version of flatten *)
+  (* Added by Arjun: Non-imm version of flatten 
+     This is more expressive than flatten:
+     - Removes duplicates
+     - The old flatten only flattens a child connective into its parent if the
+       connectives match.
+       Ex: and x y (and z) --> and x y z
+       We want this to work even when the connectives differ.
+       Ex: and x y (or z) --> and x y z
+       Notice that this will only occur when the inner term is a singleton.*)
 
   Fixpoint isIn (x : _lit) (l : list _lit) : bool :=
     match l with
@@ -439,6 +464,26 @@ Section FLATTEN.
   Definition flatten_op_lit2 (get_op:_lit -> option (array _lit)) max :=
     foldi (fun _ => flatten_op_body2 get_op) 0 max (fun largs l => l::largs).*)
 
+  (* Given And [x1; ...; xn], return Some {|x1; ... ; xn|} *)
+  Definition get_and2 l :=
+    let l := remove_not l in
+      if Lit.is_pos l then
+        match get_form (Lit.blit l) with
+          | Fand args => Some args
+          | _ => None
+        end
+        else None.
+
+  (* Given Or [x1; ...; xn], return Some {|x1; ... ; xn|} *)
+  Definition get_or2 l :=
+    let l := remove_not l in
+      if Lit.is_pos l then
+        match get_form (Lit.blit l) with
+          | For args => Some args
+          | _ => None
+        end
+        else None.
+
   Definition flatten_and2 t :=
     foldi (fun i x => 
            remove_dups (flatten_op_lit get_and (PArray.length t_form) x (t.[i]))) 
@@ -448,8 +493,7 @@ Section FLATTEN.
     foldi (fun i x => 
            remove_dups (flatten_op_lit get_or (PArray.length t_form) x (t.[i]))) 
     0 (length t) nil.
-Check flatten_and2.
-Check Lit.blit. Check get_form.
+
   Definition check_flatten_body frec (l lf:_lit) :=
     let l := remove_not l in
       let lf := remove_not lf in
