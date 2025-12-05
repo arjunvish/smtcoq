@@ -100,3 +100,13 @@ non-trivial case.
 Thanks to Chantal's suggestion, `get_and2` (resp. `get_or2`) could be changed to also account for singleton `or` (resp. 
 `and`) subterms. Additionally, a couple of cases needed to be added to `check_flatten_body` to account for symmetric cases,
 for example, see `acsimp8` and specifically see how its different from `acsimp7`.
+
+### Task: extend ocaml version of `flatten`
+The `flatten` function in `SmtForm` should mimic the `flatten` function in `Syntactic.v`. So `flatten_and` and 
+`flatten_or` should mimic the corresponding Coq versions.
+
+### Task: prove correctness of `flatten` checker
+Use the proofs from the correctness of `imm_flatten`
+
+### Consolidate all the functions under `imm_flatten` and `flatten`
+It's okay for `imm_flatten` to be more expensive. Just check that `make test` works after making it more expressive.
