@@ -337,8 +337,8 @@ Section FLATTEN.
         else None.
 
   (* The following functions all use foldi *)
-  (** [foldi {A} f from to acc] folds the application of [f] over all elements of [A]
-      starting at [A.[from]] and ending at [A.[to]] with accumulator [acc]
+  (** [foldi {A} f from to acc] folds the application of [f] 
+      starting at [from] and ending at [to] with accumulator [acc]
       where f : int -> A -> A. In other words,
       [foldi {A} f from to acc = f to ... (f from+1 (f from acc))] *)
 
@@ -470,6 +470,7 @@ Section FLATTEN.
       if Lit.is_pos l then
         match get_form (Lit.blit l) with
           | Fand args => Some args
+          | For args => if PArray.length args =? 1 then Some args else None
           | _ => None
         end
         else None.
@@ -480,6 +481,7 @@ Section FLATTEN.
       if Lit.is_pos l then
         match get_form (Lit.blit l) with
           | For args => Some args
+          | Fand args => if PArray.length args =? 1 then Some args else None
           | _ => None
         end
         else None.
@@ -510,12 +512,19 @@ Section FLATTEN.
                       | arg1 :: nil, arg2 :: nil => arg1 =? arg2
                       | _, _ => forallb2 frec args1 args2
                      end)
-              | Fand args1, l2 =>
+              (* flatten_and2 might reduce an and-term to a non-and-term *)
+              | Fand args1, _ =>
                 let args1 := flatten_and2 args1 in
                     (match args1 with
-                      | arg1 :: nil => arg1 =? (Lit.blit lf)
+                      | arg1 :: nil => frec arg1 lf
                       | _ => false
                      end)
+              | _, Fand args2 =>
+                let args2 := flatten_and2 args2 in
+                    (match args2 with
+                      | arg2 :: nil => frec l arg2
+                      | _ => false
+                    end)
               | For args1, For args2 =>
                 let args1 := flatten_or2 args1 in
                   let args2 := flatten_or2 args2 in
@@ -523,6 +532,18 @@ Section FLATTEN.
                       | arg1 :: nil, arg2 :: nil => arg1 =? arg2
                       | _, _ => forallb2 frec args1 args2
                      end)
+              | For args1, _ =>
+                let args1 := flatten_or2 args1 in
+                    (match args1 with
+                      | arg1 :: nil => frec arg1 lf
+                      | _ => false
+                     end)
+              | _, For args2 =>
+                let args2 := flatten_or2 args2 in
+                    (match args2 with
+                      | arg2 :: nil => frec l arg2
+                      | _ => false
+                    end)
               | Fxor l1 l2, Fxor lf1 lf2 =>
                 frec l1 lf1 && frec l2 lf2
               | Fimp args1, Fimp args2 =>

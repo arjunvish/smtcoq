@@ -95,3 +95,8 @@ with flattening.
 `ac_simp` currently isn't reducing singleton `and` and `or` terms. For example, it's okay with `(= (and c c) (and c))` in `acsimp6`
 but fails with `(= (and c c) c)` in `acsimp7`. Fix this case as well. This should also fix `acsimp5` which is just a slightly 
 non-trivial case.
+
+***Done***
+Thanks to Chantal's suggestion, `get_and2` (resp. `get_or2`) could be changed to also account for singleton `or` (resp. 
+`and`) subterms. Additionally, a couple of cases needed to be added to `check_flatten_body` to account for symmetric cases,
+for example, see `acsimp8` and specifically see how its different from `acsimp7`.
