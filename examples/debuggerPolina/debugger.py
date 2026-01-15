@@ -67,7 +67,6 @@ Returns
 
 
 def parse_coq_int(coq_op):
-    
     after_equal = coq_op.split(' = ')[1]
     between = after_equal.split(' : ')[0]  
     num = between.strip()  
@@ -438,6 +437,7 @@ Runs coqc on the debug file and returns the output after parsing
 def run_coqc(fname, t):
     coqc = subprocess.run(['coqc', fname], text=True, capture_output=True)
     coqcop = coqc.stdout # stores output
+    
 
     if (t == Type.BOOL):
         return parse_coq_bool_op(coqcop)
