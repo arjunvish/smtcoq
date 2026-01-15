@@ -48,13 +48,14 @@ def run_coqc(fname):
     coqc = subprocess.run(['coqc', fname], text=True, capture_output=True)
     coqcop = coqc.stdout #what should be parsed 
 
+    print(coqcop)
     return coqcop
 
 #Takes file object and returns number of lines in file
 def file_length(f):
     f.seek(0)
     return len(f.readlines())
-    
+
 '''
 
 Takes 1. file object 2. string
@@ -83,7 +84,7 @@ Code to:
 '''
 
 def main():
-    #Step 2?
+    print("run")
     #Make sure file is empty
     with open(full_name, "w") as f:
         f.close()
@@ -112,18 +113,14 @@ def main():
         
         #add lines. do not run coq, only after you've gotten to the step w certifactes..
         
-        #run_coq_command(f, Type.INT)
-
         add_line(f, "\n " + " " + "Definition c := Eval vm_compute in (match trace with Certif _ a _ => a end). (* Certificate *)\n" + " " + "Definition conf := Eval vm_compute in (match trace with Certif _ _ a => a end). (* Look here in the state for the empty clause*)\n" + " " + "Print conf.\n")
-
-        #run_coq_command(f, Type.INT)
-
+        
         add_line(f, "\n" + " " + "Eval vm_compute in List.length (fst c). (* No. of steps in certificate *) \n" )
         
 
         run_coqc(full_name)
-        #n = run_coq_command_return(f, Type.INT) #No. of steps in certificate
-        #print(n)
+        
+        n = 0 # number of steps in certificate
 
         '''
         run_coq_command(f, Type.INT)
