@@ -30,10 +30,10 @@ class Type(Enum):
 #Defining files 
 i = sys.argv[1]
 base_name = os.path.basename(i)
-full_name = i + "run.v"
-smt_name = i + ".smt2"
-pf_name = i + ".pf"
-parse_name = i + ".txt"
+full_name = base_name + "/" + i + "run.v"
+smt_name = base_name + "/" +i + ".smt2"
+pf_name = base_name + "/" +i + ".pf"
+parse_name = base_name + "/" +i + ".txt"
 
 
 '''
