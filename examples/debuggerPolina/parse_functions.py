@@ -1,29 +1,23 @@
 import re
 
-
 '''
-
 This file contains all the parse function for the debugger script.
-
 '''
 
 
-
 '''
-
 Takes a string that contains a Coq integer
 Returns a string just the integer
 Ex: takes "0%int63", returns "0"
-
 '''
-
 def parse_int(coq_op):
     l = coq_op.rsplit("%", 1)
     num = l[0].strip("()")
     return num
 
-'''
 
+
+'''
 Takes a string that is the the entire coq output and returns a string that is the the coq integer
 Ex: Takes
 nclauses1 = 2%int63
@@ -31,10 +25,7 @@ nclauses1 = 2%int63
 
 Returns
 2%int63
-
 '''
-
-
 def parse_coq_int(coq_op):
     
     after_equal = coq_op.split(' = ')[1]
@@ -44,7 +35,6 @@ def parse_coq_int(coq_op):
 
 
 '''
-
 Takes a string - the Coq output
 1. Gets string parsed into a Coq integer 
 2. Returns the Coq integer as a number in a Coq comment 
@@ -55,17 +45,13 @@ nclauses1 = 2%int63
 
 Returns 
 (* 2 *)
-
 '''
-
-
 def parse_coq_int_op(coq_op):
     coq_op_lines = parse_coq_int(coq_op)
     final_num = parse_int(coq_op_lines)
     return "(* " + final_num + " *)"
 
 '''
-
 Takes a string that contains a Coq list
 Returns a string with a simplified form of the list
 Ex: 
@@ -79,8 +65,6 @@ returns [4 ; 0 ; 17]
 nil
 returns []
 '''
-
-
 def parse_list(state_output):
     new_state = state_output.split("::")
     int_list =  ""
@@ -91,7 +75,6 @@ def parse_list(state_output):
 
 
 '''
-
 Takes 
 1. 0%int63
        (4%int63 :: nil)
@@ -106,9 +89,7 @@ returns [4], [0]
           (0%int63 :: nil) (PArray.Map.Raw.Leaf C.t) 1%Z) 2%Z
 
 returns [], [0]
-
 '''
-
 def list_to_parse(coq_op):
     coq_op = coq_op.strip()
 
@@ -131,7 +112,6 @@ def list_to_parse(coq_op):
 
 
 '''
-
 Parses outputs from states of debug file 
 Ex : Parses:
 s0 = 
@@ -147,10 +127,7 @@ s0 =
      : PArray.Map.t C.t * C.t * int
 into:
   (* s0 = {| [4] |} *).   
-
 '''
-
-
 def parse_state_op(coq_op):
     '''
     - Get rid of everything 
@@ -196,9 +173,7 @@ Takes the String
      : step (t_i:=t_i) t_func t_atom t_form
 
 returns Res 0 {| 1, 0 |}
-
 '''
-
 def parse_Res(coq_op):
     coq_list = coq_op.split()
     var  = coq_list[1] #Variable Res
@@ -224,9 +199,8 @@ def parse_Res(coq_op):
 
     return "(* " + var + " " + firstnum + " " + "{|" + (final_result[:-1]) + "|} *)"
 
+
 '''
-
-
 Parses all types of inductive steps 
 
 Example :
@@ -247,10 +221,7 @@ Example :
      : step (t_i:=t_i) t_func t_atom t_form"""
     
      Returns (* EqCgr 1 0 [S 5 ; S 6 ; N] *)
-
-
 '''
-
 def parse_Step(coq_op):
 
     no_step = ["RowNeq", "LiaMicromega", "SplArith", "Hole", "ForallInst"]
@@ -390,19 +361,17 @@ def parse_Step(coq_op):
             final_list += w + " "
 
         return "(* " + final_list + " *)"
-    
-'''
 
+
+
+'''
 Parse function for Coq boolean output
 Ex : Takes
   = true 
   : bool
 Returns
  (* true *)
-
 '''
-
-
 def parse_coq_bool_op(coq_op):
     coq_op_lines = str.split(coq_op)
     for word in coq_op_lines:
@@ -414,12 +383,6 @@ def parse_coq_bool_op(coq_op):
 
 '''
 Checker for flagging outputs that have [0] in them
-
 '''
 def check_for_zero(parsed_state_comment):
     return "[0]" in parsed_state_comment
-
-
-
-
-
