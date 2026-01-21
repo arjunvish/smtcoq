@@ -45,19 +45,16 @@ Takes 1. a string - the Coq debug file name
 
 
 def run_coqc(fname):
+    cat = subprocess.run(['cat', fname], text=True, capture_output=True)
+    print(cat.stdout)
+
     coqc = subprocess.run(['coqc', fname], text=True, capture_output=True)
     coqcop = coqc.stdout #what should be parsed 
-
     print(coqcop)
+
     return coqcop
 
-#Takes file object and returns number of lines in file
-def file_length(f):
-    f.seek(0)
-    return len(f.readlines())
-
 '''
-
 Takes 1. file object 2. string
 Adds string as a line before the last line (that closes the Coq section) of the file
 Note: reading all lines, modifying and then writing all lines. Alternately, we can move the file pointer and then write
@@ -66,11 +63,7 @@ TODO: potential site for optimization
 '''
 
 def add_line(f, next_line):
-    f.seek(0)
-    lines = f.readlines()
-    lines.insert(file_length(f) - 1, next_line)
-    f.seek(0)
-    f.writelines(lines)
+    f.write(next_line)
     
 
 '''
@@ -84,7 +77,6 @@ Code to:
 '''
 
 def main():
-    print("run")
     #Make sure file is empty
     with open(full_name, "w") as f:
         f.close()
@@ -105,7 +97,6 @@ def main():
             "\n"
             " " + "Definition nclauses := Eval vm_compute in (match trace with Certif a _ _ => a end). (* Size of the state *)\n"
             " " + "Print nclauses.\n"
-        "End " + base_name + "debug."
         )
 
 
@@ -113,12 +104,19 @@ def main():
         
         #add lines. do not run coq, only after you've gotten to the step w certifactes..
         
-        add_line(f, "\n " + " " + "Definition c := Eval vm_compute in (match trace with Certif _ a _ => a end). (* Certificate *)\n" + " " + "Definition conf := Eval vm_compute in (match trace with Certif _ _ a => a end). (* Look here in the state for the empty clause*)\n" + " " + "Print conf.\n")
+        f.write("\n " + " " + "Definition c := Eval vm_compute in (match trace with Certif _ a _ => a end). (* Certificate *)\n" + " " + "Definition conf := Eval vm_compute in (match trace with Certif _ _ a => a end). (* Look here in the state for the empty clause*)\n" + " " + "Print conf.\n")
         
-        add_line(f, "\n" + " " + "Eval vm_compute in List.length (fst c). (* No. of steps in certificate *) \n" )
+        f.write("\n" + " " + "Eval vm_compute in List.length (fst c). (* No. of steps in certificate *) \n" )
         
+        f.write("End " + base_name + "debug.")
 
+        print(full_name)
+        cat = subprocess.run(['cat', full_name], text=True, capture_output=True)
+        print(cat.stdout)
+        
         run_coqc(full_name)
+
+        
         
         n = 0 # number of steps in certificate
 
