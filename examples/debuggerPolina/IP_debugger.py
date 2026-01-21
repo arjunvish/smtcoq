@@ -1,10 +1,7 @@
 '''
-
 This script is for working on Polina's Idea.
 
 Goal: Generate the entire debug file and then run the parsing functions on it. 
-
-
 '''
 
 #Import parse functions
@@ -17,7 +14,7 @@ import subprocess
 from enum import Enum
 import re
 
-## this should only be for parsing
+## this should only be for parsing, dont need..?
 '''
 #Enum type to distinguish Coq output types
 class Type(Enum):
@@ -37,52 +34,20 @@ parse_name = base_name + "/" +i + ".txt"
 
 
 '''
-
 Takes 1. a string - the Coq debug file name
-      Runs coqc on the debug file, returns output
-
+      Runs coqc on the debug file, returns output as a string
 '''
-
-
 def run_coqc(fname):
-    cat = subprocess.run(['cat', fname], text=True, capture_output=True)
-    print(cat.stdout)
-
     coqc = subprocess.run(['coqc', fname], text=True, capture_output=True)
-    coqcop = coqc.stdout #what should be parsed 
-    print(coqcop)
-
+    coqcop = coqc.stdout #output to be parsed
     return coqcop
 
 '''
-Takes 1. file object 2. string
-Adds string as a line before the last line (that closes the Coq section) of the file
-Note: reading all lines, modifying and then writing all lines. Alternately, we can move the file pointer and then write
-TODO: potential site for optimization
-
+Takes 1. an file - the coq debug file
+    Writes the inital lines for a debug file
 '''
-
-def add_line(f, next_line):
-    f.write(next_line)
-    
-
-'''
-Code to:
-1. Create debug file
-2. Open and write initial debug code
-3. Write initial debug that needs coqc to be run
-4. Write iterative debug code that goes through the SMTCoq state while running coqc
-5. Close file
-
-'''
-
-def main():
-    #Make sure file is empty
-    with open(full_name, "w") as f:
-        f.close()
-
-    with open(full_name, "r+") as f:
-        f.write(
+def initialWrite(f):
+    f.write(
         "Add Rec LoadPath \"../../src\" as SMTCoq.\n"
         "Require Import SMTCoq.SMTCoq.\n"
         "Require Import Bool. \n" 
@@ -98,47 +63,57 @@ def main():
             " " + "Definition nclauses := Eval vm_compute in (match trace with Certif a _ _ => a end). (* Size of the state *)\n"
             " " + "Print nclauses.\n"
         )
+        
+    f.write("\n " + " " + "Definition c := Eval vm_compute in (match trace with Certif _ a _ => a end). (* Certificate *)\n" + " " + "Definition conf := Eval vm_compute in (match trace with Certif _ _ a => a end). (* Look here in the state for the empty clause*)\n" + " " + "Print conf.\n")   
+    f.write("\n" + " " + "Eval vm_compute in List.length (fst c). (* No. of steps in certificate *) \n" )
+        
 
 
 
-        
-        #add lines. do not run coq, only after you've gotten to the step w certifactes..
-        
-        f.write("\n " + " " + "Definition c := Eval vm_compute in (match trace with Certif _ a _ => a end). (* Certificate *)\n" + " " + "Definition conf := Eval vm_compute in (match trace with Certif _ _ a => a end). (* Look here in the state for the empty clause*)\n" + " " + "Print conf.\n")
-        
-        f.write("\n" + " " + "Eval vm_compute in List.length (fst c). (* No. of steps in certificate *) \n" )
-        
+'''
+Code to:
+1. Create debug file, 'full_name'
+2. Open and write initial debug code
+3. Write initial debug code
+4. Close file and run coq, extract number of steps in certificate
+5. Write remaining debug code using the steps in certificate
+6. Close file and run coq
+'''
+def main():
+    #Make sure file is empty
+    with open(full_name, "w") as f:
+        f.close()
+
+    with open(full_name, "r+") as f:      
+        #inital debug code
+        initialWrite(f)
         f.write("End " + base_name + "debug.")
 
-        print(full_name)
-        cat = subprocess.run(['cat', full_name], text=True, capture_output=True)
-        print(cat.stdout)
-        
-        run_coqc(full_name)
+    #run coqc and extract num steps    
+    output = run_coqc(full_name)
+    print(output)
 
-        
-        
-        n = 0 # number of steps in certificate
-
-        '''
-        run_coq_command(f, Type.INT)
-
-        add_line(f, "\n" + " " +"Eval vm_compute in (Form.check_form t_form && Atom.check_atom t_atom && Atom.wt t_i t_func t_atom). \n")
-
-        run_coq_command(f, Type.BOOL)
-
-        add_line(f, "\n" + " " + "(* States from c *) \n" + "\n" + "(* Start state *) \n")
-
-        add_line(f, "\n" + " " + "Definition s0 := Eval vm_compute in (add_roots (S.make nclauses) root used_roots). \n" + " " + " Print s0. \n")
-
-        run_coq_command(f, Type.STATE)
-
-        for i in range(n):
-            add_line(f, "\n" + " " +  "Eval vm_compute in List.nth " + str(i) + " (fst c) _.\n")
-            run_coq_command(f, Type.STEP)
-            add_line(f, "\n" + " " + "Definition s" + str(i + 1) + " := Eval vm_compute in (step_checker s" + str(i) + " (List.nth " + str(i) + " (fst c) (CTrue t_func t_atom t_form 0))). \n" + " " + "Print s" + str(i + 1) + ". \n")
-            run_coq_command(f, Type.STATE)
-        '''
 
 if __name__ == "__main__":
     main()
+
+
+'''
+run_coq_command(f, Type.INT)
+
+add_line(f, "\n" + " " +"Eval vm_compute in (Form.check_form t_form && Atom.check_atom t_atom && Atom.wt t_i t_func t_atom). \n")
+
+run_coq_command(f, Type.BOOL)
+
+add_line(f, "\n" + " " + "(* States from c *) \n" + "\n" + "(* Start state *) \n")
+
+add_line(f, "\n" + " " + "Definition s0 := Eval vm_compute in (add_roots (S.make nclauses) root used_roots). \n" + " " + " Print s0. \n")
+
+run_coq_command(f, Type.STATE)
+
+for i in range(n):
+    add_line(f, "\n" + " " +  "Eval vm_compute in List.nth " + str(i) + " (fst c) _.\n")
+    run_coq_command(f, Type.STEP)
+    add_line(f, "\n" + " " + "Definition s" + str(i + 1) + " := Eval vm_compute in (step_checker s" + str(i) + " (List.nth " + str(i) + " (fst c) (CTrue t_func t_atom t_form 0))). \n" + " " + "Print s" + str(i + 1) + ". \n")
+    run_coq_command(f, Type.STATE)
+'''
