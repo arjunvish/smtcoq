@@ -79,7 +79,7 @@ Code to:
 6. Close file and run coq
 '''
 def main():
-    #Make sure file is empty
+    #empty file
     with open(full_name, "w") as f:
         f.close()
 
@@ -88,13 +88,32 @@ def main():
         initialWrite(f)
         f.write("End " + base_name + "debug.")
 
-    #run coqc and extract num steps    
+    ## Run coqc and extract num steps    
     coq_op = run_coqc(full_name)
-    print("complete output")
-    print(coq_op)
-
     certnum = parse_coq_certnum(coq_op) # number of steps in certificate
-    print(certnum)
+
+
+
+    ## Write remaining debug code
+    #empty file
+    with open(full_name, "w") as f:
+        f.close
+    
+    with open(full_name, "r+") as f:
+        initialWrite(f)
+
+        #up to s0
+        f.write("\n Eval vm_compute in (Form.check_form t_form && Atom.check_atom t_atom && Atom.wt t_i t_func t_atom).\n")
+        f.write("\n Definition s0 := Eval vm_compute in (add_roots (S.make nclauses) root used_roots).\n")
+        f.write(" Print s0.\n")
+        
+        #states up to certnum
+        for i in range(certnum):
+            f.write("\n" + " " +  "Eval vm_compute in List.nth " + str(i) + " (fst c) _.\n")
+            f.write("\n" + " " + "Definition s" + str(i + 1) + " := Eval vm_compute in (step_checker s" + str(i) + " (List.nth " + str(i) + " (fst c) (CTrue t_func t_atom t_form 0))). \n" + " " + "Print s" + str(i + 1) + ". \n")
+            f.write("\n")
+        f.write("End " + base_name + "debug.")
+
 
 if __name__ == "__main__":
     main()
@@ -113,9 +132,5 @@ add_line(f, "\n" + " " + "Definition s0 := Eval vm_compute in (add_roots (S.make
 
 run_coq_command(f, Type.STATE)
 
-for i in range(n):
-    add_line(f, "\n" + " " +  "Eval vm_compute in List.nth " + str(i) + " (fst c) _.\n")
-    run_coq_command(f, Type.STEP)
-    add_line(f, "\n" + " " + "Definition s" + str(i + 1) + " := Eval vm_compute in (step_checker s" + str(i) + " (List.nth " + str(i) + " (fst c) (CTrue t_func t_atom t_form 0))). \n" + " " + "Print s" + str(i + 1) + ". \n")
-    run_coq_command(f, Type.STATE)
+
 '''

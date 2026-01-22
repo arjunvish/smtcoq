@@ -51,7 +51,7 @@ def parse_coq_certnum(coq_op):
     certnum_line = lines[4] # formated like  = 3%nat
     certnum_line = certnum_line.split('= ')[1] # get 3%nat
     certnum = parse_int(certnum_line)
-    return certnum
+    return int(certnum)
 
 
 '''
