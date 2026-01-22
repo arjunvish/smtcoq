@@ -33,7 +33,7 @@ def parse_coq_int(coq_op):
 
 
 '''
-Takes a string containing the output of the 3 initial commands, returns the number of certificates as an int
+Takes a string containing the coq output, returns the number of certificates as an int
 Ex: Takes
 nclauses = 3%int63
      : int
@@ -41,6 +41,9 @@ conf = 1%int63
      : int
      = 2%nat
      : nat
+     = true
+     : bool
+     etc.
 
 Returns
 2

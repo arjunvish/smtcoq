@@ -12,5 +12,16 @@ def main():
     coq_op = run_coqc(full_name)
     print(coq_op)
 
+    certnum = parse_coq_certnum(coq_op)
+    print("certnum: %d" % certnum)
+    delim = 's0'
+    for i in range(1, (certnum+1)):
+        print("\ndelim: " + delim)
+        step_list = coq_op.split(delim)
+        split1 = step_list[1] #contains everything after `s%d`
+        print(split1)
+        delim = 's' + str(i)
+
+
 if __name__ == "__main__":
     main()
