@@ -66,7 +66,6 @@ def initialWrite(f):
         
     f.write("\n " + " " + "Definition c := Eval vm_compute in (match trace with Certif _ a _ => a end). (* Certificate *)\n" + " " + "Definition conf := Eval vm_compute in (match trace with Certif _ _ a => a end). (* Look here in the state for the empty clause*)\n" + " " + "Print conf.\n")   
     f.write("\n" + " " + "Eval vm_compute in List.length (fst c). (* No. of steps in certificate *) \n" )
-        
 
 
 
@@ -90,9 +89,12 @@ def main():
         f.write("End " + base_name + "debug.")
 
     #run coqc and extract num steps    
-    output = run_coqc(full_name)
-    print(output)
+    coq_op = run_coqc(full_name)
+    print("complete output")
+    print(coq_op)
 
+    certnum = parse_coq_certnum(coq_op) # number of steps in certificate
+    print(certnum)
 
 if __name__ == "__main__":
     main()

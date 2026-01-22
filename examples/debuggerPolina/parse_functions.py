@@ -27,11 +27,31 @@ Returns
 2%int63
 '''
 def parse_coq_int(coq_op):
-    
     after_equal = coq_op.split(' = ')[1]
     between = after_equal.split(' : ')[0]  
     num = between.strip()  
     return num
+
+
+'''
+Takes a string containing the output of the 3 initial commands, returns the number of certificates as an int
+Ex: Takes
+nclauses = 3%int63
+     : int
+conf = 1%int63
+     : int
+     = 2%nat
+     : nat
+
+Returns
+2
+'''
+def parse_coq_certnum(coq_op):
+    lines = coq_op.split('\n')
+    certnum_line = lines[4] # formated like  = 3%nat
+    certnum_line = certnum_line.split('= ')[1] # get 3%nat
+    certnum = parse_int(certnum_line)
+    return certnum
 
 
 '''
