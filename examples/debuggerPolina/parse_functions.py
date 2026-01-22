@@ -1,9 +1,8 @@
-import re
-
 '''
 This file contains all the parse function for the debugger script.
 '''
 
+import re
 
 '''
 Takes a string that contains a Coq integer
