@@ -4,11 +4,11 @@ Require Import Bool.
 Require Import Int31. 
 Local Open Scope int31_scope.
 
-Section ex3debug. 
+Section ex4debug. 
 
  Parse_certif_verit t_i t_func t_atom t_form root used_roots trace 
- "ex3/ex3.smt2" 
- "ex3/ex3.pf". 
+ "ex4/ex4.smt2" 
+ "ex4/ex4.pf". 
 
  Definition nclauses := Eval vm_compute in (match trace with Certif a _ _ => a end). (* Size of the state *)
  Print nclauses.
@@ -35,4 +35,10 @@ Section ex3debug.
  Definition s2 := Eval vm_compute in (step_checker s1 (List.nth 1 (fst c) (CTrue t_func t_atom t_form 0))). 
  Print s2. 
 
-End ex3debug.
+
+ Eval vm_compute in List.nth 2 (fst c) _.
+
+ Definition s3 := Eval vm_compute in (step_checker s2 (List.nth 2 (fst c) (CTrue t_func t_atom t_form 0))). 
+ Print s3. 
+
+End ex4debug.

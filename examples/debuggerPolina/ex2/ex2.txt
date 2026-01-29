@@ -1,0 +1,15 @@
+(* nclauses *) (* 3 *)
+(* conf *) (* 1 *)
+(* Number of steps in certificate *) (* 2 *)
+(* Sanity check that atoms and formulas are well-typed *) (* true *)
+
+
+(* s0 = {| [4],[7] |} *)
+
+1.
+(* EqCgr 2 6 [S 5] *)
+(* s1 = {| [4],[7],[5; 6] |} *)
+
+2.
+(* Res 1 {|2,0,1|} *)
+(* s2 = {| [4],[],[5; 6] |} *)

@@ -57,6 +57,46 @@ def parse_coq_certnum(coq_op):
 
 
 '''
+Takes the initial cop output (first 8 lines) and parses it into readable comments as a string.
+Ex: Takes
+nclauses = 3%int63
+     : int
+conf = 1%int63
+     : int
+     = 2%nat
+     : nat
+     = true
+     : bool
+
+Returns 
+(* nclauses *) (* 3 *)
+(* conf *) (* 1 *)
+(* Number of steps in certificate *) (* 2 *)
+(* Sanity check that atoms and formulas are well-typed *) (* true *)
+'''
+def parse_init_op(coq_op):
+    res = ""
+
+    # split every other line
+    lines = coq_op.split('= ')
+    for i in range(1,5):
+        line = lines[i]
+        line = line.split('\n')[0]
+        lines[i] = line
+    
+    # removes 'nclauses' 
+    lines.pop(0)
+    
+    res += "(* nclauses *) (* " + parse_int(lines[0]) +" *)\n"
+    res += "(* conf *) (* " + parse_int(lines[1]) +" *)\n"
+    res += "(* Number of steps in certificate *) (* " + parse_int(lines[2]) +" *)\n"
+    res += "(* Sanity check that atoms and formulas are well-typed *) (* " + lines[3] +" *)\n"
+
+    return res
+
+
+
+'''
 Takes a string - the Coq output
 1. Gets string parsed into a Coq integer 
 2. Returns the Coq integer as a number in a Coq comment 
