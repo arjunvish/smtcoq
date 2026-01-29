@@ -20,7 +20,7 @@ make ARGS=(foo)
 where (foo) is the name of your files.
 
 # Results
-- Running this script will automatically generate a `(foo)run.v` and (foo).txt file in the `debuggerPolina` directory
+- Running this script will automatically generate a `(foo)run.v` and (foo).txt file in the `debuggerPolina\(foo)\` directory
 - The `.v` file will contain will contain the program run by coqc. It can be ignored unless needed.
 - The `.txt` file will contain a simplified version of the coq output that can be used to debug.
 - The `.txt.` file will have comments formatted like this:
