@@ -18,8 +18,9 @@ base_name = os.path.basename(i)
 full_name = base_name + "/" + i + "run.v"
 smt_name = base_name + "/" +i + ".smt2"
 parse_name = base_name + "/" +i + ".txt"
+pf_name = base_name + "/" +i + ".pf"
 
-
+'''
 try:
     solver = sys.argv[2]
 except IndexError:
@@ -34,7 +35,7 @@ else:
             raise ValueError:
                 print("Second argument is an invalid solver. Must be 'cvc5', 'cvc4', 'veriT', or 'veriT-old'.\nGiven: " + solver)
 
-
+'''
 
 '''
 Takes 1. a string - the Coq debug file name
