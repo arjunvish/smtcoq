@@ -17,8 +17,23 @@ i = sys.argv[1]
 base_name = os.path.basename(i)
 full_name = base_name + "/" + i + "run.v"
 smt_name = base_name + "/" +i + ".smt2"
-pf_name = base_name + "/" +i + ".pf"
 parse_name = base_name + "/" +i + ".txt"
+
+
+try:
+    solver = sys.argv[2]
+except IndexError:
+    # no second arg, no problem
+    pf_name = base_name + "/" +i + ".pf"
+else:
+    if(sys.argv[2]):
+        solver = sys.argv[2]
+        if(solver == "cvc5" or solver == "cvc4" or solver == "veriT" or solver == "veriT-old"):
+            pf_name = base_name + "/" +i + solver + ".pf"
+        else:
+            raise ValueError:
+                print("Second argument is an invalid solver. Must be 'cvc5', 'cvc4', 'veriT', or 'veriT-old'.\nGiven: " + solver)
+
 
 
 '''
