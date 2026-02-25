@@ -13,29 +13,35 @@ from enum import Enum
 import re
 
 #Defining files 
-i = sys.argv[1]
-base_name = os.path.basename(i)
-full_name = base_name + "/" + i + "run.v"
-smt_name = base_name + "/" +i + ".smt2"
-parse_name = base_name + "/" +i + ".txt"
-pf_name = base_name + "/" +i + ".pf"
 
-'''
+# the user input
+base_name = sys.argv[1]
+# takes input `ex1/ex2/ex3_name` and turns it into `ex3_name`
+name = re.search("[^/]+$", base_name)
+name = name.group()
+smt_name = base_name + ".smt2"
+
 try:
     solver = sys.argv[2]
 except IndexError:
     # no second arg, no problem
-    pf_name = base_name + "/" +i + ".pf"
+    full_name = base_name + "run.v"
+    parse_name = base_name + ".txt"
+    pf_name = base_name + ".pf"
+    print("v file: %s parse_name: %s pf_name: %s" % (full_name, parse_name, pf_name))
+    
 else:
     if(sys.argv[2]):
         solver = sys.argv[2]
         if(solver == "cvc5" or solver == "cvc4" or solver == "veriT" or solver == "veriT-old"):
-            pf_name = base_name + "/" +i + solver + ".pf"
+            # adjust names to have solver at the end
+            full_name = base_name + "_" +solver + "run.v"
+            parse_name = base_name + "_" +solver + ".txt"
+            pf_name = base_name + "_" +solver + ".pf"
+            #print("v file: %s parse_name: %s pf_name: %s" % (full_name, parse_name, pf_name))
         else:
-            raise ValueError:
-                print("Second argument is an invalid solver. Must be 'cvc5', 'cvc4', 'veriT', or 'veriT-old'.\nGiven: " + solver)
+            raise ValueError("Second argument is an invalid solver. Must be 'cvc5', 'cvc4', 'veriT', or 'veriT-old'.\nGiven: " + solver)
 
-'''
 
 '''
 Takes 1. a string - the Coq debug file name
@@ -58,7 +64,7 @@ def initialWrite(f):
         "Require Import Int31. \n"  
         "Local Open Scope int31_scope.\n"
         "\n"
-        "Section " + base_name + "debug. \n" 
+        "Section " + name +"run.\n" 
             "\n"
             " " + "Parse_certif_verit t_i t_func t_atom t_form root used_roots trace \n"
             " \"" + smt_name + "\" \n"
@@ -90,9 +96,10 @@ def main():
     with open(full_name, "r+") as f:      
         #inital debug code
         initialWrite(f)
-        f.write("End " + base_name + "debug.")
+        f.write("End " + name + "run.")
 
-    ## Run coqc and extract num steps    
+    
+    ## Run coqc and extract num steps 
     coq_op = run_coqc(full_name)
     certnum = parse_coq_certnum(coq_op) # number of steps in certificate
 
@@ -116,7 +123,7 @@ def main():
             f.write("\n" + " " +  "Eval vm_compute in List.nth " + str(i) + " (fst c) _.\n")
             f.write("\n" + " " + "Definition s" + str(i + 1) + " := Eval vm_compute in (step_checker s" + str(i) + " (List.nth " + str(i) + " (fst c) (CTrue t_func t_atom t_form 0))). \n" + " " + "Print s" + str(i + 1) + ". \n")
             f.write("\n")
-        f.write("End " + base_name + "debug.")
+        f.write("End " + name + "run.")
 
 
 if __name__ == "__main__":
