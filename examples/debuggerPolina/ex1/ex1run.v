@@ -1,4 +1,4 @@
-Add Rec LoadPath "../../../src" as SMTCoq.
+Add Rec LoadPath "../../src" as SMTCoq.
 Require Import SMTCoq.SMTCoq.
 Require Import Bool. 
 Require Import Int31. 

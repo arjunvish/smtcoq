@@ -6,21 +6,19 @@
 - To use `debugger.py`, you must first have an existing `.smt2` file and an existing `.pf` file with the same name. 
 - For example, if the name of the `.smt2` file is `foo.smt2`, then the `.pf` will be `foo.pf`.
 - Please make sure that the names are exactly the same since the filenames are key sensitive. 
-- Add these files to the `debuggerPolina` directory.
+- Note the complete path to the `.smt2` and `.pf` files. They should be in the same directory. Lets represent the path as `/path/to/files/foo.smt2 (or .pf)`
 - In the terminal change your current directory to `debuggerPolina`, do this by running 
 ```
 cd smtcoq/examples/debuggerPolina
 ``` 
-- Create a folder in debuggerPolina/ with the same name as your `.smt2` and `.pf` files. 
-- For example, if the name is foo, the `.smt2` and `.pf` files will be in `debuggerPolina/foo/`
+- Note the exact location
 - Finally, in the debuggerPolina/ directory, run
 ```
-make ARGS=(foo)
+make ARGS=/path/to/files/foo
 ```
-where (foo) is the name of your files.
 
 # Results
-- Running this script will automatically generate a `(foo)run.v` and (foo).txt file in the `debuggerPolina\(foo)\` directory
+- Running this script will automatically generate a `(foo)run.v` and (foo).txt file in the `/path/to/files/` you gave the program.
 - The `.v` file will contain will contain the program run by coqc. It can be ignored unless needed.
 - The `.txt` file will contain a simplified version of the coq output that can be used to debug.
 - The `.txt.` file will have comments formatted like this:

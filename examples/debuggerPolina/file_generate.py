@@ -12,15 +12,19 @@ import subprocess
 from enum import Enum
 import re
 
-#Defining files 
+## Defining files 
 
 # the user input
 base_name = sys.argv[1]
+# path from user input
+path = re.split("[^/]+$", base_name)[0]
 # takes input `ex1/ex2/ex3_name` and turns it into `ex3_name`
 name = re.search("[^/]+$", base_name)
 name = name.group()
+
 smt_name = base_name + ".smt2"
 
+# check for solver
 try:
     solver = sys.argv[2]
 except IndexError:
@@ -28,7 +32,7 @@ except IndexError:
     full_name = base_name + "run.v"
     parse_name = base_name + ".txt"
     pf_name = base_name + ".pf"
-    print("v file: %s parse_name: %s pf_name: %s" % (full_name, parse_name, pf_name))
+    print("v file: %s parse_name: %s pf_name: %s smt_name: %s base_name: %s name: %s" % (full_name, parse_name, pf_name, smt_name, base_name, name))
     
 else:
     if(sys.argv[2]):
@@ -100,6 +104,7 @@ def main():
 
     
     ## Run coqc and extract num steps 
+    print(full_name)
     coq_op = run_coqc(full_name)
     certnum = parse_coq_certnum(coq_op) # number of steps in certificate
 
