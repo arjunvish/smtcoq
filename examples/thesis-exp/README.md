@@ -21,17 +21,17 @@ We ran our experiments on these 138 files and presented them in the thesis. Veri
 | Solver | # Benchmarks | # Successes | # Successes with Holes | # Failures | # Holes | # Files with holes |
 |--------|--------------|-------------|------------------------|------------|---------|--------------------|
 | CVC4 | 138 | 54 | 77 | 7  | 153 | 82 |
-| cvc5 | 138 | 84 | 44 | 10 | 66  | 44 |
+| cvc5 | 138 | 84 + x | 44 + y | 7 | 66  | 44 |
+
+`x + y = 3`
 
 `cvc5coqcop14` is the file that contains all the test results
 
 Goals:
 - Enumerate all holes
 - Can we use veriT-old to elaborate all 44 holes?
-- All 10 failed checks raise the same exception. To find a solution, find the individual tests and debug.
-```
-"File "trace/smtTrace.ml", line 311, characters 4-10: Assertion failed."
-```
+- For all `7` failures with cvc5, the checker returns `false` and we don't know what the issue is yet.
+- Oddly, while debugging the failing tests, there are no `0`s in the SMTCoq's internal state as we would expect for any test that fails.
 - Support `ac_simp`. A solution from notes:
   To implement a transformation for `ac_simp`:
     1. Add the non-Imm version of `Flatten` to SMTCoq, with duplicate removal, and restrict it to Ands and Ors.
