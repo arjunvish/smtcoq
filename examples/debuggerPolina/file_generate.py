@@ -16,8 +16,10 @@ import re
 
 # the user input
 base_name = sys.argv[1]
-# path from user input
+
+# directory path from user input
 path = re.split("[^/]+$", base_name)[0]
+
 # takes input `ex1/ex2/ex3_name` and turns it into `ex3_name`
 name = re.search("[^/]+$", base_name)
 name = name.group()
@@ -32,7 +34,6 @@ except IndexError:
     full_name = base_name + "run.v"
     parse_name = base_name + ".txt"
     pf_name = base_name + ".pf"
-    print("v file: %s parse_name: %s pf_name: %s smt_name: %s base_name: %s name: %s" % (full_name, parse_name, pf_name, smt_name, base_name, name))
     
 else:
     if(sys.argv[2]):
@@ -42,7 +43,6 @@ else:
             full_name = base_name + "_" +solver + "run.v"
             parse_name = base_name + "_" +solver + ".txt"
             pf_name = base_name + "_" +solver + ".pf"
-            #print("v file: %s parse_name: %s pf_name: %s" % (full_name, parse_name, pf_name))
         else:
             raise ValueError("Second argument is an invalid solver. Must be 'cvc5', 'cvc4', 'veriT', or 'veriT-old'.\nGiven: " + solver)
 
@@ -104,7 +104,6 @@ def main():
 
     
     ## Run coqc and extract num steps 
-    print(full_name)
     coq_op = run_coqc(full_name)
     certnum = parse_coq_certnum(coq_op) # number of steps in certificate
 
