@@ -26,7 +26,8 @@ folder contains all of them.
 8230 benchmarks to run the checker over and the results aren't encouraging. The checker returns true for 39, false
 for 13, times out for 710 and fails with some sort of exception on 7466 files. The results are explained in the
 last page [here](https://docs.google.com/document/d/1hMCaCjCyOfbsnFupOBUtsie-Ane5TCrdwjdbFnaCQzM/edit?usp=sharing).
-We need to bring this benchmark set to completion if we want to publish this work.
+We need to bring this benchmark set to completion if we want to publish this work. The output from Coq for each of 
+these benchmarks is in [this](https://github.com/arjunvish/smtcoq/blob/alethe_coq8.13/examples/aletheTests/QFUFTests/other_v.txt) file.
 
 
 ### Other Issues
