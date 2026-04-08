@@ -5262,7 +5262,7 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try 
   (let c1 = store_shared_terms c in
-  (* Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1); *)
+   Printf.printf ("Certif after storing shared terms: \n%s\n") (string_of_certif c1); 
   let c2 = process_fins c1 in
   (* Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2); *)
   let c3 = process_hole c2 in
@@ -5284,7 +5284,7 @@ let preprocess_certif (c: certif) : certif =
   let c11 = process_trivial c10 in
   (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
   let c12 = process_unused c11 in
-  (* Printf.printf ("Certif after process_unused: \n%s\n") (string_of_certif c12); *)
+   Printf.printf ("Certif after process_unused: \n%s\n") (string_of_certif c12); 
   c12) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 

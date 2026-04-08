@@ -1,0 +1,15 @@
+(* nclauses *) (* 2 *)
+(* conf *) (* 1 *)
+(* Number of steps in certificate *) (* 2 *)
+(* Sanity check that atoms and formulas are well-typed *) (* true *)
+
+
+(* s0 = {| [8],[5] |} *)
+
+1.
+(* ImmBuildProj 0 0 0  *)
+(* s1 = {| [4],[5] |} *)
+
+2.
+(* Res 1 {|0,1|} *)
+(* s2 = {| [4],[] |} *)
