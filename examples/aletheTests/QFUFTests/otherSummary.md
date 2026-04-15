@@ -11,5 +11,7 @@ Summary of results for proof files which the checker isn't able to check.
 | VeritParser.Error	                         | 3923	   | VeritParser.Error       |
 | process_subproof failed	                 | 2166	   | process_subproof: failed|
 | process_cong failed	                     | 553	   | process_cong:           |
-| process_trans failed	                     | 358	   | process_trans failed    |
+| process_trans failed	                     | 358	   | process_trans:    |
 |Number of files checker isn't able to check | 7468    |                         |
+
+Each of the folders in this (`QFUFTests`) directory represents one of these errors and contains 2-3 benchmarks for which the checker fails.
