@@ -187,11 +187,11 @@ let rec get_cl (i : id) (c : certif) : clause optstring =
 (* findi x l finds the index of x in l
    Note that it checks for syntactic equality of terms, not modulo
    alpha renaming *)
-let findi (p : 'a -> bool) (l : 'a list) : int = 
+let findi (p : 'a -> bool) (l : 'a list) (context : string) : int = 
   let rec findi' (p : 'a -> bool) (l : 'a list) (n : int) : int = 
     match l with
     | h :: t -> if p h then n else findi' p t (n+1)
-    | [] -> raise (Debug ("| findi: element not found |")) in
+    | [] -> raise (Debug ("| findi: element not found; context: " ^ context ^ " |")) in
   findi' p l 0
 
 (* Remove all occurrences of x from l *)
@@ -783,7 +783,13 @@ let head_term (t : term) : string =
   | Minus _ -> "Minus _"
   | Mult _ -> "Mult _"
   
-  
+  let params_to_string (p : params) : string =
+    let rec aux (par : params) : string =
+      match par with
+      | [h] -> h
+      | h :: t -> h ^ ", " ^ (aux t)
+      | [] -> ""
+    in "[" ^ (aux p) ^ "]"
   
   (* Preprocessing steps/transformations over certificate *)
 
@@ -1045,7 +1051,7 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                                                                        | Eq _ -> true
                                                                        | _ -> false) z) with
                                                            | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |")))
-                                           | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (no implicit equalities case) at id "^i^" |")))) p in
+                                           | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (no implicit equalities case) at id "^i^" with params " ^ (params_to_string p) ^" |")))) p in
                      ([], ptuples)
                    (* at least 1 implicit equality *)
                    else
@@ -1491,7 +1497,7 @@ let process_cong (c : certif) : certif =
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" instead I have "^(head_term (get_expr peq))^" |"))) in
                             if x = y then
                               let andpi = generate_id () in
-                              let ind = string_of_int (findi (term_eq x) ys) in
+                              let ind = string_of_int (findi (term_eq x) ys "x = y") in
                               (andpi :: ris, 
                                (andpi, AndpAST, [Not (And ys); x], [], [ind]) :: rs)
                             else
@@ -1499,7 +1505,7 @@ let process_cong (c : certif) : certif =
                               let resi1 = generate_id () in
                               let andpi = generate_id () in
                               let resi2 = generate_id () in
-                              let ind = string_of_int (findi (term_eq y) ys) in
+                              let ind = string_of_int (findi (term_eq y) ys "x != y") in
                               (resi2 :: ris, 
                                (eqp1i, Equp1AST, [Not peq; x; Not y], [], []) :: 
                                (resi1, ResoAST, [x; Not y], [eqp1i; pid], []) :: 
@@ -1527,7 +1533,7 @@ let process_cong (c : certif) : certif =
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" |"))) in
                             if x = y then
                                let andpi = generate_id () in
-                               let ind = string_of_int (findi (term_eq y) xs) in
+                               let ind = string_of_int (findi (term_eq y) xs "x = y") in
                                (andpi :: ris,
                                 (andpi, AndpAST, [Not (And xs); y], [], [ind]) :: rs)
                             else
@@ -1535,7 +1541,7 @@ let process_cong (c : certif) : certif =
                               let resi1 = generate_id () in
                               let andpi = generate_id () in
                               let resi2 = generate_id () in
-                              let ind = string_of_int (findi (term_eq x) xs) in
+                              let ind = string_of_int (findi (term_eq x) xs "x != y") in
                               (resi2 :: ris, 
                                (eqp2i, Equp2AST, [Not peq; Not x; y], [], []) :: 
                                (resi1, ResoAST, [Not x; y], [eqp2i; pid], []) :: 
@@ -1655,7 +1661,7 @@ let process_cong (c : certif) : certif =
                         let ornis1, orns1 = List.fold_left
                           (fun (is, r) y ->
                             let i' = generate_id () in
-                            let proj = try findi (term_eq y) ys with
+                            let proj = try findi (term_eq y) ys "Line 1664" with
                                         | Debug s -> raise (Debug ("| process_cong: fails at id "^i^" |"^s)) in
                             i' :: is,
                             (i', OrnAST, [Or ys; Not y], [], [string_of_int proj]) :: r)
@@ -1687,7 +1693,7 @@ let process_cong (c : certif) : certif =
                         let ornis2, orns2 = List.fold_left
                           (fun (is, r) x ->
                             let i' = generate_id () in
-                            let proj = try findi (term_eq x) xs with
+                            let proj = try findi (term_eq x) xs "Line 1696" with
                                         | Debug s -> raise (Debug ("| process_cong: fails at id "^i^" |"^s)) in
                             i' :: is,
                             (i', OrnAST, [Or xs; Not x], [], [string_of_int proj]) :: r)
@@ -2489,7 +2495,7 @@ let process_proj (c: certif): certif =
                 raise (Debug ("| process_proj: clause produced by and is empty at id "^i^" |"))))
          with
         | And ts, x ->
-            let i' = try findi (term_eq x) ts with
+            let i' = try findi (term_eq x) ts "Line 2498" with
                      | Debug s -> raise (Debug ("| process_proj: fails at id "
                         ^i^" |"^s)) in
               (i, AndAST, cl, p, [(string_of_int i')]) :: aux tl cog
@@ -2507,7 +2513,7 @@ let process_proj (c: certif): certif =
                (get_expr (try (List.hd cl) with | Failure _ -> 
                          raise (Debug ("| process_proj: clause produced by not_or is empty at id "^i^" |")))) with
         | Not (Or ts), Not x -> 
-            let i' = try findi (term_eq x) ts with
+            let i' = try findi (term_eq x) ts "line: 2516" with
                      | Debug s -> raise (Debug ("| process_proj: fails at id "^i^" |"^s)) in
               (i, NorAST, cl, p, [(string_of_int i')]) :: aux tl cog
         | _, _ -> raise (Debug ("| process_proj: expecting premise to be a `not or` at id "
@@ -2515,7 +2521,7 @@ let process_proj (c: certif): certif =
     | (i, OrnAST, cl, p, a) :: tl when a = [] ->
         (match get_expr (List.nth cl 0), get_expr (List.nth cl 1) with
         | Or ts, Not x -> 
-            let i' = try findi (term_eq x) ts with
+            let i' = try findi (term_eq x) ts "line 2534" with
                      | Debug s -> raise (Debug ("| process_proj: fails at id "^i^" |"^s)) in
               (i, OrnAST, cl, p, [(string_of_int i')]) :: aux tl cog
         | _, _ -> raise (Debug 
@@ -2523,7 +2529,7 @@ let process_proj (c: certif): certif =
     | (i, AndpAST, cl, p, a) :: tl when a = [] ->
         (match get_expr (List.nth cl 0), get_expr (List.nth cl 1) with
         | Not (And ts), x ->
-            let i' = try findi (term_eq x) ts with
+            let i' = try findi (term_eq x) ts "line 2532" with
                      | Debug s -> raise (Debug ("| process_proj: fails at id "^i^" |"^s)) in
               (i, AndpAST, cl, p, [(string_of_int i')]) :: aux tl cog
         |  _, _ -> raise (Debug ("| process_proj: expecting clause with `not and` and projection at id "
@@ -2677,12 +2683,12 @@ let process_subproof_aux (andn_id : id) (new_h_ids : id list) (g_id : id) (pi2 :
   let h_ders, andpis = List.fold_left2 (fun (der, is) hi h ->  
                                 let andpi = generate_id () in
                                 let andpcl = [Not residue; h] in
-                                let argno = try findi (term_eq h) residue_args with
+                                let argno = try findi (term_eq h) residue_args "line 2686" with
                                   | Debug s -> raise (Debug ("| process_subproof_aux: can't find projection within andn at id "^andn_id^" |"^s)) in
                                 ((andpi, AndpAST, andpcl, [], [string_of_int argno]) :: 
                                  (hi, ResoAST, [h], [andi; andpi], []) :: der, andpi :: is)) ([], []) new_h_ids hs in
   let pi3' = extend_cl andn_id residue pi3 ((andn_id, AndnAST, andncl, [], []) :: pi3) in
-  let argno = try findi (term_eq (Not g)) residue_args with
+  let argno = try findi (term_eq (Not g)) residue_args "line 2691" with
     | Debug s -> raise (Debug ("| process_subproof_aux: can't find projection of `~g` within andn at id "^andn_id^" |"^s)) in
   ((andn_id, AndnAST, andncl, [], []) ::
     pi3') @
@@ -2815,7 +2821,7 @@ let rec process_simplify (c : certif) : certif =
                        F
          *)
          let a2bi = generate_id () in
-         let ind = string_of_int (findi (term_eq False) xs) in
+         let ind = string_of_int (findi (term_eq False) xs "line 2824") in
          let andpi = generate_id () in
          let a2b = [(andpi, AndpAST, [Not lhs; False], [], [ind]);
                     (generate_id (), ResoAST, [False], [a2bi; andpi], [])] in
@@ -2853,8 +2859,8 @@ let rec process_simplify (c : certif) : certif =
          *)
          let a2bi = generate_id () in
          let x = List.find (fun x -> (List.exists (fun y -> y = Not x) xs)) xs in
-         let x_ind = string_of_int (findi (term_eq x) xs) in
-         let nx_ind = string_of_int (findi (term_eq (Not x)) xs) in
+         let x_ind = string_of_int (findi (term_eq x) xs "Line 2862") in
+         let nx_ind = string_of_int (findi (term_eq (Not x)) xs "Line 1863") in
          let andpi1 = generate_id () in
          let resi1 = generate_id () in
          let impn1i = generate_id () in
@@ -2931,7 +2937,7 @@ let rec process_simplify (c : certif) : certif =
                 where id1' and id2' are new ids *)
           let c1, proj_ids1, projnegl1 = List.fold_left 
             (fun (s, i, n) y ->
-               let ind = string_of_int (findi (term_eq y) xs) in
+               let ind = string_of_int (findi (term_eq y) xs "Line 2940") in
                let id1' = generate_id () in
                let id2' = generate_id () in
                ((id1', AndpAST, [Not lhs; y], [], [ind]) :: (id2', ResoAST, [y], [a2bi; id1'], []) :: s,
@@ -2963,7 +2969,7 @@ let rec process_simplify (c : certif) : certif =
             (fun (s, i, n) x ->
               if x = True then (s, i, n)
               else
-                let ind = string_of_int (findi (term_eq x) ys) in
+                let ind = string_of_int (findi (term_eq x) ys "Line 2972") in
                 let id1' = generate_id () in
                 let id2' = generate_id () in
                 ((id1', AndpAST, [Not rhs; x], [], [ind]) :: (id2', ResoAST, [x], [b2ai; id1'], []) :: s,
@@ -2996,7 +3002,7 @@ let rec process_simplify (c : certif) : certif =
                 where id1' and id2' are new ids *)
           let c1, proj_ids1, projnegl1 = List.fold_left
             (fun (s, i, n) y -> 
-              let ind = string_of_int (findi (term_eq y) xs) in
+              let ind = string_of_int (findi (term_eq y) xs "Line 3005") in
               let id1' = generate_id () in
               let id2' = generate_id () in
               ((id1', AndpAST, [Not lhs; y], [], [ind]) :: (id2', ResoAST, [y], [a2bi; id1'], []) :: s,
@@ -3026,7 +3032,7 @@ let rec process_simplify (c : certif) : certif =
                 where id1' and id2' are new ids *)
           let c2, proj_ids2, projnegl2 = List.fold_left 
             (fun (s, i, n) y ->
-              let ind = string_of_int (findi (term_eq y) ys) in
+              let ind = string_of_int (findi (term_eq y) ys "Line 3035") in
               let id1' = generate_id () in
               let id2' = generate_id () in
                 ((id1', AndpAST, [Not rhs; y], [], [ind]) :: (id2', ResoAST, [y], [b2ai; id1'], []) :: s,
@@ -3086,7 +3092,7 @@ let rec process_simplify (c : certif) : certif =
                    x v T
          *)
          let b2ai = generate_id () in
-         let orn_a = string_of_int (findi (term_eq True) xs) in
+         let orn_a = string_of_int (findi (term_eq True) xs "Line 3095") in
          let b2a = [(orn_id, OrnAST, [lhs; Not True], [], [orn_a]);
                     (generate_id (), ResoAST, [lhs], [b2ai; orn_id], [])] in
          (simplify_to_subproof i (generate_id ()) b2ai lhs rhs a2b b2a) @ process_simplify tl
@@ -3109,8 +3115,8 @@ let rec process_simplify (c : certif) : certif =
          let orn_id1 = generate_id () in
          let orn_id2 = generate_id () in
          let x = List.find (fun x -> (List.exists (fun y -> y = Not x) xs)) xs in
-         let x_id = string_of_int (findi (term_eq x) xs) in
-         let nx_id = string_of_int (findi (term_eq (Not x)) xs) in
+         let x_id = string_of_int (findi (term_eq x) xs "Line 3118") in
+         let nx_id = string_of_int (findi (term_eq (Not x)) xs "Line 3119") in
          let b2a = [(orn_id1, OrnAST, [lhs; Not x], [], [x_id]);
                     (orn_id2, OrnAST, [lhs; x], [], [nx_id]);
                     (generate_id (), ResoAST, [lhs], [orn_id1; orn_id2], [])] in
@@ -3163,7 +3169,7 @@ let rec process_simplify (c : certif) : certif =
            let ornis, orns = List.fold_left
             (fun (i, r) y ->
                let i' = generate_id () in
-               let ind = string_of_int (findi (term_eq y) ys) in
+               let ind = string_of_int (findi (term_eq y) ys "Line 3172") in
                i' :: i,
                (i', OrnAST, [rhs; Not y], [], [ind]) :: r)
             ([], []) (to_uniq (=) ys) in
@@ -3190,7 +3196,7 @@ let rec process_simplify (c : certif) : certif =
                  2. id' *)
            let c, proj_ids = List.fold_left 
              (fun (s, i) y -> 
-               let ind = string_of_int (findi (term_eq y) xs) in
+               let ind = string_of_int (findi (term_eq y) xs "Line 3199") in
                let id' = generate_id () in
                ((id', OrnAST, [lhs; Not y], [], [ind]) :: s,
                 id' :: i))
@@ -3220,7 +3226,7 @@ let rec process_simplify (c : certif) : certif =
                  2. id' *)
                  let c, proj_ids = List.fold_left 
                  (fun (s, i) y -> 
-                   let ind = string_of_int (findi (term_eq y) xs) in
+                   let ind = string_of_int (findi (term_eq y) xs "Line 3229") in
                    let id' = generate_id () in
                    ((id', OrnAST, [rhs; Not y], [], [ind]) :: s,
                     id' :: i))
@@ -3247,7 +3253,7 @@ let rec process_simplify (c : certif) : certif =
                 2. id' *)
            let c, proj_ids = List.fold_left 
             (fun (s,i) y -> 
-              let ind = string_of_int (findi (term_eq y) xs) in
+              let ind = string_of_int (findi (term_eq y) xs "Line 3256") in
               let id' = generate_id () in
               ((id', OrnAST, [lhs; Not y], [], [ind]) :: s,
                id' :: i))
