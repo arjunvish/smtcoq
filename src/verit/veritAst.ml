@@ -5314,7 +5314,7 @@ let rec process_certif (c : certif) : VeritSyntax.id list =
       (* Process next step for linking *)
       let t' = process_certif t in
       if List.length t' > 0 then (
-        let x = (try (List.hd t') with | Failure _ -> raise (Debug ("| FOUND THE MOTHERFUCKER |"))) in
+        let x = (try (List.hd t') with | Failure _ -> raise (Debug ("| FOUND IT |"))) in
         try SmtTrace.link (get_clause res) (get_clause x) with
         | Debug s -> raise (Debug ("| VeritAst.process_certif: linking clauses |"^s))
         ) else ();
