@@ -4,7 +4,7 @@ Require Import Bool.
 Require Import Int31. 
 Local Open Scope int31_scope.
 
-Section thesistest4debug. 
+Section thesistest4run.
 
  Parse_certif_verit t_i t_func t_atom t_form root used_roots trace 
  "thesistest4/thesistest4.smt2" 
@@ -533,4 +533,4 @@ Section thesistest4debug.
  Definition s85 := Eval vm_compute in (step_checker s84 (List.nth 84 (fst c) (CTrue t_func t_atom t_form 0))). 
  Print s85. 
 
-End thesistest4debug.
+End thesistest4run.

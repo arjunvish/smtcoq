@@ -9,23 +9,23 @@ How it works:
 from parse_driver import *
 
 def main():
-
+    return
+    
+    # get basename.txt
     with open(parse_name, 'r') as f:
-        # get all lines from basename.txt
         parse_op = f.read()
     
-    #print(parse_op)
-
     # get the last state
     lline = parse_op.rsplit('\n',1)[1]
     num_state = re.search(r's(\d+)', lline).group(1)
 
     # put all the states in a list
     states_str = parse_op.split('\n', 8)[8]
+
+    # note that this starts with state 1, so index in with i-1
     states = re.findall('((?:[^\n]+\n?){1,4})', states_str)
 
-
-    # list containing all possible states where a problem occured
+    # list containing all possible states (by INDEX) where a problem occured
     # start with assuming every state is a possible issue
     prob_states = list(range(1, int(num_state) + 1))
 
@@ -35,6 +35,8 @@ def main():
     # print final list
     print_probs(prob_states, states)
 
+def all_following_zeroes(prob_states, states):
+    return
 
 # checks if the problem states have a 0. if they don't, remove from possible problem states.
 def has_zero(prob_states, states):

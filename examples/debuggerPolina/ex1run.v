@@ -7,8 +7,8 @@ Local Open Scope int31_scope.
 Section ex1run.
 
  Parse_certif_verit t_i t_func t_atom t_form root used_roots trace 
- "ex1.smt2" 
- "ex1.pf". 
+ "/home/polin/union/arjunProj/polin13/examples/debuggerPolina/ex1.smt2" 
+ "/home/polin/union/arjunProj/polin13/examples/debuggerPolina/ex1.pf". 
 
  Definition nclauses := Eval vm_compute in (match trace with Certif a _ _ => a end). (* Size of the state *)
  Print nclauses.
