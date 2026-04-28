@@ -14,7 +14,12 @@ cd smtcoq/examples/debuggerPolina
 - Note the exact location
 - Finally, in the debuggerPolina/ directory, run
 ```
-make ARGS=/path/to/files/foo
+make ARGS=relative/path/to/basename
+```
+where, if `basename` was `foo`, there must be a `foo.v`, a `foo.smt2` and a `foo.pf` in the path.
+For examples, to run the script on `ex1`, whose files `ex1.v`, `ex1.smt2`, and `ex1.pf` are in the `ex1` directory, run:
+```
+make ARGS=ex1/ex1
 ```
 
 # Results
@@ -30,7 +35,7 @@ make ARGS=/path/to/files/foo
 
 # Examples
 Each of the `exi` (where `i` is a number) folders in this directory contain an example including:
-- `exi.smt2`: the SMT file that asserts a formmula.
+- `exi.smt2`: the SMT file that asserts a formula.
 - `exi.pf`: the proof file that proves the formula.
 - `exi.v`: the Coq file that calls SMTCoq's checker on the SMT
 and proof files.
