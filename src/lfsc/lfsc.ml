@@ -610,7 +610,7 @@ let tactic_gen_abduct i vm_cast lcpl lcepl =
   let rf = Tosmtcoq.rf in
   let ra' = Tosmtcoq.ra in
   let rf' = Tosmtcoq.rf in
-  SmtCommands.tactic i call_cvc4_abduct cvc4_logic rt ro ra rf ra' rf' vm_cast lcpl lcepl
+  ([], SmtCommands.tactic i call_cvc4_abduct cvc4_logic rt ro ra rf ra' rf' vm_cast lcpl lcepl)
 
 let tactic () = tactic_gen vm_cast_true
 let tactic_no_check () = tactic_gen (fun _ -> vm_cast_true_no_check)
