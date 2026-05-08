@@ -372,7 +372,7 @@ let call_abduce i env rt ro ra rf root lsmt =
     (* Expecting List.hd lsmt to be the negation of the goal *)
     List.iter (fun x -> assume cvc5 (asprintf "%a" (Form.to_smt ~debug:false) x)) (List.tl lsmt);
 
-    let proof =
+    let (*abducts_list,*) proof =
       let abduct1 = SmtCommands.abduct_string env rt ro ra rf 
             (get_abduct cvc5 (asprintf "%a" (Form.to_smt ~debug:false) fl)) in
       let rec produce_abducts n =
@@ -380,13 +380,13 @@ let call_abduce i env rt ro ra rf root lsmt =
           (SmtCommands.abduct_string env rt ro ra rf (get_abduct_next cvc5)) :: produce_abducts (n-1) 
         else []) in
       let abducts = List.rev (produce_abducts (i - 1)) in
-        CoqInterface.error
+        (*(abducts,*) CoqInterface.error
         ("cvc5 returned SAT.\nThe solver cannot prove the goal, but one of the following hypotheses (printed in Prop, but the corresponding Boolean versions also apply) would make it provable:\n" ^
           abduct1^"\n"^(String.concat "\n" abducts))
     in
 
     quit cvc5;
-    proof
+    proof(*, abducts_list*)
 
 
 let call_cvc4_abduct i env rt ro ra rf root lsmt =
@@ -427,7 +427,7 @@ let call_cvc4_abduct i env rt ro ra rf root lsmt =
   List.iter (fun x -> assume cvc4 (asprintf "%a" (Form.to_smt ~debug:false) x)) (List.tl lsmt);
   assume cvc4 (asprintf "%a" (Form.to_smt ~debug:false) fl);
 
-  let proof =
+  let (*abducts,*) proof =
     match check_sat cvc4 with
     | Unsat -> raise SmtCommands.DoNothing
     | Sat -> call_abduce i env rt ro ra rf root lsmt
@@ -601,7 +601,6 @@ let tactic_gen_abduct i vm_cast lcpl lcepl =
       | Some lcpl -> CoqTerms.list_of_constr_tuple lcpl
       | None -> []
   in
-
   (* Core tactic *)
   clear_all ();
   let rt = SmtBtype.create () in
@@ -610,7 +609,7 @@ let tactic_gen_abduct i vm_cast lcpl lcepl =
   let rf = Tosmtcoq.rf in
   let ra' = Tosmtcoq.ra in
   let rf' = Tosmtcoq.rf in
-  ([], SmtCommands.tactic i call_cvc4_abduct cvc4_logic rt ro ra rf ra' rf' vm_cast lcpl lcepl)
+  SmtCommands.abduct_auto_tactic i call_cvc4_abduct cvc4_logic rt ro ra rf ra' rf' vm_cast lcpl lcepl
 
 let tactic () = tactic_gen vm_cast_true
 let tactic_no_check () = tactic_gen (fun _ -> vm_cast_true_no_check)

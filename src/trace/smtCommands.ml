@@ -806,6 +806,10 @@ let tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl
     Tactics.intros
     (CoqInterface.mk_tactic (core_tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl))
 
+let abduct_auto_tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl =
+  [], CoqInterface.tclTHEN
+    Tactics.intros
+    (CoqInterface.mk_tactic (core_tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl))
 
 (**********************************************)
 (* Show solver models as Coq counter-examples *)
