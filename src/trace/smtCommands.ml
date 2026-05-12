@@ -806,10 +806,97 @@ let tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl
     Tactics.intros
     (CoqInterface.mk_tactic (core_tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl))
 
-let abduct_auto_tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl =
-  [], CoqInterface.tclTHEN
-    Tactics.intros
-    (CoqInterface.mk_tactic (core_tactic call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl))
+
+(* core_tactic and tactic are redefined as core_tactic_abduct_auto and 
+   tactic_abduct_auto below. This is so that the call_solver function 
+   (call_cvc4_abduct in this case) can return in addition to its
+   regular output a list of abducts so that they can ultimately be
+   used from Tactics.v to automate Coq's Search vernacular on these
+   strings. 
+   
+   There might be a more efficient way to do this *)
+
+let core_tactic_abduct_auto call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl env sigma concl =
+  let a, b = get_arguments concl in
+
+  let tlcepl = List.map (CoqInterface.interp_constr env sigma) lcepl in
+  let lcpl = lcpl @ tlcepl in
+
+  let create_lemma l =
+    let cl = CoqInterface.retyping_get_type_of env sigma l in
+    match of_coq_lemma rt ro ra_quant rf_quant env sigma solver_logic cl with
+      | Some smt -> Some ((cl, l), smt)
+      | None -> None
+  in
+  let l_pl_ls = SmtMisc.filter_map create_lemma lcpl in
+  let lsmt = List.map snd l_pl_ls in
+
+  let lem_tbl : (int, CoqInterface.constr * CoqInterface.constr) Hashtbl.t =
+    Hashtbl.create 100
+  in
+  let new_ref ((l, pl), ls) =
+    Hashtbl.add lem_tbl (Form.index ls) (l, pl)
+  in
+
+  List.iter new_ref l_pl_ls;
+
+  let find_lemma cl =
+    let re_hash hf = Form.hash_hform (Atom.hash_hatom ra_quant) rf_quant hf in
+    match cl.value with
+    | Some [l] ->
+       let hl = re_hash l in
+       begin try Hashtbl.find lem_tbl (Form.index hl)
+             with Not_found ->
+               let oc = open_out "/tmp/find_lemma.log" in
+               let fmt = Format.formatter_of_out_channel oc in
+               List.iter (fun u -> Format.fprintf fmt "%a\n" (Form.to_smt ~debug:true) u) lsmt;
+               Format.fprintf fmt "\n%a\n" (Form.to_smt ~debug:true) hl;
+               flush oc; close_out oc; failwith "find_lemma"
+       end
+      | _ -> failwith "unexpected form of root"
+  in
+  try (
+    let (abducts, (body_cast, body_nocast, cuts)) =
+      if ((CoqInterface.eq_constr b (Lazy.force ctrue)) ||
+          (CoqInterface.eq_constr b (Lazy.force cfalse))) then (
+        let l = Form.of_coq (Atom.of_coq rt ro ra solver_logic env sigma) rf a in
+        let _ = Form.of_coq (Atom.of_coq ~eqsym:true rt ro ra_quant solver_logic env sigma) rf_quant a in
+        let nl = if (CoqInterface.eq_constr b (Lazy.force ctrue)) then Form.neg l else l in
+        let lsmt = Form.flatten rf nl :: lsmt in
+        let abducts, max_id_confl = make_proof call_solver i env rt ro ra_quant rf_quant nl lsmt in
+        (abducts, (build_body rt ro ra rf (Form.to_coq l) b max_id_confl (vm_cast env) (Some find_lemma)))
+      ) else (
+        let l1 = Form.of_coq (Atom.of_coq rt ro ra solver_logic env sigma) rf a in
+        let _ = Form.of_coq (Atom.of_coq ~eqsym:true rt ro ra_quant solver_logic env sigma) rf_quant a in
+        let l2 = Form.of_coq (Atom.of_coq rt ro ra solver_logic env sigma) rf b in
+        let _ = Form.of_coq (Atom.of_coq ~eqsym:true rt ro ra_quant solver_logic env sigma) rf_quant b in
+        let l = Form.get rf (Fapp(Fiff,[|l1;l2|])) in
+        let nl = Form.neg l in
+        let lsmt = Form.flatten rf nl :: lsmt in
+        let abducts, max_id_confl = make_proof call_solver i env rt ro ra_quant rf_quant nl lsmt in
+        (abducts, build_body_eq rt ro ra rf (Form.to_coq l1) (Form.to_coq l2)
+          (Form.to_coq nl) max_id_confl (vm_cast env) (Some find_lemma))) in
+
+    let cuts = (SmtBtype.get_cuts rt) @ cuts in
+
+    let res = List.fold_right (fun (eqn, eqt) tac ->
+        CoqInterface.tclTHENLAST
+          (CoqInterface.assert_before (CoqInterface.name_of_id eqn) eqt)
+          tac
+      ) cuts
+      (CoqInterface.tclTHEN
+         (CoqInterface.set_evars_tac body_nocast)
+         (CoqInterface.vm_cast_no_check body_cast))
+    in
+    (abducts, res)) 
+  with
+  | DoNothing -> [], CoqInterface.tclIDTAC
+
+let tactic_abduct_auto call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl =
+  let abducts, tactic = (CoqInterface.mk_tactic_abduct_auto (core_tactic_abduct_auto call_solver i solver_logic rt ro ra rf ra_quant rf_quant vm_cast lcpl lcepl)) in
+  (abducts, CoqInterface.tclTHEN
+    Tactics.intros tactic)
+    
 
 (**********************************************)
 (* Show solver models as Coq counter-examples *)

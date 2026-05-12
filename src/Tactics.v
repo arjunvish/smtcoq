@@ -318,7 +318,7 @@ Tactic Notation "abduce" int_or_var(i) :=
          | Some ?hs => prop2bool_hyps hs
          | None => idtac
          end;
-         [ .. | cvc5_bool_abduct i hs; vauto ]
+         [ .. | cvc5_bool_abduct_auto i hs; vauto ]
   ]) i)) in tac i.
 
 (* 

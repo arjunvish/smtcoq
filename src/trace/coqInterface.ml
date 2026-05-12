@@ -145,6 +145,20 @@ let mk_tactic tac =
     let t = EConstr.to_constr sigma t in (* The goal should not contain uninstanciated evars *)
     tac env sigma t
   )
+
+(* For abduct_auto, no difference in code from mk_tactic, but this 
+returns a tuple containing the list representing the abducts and the 
+tactic *)
+let mk_tactic_abduct_auto tac =
+  [], Proofview.Goal.enter (fun gl ->
+    let env = Proofview.Goal.env gl in
+    let sigma = Tacmach.project gl in
+    let t = Proofview.Goal.concl gl in
+    let t = EConstr.to_constr sigma t in 
+    let abducts, res = tac env sigma t in
+    res
+  )
+
 let set_evars_tac noc =
   mk_tactic (
       fun env sigma _ ->

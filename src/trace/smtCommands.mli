@@ -61,14 +61,15 @@ val tactic :
   CoqInterface.constr list ->
   CoqInterface.constr_expr list -> CoqInterface.tactic
 
-val abduct_auto_tactic :
+val tactic_abduct_auto :
   int -> (int -> Environ.env ->
    SmtBtype.reify_tbl ->
    SmtAtom.Op.reify_tbl ->
    SmtAtom.Atom.reify_tbl ->
    SmtAtom.Form.reify ->
    (SmtAtom.Form.t SmtCertif.clause * SmtAtom.Form.t) ->
-   SmtAtom.Form.t list -> int * SmtAtom.Form.t SmtCertif.clause) ->
+   SmtAtom.Form.t list -> 
+   string list * (int * SmtAtom.Form.t SmtCertif.clause)) ->
   SmtMisc.logic ->
   SmtBtype.reify_tbl ->
   SmtAtom.Op.reify_tbl ->

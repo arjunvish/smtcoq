@@ -372,7 +372,7 @@ let call_abduce i env rt ro ra rf root lsmt =
     (* Expecting List.hd lsmt to be the negation of the goal *)
     List.iter (fun x -> assume cvc5 (asprintf "%a" (Form.to_smt ~debug:false) x)) (List.tl lsmt);
 
-    let (*abducts_list,*) proof =
+    let abducts_list, proof =
       let abduct1 = SmtCommands.abduct_string env rt ro ra rf 
             (get_abduct cvc5 (asprintf "%a" (Form.to_smt ~debug:false) fl)) in
       let rec produce_abducts n =
@@ -386,7 +386,7 @@ let call_abduce i env rt ro ra rf root lsmt =
     in
 
     quit cvc5;
-    proof(*, abducts_list*)
+    abducts_list, proof
 
 
 let call_cvc4_abduct i env rt ro ra rf root lsmt =
@@ -427,14 +427,14 @@ let call_cvc4_abduct i env rt ro ra rf root lsmt =
   List.iter (fun x -> assume cvc4 (asprintf "%a" (Form.to_smt ~debug:false) x)) (List.tl lsmt);
   assume cvc4 (asprintf "%a" (Form.to_smt ~debug:false) fl);
 
-  let (*abducts,*) proof =
+  let abducts, proof =
     match check_sat cvc4 with
     | Unsat -> raise SmtCommands.DoNothing
     | Sat -> call_abduce i env rt ro ra rf root lsmt
   in
 
   quit cvc4;
-  proof
+  (abducts, proof)
 
 let call_cvc4 _ env rt ro ra rf root lsmt =
   let open Smtlib2_solver in
@@ -609,8 +609,28 @@ let tactic_gen_abduct i vm_cast lcpl lcepl =
   let rf = Tosmtcoq.rf in
   let ra' = Tosmtcoq.ra in
   let rf' = Tosmtcoq.rf in
-  SmtCommands.abduct_auto_tactic i call_cvc4_abduct cvc4_logic rt ro ra rf ra' rf' vm_cast lcpl lcepl
+  SmtCommands.tactic i call_cvc4_abduct cvc4_logic rt ro ra rf ra' rf' vm_cast lcpl lcepl
+
+let tactic_gen_abduct_auto i vm_cast lcpl lcepl =
+  (* Transform the tuple of lemmas given by the user into a list *)
+  let lcpl =
+    let lcpl = EConstr.Unsafe.to_constr lcpl in
+    let lcpl = CoqTerms.option_of_constr_option lcpl in
+    match lcpl with
+      | Some lcpl -> CoqTerms.list_of_constr_tuple lcpl
+      | None -> []
+  in
+  (* Core tactic *)
+  clear_all ();
+  let rt = SmtBtype.create () in
+  let ro = Op.create () in
+  let ra = Tosmtcoq.ra in
+  let rf = Tosmtcoq.rf in
+  let ra' = Tosmtcoq.ra in
+  let rf' = Tosmtcoq.rf in
+  SmtCommands.tactic_abduct_auto i call_cvc4_abduct cvc4_logic rt ro ra rf ra' rf' vm_cast lcpl lcepl
 
 let tactic () = tactic_gen vm_cast_true
 let tactic_no_check () = tactic_gen (fun _ -> vm_cast_true_no_check)
 let tactic_abduct i = tactic_gen_abduct i vm_cast_true
+let tactic_abduct_auto i = tactic_gen_abduct_auto i vm_cast_true

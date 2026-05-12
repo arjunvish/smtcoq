@@ -93,6 +93,7 @@ val tclTHENLAST : tactic -> tactic -> tactic
 val assert_before : name -> types -> tactic
 val vm_cast_no_check : constr -> tactic
 val mk_tactic : (Environ.env -> Evd.evar_map -> constr -> tactic) -> tactic
+val mk_tactic_abduct_auto : (Environ.env -> Evd.evar_map -> constr -> string list * tactic) -> (string list * tactic)
 val set_evars_tac : constr -> tactic
 
 
