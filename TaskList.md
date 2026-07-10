@@ -22,7 +22,7 @@ value doesn't derive the empty clause.
 8 of them are tested over cvc5 and veriT proofs). 
 [This](https://github.com/arjunvish/smtcoq/blob/alethe_coq8.13/examples/aletheTests/sanitychecktests/Notes.md) document explains these benchmark and its 
 folder contains all of them. 
-3. We ran a much larger set of benchmarks on a computing cluster. We filtered the SMTLIB QF_UF benchmark set down to 4115 SMT files and checked each of them against the Alethe proofs produced for them from cvc5 and veriT. That gave 
+3. **Make checker complete over QF_UF benchmarks.** We ran a much larger set of benchmarks on a computing cluster. We filtered the SMTLIB QF_UF benchmark set down to 4115 SMT files and checked each of them against the Alethe proofs produced for them from cvc5 and veriT. That gave 
 8230 benchmarks to run the checker over and the results aren't encouraging. The checker returns true for 39, false
 for 13, times out for 710 and fails with some sort of exception on 7466 files. The results are explained in the
 last page [here](https://docs.google.com/document/d/1hMCaCjCyOfbsnFupOBUtsie-Ane5TCrdwjdbFnaCQzM/edit?usp=sharing).
