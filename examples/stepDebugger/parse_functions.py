@@ -87,8 +87,8 @@ def parse_init_op(coq_op):
     # removes 'nclauses' 
     lines.pop(0)
     
-    res += "(* nclauses *) (* " + parse_int(lines[0]) +" *)\n"
-    res += "(* conf *) (* " + parse_int(lines[1]) +" *)\n"
+    res += "(* Size of the state *) (* " + parse_int(lines[0]) +" *)\n"
+    res += "(* Look here in the state for the empty clause *) (* " + parse_int(lines[1]) +" *)\n"
     res += "(* Number of steps in certificate *) (* " + parse_int(lines[2]) +" *)\n"
     res += "(* Sanity check that atoms and formulas are well-typed *) (* " + lines[3] +" *)\n"
 
