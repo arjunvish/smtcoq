@@ -9,7 +9,7 @@
 (*                                                                        *)
 (**************************************************************************)
 
-Add Rec LoadPath "/home/arjun/Desktop/smtcoq/arjunvish-smtcoq-veritAst/smtcoq/src" as SMTCoq.
+Add Rec LoadPath "../../../../src" as SMTCoq.
 
 Require Import SMTCoq.SMTCoq.
 Require Import Bool.
@@ -20,7 +20,7 @@ Require Import Int31.
 Local Open Scope int31_scope.
 
 Section Test5.
-     Verit_Checker "/home/arjun/Desktop/smtcoq/safe/smtcoq/examples/aletheTests/sanitychecktests/test5/test5.smt2" "/home/arjun/Desktop/smtcoq/safe/smtcoq/examples/aletheTests/sanitychecktests/test5/test5.cvc5pf".
+     Verit_Checker "test5.smt2" "test5.cvc5pf".
 End Test5.
 
 (*Lemma ex5: forall p, p || (negb p).
