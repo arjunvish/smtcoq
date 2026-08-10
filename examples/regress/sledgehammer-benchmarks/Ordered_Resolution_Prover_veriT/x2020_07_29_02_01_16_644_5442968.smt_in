@@ -1,0 +1,12 @@
+; --proof-with-sharing --index-fresh-sorts --proof-define-skolems --proof-prune --proof-merge --disable-print-success --disable-banner --max-time=30
+(set-option :produce-proofs true)
+(set-logic AUFLIA)
+(declare-sort A_set_d 0)
+(declare-sort A_literal_multiset_set_d 0)
+(declare-fun n_d () A_literal_multiset_set_d)
+(declare-fun i_of_d (A_literal_multiset_set_d) A_set_d)
+(declare-fun true_clss_d (A_set_d A_literal_multiset_set_d) Bool)
+(assert (! (not (true_clss_d (i_of_d n_d) n_d)) :named a0))
+(assert (! (=> (not (true_clss_d (i_of_d n_d) n_d)) false) :named a1))
+(check-sat)
+;;;;(get-proof)

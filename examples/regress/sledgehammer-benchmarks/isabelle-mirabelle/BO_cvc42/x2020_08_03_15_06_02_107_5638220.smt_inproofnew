@@ -1,0 +1,7 @@
+(assume a0 (not (less_d zero_d (of_nat_d delta_d))))
+(assume a1 (less_d zero_d (of_nat_d epsilon_d)))
+(assume a2 (= (of_nat_d delta_d) (of_nat_d epsilon_d)))
+(step t4 (cl (not (= zero_d zero_d)) (not (= (of_nat_d delta_d) (of_nat_d epsilon_d))) (not (less_d zero_d (of_nat_d epsilon_d))) (less_d zero_d (of_nat_d delta_d))) :rule eq_congruent_pred)
+(step t5 (cl (= zero_d zero_d)) :rule eq_reflexive)
+(step t6 (cl (not (= (of_nat_d delta_d) (of_nat_d epsilon_d))) (not (less_d zero_d (of_nat_d epsilon_d))) (less_d zero_d (of_nat_d delta_d))) :rule th_resolution :premises (t4 t5))
+(step t7 (cl) :rule resolution :premises (t6 a0 a1 a2))

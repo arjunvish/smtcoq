@@ -1,0 +1,5 @@
+(set-logic QF_LIA)
+(declare-fun n () Int)
+(declare-fun m () Int)
+(assert (not (= n n)))
+(check-sat)

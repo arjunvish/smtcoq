@@ -1,0 +1,5 @@
+(assume a0 (not (= h_d (comp_d g_d l_d))))
+(assume a1 (bij_betw_d l_d top_d top_da))
+(assume a2 (= (comp_d g_d l_d) h_d))
+(step t0 (cl (= h_d (comp_d g_d l_d))) :rule symm :premises (a2))
+(step t1 (cl) :rule resolution :premises (t0 a0))

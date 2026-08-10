@@ -1,0 +1,4 @@
+(assume a0 (not (less_eq_d (snd_d x_d) (snd_d y_d))))
+(assume a1 (and (less_eq_da (fst_d x_d) (fst_d y_d)) (less_eq_d (snd_d x_d) (snd_d y_d))))
+(step t3 (cl (less_eq_d (snd_d x_d) (snd_d y_d))) :rule and :premises (a1))
+(step t4 (cl) :rule resolution :premises (t3 a0))

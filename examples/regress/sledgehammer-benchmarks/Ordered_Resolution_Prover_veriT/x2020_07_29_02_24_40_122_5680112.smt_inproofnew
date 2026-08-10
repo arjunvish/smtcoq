@@ -1,0 +1,5 @@
+(assume a0 (not (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d))))
+(assume a1 (is_ground_subst_d subst_atm_d eta_d))
+(assume a2 (=> (is_ground_subst_d subst_atm_d eta_d) (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d))))
+(step t4 (cl (not (is_ground_subst_d subst_atm_d eta_d)) (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d))) :rule implies :premises (a2))
+(step t5 (cl) :rule resolution :premises (t4 a0 a1))

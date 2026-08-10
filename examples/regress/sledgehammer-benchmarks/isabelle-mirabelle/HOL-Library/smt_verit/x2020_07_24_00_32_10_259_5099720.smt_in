@@ -1,0 +1,11 @@
+; --proof-with-sharing --index-fresh-sorts --proof-define-skolems --proof-prune --proof-merge --disable-print-success --disable-banner --max-time=1
+(set-option :produce-proofs true)
+(set-logic AUFLIA)
+(declare-fun e1_d () Int)
+(declare-fun e2_d () Int)
+(declare-fun thesis_d () Bool)
+(assert (! (not thesis_d) :named a0))
+(assert (! (=> (<= e2_d e1_d) thesis_d) :named a1))
+(assert (! (=> (<= e1_d e2_d) thesis_d) :named a2))
+(check-sat)
+;;;;;;(get-proof)

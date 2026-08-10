@@ -1,0 +1,13 @@
+; --proof-with-sharing --index-fresh-sorts --proof-define-skolems --proof-prune --proof-merge --disable-print-success --disable-banner --max-time=30
+(set-option :produce-proofs true)
+(set-logic AUFLIA)
+(declare-sort A_a_prod_set_d 0)
+(declare-sort A_a_bool_fun_fun_d 0)
+(declare-sort A_a_prod_bool_fun_d 0)
+(declare-fun r_d () A_a_bool_fun_fun_d)
+(declare-fun wf_d (A_a_prod_set_d) Bool)
+(declare-fun collect_d (A_a_prod_bool_fun_d) A_a_prod_set_d)
+(declare-fun case_prod_d (A_a_bool_fun_fun_d) A_a_prod_bool_fun_d)
+(assert (! (not (= (wf_d (collect_d (case_prod_d r_d))) (wf_d (collect_d (case_prod_d r_d))))) :named a0))
+(check-sat)
+;;;;(get-proof)

@@ -1,0 +1,8 @@
+(assume a0 (not (= (head_d ta_d) (head_d sa_d))))
+(assume a1 (= (head_d ta_d) (sym_d g_d)))
+(assume a2 (= (head_d sa_d) (sym_d f_d)))
+(assume a3 (= g_d f_d))
+(step t5 (cl (not (= (head_d ta_d) (sym_d g_d))) (not (= (sym_d g_d) (sym_d f_d))) (not (= (head_d sa_d) (sym_d f_d))) (= (head_d ta_d) (head_d sa_d))) :rule eq_transitive)
+(step t6 (cl (not (= g_d f_d)) (= (sym_d g_d) (sym_d f_d))) :rule eq_congruent)
+(step t7 (cl (not (= (head_d ta_d) (sym_d g_d))) (not (= (head_d sa_d) (sym_d f_d))) (= (head_d ta_d) (head_d sa_d)) (not (= g_d f_d))) :rule th_resolution :premises (t5 t6))
+(step t8 (cl) :rule resolution :premises (t7 a0 a1 a2 a3))

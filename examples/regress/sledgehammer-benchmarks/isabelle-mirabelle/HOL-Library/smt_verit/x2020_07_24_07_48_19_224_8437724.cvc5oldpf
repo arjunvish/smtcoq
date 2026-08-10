@@ -1,0 +1,5 @@
+(assume a0 (not (= (fold_d max_d (keys_d ta_d) bot_d) (fold_d max_d (tl_d (keys_d ta_d)) (hd_d (keys_d ta_d))))))
+(assume a1 (is_rbt_d ta_d))
+(assume a2 (not (= ta_d empty_d)))
+(assume a3 (= ta_d empty_d))
+(step t0 (cl) :rule resolution :premises (a3 a2))

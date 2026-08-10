@@ -1,0 +1,10 @@
+; --full-saturate-quant --inst-when=full-last-call --inst-no-entail --term-db-mode=relevant --multi-trigger-linear --no-statistics --random-seed=1 --lang=smt2 --continued-execution --tlimit 30000
+(set-option :produce-unsat-cores true)
+(set-logic AUFLIA)
+(declare-sort Nat_d 0)
+(declare-fun r_d () Nat_d)
+(declare-fun s_d () Nat_d)
+(assert (! (not (= s_d r_d)) :named a0))
+(assert (! (= r_d s_d) :named a1))
+(check-sat)
+;(get-unsat-core)

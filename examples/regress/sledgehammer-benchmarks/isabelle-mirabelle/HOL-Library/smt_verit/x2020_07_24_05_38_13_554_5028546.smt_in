@@ -1,0 +1,12 @@
+; --proof-with-sharing --index-fresh-sorts --proof-define-skolems --proof-prune --proof-merge --disable-print-success --disable-banner --max-time=30
+(set-option :produce-proofs true)
+(set-logic AUFLIA)
+(declare-sort A_d 0)
+(declare-sort B_d 0)
+(declare-sort A_b_prod_d 0)
+(declare-fun bot_d () A_d)
+(declare-fun bot_da () B_d)
+(declare-fun pair_d (A_d B_d) A_b_prod_d)
+(assert (! (not (= (pair_d bot_d bot_da) (pair_d bot_d bot_da))) :named a0))
+(check-sat)
+;;;;;;(get-proof)

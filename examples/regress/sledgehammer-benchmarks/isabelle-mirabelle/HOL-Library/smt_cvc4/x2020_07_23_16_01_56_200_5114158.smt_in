@@ -1,0 +1,8 @@
+; --full-saturate-quant --inst-when=full-last-call --inst-no-entail --term-db-mode=relevant --multi-trigger-linear --no-statistics --random-seed=1 --lang=smt2 --continued-execution --tlimit 30000
+(set-option :produce-unsat-cores true)
+(set-logic AUFLIA)
+(declare-fun n_d () Int)
+(assert (! (not (< 0 n_d)) :named a0))
+(assert (! (< 1 n_d) :named a1))
+(check-sat)
+;(get-unsat-core)

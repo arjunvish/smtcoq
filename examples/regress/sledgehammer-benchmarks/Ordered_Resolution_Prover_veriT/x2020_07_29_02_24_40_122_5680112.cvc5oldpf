@@ -1,0 +1,6 @@
+(assume a0 (not (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d))))
+(assume a1 (is_ground_subst_d subst_atm_d eta_d))
+(assume a2 (=> (is_ground_subst_d subst_atm_d eta_d) (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d))))
+(step t0 (cl (not (=> (is_ground_subst_d subst_atm_d eta_d) (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d)))) (not (is_ground_subst_d subst_atm_d eta_d)) (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d))) :rule implies_pos)
+(step t1 (cl (not (=> (is_ground_subst_d subst_atm_d eta_d) (true_cls_d i_d (subst_cls_d subst_atm_d e_d eta_d))))) :rule resolution :premises (t0 a1 a0))
+(step t2 (cl) :rule resolution :premises (a2 t1))

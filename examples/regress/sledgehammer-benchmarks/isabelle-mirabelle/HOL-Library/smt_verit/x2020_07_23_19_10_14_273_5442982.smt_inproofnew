@@ -1,0 +1,3 @@
+(assume a1 (= (f_d times_d one_d) (prod_d times_d one_d)))
+(assume a0 (not (= (f_d times_d one_d) (prod_d times_d one_d))))
+(step t3 (cl) :rule th_resolution :premises (a1 a0))

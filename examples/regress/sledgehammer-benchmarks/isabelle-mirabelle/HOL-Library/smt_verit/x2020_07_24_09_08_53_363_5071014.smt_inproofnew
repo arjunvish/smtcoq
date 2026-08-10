@@ -1,0 +1,5 @@
+(assume a0 (not (= a_d (class_d (pick_d a_d)))))
+(assume a1 (= (class_d (pick_d a_d)) (class_d a_da)))
+(assume a2 (= a_d (class_d a_da)))
+(step t4 (cl (not (= a_d (class_d a_da))) (not (= (class_d (pick_d a_d)) (class_d a_da))) (= a_d (class_d (pick_d a_d)))) :rule eq_transitive)
+(step t5 (cl) :rule resolution :premises (t4 a0 a1 a2))

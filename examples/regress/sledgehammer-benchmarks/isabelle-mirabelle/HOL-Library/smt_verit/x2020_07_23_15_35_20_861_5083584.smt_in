@@ -1,0 +1,8 @@
+; --proof-with-sharing --index-fresh-sorts --proof-define-skolems --proof-prune --proof-merge --disable-print-success --disable-banner --max-time=30
+(set-option :produce-proofs true)
+(set-logic AUFLIA)
+(declare-fun n_d () Int)
+(assert (! (not (< 0 n_d)) :named a0))
+(assert (! (< 1 n_d) :named a1))
+(check-sat)
+;;;;;;(get-proof)

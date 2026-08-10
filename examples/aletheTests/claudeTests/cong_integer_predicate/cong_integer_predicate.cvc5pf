@@ -1,0 +1,6 @@
+(assume a0 (not (= n n)))
+(step r0 (cl (= n n)) :rule refl)
+(step t2 (cl (= n n)) :rule refl)
+(step t7 (cl (= m m)) :rule refl)
+(step t8 (cl (= (>= n m) (>= n m))) :rule cong :premises (t2 t7))
+(step tFinal (cl) :rule resolution :premises (a0 r0))

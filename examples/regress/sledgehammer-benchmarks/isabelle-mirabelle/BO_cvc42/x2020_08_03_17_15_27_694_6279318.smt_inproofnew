@@ -1,0 +1,5 @@
+(assume a1 (or (not (= (vars_d t_d) bot_d)) (not (= bot_d (vars_d s_d)))))
+(assume a2 (= (vars_d t_d) bot_d))
+(assume a3 (= bot_d (vars_d s_d)))
+(step t4 (cl (not (= (vars_d t_d) bot_d)) (not (= bot_d (vars_d s_d)))) :rule or :premises (a1))
+(step t5 (cl) :rule resolution :premises (t4 a2 a3))

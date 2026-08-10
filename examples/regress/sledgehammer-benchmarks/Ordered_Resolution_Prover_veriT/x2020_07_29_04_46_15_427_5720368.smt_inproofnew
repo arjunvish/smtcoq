@@ -1,0 +1,7 @@
+(assume a0 (not (less_eq_d (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (sup_d (image_d atms_of_d (set_d cAs_d))))))
+(assume a1 (less_eq_d (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cAs_d)))))
+(assume a2 (= (sup_d (image_d atms_of_d (set_d cAs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cAs_d)))))
+(step t4 (cl (not (= (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))))) (not (= (sup_d (image_d atms_of_d (set_d cAs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cAs_d))))) (not (less_eq_d (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cAs_d))))) (less_eq_d (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (sup_d (image_d atms_of_d (set_d cAs_d))))) :rule eq_congruent_pred)
+(step t5 (cl (= (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))))) :rule eq_reflexive)
+(step t6 (cl (not (= (sup_d (image_d atms_of_d (set_d cAs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cAs_d))))) (not (less_eq_d (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (fun_app_d atms_of_d (sum_mset_d (mset_d cAs_d))))) (less_eq_d (fun_app_d atms_of_d (sum_mset_d (mset_d cs_d))) (sup_d (image_d atms_of_d (set_d cAs_d))))) :rule th_resolution :premises (t4 t5))
+(step t7 (cl) :rule resolution :premises (t6 a0 a1 a2))

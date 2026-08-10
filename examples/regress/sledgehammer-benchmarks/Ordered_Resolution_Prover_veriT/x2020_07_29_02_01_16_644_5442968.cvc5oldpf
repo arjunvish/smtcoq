@@ -1,0 +1,6 @@
+(assume a0 (not (true_clss_d (i_of_d n_d) n_d)))
+(assume a1 (=> (not (true_clss_d (i_of_d n_d) n_d)) false))
+(step t0 (cl (not (= (=> (not (true_clss_d (i_of_d n_d) n_d)) false) (true_clss_d (i_of_d n_d) n_d))) (not (=> (not (true_clss_d (i_of_d n_d) n_d)) false)) (true_clss_d (i_of_d n_d) n_d)) :rule equiv_pos2)
+(step t1 (cl (= (=> (not (true_clss_d (i_of_d n_d) n_d)) false) (true_clss_d (i_of_d n_d) n_d))) :rule all_simplify)
+(step t2 (cl (true_clss_d (i_of_d n_d) n_d)) :rule resolution :premises (t0 t1 a1))
+(step t3 (cl) :rule resolution :premises (t2 a0))
