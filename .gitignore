@@ -80,3 +80,4 @@ examples/benchmarks-backup/*
 examples/sledgehammer-benchmarks/*
 examples/sledgehammer-benchmarks-backup/*
 examples/thesis-exp/QF_UF/*
+examples/regress/calltests.log

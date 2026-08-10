@@ -222,9 +222,16 @@ term:
   | LPAREN GT x=term y=term RPAREN          { Gt (x, y) }
   | LPAREN GEQ x=term y=term RPAREN         { Geq (x, y) }
   | LPAREN MINUS x=term RPAREN              { UMinus x }
-  | LPAREN PLUS x=term y=term RPAREN        { Plus (x, y) }
-  | LPAREN MINUS x=term y=term RPAREN       { Minus (x, y) }
-  | LPAREN MULT x=term y=term RPAREN        { Mult (x, y) }
+  (* cvc5 sometimes emits n-ary (3+ argument) +/-/*, whereas Plus/Minus/Mult are strictly
+     binary constructors used throughout this codebase; rather than widen the type (and every
+     pattern match on it), left-fold any extra arguments into nested binary applications here,
+     which is semantically equivalent since +/-/* are left-associative. *)
+  | LPAREN PLUS x=term y=term ys=term* RPAREN
+    { List.fold_left (fun acc t -> Plus (acc, t)) (Plus (x, y)) ys }
+  | LPAREN MINUS x=term y=term ys=term* RPAREN
+    { List.fold_left (fun acc t -> Minus (acc, t)) (Minus (x, y)) ys }
+  | LPAREN MULT x=term y=term ys=term* RPAREN
+    { List.fold_left (fun acc t -> Mult (acc, t)) (Mult (x, y)) ys }
   (*| LPAREN DIST terms=term* RPAREN        {}
   | LPAREN BVNOT t=term RPAREN              {}
   | LPAREN BVAND t1=term t2=term RPAREN     {}

@@ -256,15 +256,19 @@ rule token = parse
   | keyword                     { let k = Lexing.lexeme lexbuf in 
                                   try Hashtbl.find typ_table k with
                                   | Not_found -> KEYWORD k }
-  | symbol                      { let s = Lexing.lexeme lexbuf in 
+  (* Listed before `symbol` so that ocamllex's longest-match tie-breaking (which favors
+     whichever rule is listed first when two rules match the same length) prefers this rule:
+     a bare negative numeral like "-1" matches both `int` (length 2) and `symbol` (since '-' is
+     in `spl`, making it a valid leading char for simple_symbol) with the same length. *)
+  | (int as i)                  { try INT (int_of_string i) with
+                                  _ -> BIGINT (Big_int.big_int_of_string i) }
+  | symbol                      { let s = Lexing.lexeme lexbuf in
                                   try Hashtbl.find typ_table s with
                                   | Not_found -> SYMBOL s }
   | at_symbol                   { let s = Lexing.lexeme lexbuf in
                                   try Hashtbl.find typ_table s with
                                   | Not_found -> ATSYMBOL s }
-  | isymbol                     { let i = Lexing.lexeme lexbuf in 
+  | isymbol                     { let i = Lexing.lexeme lexbuf in
                                   ISYMBOL i }
-  | (int as i)                  { try INT (int_of_string i) with 
-                                  _ -> BIGINT (Big_int.big_int_of_string i) }
 (*  | bitvector as bv             { BITV bv }*)
   | eof                         { EOF }
