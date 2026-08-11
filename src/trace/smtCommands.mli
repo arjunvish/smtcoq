@@ -28,6 +28,11 @@ val checker_debug :
   SmtAtom.Atom.reify_tbl * SmtAtom.Form.reify *
   SmtAtom.Form.t list * int * SmtAtom.Form.t SmtCertif.clause -> 'a
 
+val checker_trace :
+  SmtBtype.reify_tbl * SmtAtom.Op.reify_tbl *
+  SmtAtom.Atom.reify_tbl * SmtAtom.Form.reify *
+  SmtAtom.Form.t list * int * SmtAtom.Form.t SmtCertif.clause -> unit
+
 val theorem :
   CoqInterface.id ->
   SmtBtype.reify_tbl * SmtAtom.Op.reify_tbl *

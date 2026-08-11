@@ -8,8 +8,8 @@ of what was found and why each change was made.
 **Net result:** the `examples/regress` suite (433 `.v` files: 5 small hand-picked tests +
 `sledgehammer-benchmarks`, a large corpus of real cvc5/veriT proofs from Isabelle's Sledgehammer)
 went from a state where a large fraction of the sledgehammer benchmarks either crashed outright
-or produced a checked-but-wrong `= false`, to **429/433 passing**, with 1 known-unresolved
-`false` and 3 known-unresolved errors (both described at the bottom, with what was ruled out).
+or produced a checked-but-wrong `= false`, to **432/433 passing**, with 1 known-unresolved error
+(described at the bottom, with what was ruled out).
 
 Run it yourself with `cd examples && make test` (see "Build/test infra" below).
 
@@ -53,7 +53,7 @@ layers, where fixing one exposed the next:
    step it verified turns out to be `C._true` (checker's I-couldn't-verify-this sentinel) or the
    final clause isn't actually empty. This is the "it looks like it ran fine but the answer is
    wrong" failure mode, and it's the hardest to debug because nothing crashes or throws — you
-   have to trace which step's *computed* clause diverges from its *declared* one. Two distinct,
+   have to trace which step's *computed* clause diverges from its *declared* one. Three distinct,
    unrelated root causes were found and fixed here (see "Correctness fixes" below):
    - an unsound premise being carried forward during recursive trivial-clause elimination
      (`process_trivial`). Worked example:
@@ -62,12 +62,16 @@ layers, where fixing one exposed the next:
      the proof" trick being invalid when the subproof it processes is itself nested inside
      another subproof's body. Worked example:
      [`nested_subproof`](examples/aletheTests/claudeTests/nested_subproof).
+   - `process_same` unconditionally eliminating `symm`/`not_symm` steps by aliasing, which is
+     unsound for a Boolean/`iff`-typed equality (only safe for a genuine first-order term
+     equality). Worked example:
+     [`symm_unsound_boolean_flip`](examples/aletheTests/claudeTests/symm_unsound_boolean_flip).
 
-4. **What's left.** 1 file still returns `false` for a reason not yet found (deep-dived
-   extensively, several hypotheses ruled out — see "Known unresolved: Green_cvc42"), and 3 files
-   still error out on a pre-existing, unrelated limitation (`cong_find_implicit_args` doesn't
-   support congruence over integer predicates) that wasn't touched this session. Worked example
-   (unfixed, reproduces the error on purpose):
+4. **What's left.** `get_args_isfrms` didn't support congruence over integer predicates (`<`,
+   `<=`, `>`, `>=`), causing 3 files to error out — fixed (see the `get_args_isfrms` section
+   below). 1 of those 3 still errors on an unrelated bug; the other 2 are now fully fixed (the
+   `process_same` fix above resolved the `false` result the `get_args_isfrms` fix had merely
+   uncovered). Worked example:
    [`cong_integer_predicate`](examples/aletheTests/claudeTests/cong_integer_predicate).
 
 ---
@@ -290,66 +294,198 @@ let c10 = process_subproof c9' in
 reported (all sharing the same shape: one `anchor`/subproof containing two `equiv_simplify`
 steps in its body). Zero regressions.
 
+#### 3. `process_same`: unsound unconditional elimination of `symm`/`not_symm`
+
+`symm`/`not_symm` alethe steps, parsed to `SameAST`, were previously always eliminated outright:
+every downstream reference to the `symm` step's own id got rewritten straight to its premise's
+id (`replace_prem`), on the theory that a clause and its symmetric-equality flip are "the same"
+to the checker.
+
+**The bug:** that's only true for a genuine first-order *term* equality — SMTCoq's atom
+interning canonicalizes its direction via `Atom.mk_eq_sym` (confirmed directly in
+`process_term_aux`'s `Eq` case in `veritAst.ml`: `mk_eq_sym` is reached only when both sides
+intern as non-`Tbool` `Form.Atom`s). For a Boolean/`iff`-typed equality between two formulas,
+`process_term_aux` instead builds a plain `Fiff` form, and `Fiff`'s own hash-consing
+(`HashedForm.equal` in `smtForm.ml`) compares arguments *positionally*, with no normalization of
+order — so `Eq(P,Q)` and `Eq(Q,P)` are two distinct, order-sensitive literals there. Blindly
+aliasing the `symm` step's id to its un-flipped premise silently feeds the wrong-direction
+literal into any downstream step that specifically needed the flip to find its resolution pivot
+— found via a real sledgehammer-benchmarks proof where cvc5 emits an explicit `symm` step to
+flip an `all_simplify`-produced equality before combining it with an `equiv_pos2` step that
+needs the other direction. Same failure signature as bugs #1 and #2: every individual step
+remains locally valid (`Res` steps are unconditionally sound regardless of which pivot, if any,
+they find), so `Verit_Checker_Debug` reports no step failure — the certificate just silently
+stops concluding the empty clause.
+
+**Fix:** added `eq_is_symmetrized`, which mirrors `process_term_aux`'s own `Eq` case to detect
+whether a given equality is a genuine, direction-canonicalized term equality. When it isn't,
+`process_same` now builds an explicit, checker-verified derivation of the flipped clause (a new
+`build_eq_symm_tautology` helper deriving the tautology `~(p=q) \/ (q=p)` via the
+`Equp1`/`Equp2`/`Equn1`/`Equn2` axiom-resolution pattern used throughout `process_cong`) instead
+of aliasing ids.
+
+Getting the axiom shapes right needed care: an earlier draft of this fix (verified to fix its 2
+target files) caused a large regression (16 files, including the simplest sanity tests) because
+`Equp1AST`/`Equp2AST`'s exact literal polarities were transposed. The correct shapes were
+re-derived directly from the Coq-level checker (`check_BuildDef`/`check_BuildDef2` in
+`src/cnf/Cnf.v`, not just the OCaml-side CNF generator in `smtCnf.ml` — the checker recomputes
+each step's clause fresh from its first literal alone, ignoring the rest of what's declared, so
+the shape must match the checker byte-for-byte) and cross-checked against existing, tested,
+non-degenerate usages elsewhere in `process_cong`.
+
+A second, narrower issue surfaced during regression testing: `SameAST` is overloaded in the
+parser — it's produced not just for `symm`/`not_symm` but also for `cont` (contraction),
+`reordering`, and `factoring`, none of which carry any equality-direction meaning (they just
+restate an earlier clause's literals, deduplicated/reordered, for which aliasing is always
+sound regardless of clause shape). Since `SameAST` doesn't record which of these five rules
+produced it, `process_same` now only takes the new direction-aware path when the clause is
+unambiguously a singleton equality that isn't already direction-safe, falling back to the old,
+always-sound aliasing for anything else (multi-literal clauses, or a singleton that isn't an
+equality) — this exact gap broke a sanity test (`test4`, which uses `reordering`) during
+development.
+
+A third issue surfaced empirically: building the full tautology derivation for a `symm` step
+whose equality involves a bare Boolean constant (`true`/`false`) made `test1` (and only `test1`)
+return `false`. The first fix attempt was a pragmatic dodge — `eq_safe_to_alias` fell back to the
+old (in-general-unsound) aliasing whenever either side of the equality was a bare `true`/`false`
+constant — but follow-up investigation (below) showed this dodge wasn't actually sound either
+(confirmed via a faithful minimal reduction of `test1`'s shape closed with plain `resolution`
+instead of `test1`'s own `trans`: it *still* returned `false` even with the fallback in place,
+because `trans`'s premise-reordering happens to tolerate either direction while `resolution`
+doesn't). That dodge has since been replaced by the real fix, described next.
+
+**Root-cause investigation and the real fix.** Asked to find a general fix rather than live with
+the aliasing dodge, the first thing this surfaced is that the bug isn't specific to `process_same`
+at all: a `:rule trans` step, using `process_trans` directly (existing, tested, long-standing
+code, completely bypassing anything added this session), failed identically on the exact same
+`(not true)`/`false` pair.
+
+Pinning down the actual mechanism required more than reading source and hand-simulating the
+checker — that approach hit real dead ends (e.g. a hypothesis that literal `0`, the checker's
+reserved "give up" sentinel `Lit._true`, collides with genuine positive occurrences of the `true`
+atom via `State.v`'s `insert`/`C._true` short-circuit turned out to be unreachable from the main
+checking path, since `S.set`'s `sort` call uses `insert_no_simpl`, not `insert`). So a new
+diagnostic tool was built: **`Verit_Checker_Trace <smt2> <cvc5pf>`** (mirrors
+`Verit_Checker_Debug`'s invocation), added via:
+- `Trace.v`: a new `Euf_Checker.checker_trace` definition (plus its `Register ... as ...` line,
+  required for `Coqlib.lib_ref`-based OCaml lookup - easy to miss, cost real time here) that,
+  unlike `checker_debug` (which stops at the first "likely failed" step and only reports a step
+  *number*, established earlier this session as unreliable to map back to source), walks every
+  step and returns the checker's own freshly-computed clause (raw literal ints, not the
+  OCaml-side declared one) at each one, plus the root clauses and final answer position.
+- `smtCommands.ml`/`coqTerms.ml`/`verit.ml`/`g_smtcoq.mlg`: OCaml plumbing mirroring
+  `checker_debug`'s existing pattern, but printing the raw result via Coq's own pretty-printer
+  (`CoqInterface.pr_constr_env`) instead of decoding it - avoids writing a custom Coq-value
+  decoder entirely.
+
+Tracing the minimal `(not true)`/`false` reproduction with this tool showed the derivation's
+final answer clause was `[4; 0]` - literal `4` was `a0`'s own *unflipped* fact, literal `0` was
+`Lit._true` (the give-up sentinel) - and, critically, that only 2 real Coq-level steps existed for
+what should have been a ~9-step derivation (`x1..x7,t1,t2`). That was the actionable clue: OCaml's
+`process_unused` pass showed the SAME shrinkage, and dumping the certificate immediately before it
+(right after `process_trivial`) showed why - **`process_trivial` had eliminated `x3`, `x6`, and
+`x7` entirely as a "trivial" clause** (one containing some literal and its negation), replacing
+`t1`'s two-premise resolution (`[x7; a0]`) with a single-premise one (`[x9]`, a `Weaken` of `a0`
+alone). A single-premise `:rule resolution`, per `VeritSyntax.mk_clause`'s `Reso` case, compiles
+to `Same` - a pure id alias, not a genuine resolve - so `t1` silently became an alias for `a0`'s
+own *unflipped* clause, discarding the derivation's entire purpose.
+
+`process_trivial`'s trivial-clause detection (`neg_mod_dneg_symm`, built on `eq_mod_dneg_symm`)
+already had - and needed - the same kind of guard as `eq_is_symmetrized`: for a *Boolean/`iff`*
+equality, `Eq(P,Q)` and `Eq(Q,P)` are NOT interchangeable, so a clause containing
+`Not(Eq(P,Q))` and `Eq(Q,P)` must not be treated as a complementary (trivial) pair the way it
+correctly would be for a genuine first-order term equality. `eq_mod_dneg_symm`'s `Eq,Eq` case
+*did* have exactly this guard (an inline `is_term` helper) - but its fallback branch was backwards:
+
+```ocaml
+let is_term = (fun x -> match snd (process_term_aux x) with
+                        | Form.Atom h -> (match Atom.type_of h with Tbool -> false | _ -> true)
+                        | _ -> true) in   (* WRONG - should be false *)
+```
+
+`is_term`'s job is "does this operand intern as a genuine first-order term atom" (only then is
+the equality's direction canonicalized and safe to treat as symmetric). But its fallback,
+`| _ -> true`, defaulted to "yes, treat as a term" for anything that *doesn't* intern as
+`Form.Atom` at all - which includes bare Boolean constants (`True`/`False` intern as `Form.Form`)
+and negated/compound formulas (intern as `Form.Lit`/`Form.Form`). So whenever *both* sides of a
+Boolean equality happened to be constant-or-negated-constant - exactly `(not true)` vs `false` -
+`is_term` wrongly returned `true` for all four operands, `eq_mod_dneg_symm` wrongly allowed the
+symmetric (flip-permitted) comparison, and `process_trivial` wrongly judged `Not(Eq(P,Q))` and
+`Eq(Q,P)` as complementary. Bare declared Boolean *variables* never hit this, since they DO intern
+as `Form.Atom` and take the correct branch - which is exactly why every earlier reproduction using
+a plain variable on one side worked fine, and only the both-sides-constant shape broke.
+
+**Fix:** flip the fallback to `| _ -> false`, matching `eq_is_symmetrized`'s already-correct
+convention. With this in place, `process_trivial` no longer wrongly eliminates the derivation, and
+the earlier `eq_safe_to_alias`/`is_bool_const` dodge in `process_same` is no longer needed at all -
+removed entirely, so `process_same` now just calls `eq_is_symmetrized` directly.
+
+**A separate, still-open issue found along the way:** `process_trans` itself - independent of this
+fix, and of `process_trivial` - also fails on a raw `:rule trans` over `(not true)`/`false` (no
+`symm` involved). Tracing shows `process_trans`'s own axiom-construction produces a degenerate
+single-premise result directly (`t1 = Res[a0]`, immediately aliased same as above) rather than
+building the expected multi-step derivation - a different bug in `process_trans`'s "reord" branch
+(which already looked suspicious earlier: it tags content matching `Equp1AST`'s ground-truth shape
+with the `Equp2AST` tag, a mismatch never fully reconciled). This is *not* fixed by the
+`is_term` fix above, and is not exercised by anything in `examples/regress` (no real proof asks
+`trans` to flip a bare-constant equality) - a genuine, separate, lower-priority gap, left for a
+future session; `Verit_Checker_Trace` is the tool to pick it back up with.
+
+**Impact:** fixed all 3 remaining `false` files in the suite, including
+`Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v` (previously investigated extensively and
+set aside as unresolved — see git history for that investigation's details) and the 2
+`HOL-Library` `BuildDef2` files the `get_args_isfrms` fix below had merely uncovered (see that
+section). Zero regressions across the full 433-file suite plus
+`examples/aletheTests/sanitychecktests`. Worked example:
+[`symm_unsound_boolean_flip`](examples/aletheTests/claudeTests/symm_unsound_boolean_flip).
+
 ---
 
 ## Final state
 
 ```
-examples/regress:            433 total, 429 True/OK, 1 False, 3 Error, 0 Timeout
+examples/regress:            433 total, 432 True/OK, 0 False, 1 Error, 0 Timeout
 examples/aletheTests/sanitychecktests: test1–5 (cvc5 + veriT) all = true
 ```
 
-### Known unresolved: `Green_cvc42/x2020_07_31_07_55_13_484_7016530cvc5.v` (1 `false`)
+### `get_args_isfrms`: congruence over integer predicates (`<`, `<=`, `>`, `>=`)
 
-This file *also* has genuine (non-`simplify_to_subproof`) nested subproofs, and
-`hoist_nested_subproofs` does change its behavior (the step `Verit_Checker_Debug` reports as
-"likely failed" moves from 47 to 58 depending on whether the fix is applied), but it still
-returns `false` either way. Extensively investigated without a conclusive fix:
+**Bug:** `cong_find_implicit_args` calls `get_args_isfrms` on a `cong` step's conclusion to work
+out the congruence's implicit argument-position equalities (e.g. for `f x T b = f y T a` derived
+from `x=y` and `a=b`, it needs to know `f`'s argument list to line premises up with positions).
+`get_args_isfrms` knows how to list arguments for `And`/`Or`/`Imp`/`Xor`/`Eq`/`Ite`/`App`, but its
+`Lt`/`Leq`/`Gt`/`Geq` arm just raised `Debug "congruence over integer predicates unsupported"`
+unconditionally — congruence over an integer inequality (e.g. proving `(>= a b) = (>= c d)` from
+`a=c` and `b=d`, which real cvc5 proofs do routinely as part of normalizing linear arithmetic)
+gave up immediately instead of listing `[x; y]` the same way the `Eq` arm does one case above it.
 
-- Hand-traced the reported-failing `Res` steps (and a parallel chain) directly — every one
-  checks out correctly, including one case of harmless declared-vs-computed mislabeling that
-  self-corrects downstream (same benign pattern as elsewhere in this codebase).
-- Built a small OCaml-level fold-resolve simulator mirroring `State.v`'s `resolve`/`has_true`.
-  It finds no ambiguous pivot points anywhere in the certificate, and predicts the whole thing
-  resolves cleanly to the empty clause — disagreeing with the real checker.
-- Ruled out (via direct research into `smtForm.ml`/`smtAtom.ml`) that `Iff(P, True)` gets
-  canonicalized to `P` by any interning layer, which would have explained the "P vs Eq(P,true)"-shaped
-  divergences the simulator flagged.
-- Tried the simulator with symmetric-equality leniency disabled entirely (exact literal
-  identity only) as a sanity check — it diverges from ground truth too, but in the opposite
-  direction (predicts failure when the file does have some genuinely-required
-  equality-direction collapses elsewhere), so neither extreme matches the real checker.
+**Fix:** extended that arm to return `[x; y]` (tagged formula-vs-term the same way `Eq` does).
+This is sound despite inequalities not being symmetric like `=` is, because nothing downstream
+treats the relation as symmetric on `get_args_isfrms`'s account: `cong_find_implicit_args`'s own
+symmetry-aware argument reversal is pattern-guarded to `Eq(_,_)` specifically (never fires for
+inequalities), and the actual derivation this enables — `EqcpAST`, the fixed axiom
+`x=a -> y=b -> P(x,y) -> P(a,b)` — is a generic substitutivity schema that holds for *any*
+predicate `P`, symmetric or not.
 
-Conclusion: there's a real gap between this OCaml-level model of the checker's semantics and the
-actual Coq-level behavior, not yet isolated. Given it's 1 of 433 files, this was set aside rather
-than continuing to guess. A useful next step for a future session: compare against a possible
-veriT-only proof of the same benchmark if one exists (isolates whether it's specific to cvc5's
-proof shape), or instrument the actual Coq-level `resolve`/`has_true` computation directly rather
-than re-modeling it in OCaml.
+**Impact.** Of the 3 `examples/regress` files that failed on this exact limitation:
+- `HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v` still errors, unaffected: it
+  hits the closely-related `cong_find_implicit_args.f: can't find implicit premise to congr`
+  message via a different call path than the one this fix touches — confirmed by testing it
+  before and after: identical error, byte-for-byte, both times. This is the 1 remaining
+  known-unresolved `Error` in the suite.
+- `HOL-Library/smt_cvc4/x2020_07_23_16_01_56_200_5114158cvc5.v` and
+  `HOL-Library/smt_verit/x2020_07_23_15_35_20_861_5083584cvc5.v` no longer crash during
+  preprocessing, but at that point ran to completion and returned `false` instead of `true` —
+  a *different*, previously-masked bug this fix's crash had been hiding (`Verit_Checker_Debug`
+  reported `Step number 30 (BuildDef2) of the certificate likely failed` for both — same step,
+  consistent with these two being cvc4/veriT proof variants of the same underlying Isabelle
+  lemma). Root-caused and fixed separately — see `process_same`'s correctness fix above; both
+  files now pass.
 
-### Known unresolved, pre-existing, untouched: 3 `Error` files
-
-All three fail on `cong_find_implicit_args`, which doesn't support congruence over integer
-predicates (e.g. `<`, `<=` between integers). This is a separate, deeper limitation that predates
-this session's work and wasn't investigated.
-
-Root cause: `cong_find_implicit_args` calls `get_args_isfrms` on a `cong` step's conclusion to
-work out the congruence's implicit argument-position equalities (e.g. for `f x T b = f y T a`
-derived from `x=y` and `a=b`, it needs to know `f`'s argument list to line premises up with
-positions). `get_args_isfrms` knows how to list arguments for `And`/`Or`/`Imp`/`Xor`/`Eq`/`Ite`/
-`App`, but its very first match arm is `Lt (x, y) | Leq (x, y) | Gt (x, y) | Geq (x, y) -> raise
-(Debug "congruence over integer predicates unsupported")` — congruence over an integer
-inequality (e.g. proving `(>= a b) = (>= c d)` from `a=c` and `b=d`, which real cvc5 proofs do
-routinely as part of normalizing linear arithmetic) just gives up immediately instead of listing
-`[x; y]` the same way the `Eq` arm does one case above it. Two of the three files fail with this
-exact message; the third fails with the closely-related "can't find implicit premise to congr"
-once the same underlying gap is reached via a slightly different call path.
+Net effect on the suite: this fix alone changed `False` 1→3 and `Error` 3→1 (uncovering the
+`process_same` bug rather than fixing it outright); combined with the `process_same` fix above,
+the suite is now at 432/433 True/OK with only the one, unrelated `Error` left.
 
 Worked example: [`cong_integer_predicate`](examples/aletheTests/claudeTests/cong_integer_predicate) —
-unlike every other worked example in that directory, this one is **not fixed**; it's a minimal
-reproduction (verified to raise the exact same `Debug` message, word-for-word, as the real
-`examples/regress` failures) of a limitation nobody has fixed yet. A real fix would extend
-`get_args_isfrms`'s `Lt`/`Leq`/`Gt`/`Geq` arm to return `[(x, is_frm x); (y, is_frm y)]` like the
-`Eq` arm does, then verify `cong_find_implicit_args`'s downstream premise-matching logic (which
-was written assuming `Eq`-shaped congruence) still lines premises up correctly for a
-non-symmetric, non-`Eq` binary predicate.
+verified to hit the exact same `Debug` message, word-for-word, as the real `examples/regress`
+failures before this fix, and to pass after it.

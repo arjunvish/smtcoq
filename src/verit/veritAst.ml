@@ -491,13 +491,13 @@ let rec eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
     | Xor xs, Xor ys -> check_arg_lists xs ys
     | Ite xs, Ite ys -> check_arg_lists xs ys
     | App (f1, xs), App (f2, ys) -> f1 = f2 && check_arg_lists xs ys
-    | Eq (x, y), Eq (a, b) -> 
+    | Eq (x, y), Eq (a, b) ->
       let is_term = (fun x -> match snd (process_term_aux x) with
-                              | Form.Atom h -> 
-                                  (match Atom.type_of h with 
+                              | Form.Atom h ->
+                                  (match Atom.type_of h with
                                     | SmtBtype.Tbool -> false
                                     | _ -> true)
-                              | _ -> true) in
+                              | _ -> false) in
       if (is_term x && is_term y && is_term a && is_term b) then
         (x = a && y = b) || (x = b && y = a)
       else
@@ -920,8 +920,9 @@ let rec process_notnot (c : certif) : certif =
   in aux [] c
 
 
-(* => Transformation Step: Remove Same rules (that come from Symmetry) and 
-      Cont rules (that come from Contraction) from the certificate *)
+(* => Transformation Step: Remove Same rules that come from
+      symmetry, contraction, reordering, and factoring rules from the certificate
+      that restate an earlier clause with the same literals (deduplicated/reordered) *)
 (*
    For example, the following certificate:
      (step x ...)
@@ -944,13 +945,60 @@ let replace_prem (x : id) (y : id) (c : certif) : certif =
      | (i, r, cl, p, a) :: tl -> aux ((i, r, cl, (replace x y p), a) :: acc) tl
      | [] -> List.rev acc
    in aux [] c
+(* Returns true if Eq (p, q) is a term equality (which we can remove from our certificates 
+   because SMTCoq reasons modulo symmetry of term equality) and false otherwise (when
+   the equality is actually an iff) *)
+let eq_is_symmetrized (p : term) (q : term) : bool =
+  match snd (process_term_aux p), snd (process_term_aux q) with
+  | Form.Atom h1, Form.Atom _ ->
+      (match Atom.type_of h1 with SmtBtype.Tbool -> false | _ -> true)
+  | _, _ -> false
+
+
+(* Builds proof of `p iff q -> q iff p` with a fresh id *)
+let build_eq_symm_tautology (p : term) (q : term) : (certif * id) =
+  let eqp1i = generate_id () in
+  let eqn1i = generate_id () in
+  let resi1 = generate_id () in
+  let eqp2i = generate_id () in
+  let eqn2i = generate_id () in
+  let resi2 = generate_id () in
+  let taut_id = generate_id () in
+  ([(eqp1i, Equp1AST, [Not (Eq (p, q)); p; Not q], [], []);
+    (eqn1i, Equn1AST, [Eq (q, p); Not q; Not p], [], []);
+    (resi1, ResoAST, [Not (Eq (p, q)); Not q; Eq (q, p)], [eqp1i; eqn1i], []);
+    (eqp2i, Equp2AST, [Not (Eq (p, q)); Not p; q], [], []);
+    (eqn2i, Equn2AST, [Eq (q, p); q; p], [], []);
+    (resi2, ResoAST, [Not (Eq (p, q)); q; Eq (q, p)], [eqp2i; eqn2i], []);
+    (taut_id, ResoAST, [Not (Eq (p, q)); Eq (q, p)], [resi1; resi2], [])],
+   taut_id)
+
+(* When a symmetry step proves `x = y` from `y = x` and `x` and `y` are terms, we process this step
+   by simply removing it. Howqever, if `x` and `y` are formulas, then the proof must
+   be replaced by a sound proof generated using `build_eq_symm_tautology`. This is 
+   because SMTCoq reasons modulo symmtery for equality of terms but not for iff of formulas. *)
 let process_same (c : certif) : certif =
    let rec aux (acc : certif) (c : certif) : certif =
      match c with
-     | (i, SameAST, _, p, _) :: tl -> let ogi = (match p with
-                                      | [p1] -> p1
-                                      | _ -> raise (Debug ("| process_same : expecting a Same rule to have exactly one premise at id "^i^" |"))) in
-                                      aux acc (replace_prem i ogi tl)
+     | (i, SameAST, cl, p, _) :: tl ->
+         let ogi = (match p with
+                    | [p1] -> p1
+                    | _ -> raise (Debug ("| process_same : expecting a Same rule to have exactly one premise at id "^i^" |"))) in
+         let lit = match cl with
+                   | [l] -> Some (get_expr l)
+                   | _ -> None in
+         (match lit with
+          | Some (Eq (q, p')) when eq_is_symmetrized q p' -> aux acc (replace_prem i ogi tl)
+          | Some (Not (Eq (q, p'))) when eq_is_symmetrized q p' -> aux acc (replace_prem i ogi tl)
+          | Some (Eq (q, p')) ->
+              let taut_steps, taut_id = build_eq_symm_tautology p' q in
+              let final = (i, ResoAST, [Eq (q, p')], [taut_id; ogi], []) in
+              aux (final :: (List.rev_append taut_steps acc)) tl
+          | Some (Not (Eq (q, p'))) ->
+              let taut_steps, taut_id = build_eq_symm_tautology q p' in
+              let final = (i, ResoAST, [Not (Eq (q, p'))], [taut_id; ogi], []) in
+              aux (final :: (List.rev_append taut_steps acc)) tl
+          | Some _ | None -> aux acc (replace_prem i ogi tl))
      | (i, SubproofAST subcl, cl, p, a) :: tl ->
          aux ((i, SubproofAST (aux [] subcl), cl, p, a) :: acc) tl
      | h :: tl -> aux (h :: acc) tl
@@ -997,8 +1045,10 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
    | Not x ->  [(x, true)]
    | UMinus x -> [(x, false)]
    | Plus (x, y) | Minus (x, y) | Mult (x, y) -> [(x, false); (y, false)]
-   | Lt (x, y) | Leq (x, y) | Gt (x, y) | Geq (x, y) -> 
-      raise (Debug ("| get_args_isfrms : congruence over integer predicates unsupported |"))
+   | Lt (x, y) | Leq (x, y) | Gt (x, y) | Geq (x, y) ->
+      List.map (fun x -> (x, (match snd (process_term_aux x) with
+                              | Form.Atom _ -> false
+                              | _ -> true))) [x; y]
    | And xs | Or xs | Imp xs | Xor xs -> List.map (fun x -> (x, true)) xs
    | Eq (x, y) -> List.map (fun x -> (x, (match snd (process_term_aux x) with 
                                          | Form.Atom _ -> false 
@@ -5158,18 +5208,31 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try
   (let c1 = store_shared_terms c in
+  (* Printf.printf ("Certif after store_shared_terms: \n%s\n") (string_of_certif c1); *)
   let c2 = process_fins c1 in
+  (* Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2); *)
   let c3 = process_hole c2 in
+  (* Printf.printf ("Certif after process_hole: \n%s\n") (string_of_certif c3); *)
   let c4 = process_notnot c3 in
+  (* Printf.printf ("Certif after process_notnot: \n%s\n") (string_of_certif c4); *)
   let c5 = process_same c4 in
+  (* Printf.printf ("Certif after process_same: \n%s\n") (string_of_certif c5); *)
   let c6 = process_cong c5 in
+  (* Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6); *)
   let c7 = process_trans c6 in
+  (* Printf.printf ("Certif after process_trans: \n%s\n") (string_of_certif c7); *)
   let c8 = process_simplify c7 in
+  (* Printf.printf ("Certif after process_simplify: \n%s\n") (string_of_certif c8); *)
   let c9 = process_proj c8 in
+  (* Printf.printf ("Certif after process_proj: \n%s\n") (string_of_certif c9); *)
   let c9' = hoist_nested_subproofs c9 in
+  (* Printf.printf ("Certif after hoist_nested_subproofs: \n%s\n") (string_of_certif c9'); *)
   let c10 = process_subproof c9' in
+  (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
+  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
   let c12 = process_unused c11 in
+  (* Printf.printf ("Certif after process_unused: \n%s\n") (string_of_certif c12); *)
   c12) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 

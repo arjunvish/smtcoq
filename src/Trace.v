@@ -722,6 +722,28 @@ Inductive step :=
     end
   .
 
+  (* Diagnostic-only: like checker_debug, but instead of stopping at the first "likely failed"
+     step, walks every step and records the checker's own computed clause (as raw literal ints,
+     not the OCaml-side "declared" clause) at each one, in order. Meant to be inspected via
+     `Eval vm_compute in (checker_trace ...)` (or the OCaml-side print wired up around it) to see
+     ground truth for exactly what `resolve`/`check_BuildDef`/`check_BuildDef2`/etc. actually
+     compute, since the declared clause in the certificate is not what's checked. *)
+  Definition checker_trace d used_roots (c:certif) : (int * int * list (int * list int)) :=
+    let (nclauses, t, confl) := c in
+    let s := add_roots (S.make nclauses) d used_roots in
+    let nroots := match used_roots with Some ur => length ur | None => length d end in
+    let roots_log := foldi (fun i log => log ++ ((i, S.get s i) :: nil)) 0 nroots nil in
+    let steps_log :=
+        snd (List.fold_left
+          (fun (acc: S.t * list (int * list int)) (st:step) =>
+             let (s, log) := acc in
+             let s := step_checker s st in
+             let pos := position_of_step st in
+             (s, log ++ ((pos, S.get s pos) :: nil))
+          ) (fst t) (s, nil)) in
+    (nclauses, confl, roots_log ++ steps_log)
+  .
+
 
   Lemma checker_correct : forall (* t_i t_func t_atom t_form *) d used_roots c,
     checker (* t_i t_func t_atom t_form *) d used_roots c = true ->
@@ -828,6 +850,7 @@ Register Euf_Checker.checker_b as SMTCoq.Trace.Euf_Checker.checker_b.
 Register Euf_Checker.checker_eq_correct as SMTCoq.Trace.Euf_Checker.checker_eq_correct.
 Register Euf_Checker.checker_eq as SMTCoq.Trace.Euf_Checker.checker_eq.
 Register Euf_Checker.checker_debug as SMTCoq.Trace.Euf_Checker.checker_debug.
+Register Euf_Checker.checker_trace as SMTCoq.Trace.Euf_Checker.checker_trace.
 Register Euf_Checker.name_step as SMTCoq.Trace.Euf_Checker.name_step.
 Register Euf_Checker.Name_Res as SMTCoq.Trace.Euf_Checker.Name_Res.
 Register Euf_Checker.Name_Weaken as SMTCoq.Trace.Euf_Checker.Name_Weaken.

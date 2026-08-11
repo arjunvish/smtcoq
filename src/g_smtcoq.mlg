@@ -49,6 +49,10 @@ VERNAC COMMAND EXTEND Vernac_verit CLASSIFIED AS QUERY
   {
     Verit.checker_debug fsmt fproof
   }
+| [ "Verit_Checker_Trace" string(fsmt) string(fproof) ] ->
+  {
+    Verit.checker_trace fsmt fproof
+  }
 | [ "Verit_Theorem" ident(name) string(fsmt) string(fproof) ] ->
   {
     Verit.theorem name fsmt fproof

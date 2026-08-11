@@ -275,6 +275,7 @@ val ceuf_checker_checker_b : coqTerm
 val ceuf_checker_checker_eq_correct : coqTerm
 val ceuf_checker_checker_eq : coqTerm
 val ceuf_checker_checker_debug : coqTerm
+val ceuf_checker_checker_trace : coqTerm
 val ceuf_checker_name_step : coqTerm
 val ceuf_checker_Name_Res : coqTerm
 val ceuf_checker_Name_Weaken : coqTerm

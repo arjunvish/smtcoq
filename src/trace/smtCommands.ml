@@ -28,6 +28,7 @@ let cchecker_b = CoqTerms.ceuf_checker_checker_b
 let cchecker_eq_correct = CoqTerms.ceuf_checker_checker_eq_correct
 let cchecker_eq = CoqTerms.ceuf_checker_checker_eq
 let cchecker_debug = CoqTerms.ceuf_checker_checker_debug
+let cchecker_trace = CoqTerms.ceuf_checker_checker_trace
 let cname_step = CoqTerms.ceuf_checker_name_step
 let cName_Res = CoqTerms.ceuf_checker_Name_Res
 let cName_Weaken = CoqTerms.ceuf_checker_Name_Weaken
@@ -438,6 +439,79 @@ let checker_debug (rt, ro, ra, rf, roots, max_id, confl) =
      | _ -> assert false
     )
   | _ -> assert false
+
+
+(* Diagnostic-only, not wired into any normal checking path: same term-construction as
+   checker_debug above, but calls checker_trace instead and prints the raw resulting Coq value
+   (a `list (int * list int)`: one (position, checker-computed clause as literal ints) pair per
+   certificate step, in order) via Coq's own pretty-printer, rather than trying to decode it into
+   an OCaml value. Meant for one-off investigation of exactly what the Coq-level checker computes
+   at each step (the declared/OCaml-side clause is not what's checked), since Verit_Checker_Debug
+   only reports a single (unreliable-to-map-back) step number. *)
+let checker_trace (rt, ro, ra, rf, roots, max_id, confl) =
+  Format.eprintf "checker_trace: max_id=%d count_used=%d\n@." max_id (count_used confl);
+  let nti = CoqInterface.mkName "t_i" in
+  let ntfunc = CoqInterface.mkName "t_func" in
+  let ntatom = CoqInterface.mkName "t_atom" in
+  let ntform = CoqInterface.mkName "t_form" in
+  let nc = CoqInterface.mkName "c" in
+  let nused_roots = CoqInterface.mkName "used_roots" in
+  let nd = CoqInterface.mkName "d" in
+
+  let v = CoqInterface.mkRel in
+
+  let t_i = make_t_i rt in
+  let t_func = make_t_func ro (v 1 (*t_i*)) in
+  let t_atom = Atom.interp_tbl ra in
+  let t_form = snd (Form.interp_tbl rf) in
+
+  let (tres,last_root,cuts) = SmtTrace.to_coq (fun i -> mkInt (Form.to_lit i))
+      (interp_conseq_uf t_i)
+      (certif_ops (Some [|v 4(*t_i*); v 3(*t_func*);
+                          v 2(*t_atom*); v 1(* t_form *)|])) confl None in
+  List.iter (fun (v,ty) ->
+    let _ = CoqInterface.declare_new_variable v ty in
+    print_assm ty
+  ) cuts;
+
+  let certif =
+    mklApp cCertif [|v 4(*t_i*); v 3(*t_func*); v 2(*t_atom*); v 1(* t_form *);
+                     mkInt (max_id + 1); tres;mkInt (get_pos confl)|] in
+
+  let used_roots = compute_roots roots last_root in
+  let used_rootsCstr =
+    let l = List.length used_roots in
+    let res = Array.make (l + 1) (mkInt 0) in
+    let i = ref (l-1) in
+    List.iter (fun j -> res.(!i) <- mkInt j; decr i) used_roots;
+    mklApp cSome [|mklApp carray [|Lazy.force cint|];
+                   CoqTerms.mkArray (Lazy.force cint, res)|] in
+  let rootsCstr =
+    let res = Array.make (List.length roots + 1) (mkInt 0) in
+    let i = ref 0 in
+    List.iter (fun j -> res.(!i) <- mkInt (Form.to_lit j); incr i) roots;
+    CoqTerms.mkArray (Lazy.force cint, res) in
+
+  let tm =
+   CoqInterface.mkLetIn (nti, t_i, mklApp carray [|Lazy.force ctyp_compdec|],
+   CoqInterface.mkLetIn (ntfunc, t_func,
+                 mklApp carray [|mklApp ctval [|v 1(* t_i *)|]|],
+   CoqInterface.mkLetIn (ntatom, t_atom, mklApp carray [|Lazy.force catom|],
+   CoqInterface.mkLetIn (ntform, t_form, mklApp carray [|Lazy.force cform|],
+   CoqInterface.mkLetIn (nc, certif, mklApp ccertif [|v 4 (*t_i*); v 3 (*t_func*);
+                                              v 2 (*t_atom*); v 1 (*t_form*)|],
+   CoqInterface.mkLetIn (nused_roots, used_rootsCstr,
+                 mklApp coption [|mklApp carray [|Lazy.force cint|]|],
+   CoqInterface.mkLetIn (nd, rootsCstr, mklApp carray [|Lazy.force cint|],
+   mklApp cchecker_trace [|v 7 (*t_i*); v 6 (*t_func*); v 5 (*t_atom*);
+       v 4 (*t_form*); v 1 (*d*); v 2 (*used_roots*); v 3 (*c*)|]))))))) in
+
+  let clog_entry = mklApp cprod [|Lazy.force cint; mklApp clist [|Lazy.force cint|]|] in
+  let cty = mklApp cprod [|mklApp cprod [|Lazy.force cint; Lazy.force cint|];
+                           mklApp clist [|clog_entry|]|] in
+  let res = CoqInterface.cbv_vm (Global.env ()) tm cty in
+  Format.eprintf "checker_trace result (nclauses, confl_pos, log):\n%s\n@."
+    (Pp.string_of_ppcmds (CoqInterface.pr_constr_env (Global.env ()) res))
 
 
 

@@ -151,6 +151,9 @@ let parse_certif t_i t_func t_atom t_form root used_root trace fsmt fproof =
 let checker_debug fsmt fproof =
   SmtCommands.checker_debug (import_all fsmt fproof)
 
+let checker_trace fsmt fproof =
+  SmtCommands.checker_trace (import_all fsmt fproof)
+
 let theorem name fsmt fproof =
   SmtCommands.theorem name (import_all fsmt fproof)
 
