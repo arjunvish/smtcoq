@@ -1060,6 +1060,62 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
    | STerm s -> try get_args_isfrms (get_sterm s) with
                 | Debug s -> raise (Debug ("| get_args : unable to dereference shared term |"^s))
 
+(* Fetches a premise's own equality literal from its (possibly-modified) clause, the same
+   lookup `cong_find_implicit_args` does inline for its own explicit premises. *)
+let get_prem_eq (pid : id) (i : id) (cog : certif) : term =
+  match get_cl pid cog with
+  | Some c -> (try List.find (fun y -> match get_expr y with Eq _ -> true | _ -> false) c with
+               | Not_found -> raise (Debug ("| get_prem_eq: premise "^pid^" to cong has no equalities at id "^i^" |")))
+  | None -> raise (Debug ("| get_prem_eq: can't fetch premise "^pid^" to congr at id "^i^" |"))
+
+(* SMTCoq's +/-/* are binary whereas the solver (cvc5) may emit n-ary applications.
+  fold_nary_arith_prem gives the n-ary application in terms of binary applications.
+  Converts:
+  -----             ------            ------
+  a = a'            b = b'            c = c'
+  --------------------------------------------cong
+          (+ a b c) = (+ a' b' c')
+  to:
+    ------  ------    --------------------------------eqcong
+    a = a'  b = b'    ~(a = a'), ~(b = b'), a+b = a'+b
+    --------------------------------------------------res   --------  -----------------------------------------------eqcong
+                      (a+b) = (a'+b')                        c = c'   ~(a+b = a'+b'), ~(c=c'), (a+b)+c) = ((a'+b')+c'
+                      -----------------------------------------------------------------------------------------------res
+                                                        ((a+b)+c) = ((a'+b')+c')
+*)
+let rec fold_nary_arith_prem (i : id) (fx : term) (fy : term) (p : id list) (cog : certif) : (step list * id * term) =
+  match p with
+  | [pid] -> ([], pid, get_prem_eq pid i cog)
+  | [] -> raise (Debug ("| fold_nary_arith_prem: expecting at least one premise at id "^i^" |"))
+  | _ ->
+    (match get_expr fx, get_expr fy with
+     | (Plus (fx1, fx2), Plus (fy1, fy2))
+     | (Minus (fx1, fx2), Minus (fy1, fy2))
+     | (Mult (fx1, fx2), Mult (fy1, fy2)) ->
+        let n = List.length p in
+        let rec split k l = match k, l with
+          | 0, _ -> ([], l)
+          | _, [] -> ([], [])
+          | k, h :: t -> let (a, b) = split (k-1) t in (h :: a, b) in
+        let p_left, p_lastl = split (n-1) p in
+        let p_last = (match p_lastl with
+                      | [x] -> x
+                      | _ -> raise (Debug ("| fold_nary_arith_prem: expecting exactly one remaining premise at id "^i^" |"))) in
+        let (steps1, id1, eq1) = fold_nary_arith_prem i fx1 fy1 p_left cog in
+        let eq2 = get_prem_eq p_last i cog in
+        let eq_full = Eq (fx, fy) in
+        let eqci = generate_id () in
+        let stepi = generate_id () in
+        (* steps1's own dependencies must appear before it, so it comes first: the certificate
+           list is in forward dependency order (earliest premise first), matching the convention
+           established by build_eq_symm_tautology and consumed the same way (List.rev_append
+           onto a reverse accumulator) by every caller of this function. *)
+        (steps1 @
+         [(eqci, EqcoAST, [Not eq1; Not eq2; eq_full], [], []);
+          (stepi, ResoAST, [eq_full], [eqci; id1; p_last], [])],
+         stepi, eq_full)
+     | _ -> raise (Debug ("| fold_nary_arith_prem: expecting matching Plus/Minus/Mult shapes with more premises than a flat top-level argument count at id "^i^" |")))
+
 (*
   Example:
   1. x = y
@@ -1069,11 +1125,32 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
         (ii) the ids for the equalities in the premise
         (iii) the certificate
   Return (i) flattened list of certificates representing the steps for each implicit argument
-         (ii) ordered list of (prem_id, prem_eq) pairs representing the id of the premise and 
+         (ii) ordered list of (prem_id, prem_eq) pairs representing the id of the premise and
               the equality it proves (this includes implicit and explicit premises)
 *)
 let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (step list * ((id * term) list)) =
    match get_expr ft with
+   | Eq (fx, fy) when (List.length p > 2) &&
+                      (match get_expr fx, get_expr fy with
+                       | (Plus _, Plus _) | (Minus _, Minus _) | (Mult _, Mult _) -> true
+                       | _ -> false) ->
+       let fx1, fy1 = (match get_expr fx, get_expr fy with
+                       | (Plus (fx1,_), Plus (fy1,_))
+                       | (Minus (fx1,_), Minus (fy1,_))
+                       | (Mult (fx1,_), Mult (fy1,_)) -> fx1, fy1
+                       | _ -> assert false) in
+       let n = List.length p in
+       let rec split k l = match k, l with
+         | 0, _ -> ([], l)
+         | _, [] -> ([], [])
+         | k, h :: t -> let (a, b) = split (k-1) t in (h :: a, b) in
+       let p_left, p_lastl = split (n-1) p in
+       let p_last = (match p_lastl with
+                     | [x] -> x
+                     | _ -> raise (Debug ("| cong_find_implicit_args: expecting exactly one remaining premise at id "^i^" |"))) in
+       let (steps1, id1, eq1) = fold_nary_arith_prem i fx1 fy1 p_left cog in
+       let eq2 = get_prem_eq p_last i cog in
+       (steps1, [(id1, eq1); (p_last, eq2)])
    | Eq (fx, fy) -> let n = List.length (try get_args_isfrms fx with
                                         | Debug s -> raise (Debug ("| cong_find_implicit_args: checking for implicit args, can't get args to app at id "^i^" |"^s))) in
                    (* no implicit equalities *)

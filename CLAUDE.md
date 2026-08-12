@@ -8,8 +8,8 @@ of what was found and why each change was made.
 **Net result:** the `examples/regress` suite (433 `.v` files: 5 small hand-picked tests +
 `sledgehammer-benchmarks`, a large corpus of real cvc5/veriT proofs from Isabelle's Sledgehammer)
 went from a state where a large fraction of the sledgehammer benchmarks either crashed outright
-or produced a checked-but-wrong `= false`, to **432/433 passing**, with 1 known-unresolved error
-(described at the bottom, with what was ruled out).
+or produced a checked-but-wrong `= false`, to **433/433 passing** — no known-unresolved failures
+left in the suite.
 
 Run it yourself with `cd examples && make test` (see "Build/test infra" below).
 
@@ -67,12 +67,16 @@ layers, where fixing one exposed the next:
      equality). Worked example:
      [`symm_unsound_boolean_flip`](examples/aletheTests/claudeTests/symm_unsound_boolean_flip).
 
-4. **What's left.** `get_args_isfrms` didn't support congruence over integer predicates (`<`,
-   `<=`, `>`, `>=`), causing 3 files to error out — fixed (see the `get_args_isfrms` section
-   below). 1 of those 3 still errors on an unrelated bug; the other 2 are now fully fixed (the
-   `process_same` fix above resolved the `false` result the `get_args_isfrms` fix had merely
-   uncovered). Worked example:
-   [`cong_integer_predicate`](examples/aletheTests/claudeTests/cong_integer_predicate).
+4. **The remaining errors.** `get_args_isfrms` didn't support congruence over integer predicates
+   (`<`, `<=`, `>`, `>=`), causing 3 files to error out — fixed (see the `get_args_isfrms` section
+   below). 2 of those 3 were then fully fixed by the `process_same` fix above (which resolved the
+   `false` result the `get_args_isfrms` fix had merely uncovered); the 3rd hit a separate,
+   *unrelated* limitation in `cong_find_implicit_args` itself: it had no way to handle a `cong`
+   step over an n-ary `+`/`-`/`*` (3+ explicit premises, one per flat argument, matching real cvc5
+   output) against `Plus`/`Minus`/`Mult`'s strictly-binary internal representation — fixed too
+   (see "`cong_find_implicit_args`: n-ary `+`/`-`/`*` congruence" below). Worked examples:
+   [`cong_integer_predicate`](examples/aletheTests/claudeTests/cong_integer_predicate),
+   [`nary_arith_cong`](examples/aletheTests/claudeTests/nary_arith_cong).
 
 ---
 
@@ -444,7 +448,7 @@ section). Zero regressions across the full 433-file suite plus
 ## Final state
 
 ```
-examples/regress:            433 total, 432 True/OK, 0 False, 1 Error, 0 Timeout
+examples/regress:            433 total, 433 True/OK, 0 False, 0 Error, 0 Timeout
 examples/aletheTests/sanitychecktests: test1–5 (cvc5 + veriT) all = true
 ```
 
@@ -468,11 +472,11 @@ inequalities), and the actual derivation this enables — `EqcpAST`, the fixed a
 predicate `P`, symmetric or not.
 
 **Impact.** Of the 3 `examples/regress` files that failed on this exact limitation:
-- `HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v` still errors, unaffected: it
-  hits the closely-related `cong_find_implicit_args.f: can't find implicit premise to congr`
-  message via a different call path than the one this fix touches — confirmed by testing it
-  before and after: identical error, byte-for-byte, both times. This is the 1 remaining
-  known-unresolved `Error` in the suite.
+- `HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v` still errored at the time,
+  unaffected: it hits the closely-related `cong_find_implicit_args.f: can't find implicit premise
+  to congr` message via a different call path than the one this fix touches — confirmed by
+  testing it before and after: identical error, byte-for-byte, both times. Root-caused and fixed
+  separately — see "`cong_find_implicit_args`: n-ary `+`/`-`/`*` congruence" below.
 - `HOL-Library/smt_cvc4/x2020_07_23_16_01_56_200_5114158cvc5.v` and
   `HOL-Library/smt_verit/x2020_07_23_15_35_20_861_5083584cvc5.v` no longer crash during
   preprocessing, but at that point ran to completion and returned `false` instead of `true` —
@@ -482,10 +486,60 @@ predicate `P`, symmetric or not.
   lemma). Root-caused and fixed separately — see `process_same`'s correctness fix above; both
   files now pass.
 
-Net effect on the suite: this fix alone changed `False` 1→3 and `Error` 3→1 (uncovering the
-`process_same` bug rather than fixing it outright); combined with the `process_same` fix above,
-the suite is now at 432/433 True/OK with only the one, unrelated `Error` left.
+Net effect on the suite: this fix alone changed `False` 1→3 and `Error` 3→1 (uncovering, not yet
+fixing, two further bugs); combined with `process_same`'s fix and `cong_find_implicit_args`'s
+fix below, the suite is now at 433/433 True/OK.
 
 Worked example: [`cong_integer_predicate`](examples/aletheTests/claudeTests/cong_integer_predicate) —
 verified to hit the exact same `Debug` message, word-for-word, as the real `examples/regress`
 failures before this fix, and to pass after it.
+
+### `cong_find_implicit_args`: n-ary `+`/`-`/`*` congruence
+
+**Bug:** cvc5 emits a `cong` step over an n-ary `+`/`-`/`*` with one explicit premise *per flat
+argument* — e.g. `(+ a b c) = (+ a' b' c')` derived from 3 premises `a=a'`, `b=b'`, `c=c'`. But
+`Plus`/`Minus`/`Mult` are strictly binary constructors here (`veritParser.mly` left-folds n-ary
+`+`/`-`/`*` into nested binary applications at parse time — see the `veritParser.mly` section
+above), so `get_args_isfrms` only ever reports 2 arguments for such a node, however many premises
+cvc5 actually supplied. `cong_find_implicit_args`'s normal matching — walk argument positions
+one at a time, consuming at most one explicit premise per position, falling back to implicit
+reflexivity for any position where the argument is syntactically unchanged — has no way to
+consume 3+ premises against a 2-argument node: once it runs out of *positions* while premises
+remain, it gives up with `cong_find_implicit_args.f: can't find implicit premise to congr`, the
+one error left in the suite (`HOL-Library/smt_verit/x2020_07_24_00_32_10_259_5099720cvc5.v`,
+step `t6`: exactly this shape, `(+ e1_d (* -1 e2_d) (* -1 (+ e1_d (* -1 e2_d)))) = ...` derived
+from 3 premises against cvc5's own 3-ary `+`).
+
+**Fix:** a new `fold_nary_arith_prem`, called whenever `fx`/`fy` are both `Plus`/`Minus`/`Mult`
+and there are more than 2 premises. Since our left-folded term is `Plus(Plus(...,argN-1),argN)`
+and premise `k` (1-indexed) proves flat argument `k`'s equality (cvc5's own convention), this
+recursively folds the first `n-1` premises against the left subtree — inserting one synthetic
+`EqcoAST`+`ResoAST` congruence step per fold, in the exact shape `process_cong`'s own "no implicit
+equalities" case already builds for a genuine 2-ary node (and confirmed correct by that code's
+own passing tests, e.g. this same file's `t12`/`t15`, real 2-ary `+`/`>=` congruences) — down to
+exactly one combined id+equality for the left subtree, which is then paired with the untouched
+last premise as the *2* logical premises `Plus`/`Minus`/`Mult`'s own binary structure needs. That
+pair is handed back as `cong_find_implicit_args`'s ordinary return value, so the rest of the
+(already correct) machinery — including the top-level `process_cong` caller that builds the
+final, outermost congruence step — runs completely unchanged.
+
+Getting the emitted certificate's step *order* right needed a fix of its own during testing: a
+first draft built each fold's two new steps by consing them onto the front of the recursively-
+obtained step list (`newstep :: recursive_steps`), which put a step *before* the dependency
+(from the recursive, deeper fold) that it itself resolves against — `VeritSyntax.mk_clause`
+failed with `get_clause: clause number ... not found` when it tried to process the later step
+before its premise had been inserted. Fixed by appending instead (`recursive_steps @ [newsteps]`),
+matching the forward, dependency-first ordering `build_eq_symm_tautology` (this session's other
+multi-step derivation-builder) already uses, and that every caller of this kind of step-list
+already expects (each consumed via `List.rev_append` onto a reverse accumulator).
+
+**Impact:** fixes the single remaining `examples/regress` `Error`. The suite is now **433/433**,
+verified with zero regressions. Worked example:
+[`nary_arith_cong`](examples/aletheTests/claudeTests/nary_arith_cong) — verified to hit the exact
+same `Debug` message as the real failure before this fix (a minimized version of the same shape:
+3 explicit premises for a 3-ary `+`, written with explicit double-nesting - `(+ (+ a b) c)` - in
+the smt2 file's own assertions specifically to stay clear of a separate, pre-existing, unrelated
+limitation: `smtlib2_genConstr.ml`, the parser for the *smt2 file's own* root assertions, only
+recognizes binary `+`/`-`/`*`, unlike `veritParser.mly`'s proof-file parser which already
+handles n-ary via left-folding; not investigated further since it isn't exercised by anything in
+`examples/regress` and wasn't part of what this fix needed to address), and to pass after it.
