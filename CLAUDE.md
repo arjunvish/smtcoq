@@ -682,56 +682,21 @@ still failing at the time; re-diagnosing it led to the `Reso`/`ThReso` investiga
 (itself later found to have been chasing a false lead), and eventually to the `Ite1AST` and
 `mkCongrPred` fixes further down, which are what actually got it passing.
 
-### `src/verit/veritSyntax.ml`, `mk_clause`'s `Reso`/`ThReso` cases: premise order vs. `C.resolve`'s sequential chain (fix kept, but turned out not to be needed — see below)
+### Dead end investigated and ruled out: `mk_clause`'s `Reso`/`ThReso` premise order
 
-**Original diagnosis:** re-diagnosing `test7verit`'s `t6` (`th_resolution :premises (h1 t2 t5)`)
-by hand-decoding the checker's own literal integers (`Form.to_lit`, `is_pos = is_even`) for `h1`,
-`t2`, `t5` appeared to show that resolving premises in veriT's *listed* order has no valid pivot
-between `h1` and `t2` (their literal sets looked disjoint save one same-signed, non-cancelling
-literal), while reordering to resolve `t5` in before `t2` finds a clean pivot at every step and
-reproduces `t6`'s declared clause exactly. The theory: veriT's `resolution`/`th_resolution` rule
-treats its premise list as a *set* and is sound for any pivot order, but `mk_clause`'s `Reso`/
-`ThReso` cases compile a multi-premise resolution step directly into `Res {rc1; rc2; rtail}`,
-which `set_resolve` (`State.v`) folds strictly left to right via `foldi`; each individual
-two-clause fold must find its own valid pivot, or `C.resolve` gives up outright, collapsing to
-the checker's `C._true` sentinel — which then poisons every downstream step that resolves
-against it (nothing can ever cancel it), preventing the certificate from ever concluding the
-empty clause, while every individual step stays locally "valid" — the same "checks out step by
-step, wrong final answer" signature as several bugs from the previous session.
-
-**This diagnosis missed something:** the hand-simulation above used veriT's *listed* premise
-order (`h1 t2 t5`) directly, but `Threso`'s handling (unlike `Reso`'s) reverses the premise list
-via `List.rev` *before* folding — the actual fold order is `t5, t2, h1`, not `h1, t2, t5`.
-Re-simulating against that *real* order finds a clean pivot at every step and reproduces `t6`'s
-declared clause exactly — `t6` was never actually broken. This was caught mid-investigation (see
-the code comment on the still-present fix below for the corrected reasoning) but the fix had
-already been implemented and kept; only much later, while splitting this session's changes into
-separate commits, was it directly verified (by reverting the fix and re-running the full
-`examples/regress` suite plus all of `sanitychecktests`) that every currently-passing test passes
-identically with or without it.
-
-**Fix (kept anyway):** `reorder_premises_for_pivot`, called on the `SmtCertif.clause` list (after
-`get_clause`, so each premise's own declared `.value` — a `Form.t list` — is available) right
-before building `Res`. It walks the list left to right maintaining an approximate running
-accumulator; whenever the *next* premise in veriT's own order has no literal complementary to
-anything currently in the accumulator, it searches the *remaining* premises for the first one
-that does, and promotes it ahead. This is a pure reordering (same set of premises, same declared
-conclusion, only the *order* they're folded in changes) and is sound regardless of order since
-resolution's premises genuinely are a set; it changes nothing for the overwhelming majority of
-resolution steps, which never hit the "next premise has no pivot" case at all. The accumulator
-used for the search is an approximation (arbitrarily picks one complementary pair per fold when
-several exist, unlike `C.resolve`'s specific sorted-first behavior) — it only needs to guide the
-search toward *a* valid chain, not to bit-exactly predict what the real checker will compute.
-
-**Impact:** none currently — verified (by temporarily reverting it) that both the full 433-file
-`examples/regress` suite and all of `examples/aletheTests/sanitychecktests` (including
-`test7verit`) pass identically with or without this fix. Kept anyway as a genuine, sound defense
-against a real class of failure that `resolution`/`th_resolution`'s own rule definition permits
-and doesn't guard against (a listed premise order that isn't a valid sequential chain for
-`C.resolve`), on the same "latent bug, worth fixing even though nothing currently exercises it"
-basis as the `Nequ2AST` fix above. `test7verit` as a whole still returned `false` after this fix
-alone, from two further, separate, and — unlike this one — genuinely necessary issues, fixed
-below.
+Re-diagnosing `test7verit`'s `t6` (`th_resolution :premises (h1 t2 t5)`) by hand-decoding the
+checker's own literal integers (`Form.to_lit`, `is_pos = is_even`) for `h1`, `t2`, `t5` appeared
+to show that resolving premises in veriT's *listed* order has no valid pivot between `h1` and
+`t2`, and that a general fix — reordering `Reso`/`ThReso`'s premise list so each fold always has
+a pivot before calling `C.resolve` (`State.v`), which otherwise gives up and collapses to the
+checker's `C._true` sentinel — was needed. That diagnosis missed that `Threso`'s handling
+(unlike `Reso`'s) already reverses the premise list via `List.rev` *before* folding: the actual
+fold order is `t5, t2, h1`, not `h1, t2, t5`, and re-simulating against that *real* order finds a
+clean pivot at every step — `t6` was never actually broken. A fix along these lines was built and
+briefly kept (verified sound, zero regressions) before this was caught; once caught, it was
+reverted rather than kept as unused insurance, per the standing project preference to avoid
+touching `veritSyntax.ml` (a file shared by every proof rule) without a demonstrated need.
+`test7verit`'s real remaining failures were the `Ite1AST` and `mkCongrPred` bugs below.
 
 ### `src/verit/veritAst.ml`, `extend_cl_aux`'s `Ite1AST` case: wrong `ite` branch index
 
@@ -807,8 +772,8 @@ examples/aletheTests/sanitychecktests:  test1-8 (cvc5 + veriT where applicable) 
 
 No known-unresolved failures left in either suite as of this writing. `test7cvc5` ended up fixed
 as an incidental side effect of the `Fiff`/Micromega fix (see above), needing no dedicated work
-of its own; `test7verit` needed exactly two of the three fixes layered on top of each other in
-this session to reach it (`extend_cl_aux`'s `Ite1AST` index and `mkCongrPred`'s polarity — the
-`mk_clause` premise-reordering fix, despite initially appearing necessary too, was confirmed not
-to be, see its own section above) — consistent with the original `Notes.md` assessment that it
-"might need an involved solution."
+of its own; `test7verit` needed exactly two fixes (`extend_cl_aux`'s `Ite1AST` index and
+`mkCongrPred`'s polarity) — a third, a `mk_clause` premise-reordering fix, was investigated and
+briefly built along the way but turned out to be chasing a false lead (see "Dead end investigated
+and ruled out" above) and was reverted, not kept — consistent with the original `Notes.md`
+assessment that `test7` "might need an involved solution."

@@ -514,72 +514,6 @@ let rec merge ids_params =
     None -> ids_params
   | Some r -> merge r
 
-(* veriT's `resolution`/`th_resolution` rule treats its premise list as a set - the rule
-   is sound for any pivot order, and veriT verifies it against its own (presumably more
-   flexible) resolution check, not against a listed order. But SmtCoq's checker-side
-   C.resolve (State.v) folds premises strictly in the order given, left to right, and
-   *each individual two-clause fold* must find its own valid pivot against whatever's
-   been accumulated so far: the moment either side of a fold runs dry without finding a
-   complementary literal, `resolve` gives up outright, collapsing to the checker's
-   `C._true` give-up sentinel - which then propagates through every downstream step,
-   since nothing can ever cancel it. veriT usually lists premises in an order that
-   happens to already form a valid chain (since it typically walks its own internal
-   resolution derivation in order), but this isn't guaranteed by the rule itself, and
-   occasionally doesn't hold (found via a `th_resolution` step combining a top-level
-   assumption with an `equiv_pos`-style unfolding of a `bool_simplify` fact, where the
-   fact needed to be resolved *last*, not second, to find its pivot).
-   Fix: reorder the premise list, promoting - only when the next premise in veriT's own
-   order has no pivot against the accumulator built so far - the first later premise
-   that does. This changes nothing whenever the original order already works (which is
-   the overwhelming majority of resolution steps), and is sound regardless of order
-   since resolution's premises are a set. The accumulator tracked here for pivot search
-   is an approximation (arbitrarily picks one complementary pair per fold if several
-   exist) - it only needs to guide the search for *a* valid chain, not to bit-exactly
-   predict what the real checker will compute. *)
-let has_pivot (acc : Form.t list) (cl : Form.t list) : bool =
-  List.exists (fun l -> List.exists (fun a -> Form.equal (Form.neg l) a) acc) cl
-
-let merge_lits (acc : Form.t list) (nv : Form.t list) : Form.t list =
-  match List.find_opt (fun l -> List.exists (fun a -> Form.equal (Form.neg l) a) acc) nv with
-  | None -> acc @ nv
-  | Some pivot ->
-    let antipivot = Form.neg pivot in
-    let acc' = List.filter (fun a -> not (Form.equal a antipivot)) acc in
-    let nv' = List.filter (fun l -> not (Form.equal l pivot)) nv in
-    List.fold_left (fun uniq x -> if List.exists (Form.equal x) uniq then uniq else x :: uniq)
-      [] (acc' @ nv')
-
-let reorder_premises_for_pivot (clauses : Form.t clause list) : Form.t clause list =
-  match clauses with
-  | [] | [_] -> clauses
-  | first :: rest ->
-    (match first.value with
-     | None -> clauses
-     | Some acc0 ->
-       let rec go acc remaining =
-         match remaining with
-         | [] -> []
-         | next :: tl ->
-           (match next.value with
-            | Some nv when has_pivot acc nv -> next :: go (merge_lits acc nv) tl
-            | _ ->
-              let rec find_pivot before = function
-                | [] -> None
-                | c :: cs ->
-                  (match c.value with
-                   | Some cv when has_pivot acc cv -> Some (c, List.rev_append before cs)
-                   | _ -> find_pivot (c :: before) cs)
-              in
-              (match find_pivot [] tl with
-               | Some (found, rest') ->
-                 (match found.value with
-                  | Some fv -> found :: go (merge_lits acc fv) rest'
-                  | None -> next :: go acc tl)
-               | None -> next :: go acc tl))
-       in
-       first :: go acc0 rest)
-
-
 let to_add = ref []
 
 (*let typ_to_string (t : typ) : string =
@@ -758,18 +692,20 @@ let mk_clause (id,typ,value,ids_params,args) =
         let ids_params = merge (List.rev ids_params) in
          (match ids_params with
             | cl1::cl2::q ->
-               (match reorder_premises_for_pivot (List.map get_clause ids_params) with
-                | c1::c2::q' -> Res {rc1 = c1; rc2 = c2; rtail = q'}
-                | _ -> Res {rc1 = get_clause cl1; rc2 = get_clause cl2; rtail = List.map get_clause q})
+               let res = {rc1 = get_clause cl1;
+                          rc2 = get_clause cl2;
+                          rtail = List.map get_clause q} in
+               Res res
             | [fins_id] -> Same (get_clause fins_id)
             | [] -> raise (Debug ("| VeritSyntax.mk_clause: expecting at least one premise for theory resolution at id "^id^" |")))
       | Reso ->
          let ids_params = merge ids_params in
          (match ids_params with
             | cl1::cl2::q ->
-               (match reorder_premises_for_pivot (List.map get_clause ids_params) with
-                | c1::c2::q' -> Res {rc1 = c1; rc2 = c2; rtail = q'}
-                | _ -> Res {rc1 = get_clause cl1; rc2 = get_clause cl2; rtail = List.map get_clause q})
+               let res = {rc1 = get_clause cl1;
+                          rc2 = get_clause cl2;
+                          rtail = List.map get_clause q} in
+               Res res
             | [fins_id] -> Same (get_clause fins_id)
             | [] -> raise (Debug ("| VeritSyntax.mk_clause: expecting at least one premise for resolution at id "^id^" |")))
       (* Quantifiers *)
