@@ -16,7 +16,7 @@ It proved more benchmarks and generated less holes, but the new checker still fa
 on 7 benchmarks. Goal: fix these. All 7 tests are in the `root/examples/aletheTests/thesisTests`
 folder. The issue with all tests seem to be that the transformations are adding terms to the
 clauses in the certificate such that the final value doesn't derive the empty clause.
-- [ ] **Make checker complete over all sanity check benchmarks.** There are 8 very simple "sanity 
+- [x] **Make checker complete over all sanity check benchmarks.** There are 8 very simple "sanity 
 check" benchmarks for which we expect the checker to work but the checker fails on 4 of these 
 (4/16 because all 8 of them are tested over cvc5 and veriT proofs). The document at 
 `root/examples/aletheTests/sanitycheckTests/Notes.md` explains these benchmark and its folder 
