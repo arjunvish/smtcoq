@@ -278,11 +278,17 @@ let process_congr_eq a_args b_args prem =
 
 
 let mkCongrPred p =
-  (* Rule proves ~(p1 = p1)', ..., ~(pn = pn'), ~P(p1, ..., pn), P(p1', ..., pn') 
-     prem: [~(p1 = p1'); ...; ~(pn = pn')], prem_P: ~P(p1, ..., pn), concl: P(p1', ..., pn' *)
-  let (concl, prem_P, prem) = 
+  (* Rule proves either 
+        ~(p_1 = p_1'), ..., ~(p_n = p_n'), ~P(p1, ..., pn), P(p1', ..., pn')
+        or
+        ~(p_1 = p_1'), ..., ~(p_n = p_n'), ~P(p11, ..., pn1), P(p1, ..., pn)
+  The two predicate applications are the last two literals but their order
+  isn't guaranteed by the solver.
+  *)
+  let (concl, prem_P, prem) =
     match List.rev p with
-    | h1 :: h2 :: t -> ([h1], [h2], List.rev t)
+    | h1 :: h2 :: t ->
+      if Form.is_pos h1 then ([h1], [h2], List.rev t) else ([h2], [h1], List.rev t)
     | _ -> raise (Debug ("| mkCongrPred: less than 2 literals in a eq_congruent_pred clause |")) in
   (*let (concl,prem) = List.partition Form.is_pos p in
   let (prem,prem_P) = List.partition is_eq prem in*)
@@ -683,7 +689,7 @@ let mk_clause (id,typ,value,ids_params,args) =
       (* Holes in proofs *)
       | Hole -> Other (SmtCertif.Hole (List.map get_clause ids_params, value))
       (* Resolution *)
-      | Threso -> 
+      | Threso ->
         let ids_params = merge (List.rev ids_params) in
          (match ids_params with
             | cl1::cl2::q ->

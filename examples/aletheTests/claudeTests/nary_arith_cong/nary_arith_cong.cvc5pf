@@ -1,0 +1,6 @@
+(assume p1 (= a a2))
+(assume p2 (= b b2))
+(assume p3 (= c c2))
+(assume p4 (not (= (+ (+ a b) c) (+ (+ a2 b2) c2))))
+(step t1 (cl (= (+ a b c) (+ a2 b2 c2))) :rule cong :premises (p1 p2 p3))
+(step t2 (cl) :rule resolution :premises (t1 p4))

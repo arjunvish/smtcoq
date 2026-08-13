@@ -543,3 +543,175 @@ limitation: `smtlib2_genConstr.ml`, the parser for the *smt2 file's own* root as
 recognizes binary `+`/`-`/`*`, unlike `veritParser.mly`'s proof-file parser which already
 handles n-ary via left-folding; not investigated further since it isn't exercised by anything in
 `examples/regress` and wasn't part of what this fix needed to address), and to pass after it.
+
+---
+
+## Session 2: fixing the sanity-check suite (`examples/aletheTests/sanitychecktests`)
+
+Follow-on session, after `examples/regress` reached 433/433. `sanitychecktests` (`test1`–`test8`,
+cvc5 + veriT variants, `Notes.md` in that folder) is a separate, much smaller, hand-picked suite
+that predates `examples/regress` and exercises different proof shapes (in particular, heavy use
+of `hole :args (ARITH_POLY_NORM ...)` for arithmetic normalization, and deeply nested
+`ite`/`and`/`imp` structure from `bool_simplify`/`all_simplify` elaboration). Four of its tests
+were failing going into this session: `test6cvc5`, `test7verit`, `test7cvc5`, `test8cvc5`. This
+covers two independent correctness fixes found in the course of working through them; the
+remaining failures needed a further fix (to `src/lia/lia.ml` and `src/verit/veritSyntax.ml`'s
+`mk_clause`), covered separately.
+
+### `src/verit/veritAst.ml`, `extend_cl_aux`: `Nequ2AST` axiom polarity
+
+**Bug:** the `Nequ2AST, Not (Eq (x, y))` case of `extend_cl_aux` (used when a subproof-discharge
+needs to re-derive an axiom-clause form of a premise's negated equality) declared
+`(Equn1AST, [Eq (x, y); x; Not y])`. Per this session's independently-verified ground truth for
+these axiom shapes (cross-checked against `check_BuildDef`/`check_BuildDef2` in `src/cnf/Cnf.v`
+and existing, tested, non-degenerate usages elsewhere in `process_cong`),
+`Equn1AST(A,B) = [Eq(A,B); Not A; Not B]` — the declared clause had `A` (`x`) instead of `Not A`
+(`Not x`) as its second literal, an outright polarity error.
+
+**Fix:** `(Equn1AST, [Eq (x, y); Not x; Not y])`.
+
+**Impact:** a genuine, independently-confirmed correctness fix (verified against the full
+433-file suite plus all 8 sanity tests, zero regressions) but not, on its own, sufficient to
+resolve any test that was still failing at the time it was found — kept regardless, since an
+incorrect axiom-shape declaration is a latent bug even when nothing currently exercises the
+specific path that would expose it.
+
+### `src/verit/veritAst.ml`, `process_cong`'s `Or`-congruence case: premise-fold ordering
+
+**Bug:** `test6cvc5` (and, independently, `test7verit`) kept returning `false` after both fixes
+above, with no individual step ever flagged as invalid by `Verit_Checker_Debug` — the same
+"checks out step-by-step but doesn't conclude the empty clause" signature as the three
+correctness bugs fixed in the previous session (`process_trivial`'s `pids`, `process_subproof`'s
+nested-subproof `pi3`, `process_same`'s unconditional `symm` aliasing). Diagnosing it needed a
+new tool: **`Verit_Checker_Trace`**, which walks every checker step and dumps its *actual,
+freshly-computed* clause (raw literal ints) rather than the declared/OCaml-side one — added via
+a new `Euf_Checker.checker_trace` in `src/Trace.v` plus OCaml plumbing mirroring
+`Verit_Checker_Debug`'s existing pattern in `src/trace/smtCommands.ml`/`coqTerms.ml`/
+`src/verit/verit.ml`/`src/g_smtcoq.mlg`. Tracing `test6cvc5` showed the final computed clause was
+`[_true; _true]` (the checker's give-up sentinel, twice) instead of empty, and pinpointed the
+first step where a `_true` literal appeared: a 6-premise `Res` step built by `process_cong`'s
+`Eq (Or xs, Or ys)` case, deriving one direction of an Or-congruence over 3 disjuncts.
+
+That builder (see the code's own numbered comments) constructs, for `x1 ∨ x2 ∨ x3 = y1 ∨ y2 ∨ y3`:
+an `orp` unfold of the source `Or`, then — as two *separate, grouped* batches — every changed
+disjunct's `eqp2`-based substitution fact (`xi → yi`), followed by every disjunct's `orn`-based
+projection fact (`yi → Or ys`), all folded together via one N-ary `Res`. In `test6`'s specific
+instance, disjunct 2 (`Not (g (f x))`) is *unchanged*, while disjunct 3 substitutes to `g (f x)`
+*positively* — i.e. the *substituted* value of one disjunct happens to coincide, up to negation,
+with the *unchanged* value of a different, unrelated disjunct. SmtCoq's checker-side `resolve`
+(`src/State.v`) is a sorted-merge, single-pivot-per-pairwise-fold algorithm: given two clauses,
+it scans in sorted literal order and stops at the *first* complementary pair it finds, merging
+everything else via a dumb union (`or`) with no further cancellation. When the grouped ordering
+hands a single fold step *two* simultaneous valid complementary pairs (the intended one, plus
+this accidental cross-disjunct collision), `resolve` cancels whichever sorts first and leaves the
+other pair's literals stuck, uncancelled, in the result — residue that nothing downstream happens
+to clean up, ultimately collapsing the derivation to `_true` instead of the declared clause. Every
+individual step stays locally valid (a `_true` weakening is still sound), so nothing crashes and
+`Verit_Checker_Debug` reports no failing step — exactly the established "checks out, wrong answer"
+signature.
+
+**Fix:** rebuilt the premise list to interleave *by disjunct position* instead of by phase: for
+each position `k` in turn, emit (if the disjunct changed) its `eqp2`/`eqp1` substitution fact
+immediately followed by its own `orn` projection fact, before moving to position `k+1` — rather
+than "all substitution facts, then all projection facts". This guarantees each position's
+temporary literals are fully consumed (replaced by `Or ys`/`Or xs`) before a *later* position can
+introduce a value that might collide with an *earlier*, not-yet-processed literal, so no single
+two-clause fold is ever handed more than one complementary pair. Applied symmetrically to both
+directions of the derivation (`resi1`'s `eqp2`/`ornis1` and `resi3`'s `eqp1`/`ornis2`). As a
+simplification enabled by the same rewrite, the `orn` projection facts are now built directly via
+`List.mapi` over the (non-deduplicated) argument list at each position, rather than deduplicating
+via `to_uniq`/`findi` first — `OrnAST`'s projection is inherently positional, so per-position
+generation needs no separate value-based lookup, and a redundant extra projection fact for a
+duplicate value is harmless (merges away same as any other case).
+
+**Impact:** fixes `test6cvc5` (confirmed via the `Verit_Checker_Trace`-observed `[_true; _true]`
+residue before the fix). Verified against the full 433-file `examples/regress` suite, zero
+regressions. Worked example:
+[`or_cong_collision`](examples/aletheTests/claudeTests/or_cong_collision) — a standalone copy of
+`test6cvc5`'s exact proof shape, confirmed to return `false` before this fix and `true` after it.
+
+**Correction:** `test7verit` was *initially* (incorrectly) reported fixed by this same change too,
+based on it also hitting `false → true` in one run — that was a verification mistake (checking
+`coqc`'s exit code and `.vo` production, neither of which catches `Verit_Checker` completing
+"successfully" while still printing `= false`; the correct check, matching what
+`examples/regress/calltests.sh` itself does, is grepping the output for `= true`/`= false`, since
+`Verit_Checker`, unlike a hard `Qed`, does not fail the file just because the checker computed
+`false`). Caught when the user re-ran `sanitychecktests/calltests.sh` directly. `test7verit` was
+still failing at the time; re-diagnosing it led to a `VeritSyntax.mk_clause` premise-ordering
+investigation (covered separately, along with the remaining `lia.ml` fix — that investigation's
+own fix turned out, on later re-verification, not to be load-bearing for anything, see its own
+write-up) plus the `Ite1AST` and `mkCongrPred` fixes below, which are what actually got it
+passing.
+
+### `src/verit/veritAst.ml`, `extend_cl_aux`'s `Ite1AST` case: wrong `ite` branch index
+
+**Bug:** `extend_cl_aux`'s `Ite1AST, Ite xs -> (Itep1AST, [Not (Ite xs); List.nth xs 0; List.nth
+xs 1])` case (used when `extend_cl` needs to re-derive an axiom-clause form of a `:rule ite1`
+step that turned out to (in)directly depend on an eliminated subproof's own conclusion) used
+`List.nth xs 1` — the `ite`'s *then*-branch — for `Itep1AST`'s third literal. But veriT's own
+`ite_pos1` axiom (which `Itep1AST` represents) is `[Not(ite c t e); c; e]` — the *else*-branch,
+`List.nth xs 2` — confirmed directly from `test7verit.pf`'s own raw, directly-parsed `ite_pos1`/
+`ite_pos2`/`ite_neg1` facts (`t19`/`t20`/`t21`), which unambiguously put the else-branch third.
+The three sibling cases (`Nite1AST`→`Iten1AST`, `Ite2AST`→`Itep2AST`, `Nite2AST`→`Iten2AST`)
+already used the correct index each; only this one didn't.
+
+Found via a from-scratch `Verit_Checker_Trace`-based diverge-finder (built while re-diagnosing
+`test7verit`, see the note above), extended to compare, for *every* step, its checker-side
+freshly-computed clause against its declared one — the first real divergence was `x149`, a
+synthetic `Itep1AST` fact for a *nested*
+`ite` (`ite op_0 (ite op_1 ...) (ite op_1 ...)`, from `test7verit`'s `t22`, `:rule ite1
+:premises (t18)` — `t18` itself indirectly depends on an eliminated `bool_simplify` subproof,
+routing `t22` through exactly this `extend_cl_aux` case). Its declared "then" literal (var 24 in
+that run) didn't match what the checker's own `check_BuildDef`-family reconstruction of the same
+`Ite` formula computed at the same position (var 28) — not a polarity flip, a *different atom*,
+consistent with reading the wrong argument index out of `xs` entirely.
+
+**Fix:** `List.nth xs 1` → `List.nth xs 2` in the `Ite1AST` case only.
+
+**Impact:** confirmed via the diverge-finder that `x149` (and everything chained through it) no
+longer diverges. `test7verit` still returned `false` at this point — see the next section for
+the second, independent remaining bug. Verified zero regressions against the full 433-file
+`examples/regress` suite plus all sanity tests. No dedicated worked example (see
+`examples/aletheTests/claudeTests/README.md` for why); verified via `test7verit` itself.
+
+### `src/verit/veritSyntax.ml`, `mkCongrPred`: `concl`/`prem_P` picked by position instead of polarity
+
+**Bug:** `mkCongrPred` (handles veriT's `eq_congruent_pred` rule, which proves a predicate
+congruence clause `[¬(p1=p1'); ...; ¬(pn=pn'); ¬P(p1,...,pn); P(p1',...,pn')]` — hypothesis
+equalities negated, the old predicate occurrence negated, the new one asserted positively) picked
+out the clause's last two literals by fixed *position*: `List.rev p`'s first element was always
+assumed to be `concl` (the positive, new-argument occurrence) and the second always `prem_P` (the
+negative, old-argument occurrence). veriT doesn't guarantee that order for a non-symmetric
+predicate: in `test7verit`'s `t58` (`:rule eq_congruent_pred`, over `<=`), the clause is `[¬(a=c);
+¬(b=d); (a'≤b'); ¬(a≤b)]` — the *positive* new occurrence comes *before* the *negative* old one,
+the reverse of what the old position-only code assumed. That silently swapped `concl`⇄`prem_P`,
+so `process_congr` (called with `Atom.atom (get_at c)`/`Atom.atom (get_at p_p)` for the now-wrong
+`c`/`p_p`) built the congruence hypotheses' argument correspondence backwards — `t58` still built
+*some* certificate (no crash, no `Debug` exception), just not the sound one, so the checker's own
+independent recomputation for `t58` diverged from declared (same "checks out, wrong answer"
+signature throughout this document): declared `[¬35-ish; ¬41-ish; 85; 87]` vs. checker-computed
+`[+35-ish; +41-ish; 85; 87]` — both changed literals flipped polarity together, consistent with
+`concl`/`prem_P` (and hence the two predicate arguments' old/new roles) being swapped as a pair,
+not an independent single-literal bug.
+
+**Fix:** pick `concl`/`prem_P` from the last two literals by polarity (`Form.is_pos`) instead of
+fixed position — whichever of the two is positive is `concl`, the other is `prem_P`. (A second,
+polarity-based implementation of `mkCongrPred` already existed in this file, entirely commented
+out and calling an unused, seemingly-abandoned `process_congr_form` helper — not reused, since it
+looked incomplete; this fix is a minimal, targeted change to the *active* implementation instead.)
+
+**Impact:** fixes `test7verit`'s `t58` divergence — combined with the `Ite1AST` fix above,
+`test7verit` returns `true`. Verified zero regressions against the full 433-file
+`examples/regress` suite. Worked example:
+[`eqcongruentpred_polarity`](examples/aletheTests/claudeTests/eqcongruentpred_polarity) — a
+minimal, standalone, hand-written `eq_congruent_pred` step over `<=` with the same "positive
+before negative" literal order, confirmed to return `false` before this fix and `true` after it
+(the old, positional code was temporarily restored and re-verified to reproduce the failure
+before finalizing this fix, rather than relying only on the reasoning above).
+
+`test7cvc5` ended up fixed as an incidental side effect of a separately-covered `lia.ml` fix,
+needing no dedicated work of its own; `test7verit` needed exactly two fixes from this session
+(`extend_cl_aux`'s `Ite1AST` index and `mkCongrPred`'s polarity, both above) — a third,
+`mk_clause`'s premise-reordering fix (covered separately), initially appeared necessary too but
+was later confirmed not to be — consistent with the original `Notes.md` assessment that it
+"might need an involved solution."

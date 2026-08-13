@@ -450,6 +450,13 @@ let checker_debug (rt, ro, ra, rf, roots, max_id, confl) =
    only reports a single (unreliable-to-map-back) step number. *)
 let checker_trace (rt, ro, ra, rf, roots, max_id, confl) =
   Format.eprintf "checker_trace: max_id=%d count_used=%d\n@." max_id (count_used confl);
+  (let r = ref confl in
+   while has_prev !r do r := prev !r done;
+   let continue = ref true in
+   while !continue do
+     Format.eprintf "id_pos: %d -> %d (%s)\n" !r.id (get_pos !r) (to_string !r.kind);
+     (match !r.next with Some n -> r := n | None -> continue := false)
+   done);
   let nti = CoqInterface.mkName "t_i" in
   let ntfunc = CoqInterface.mkName "t_func" in
   let ntatom = CoqInterface.mkName "t_atom" in

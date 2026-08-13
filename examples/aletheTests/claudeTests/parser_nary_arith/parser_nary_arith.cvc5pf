@@ -1,0 +1,6 @@
+(assume a0 (not (= x x)))
+(step t0 (cl (= x x)) :rule refl)
+(step t1 (cl (= (+ x x x) (+ x x x))) :rule refl)
+(step t2 (cl (= (- x x x) (- x x x))) :rule refl)
+(step t3 (cl (= (* x x x) (* x x x))) :rule refl)
+(step t4 (cl) :rule resolution :premises (a0 t0))

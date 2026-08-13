@@ -1,0 +1,4 @@
+(assume a0 (not (= x x)))
+(step t0 (cl (= x x)) :rule refl)
+(step t1 (cl (= -1 -1)) :rule refl)
+(step t2 (cl) :rule resolution :premises (a0 t0))

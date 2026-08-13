@@ -1684,30 +1684,32 @@ let process_cong (c : certif) : certif =
                         (* For `x1 v ... v xn = y1 v ... v ym` in the conclusion, *)
                         (* 1. generate `~(x1 v ... v xn), x1, ..., xn` by `orp` *)
                         let orpi1 = generate_id () in
-                        (* 2. for each non-refl equality `x = y` in premise, generate `~(x = y), y, ~x` by `eqp2` 
-                              and resolve it with `x = y`, to get `y, ~x` *)
-                        let eqp2is, eqp2s = List.fold_left 
-                          (fun (is, r) (pid, peq) ->
+                        (* 2./3. for position k, (if x_k <> y_k), then
+                           generate `~(x_k = y_k), y_k, ~x_k` by `eqp2` resolved with the premise to get
+                           `y_k, ~x_k`, then `(y1 v ... v ym), ~y_k` by `orn`.
+                           Otherwise, just generate `(y1 v ... v ym), ~y_k` by `orn`. *)
+                        let per_pos1 = List.mapi
+                          (fun idx (pid, peq) ->
                             let x, y = (match (get_expr peq) with
                                         | Eq (x', y') -> (x', y')
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" |"))) in
-                            if x = y then (is, r)
-                            else
-                             let i' = generate_id () in
-                             let eqp2i = generate_id () in
-                             (i' :: is, 
-                              (eqp2i, Equp2AST, [Not peq; Not x; y], [], []) :: 
-                              (i', ResoAST, [Not x; y], [eqp2i; pid], []) :: r))
-                          ([], []) ptuples in
-                        (* 3. for each `yi`, generate `(y1 v ... v ym), ~yi` by `orn` *)
-                        let ornis1, orns1 = List.fold_left
-                          (fun (is, r) y ->
-                            let i' = generate_id () in
-                            let proj = try findi (term_eq y) ys with
-                                        | Debug s -> raise (Debug ("| process_cong: fails at id "^i^" |"^s)) in
-                            i' :: is,
-                            (i', OrnAST, [Or ys; Not y], [], [string_of_int proj]) :: r)
-                          ([], []) (to_uniq (=) ys) in
+                            let eqp2i_opt, eqp2_defs =
+                              if x = y then (None, [])
+                              else
+                               let i' = generate_id () in
+                               let eqp2i = generate_id () in
+                               (Some i',
+                                [(eqp2i, Equp2AST, [Not peq; Not x; y], [], []);
+                                 (i', ResoAST, [Not x; y], [eqp2i; pid], [])])
+                            in
+                            let orni = generate_id () in
+                            let yk = List.nth ys idx in
+                            let orn_def = (orni, OrnAST, [Or ys; Not yk], [], [string_of_int idx]) in
+                            ((eqp2i_opt, orni), eqp2_defs @ [orn_def]))
+                          ptuples in
+                        let ids1 = List.concat_map (fun ((eqp2i_opt, orni), _) ->
+                          (match eqp2i_opt with None -> [] | Some id -> [id]) @ [orni]) per_pos1 in
+                        let defs1 = List.concat_map snd per_pos1 in
                         (* 4. resolve all clauses form 1., 2., and 3., to get `~(x1 v ... v xn), y1 v ... v ym` *)
                         let resi1 = generate_id () in
                         (* 5. generate `x1 v ... v xn = y1 v ... v ym, x1 v ... v xn, y1 v ... v ym` by `eqn2` *)
@@ -1716,42 +1718,44 @@ let process_cong (c : certif) : certif =
                         let resi2 = generate_id () in
                         (* 7. generate `~(y1 v ... v ym), y1, ..., ym` by `orp` *)
                         let orpi2 = generate_id () in
-                        (* 8. for each non-refl equality `x = y` in premise, generate `~(x = y), ~y, x` by `eqp1`
-                              and resolve it with `x = y`, to get `~y, x` *)
-                        let eqp1is, eqp1s = List.fold_left
-                          (fun (is, r) (pid, peq) ->
+                        (* 8./9. for position k, (if x_k <> y_k), then
+                          generate `~(x_k = y_k), x_k, ~y_k` by `eqp1` resolved with the premise to get
+                          `x_k, ~y_k`, then `(x1 v ... v xn), ~x_k` by `orn`.
+                          Otherwise, just generate `(x1 v ... v xn), ~x_k` by `orn`. *)
+                        let per_pos2 = List.mapi
+                          (fun idx (pid, peq) ->
                             let x, y = (match (get_expr peq) with
                                         | Eq (x', y') -> (x', y')
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" |"))) in
-                            if x = y then (is, r)
-                            else
-                             let i' = generate_id () in
-                             let eqp1i = generate_id () in
-                             (i' :: is, 
-                              (eqp1i, Equp1AST, [Not peq; x; Not y], [], []) :: 
-                              (i', ResoAST, [x; Not y], [eqp1i; pid], []) :: r))
-                          ([], []) ptuples in
-                        (* 9. for each `xi`, generate `(x1 v ... v xn), ~xi` by `orn` *)
-                        let ornis2, orns2 = List.fold_left
-                          (fun (is, r) x ->
-                            let i' = generate_id () in
-                            let proj = try findi (term_eq x) xs with
-                                        | Debug s -> raise (Debug ("| process_cong: fails at id "^i^" |"^s)) in
-                            i' :: is,
-                            (i', OrnAST, [Or xs; Not x], [], [string_of_int proj]) :: r)
-                          ([], []) (to_uniq (=) xs) in
+                            let eqp1i_opt, eqp1_defs =
+                              if x = y then (None, [])
+                              else
+                               let i' = generate_id () in
+                               let eqp1i = generate_id () in
+                               (Some i',
+                                [(eqp1i, Equp1AST, [Not peq; x; Not y], [], []);
+                                 (i', ResoAST, [x; Not y], [eqp1i; pid], [])])
+                            in
+                            let orni = generate_id () in
+                            let xk = List.nth xs idx in
+                            let orn_def = (orni, OrnAST, [Or xs; Not xk], [], [string_of_int idx]) in
+                            ((eqp1i_opt, orni), eqp1_defs @ [orn_def]))
+                          ptuples in
+                        let ids2 = List.concat_map (fun ((eqp1i_opt, orni), _) ->
+                          (match eqp1i_opt with None -> [] | Some id -> [id]) @ [orni]) per_pos2 in
+                        let defs2 = List.concat_map snd per_pos2 in
                         (* 10. resolve all clauses form 7., 8., and 9., to get `~(y1 v ... v ym), x1 v ... v xn` *)
                         let resi3 = generate_id () in
                         (* 11. generate `x1 v ... v xn = y1 v ... v ym, ~(x1 v ... v xn), ~(y1 v ... v ym)` by `eqn1` *)
                         let eqn1i = generate_id () in
                         (* 12. resolve 10. and 11. to get `x1 v ... v xn = y1 v ... v ym, ~(y1 v ... v ym)` *)
                         let resi4 = generate_id () in
-                        process_cong_aux ((((i, ResoAST, [eq], [resi2; resi4], [])) :: ((((resi4, ResoAST, [eq; Not (Or ys)], [resi3; eqn1i], [])) :: ((((eqn1i, Equn1AST, [eq; Not (Or xs); Not (Or ys)], [], [])) :: ((((resi3, ResoAST, [Not (Or ys); Or xs], (orpi2 :: (eqp1is @ ornis2)), [])) :: ((List.rev_append ((resi1, ResoAST, [Not (Or xs); Or ys], (orpi1 :: (eqp2is @ ornis1)), []) ::
+                        process_cong_aux ((((i, ResoAST, [eq], [resi2; resi4], [])) :: ((((resi4, ResoAST, [eq; Not (Or ys)], [resi3; eqn1i], [])) :: ((((eqn1i, Equn1AST, [eq; Not (Or xs); Not (Or ys)], [], [])) :: ((((resi3, ResoAST, [Not (Or ys); Or xs], (orpi2 :: ids2), [])) :: ((List.rev_append ((resi1, ResoAST, [Not (Or xs); Or ys], (orpi1 :: ids1), []) ::
                          (eqn2i, Equn2AST, [eq; Or xs; Or ys], [], []) ::
                          (resi2, ResoAST, [eq; Or xs], [resi1; eqn2i], []) ::
                          (orpi2, OrpAST, (Not (Or ys) :: ys), [], []) ::
-                         (eqp1s @ orns2)) ((List.rev_append ((orpi1, OrpAST, (Not (Or xs) :: xs), [], []) ::
-                         (eqp2s @ orns1)) ((List.rev_append imp (acc))))))))))))))) t cog
+                         defs2) ((List.rev_append ((orpi1, OrpAST, (Not (Or xs) :: xs), [], []) ::
+                         defs1) ((List.rev_append imp (acc))))))))))))))) t cog
                      (* imp predicate
                         Convert a proof of the form:
                         -----  -----
@@ -2566,7 +2570,7 @@ let extend_cl_aux (r : rule) (p : params) (a : args) (pi3 : certif) : rule * cla
   | ImpAST, Imp xs -> (ImppAST, [Not (Imp xs); Not (List.nth xs 0); List.nth xs 1])
   | Xor1AST, Xor xs -> (Xorp1AST, Not (Xor xs) :: xs)
   | Nxor1AST, Not (Xor xs) -> (Xorn1AST, [Xor xs; List.nth xs 0; Not (List.nth xs 1)])
-  | Ite1AST, Ite xs -> (Itep1AST, [Not (Ite xs); List.nth xs 0; List.nth xs 1])
+  | Ite1AST, Ite xs -> (Itep1AST, [Not (Ite xs); List.nth xs 0; List.nth xs 2])
   | Nite1AST, Not (Ite xs) -> (Iten1AST, [Ite xs; List.nth xs 0; Not (List.nth xs 2)])
   | Xor2AST, Xor xs -> (Xorp2AST, Not (Xor xs) :: (List.map (fun x -> Not x) xs))
   | Nxor2AST, Not (Xor xs) -> (Xorn2AST, [Xor xs; Not (List.nth xs 0); Not (List.nth xs 1)])
@@ -2575,7 +2579,7 @@ let extend_cl_aux (r : rule) (p : params) (a : args) (pi3 : certif) : rule * cla
   | Equ1AST, Eq (x, y) -> (Equp2AST, [Not (Eq (x, y)); Not x; y])
   | Nequ1AST, Not (Eq (x, y)) -> (Equn2AST, [Eq (x, y); x;y])
   | Equ2AST, Eq (x, y) -> (Equp1AST, [Not (Eq (x, y)); x; Not y])
-  | Nequ2AST, Not (Eq (x, y)) -> (Equn1AST, [Eq (x, y); x; Not y])
+  | Nequ2AST, Not (Eq (x, y)) -> (Equn1AST, [Eq (x, y); Not x; Not y])
   | AndAST, And xs -> 
       let ahd = try (List.hd a) with | Failure _ -> raise (Debug ("| extend_cl_aux: no args to `and` rule |")) in
       let n = int_of_string ahd in

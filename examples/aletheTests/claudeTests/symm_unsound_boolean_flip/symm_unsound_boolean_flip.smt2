@@ -1,0 +1,8 @@
+(set-logic UF)
+(declare-fun p () Bool)
+(declare-fun r () Bool)
+(assert (not p))
+(assert (= r (not p)))
+(assert (not r))
+(check-sat)
+(exit)

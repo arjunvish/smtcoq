@@ -1,3 +1,6 @@
+**Note: this is archived. It's from my PhD and a little disorganized but is being preserved since it might still have some relevant
+invormation. The active task list is TaskList.md.**
+
 SMTCoq currently parses veriT 2016's proof format, and builds OCaml AST's that it reify's to Coq AST's checked by the Coq checker. It also translates LFSC proofs from CVC4 to these same OCaml AST's. VeriT now uses a proof format called Alethe which will be supported by CVC5 also. We want to upgrade SMTCoq's veriT parser so that it can parse Alethe proofs, as a consequence of which, the LFSC parser and translator can be removed as well. This will entail the following tasks:
 - [x] Update the Ocamlyacc parser to a Menhir parser
 - [x] Remove the LFSC parser and temporarily remove the `cvc4` tactic

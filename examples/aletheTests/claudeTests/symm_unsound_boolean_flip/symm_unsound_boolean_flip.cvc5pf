@@ -1,0 +1,7 @@
+(assume a0 (not p))
+(assume a1 (= r (not p)))
+(assume a2 (not r))
+(step t18 (cl (= (not p) r)) :rule symm :premises (a1))
+(step t16 (cl (not (= (not p) r)) (not (not p)) r) :rule equiv_pos2)
+(step t28 (cl r) :rule resolution :premises (t16 t18 a0))
+(step tFinal (cl) :rule resolution :premises (t28 a2))

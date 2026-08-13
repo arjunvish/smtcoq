@@ -1,0 +1,8 @@
+(assume h0 (= p r))
+(assume h1 (= q s))
+(assume h2 (= p q))
+(assume h3 (not (= r s)))
+(step t0 (cl (! (= (= p q) (= r s)) :named @eqeq)) :rule cong :premises (h0 h1))
+(step t1 (cl (not (= (= p q) (= r s))) (not (= p q)) (= r s)) :rule equiv_pos2)
+(step t2 (cl (= r s)) :rule resolution :premises (t1 t0 h2))
+(step t3 (cl) :rule resolution :premises (t2 h3))
