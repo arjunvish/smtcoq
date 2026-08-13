@@ -49,3 +49,8 @@ actual eliminated-subproof scenario combined with a `:rule ite1`-tagged consumer
 subproof-elimination machinery, not just a shape that can be hand-assembled standalone).
 Verified via `examples/aletheTests/sanitychecktests/test7verit.v` - see CLAUDE.md for the full
 diagnosis.
+
+The same session's `VeritSyntax.mk_clause` `Reso`/`ThReso` premise-reordering fix (see CLAUDE.md's
+own section on it) doesn't have one either, for a different reason: it's a sound, defensive fix
+that turned out - on later, careful re-verification - to be a no-op for every test in either
+suite, so there's no failing case to demonstrate a before/after with.

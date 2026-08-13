@@ -130,7 +130,17 @@ let rec smt_Form_to_coq_micromega_formula tbl l =
       | Fapp (For, l) -> binop_array smt_Form_to_coq_micromega_formula tbl (fun x y -> OR (IsProp, x,y)) (FF IsProp) l
       | Fapp (Fxor, l) -> failwith "todo:Fxor"
       | Fapp (Fimp, l) -> binop_array smt_Form_to_coq_micromega_formula tbl (fun x y -> IMPL (IsProp, x,None,y)) (TT IsProp) l
-      | Fapp (Fiff, l) -> binop_array smt_Form_to_coq_micromega_formula tbl (fun x y -> IFF (IsProp, x,y)) (TT IsProp) l
+      | Fapp (Fiff, l) ->
+        (* `x <=> y is converted to (~x v y) ^ (~y ^ x) because that is the normal form that Lia.v expects. 
+            TRUSTING: See the `Form.Fiff` case of `build_hform` in `Lia.v`. It seems like the normalization is
+            happening there, so it's not clear to me why the conversion here is necessary. 
+            But this is Claude suggested and fixes issues in simple benchmarks, so I'm trusting it. *)
+        if Array.length l <> 2 then
+          failwith "Lia.smt_Form_to_coq_micromega_formula: wrong number of arguments for Fiff"
+        else
+          let f1 = smt_Form_to_coq_micromega_formula tbl l.(0) in
+          let f2 = smt_Form_to_coq_micromega_formula tbl l.(1) in
+          AND (IsProp, OR (IsProp, f1, NOT (IsProp, f2)), OR (IsProp, NOT (IsProp, f1), f2))
       | Fapp (Fite, l) -> failwith "todo:Fite"
       | Fapp (Fnot2 _, l) ->
         if Array.length l <> 1 then

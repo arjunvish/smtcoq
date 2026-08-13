@@ -91,14 +91,21 @@ test:
 `TIMEOUT` defaults to 120 (seconds, per-file) and can be overridden: `make test TIMEOUT=60`.
 
 ### `examples/regress/` (new, untracked)
-A regression suite: 5 small hand-picked tests (`test1`–`test5`, cvc5 + veriT variants) plus
+A regression suite: 8 small hand-picked tests (`test1`–`test8`, cvc5 + veriT variants) plus
 `sledgehammer-benchmarks/`, a large corpus of real proofs pulled from Isabelle's Sledgehammer
-runs against cvc5 and veriT (433 `.v` files total). `calltests.sh` compiles every `.v` file
+runs against cvc5 and veriT (439 `.v` files total). `calltests.sh` compiles every `.v` file
 under it with `coqc` (each in its own directory, since the proof/SMT-LIB file paths inside are
 relative), classifies each as `TRUE`/`FALSE`/`ERROR`/`TIMEOUT`, and prints a summary. This is
 the harness used to find and verify every fix below — every fix was checked against the full
-433-file suite (plus `examples/aletheTests/sanitychecktests`) to confirm zero regressions before
-being kept.
+regression suite (plus `examples/aletheTests/sanitychecktests`) to confirm zero regressions
+before being kept.
+
+`test1`–`test5` were here from early on; `test6`–`test8` (copies of
+`examples/aletheTests/sanitychecktests/test6`–`test8`, with `LoadPath` adjusted for the one
+level's difference in nesting depth) were folded in once session 2's fixes brought all of
+`sanitychecktests` to passing — the 433-file counts quoted through most of this document (from
+before that point) reflect the suite without them; the true final count, with everything folded
+in, is 439/439.
 
 Note: `calltests.log` (full per-file output) gets regenerated on every run and is currently
 untracked along with the rest of `examples/regress/` — you may want to `.gitignore` it
@@ -552,11 +559,45 @@ Follow-on session, after `examples/regress` reached 433/433. `sanitychecktests` 
 cvc5 + veriT variants, `Notes.md` in that folder) is a separate, much smaller, hand-picked suite
 that predates `examples/regress` and exercises different proof shapes (in particular, heavy use
 of `hole :args (ARITH_POLY_NORM ...)` for arithmetic normalization, and deeply nested
-`ite`/`and`/`imp` structure from `bool_simplify`/`all_simplify` elaboration). Four of its tests
-were failing going into this session: `test6cvc5`, `test7verit`, `test7cvc5`, `test8cvc5`. This
-covers two independent correctness fixes found in the course of working through them; the
-remaining failures needed a further fix (to `src/lia/lia.ml` and `src/verit/veritSyntax.ml`'s
-`mk_clause`), covered separately.
+`ite`/`and`/`imp` structure from `bool_simplify`/`all_simplify` elaboration). Three of its
+tests were still failing going into this session: `test6cvc5`, `test7verit`, `test7cvc5` (plus
+`test8cvc5`, which turned out to share `test7cvc5`'s root cause). **Net result: all 8 tests now
+pass** (`test1`–`test5`, `test6cvc5`/`test6verit`, `test7cvc5`/`test7verit`,
+`test8cvc5`/`test8verit`), verified with a full, clean 433/433 `examples/regress` run on top —
+zero regressions from either fix below.
+
+### `src/lia/lia.ml`: `Fiff`/Micromega representation mismatch
+
+**Bug:** `smt_Form_to_coq_micromega_formula` (the OCaml-side translator from SmtCoq's `Form.t` to
+Micromega's certificate-construction formula type, used when building a `hole
+:args (ARITH_POLY_NORM ...)` step's LIA certificate) translated `Fapp (Fiff, [f1; f2])` using
+Micromega's own native `IFF` constructor. But `Lia.v`'s *check-side* `build_hform` — which
+re-derives the same formula from scratch when *verifying* the certificate — has no `Fiff` case
+using `IFF` at all; its `Fiff a b` case manually expands to
+`AND (OR f1' (NOT f2')) (OR (NOT f1') f2')`. A LIA certificate is built (in OCaml) against
+whichever CNF shape `tauto_lia`'s own conversion of the *build-side* formula produces; if the
+build-side formula uses a differently-structured connective than the check-side formula for
+the *same* logical content, Micromega's certificate — sound only against its own CNF, not up to
+logical equivalence — doesn't verify against the check-side's different CNF shape. Concretely:
+whenever an `ARITH_POLY_NORM` fact's top-level shape was an iff-of-equalities (e.g.
+`(y = (1+x)) = (x = ((-1)+y))`, or the degenerate `(not true) = false`), the OCaml side built a
+certificate for `IFF(...)`'s CNF while the Coq side re-derived and checked against
+`AND(OR,OR)`'s CNF — a structural mismatch, not a certificate-strength problem, so the check
+simply failed regardless of how good the underlying LIA reasoning was.
+
+**Fix:** changed the `Fapp (Fiff, l)` case to manually construct
+`AND (IsProp, OR (IsProp, f1, NOT (IsProp, f2)), OR (IsProp, NOT (IsProp, f1), f2))`, mirroring
+`build_hform`'s Coq-side expansion exactly instead of using Micromega's `IFF`.
+
+**Impact:** this single fix resolved **two** of the three failing tests directly —
+`test8cvc5` (whose `hole`-heavy proof hits exactly this shape at several steps) and,
+unexpectedly, `test7cvc5` too (originally flagged by the user as the one most likely to need an
+"involved solution" and saved for last — it turned out to be fixed as an incidental side effect
+of this same root-cause fix, needing no dedicated work of its own once this was found).
+Verified via 4 hand-built minimal reproductions (an iff-of-term-equalities case, the simplest
+possible `(x=y)=(y=x)`, a genuine-non-tautology control case confirmed to still correctly fail,
+and a `(x=y)=((x-y)=0)` case) before touching the real tests, then against `test7cvc5`/`test8cvc5`
+themselves, then against the full 433-file `examples/regress` suite (zero regressions).
 
 ### `src/verit/veritAst.ml`, `extend_cl_aux`: `Nequ2AST` axiom polarity
 
@@ -637,11 +678,60 @@ based on it also hitting `false → true` in one run — that was a verification
 `examples/regress/calltests.sh` itself does, is grepping the output for `= true`/`= false`, since
 `Verit_Checker`, unlike a hard `Qed`, does not fail the file just because the checker computed
 `false`). Caught when the user re-ran `sanitychecktests/calltests.sh` directly. `test7verit` was
-still failing at the time; re-diagnosing it led to a `VeritSyntax.mk_clause` premise-ordering
-investigation (covered separately, along with the remaining `lia.ml` fix — that investigation's
-own fix turned out, on later re-verification, not to be load-bearing for anything, see its own
-write-up) plus the `Ite1AST` and `mkCongrPred` fixes below, which are what actually got it
-passing.
+still failing at the time; re-diagnosing it led to the `Reso`/`ThReso` investigation below
+(itself later found to have been chasing a false lead), and eventually to the `Ite1AST` and
+`mkCongrPred` fixes further down, which are what actually got it passing.
+
+### `src/verit/veritSyntax.ml`, `mk_clause`'s `Reso`/`ThReso` cases: premise order vs. `C.resolve`'s sequential chain (fix kept, but turned out not to be needed — see below)
+
+**Original diagnosis:** re-diagnosing `test7verit`'s `t6` (`th_resolution :premises (h1 t2 t5)`)
+by hand-decoding the checker's own literal integers (`Form.to_lit`, `is_pos = is_even`) for `h1`,
+`t2`, `t5` appeared to show that resolving premises in veriT's *listed* order has no valid pivot
+between `h1` and `t2` (their literal sets looked disjoint save one same-signed, non-cancelling
+literal), while reordering to resolve `t5` in before `t2` finds a clean pivot at every step and
+reproduces `t6`'s declared clause exactly. The theory: veriT's `resolution`/`th_resolution` rule
+treats its premise list as a *set* and is sound for any pivot order, but `mk_clause`'s `Reso`/
+`ThReso` cases compile a multi-premise resolution step directly into `Res {rc1; rc2; rtail}`,
+which `set_resolve` (`State.v`) folds strictly left to right via `foldi`; each individual
+two-clause fold must find its own valid pivot, or `C.resolve` gives up outright, collapsing to
+the checker's `C._true` sentinel — which then poisons every downstream step that resolves
+against it (nothing can ever cancel it), preventing the certificate from ever concluding the
+empty clause, while every individual step stays locally "valid" — the same "checks out step by
+step, wrong final answer" signature as several bugs from the previous session.
+
+**This diagnosis missed something:** the hand-simulation above used veriT's *listed* premise
+order (`h1 t2 t5`) directly, but `Threso`'s handling (unlike `Reso`'s) reverses the premise list
+via `List.rev` *before* folding — the actual fold order is `t5, t2, h1`, not `h1, t2, t5`.
+Re-simulating against that *real* order finds a clean pivot at every step and reproduces `t6`'s
+declared clause exactly — `t6` was never actually broken. This was caught mid-investigation (see
+the code comment on the still-present fix below for the corrected reasoning) but the fix had
+already been implemented and kept; only much later, while splitting this session's changes into
+separate commits, was it directly verified (by reverting the fix and re-running the full
+`examples/regress` suite plus all of `sanitychecktests`) that every currently-passing test passes
+identically with or without it.
+
+**Fix (kept anyway):** `reorder_premises_for_pivot`, called on the `SmtCertif.clause` list (after
+`get_clause`, so each premise's own declared `.value` — a `Form.t list` — is available) right
+before building `Res`. It walks the list left to right maintaining an approximate running
+accumulator; whenever the *next* premise in veriT's own order has no literal complementary to
+anything currently in the accumulator, it searches the *remaining* premises for the first one
+that does, and promotes it ahead. This is a pure reordering (same set of premises, same declared
+conclusion, only the *order* they're folded in changes) and is sound regardless of order since
+resolution's premises genuinely are a set; it changes nothing for the overwhelming majority of
+resolution steps, which never hit the "next premise has no pivot" case at all. The accumulator
+used for the search is an approximation (arbitrarily picks one complementary pair per fold when
+several exist, unlike `C.resolve`'s specific sorted-first behavior) — it only needs to guide the
+search toward *a* valid chain, not to bit-exactly predict what the real checker will compute.
+
+**Impact:** none currently — verified (by temporarily reverting it) that both the full 433-file
+`examples/regress` suite and all of `examples/aletheTests/sanitychecktests` (including
+`test7verit`) pass identically with or without this fix. Kept anyway as a genuine, sound defense
+against a real class of failure that `resolution`/`th_resolution`'s own rule definition permits
+and doesn't guard against (a listed premise order that isn't a valid sequential chain for
+`C.resolve`), on the same "latent bug, worth fixing even though nothing currently exercises it"
+basis as the `Nequ2AST` fix above. `test7verit` as a whole still returned `false` after this fix
+alone, from two further, separate, and — unlike this one — genuinely necessary issues, fixed
+below.
 
 ### `src/verit/veritAst.ml`, `extend_cl_aux`'s `Ite1AST` case: wrong `ite` branch index
 
@@ -655,10 +745,9 @@ step that turned out to (in)directly depend on an eliminated subproof's own conc
 The three sibling cases (`Nite1AST`→`Iten1AST`, `Ite2AST`→`Itep2AST`, `Nite2AST`→`Iten2AST`)
 already used the correct index each; only this one didn't.
 
-Found via a from-scratch `Verit_Checker_Trace`-based diverge-finder (built while re-diagnosing
-`test7verit`, see the note above), extended to compare, for *every* step, its checker-side
-freshly-computed clause against its declared one — the first real divergence was `x149`, a
-synthetic `Itep1AST` fact for a *nested*
+Found by extending the from-scratch `Verit_Checker_Trace`-based diverge-finder (see the previous
+section) to compare, for *every* step, its checker-side freshly-computed clause against its
+declared one — the first real divergence was `x149`, a synthetic `Itep1AST` fact for a *nested*
 `ite` (`ite op_0 (ite op_1 ...) (ite op_1 ...)`, from `test7verit`'s `t22`, `:rule ite1
 :premises (t18)` — `t18` itself indirectly depends on an eliminated `bool_simplify` subproof,
 routing `t22` through exactly this `extend_cl_aux` case). Its declared "then" literal (var 24 in
@@ -700,18 +789,26 @@ polarity-based implementation of `mkCongrPred` already existed in this file, ent
 out and calling an unused, seemingly-abandoned `process_congr_form` helper — not reused, since it
 looked incomplete; this fix is a minimal, targeted change to the *active* implementation instead.)
 
-**Impact:** fixes `test7verit`'s `t58` divergence — combined with the `Ite1AST` fix above,
-`test7verit` returns `true`. Verified zero regressions against the full 433-file
-`examples/regress` suite. Worked example:
+**Impact:** fixes `test7verit`'s `t58` divergence — with both `Ite1AST` and this fix applied,
+`test7verit` returns `true`. Verified against the full 433-file `examples/regress` suite plus all
+8 sanity tests (`test1`–`test8`, cvc5 + veriT where applicable), zero regressions. Worked example:
 [`eqcongruentpred_polarity`](examples/aletheTests/claudeTests/eqcongruentpred_polarity) — a
 minimal, standalone, hand-written `eq_congruent_pred` step over `<=` with the same "positive
 before negative" literal order, confirmed to return `false` before this fix and `true` after it
 (the old, positional code was temporarily restored and re-verified to reproduce the failure
 before finalizing this fix, rather than relying only on the reasoning above).
 
-`test7cvc5` ended up fixed as an incidental side effect of a separately-covered `lia.ml` fix,
-needing no dedicated work of its own; `test7verit` needed exactly two fixes from this session
-(`extend_cl_aux`'s `Ite1AST` index and `mkCongrPred`'s polarity, both above) — a third,
-`mk_clause`'s premise-reordering fix (covered separately), initially appeared necessary too but
-was later confirmed not to be — consistent with the original `Notes.md` assessment that it
+### Final state (session 2)
+
+```
+examples/regress:                       439 total, 439 True/OK, 0 False, 0 Error, 0 Timeout
+examples/aletheTests/sanitychecktests:  test1-8 (cvc5 + veriT where applicable) all = true
+```
+
+No known-unresolved failures left in either suite as of this writing. `test7cvc5` ended up fixed
+as an incidental side effect of the `Fiff`/Micromega fix (see above), needing no dedicated work
+of its own; `test7verit` needed exactly two of the three fixes layered on top of each other in
+this session to reach it (`extend_cl_aux`'s `Ite1AST` index and `mkCongrPred`'s polarity — the
+`mk_clause` premise-reordering fix, despite initially appearing necessary too, was confirmed not
+to be, see its own section above) — consistent with the original `Notes.md` assessment that it
 "might need an involved solution."
