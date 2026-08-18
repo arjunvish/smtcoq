@@ -474,8 +474,10 @@ let rec negs_term (t : term) (i : int) : (int * term) =
   | Not t' -> negs_term t' (i+1)
   | t' -> (i, t'))
 
-(* Equality modulo double negation elimination and symmetry of equality (but not equivalence) *)
+(* Equality modulo double negation elimination and symmetry of equality (but not equivalence). *)
 let rec eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
+  let t1 = get_expr t1 in
+  let t2 = get_expr t2 in
   let check_arg_lists (x : term list) (y : term list) : bool =
     if List.length x = List.length y then
       List.fold_left (&&) true (List.map2 (eq_mod_dneg_symm) x y)
@@ -504,8 +506,10 @@ let rec eq_mod_dneg_symm (t1 : term) (t2 : term) : bool =
         (x = a && y = b)
     | _, _ -> t1_bare = t2_bare
 
-(* Negation modulo double negation elimination and symmetry of equality *)
+(* Negation modulo double negation elimination and symmetry of equality. *)
 let neg_mod_dneg_symm (t1 : term) (t2 : term) : bool =
+  let t1 = get_expr t1 in
+  let t2 = get_expr t2 in
   let t1_negs, t1_bare = negs_term t1 0 in
   let t2_negs, t2_bare = negs_term t2 0 in
   (eq_mod_dneg_symm t1_bare t2_bare) && ((t1_negs mod 2) <> (t2_negs mod 2))
@@ -1237,6 +1241,55 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                      in f fxas_isfrms fyas_isfrms p_ids_eqs
    | _ -> raise (Debug ("| cong_find_implicit_args: expecting head of clause to be an equality at id "^i^" |"))
 
+(* For each element of `l`, whether it's the first occurrence of that value in the list. 
+   Used by `process_cong`'s `Or`-congruence case to detect a duplicate disjunct *)
+let first_occurrence_mask (l : term list) : bool list =
+  let seen = ref [] in
+  List.map (fun t ->
+    let te = get_expr t in
+    if List.mem te !seen then false
+    else (seen := te :: !seen; true)) l
+
+(* Given a cong step that derives
+      a_1 = b_1   ...   a_n = b_n
+    ---------------------------------
+    a_1 ^ ... ^ a_n = b_1 ^ ... ^ b_n
+  `and_cong_prem_fact` takes
+    `i`, the id of the derivation,
+    `tgt` one side's arg list, ex: [a_1; ... ; a_n]
+    `peq` is a premise equality between `a_i` (`x`) and `b_i` (`y`)
+    `pid` is `peq`'s id
+  and returns a fresh id and the steps deriving
+    `~(And tgt) v other` where `other` is whichever of `x`/`y` is *not* in 
+    `tgt` - i.e. "if `tgt`'s conjunction is true, so is `other`". This lets 
+    a premise be folded into an `andp`-unfold-based derivation the same
+    way a directly-matching premise would. *)
+let and_cong_prem_fact (i : id) (tgt : term list) (pid : id) (peq : term) (x : term) (y : term) : id * step list =
+  let tgt_conn = And tgt in
+  match (try Some (findi (term_eq y) tgt) with Debug _ -> None) with
+  | Some ind ->
+    let eqp1i = generate_id () in
+    let resi1 = generate_id () in
+    let andpi = generate_id () in
+    let resi2 = generate_id () in
+    (resi2,
+     [(eqp1i, Equp1AST, [Not peq; x; Not y], [], []);
+      (resi1, ResoAST, [x; Not y], [eqp1i; pid], []);
+      (andpi, AndpAST, [Not tgt_conn; y], [], [string_of_int ind]);
+      (resi2, ResoAST, [Not tgt_conn; x], [resi1; andpi], [])])
+  | None ->
+    let ind = try findi (term_eq x) tgt with
+              | Debug s -> raise (Debug ("| process_cong: neither side of premise "^pid^" to `and` congruence is a member of the target argument list at id "^i^" |"^s)) in
+    let eqp2i = generate_id () in
+    let resi1 = generate_id () in
+    let andpi = generate_id () in
+    let resi2 = generate_id () in
+    (resi2,
+     [(eqp2i, Equp2AST, [Not peq; Not x; y], [], []);
+      (resi1, ResoAST, [Not x; y], [eqp2i; pid], []);
+      (andpi, AndpAST, [Not tgt_conn; x], [], [string_of_int ind]);
+      (resi2, ResoAST, [Not tgt_conn; y], [resi1; andpi], [])])
+
 let process_cong (c : certif) : certif =
   let rec process_cong_aux (acc : certif) (c : certif) (cog : certif) : certif =
    match c with
@@ -1582,7 +1635,7 @@ let process_cong (c : certif) : certif =
                               (ii) resolve it with x = y, to get ~y, x
                               (iii) generate ~(y1 ^ ... ^ ym), y by andp
                               (iv) resolve (ii) and (iii) to get ~(y1 ^ ... ^ ym), x *)
-                        let resi1s, res1s = List.fold_left 
+                        let resi1s, res1s = List.fold_left
                           (fun (ris, rs) (pid, peq) ->
                             let x, y = (match (get_expr peq) with
                                         | Eq (x', y') -> (x', y')
@@ -1590,19 +1643,11 @@ let process_cong (c : certif) : certif =
                             if x = y then
                               let andpi = generate_id () in
                               let ind = string_of_int (findi (term_eq x) ys) in
-                              (andpi :: ris, 
+                              (andpi :: ris,
                                (andpi, AndpAST, [Not (And ys); x], [], [ind]) :: rs)
                             else
-                              let eqp1i = generate_id () in
-                              let resi1 = generate_id () in
-                              let andpi = generate_id () in
-                              let resi2 = generate_id () in
-                              let ind = string_of_int (findi (term_eq y) ys) in
-                              (resi2 :: ris, 
-                               (eqp1i, Equp1AST, [Not peq; x; Not y], [], []) :: 
-                               (resi1, ResoAST, [x; Not y], [eqp1i; pid], []) :: 
-                               (andpi, AndpAST, [Not (And ys); y], [], [ind]) ::
-                               (resi2, ResoAST, [Not (And ys); x], [resi1; andpi], []) :: rs))
+                              let resi2, steps = and_cong_prem_fact i ys pid peq x y in
+                              (resi2 :: ris, steps @ rs))
                           ([], []) ptuples in
                         (* 3. resolve all clauses form 1. and 2. to get ~(y1 ^ ... ^ ym), x1 ^ ... ^ xn *)
                         let resi1 = generate_id () in
@@ -1629,16 +1674,8 @@ let process_cong (c : certif) : certif =
                                (andpi :: ris,
                                 (andpi, AndpAST, [Not (And xs); y], [], [ind]) :: rs)
                             else
-                              let eqp2i = generate_id () in
-                              let resi1 = generate_id () in
-                              let andpi = generate_id () in
-                              let resi2 = generate_id () in
-                              let ind = string_of_int (findi (term_eq x) xs) in
-                              (resi2 :: ris, 
-                               (eqp2i, Equp2AST, [Not peq; Not x; y], [], []) :: 
-                               (resi1, ResoAST, [Not x; y], [eqp2i; pid], []) :: 
-                               (andpi, AndpAST, [Not (And xs); x], [], [ind]) ::
-                               (resi2, ResoAST, [Not (And xs); y], [resi1; andpi], []) :: rs))
+                              let resi2, steps = and_cong_prem_fact i xs pid peq x y in
+                              (resi2 :: ris, steps @ rs))
                           ([], []) ptuples in
                         (* 8. resolve all clauses form 6. and 7. to get ~(x1 ^ ... ^ xn), y1 ^ ... ^ ym *)
                         let resi3 = generate_id () in
@@ -1687,28 +1724,40 @@ let process_cong (c : certif) : certif =
                         (* 2./3. for position k, (if x_k <> y_k), then
                            generate `~(x_k = y_k), y_k, ~x_k` by `eqp2` resolved with the premise to get
                            `y_k, ~x_k`, then `(y1 v ... v ym), ~y_k` by `orn`.
-                           Otherwise, just generate `(y1 v ... v ym), ~y_k` by `orn`. *)
+                           Otherwise, just generate `(y1 v ... v ym), ~y_k` by `orn`.
+                           We must also account for the fact that the premise
+                           might be `y_k = x_k` instead of `x_k = y_k`.  *)
+                        let xs_first = first_occurrence_mask xs in
                         let per_pos1 = List.mapi
                           (fun idx (pid, peq) ->
+                            if not (List.nth xs_first idx) then ((None, None), [])
+                            else
                             let x, y = (match (get_expr peq) with
                                         | Eq (x', y') -> (x', y')
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" |"))) in
+                            let yk = List.nth ys idx in
                             let eqp2i_opt, eqp2_defs =
                               if x = y then (None, [])
-                              else
+                              else if get_expr y = get_expr yk then
                                let i' = generate_id () in
                                let eqp2i = generate_id () in
                                (Some i',
                                 [(eqp2i, Equp2AST, [Not peq; Not x; y], [], []);
                                  (i', ResoAST, [Not x; y], [eqp2i; pid], [])])
+                              else
+                               let i' = generate_id () in
+                               let eqp1i = generate_id () in
+                               (Some i',
+                                [(eqp1i, Equp1AST, [Not peq; x; Not y], [], []);
+                                 (i', ResoAST, [x; Not y], [eqp1i; pid], [])])
                             in
                             let orni = generate_id () in
-                            let yk = List.nth ys idx in
                             let orn_def = (orni, OrnAST, [Or ys; Not yk], [], [string_of_int idx]) in
-                            ((eqp2i_opt, orni), eqp2_defs @ [orn_def]))
+                            ((eqp2i_opt, Some orni), eqp2_defs @ [orn_def]))
                           ptuples in
-                        let ids1 = List.concat_map (fun ((eqp2i_opt, orni), _) ->
-                          (match eqp2i_opt with None -> [] | Some id -> [id]) @ [orni]) per_pos1 in
+                        let ids1 = List.concat_map (fun ((eqp2i_opt, orni_opt), _) ->
+                          (match eqp2i_opt with None -> [] | Some id -> [id]) @
+                          (match orni_opt with None -> [] | Some id -> [id])) per_pos1 in
                         let defs1 = List.concat_map snd per_pos1 in
                         (* 4. resolve all clauses form 1., 2., and 3., to get `~(x1 v ... v xn), y1 v ... v ym` *)
                         let resi1 = generate_id () in
@@ -1721,28 +1770,40 @@ let process_cong (c : certif) : certif =
                         (* 8./9. for position k, (if x_k <> y_k), then
                           generate `~(x_k = y_k), x_k, ~y_k` by `eqp1` resolved with the premise to get
                           `x_k, ~y_k`, then `(x1 v ... v xn), ~x_k` by `orn`.
-                          Otherwise, just generate `(x1 v ... v xn), ~x_k` by `orn`. *)
+                          Otherwise, just generate `(x1 v ... v xn), ~x_k` by `orn`.
+                          We must also account for the fact that the premise
+                           might be `y_k = x_k` instead of `x_k = y_k`. *)
+                        let ys_first = first_occurrence_mask ys in
                         let per_pos2 = List.mapi
                           (fun idx (pid, peq) ->
+                            if not (List.nth ys_first idx) then ((None, None), [])
+                            else
                             let x, y = (match (get_expr peq) with
                                         | Eq (x', y') -> (x', y')
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" |"))) in
+                            let xk = List.nth xs idx in
                             let eqp1i_opt, eqp1_defs =
                               if x = y then (None, [])
-                              else
+                              else if get_expr x = get_expr xk then
                                let i' = generate_id () in
                                let eqp1i = generate_id () in
                                (Some i',
                                 [(eqp1i, Equp1AST, [Not peq; x; Not y], [], []);
                                  (i', ResoAST, [x; Not y], [eqp1i; pid], [])])
+                              else
+                               let i' = generate_id () in
+                               let eqp2i = generate_id () in
+                               (Some i',
+                                [(eqp2i, Equp2AST, [Not peq; Not x; y], [], []);
+                                 (i', ResoAST, [Not x; y], [eqp2i; pid], [])])
                             in
                             let orni = generate_id () in
-                            let xk = List.nth xs idx in
                             let orn_def = (orni, OrnAST, [Or xs; Not xk], [], [string_of_int idx]) in
-                            ((eqp1i_opt, orni), eqp1_defs @ [orn_def]))
+                            ((eqp1i_opt, Some orni), eqp1_defs @ [orn_def]))
                           ptuples in
-                        let ids2 = List.concat_map (fun ((eqp1i_opt, orni), _) ->
-                          (match eqp1i_opt with None -> [] | Some id -> [id]) @ [orni]) per_pos2 in
+                        let ids2 = List.concat_map (fun ((eqp1i_opt, orni_opt), _) ->
+                          (match eqp1i_opt with None -> [] | Some id -> [id]) @
+                          (match orni_opt with None -> [] | Some id -> [id])) per_pos2 in
                         let defs2 = List.concat_map snd per_pos2 in
                         (* 10. resolve all clauses form 7., 8., and 9., to get `~(y1 v ... v ym), x1 v ... v xn` *)
                         let resi3 = generate_id () in
@@ -5116,7 +5177,10 @@ let find_res (c : certif) (i : id) : id list =
     | [] -> ids
   in find_res_aux c i []
 
-(* From cl, find terms x and y such that they are negations of each other. Also returns cl without x and y *)
+(* From cl, find terms x and y such that they are negations of each other; 
+   return (x, y, cl without x and y) 
+   Exception: we won't handle tautology rules since they can't be eliminated 
+   completely from the cerficate *)
 let find_triv_lits (cl : clause) : (term * term * clause) =
   let rec find_triv_lits_aux (cl : clause) : (term * term) =
     match cl with
@@ -5140,10 +5204,19 @@ let process_trivial (c : certif) : certif =
   (* Used instead of get_cl in replace_res below to avoid repeated linear scans over the whole
      original certificate every time `replace_res` needs a premise's clause *)
   let get_cl_cog (i : id) : clause option = Hashtbl.find_opt cog_cl_tbl i in
+  (* Check if certificate contains a `tautology` step (TautAST) 
+     that derives from `t1` *)
+  let used_as_taut_premise (t1 : id) (tl : certif) : bool =
+    List.exists (fun (_, r, _, p, _) -> r = TautAST && List.mem t1 p) tl in
+  (* Extends used_as_taut_premise transitively through single-premise Reso/Threso "alias" steps *)
+  let rec taut_protected (t1 : id) (tl : certif) : bool =
+    used_as_taut_premise t1 tl ||
+    List.exists (fun (i, r, _, p, _) -> (r = ResoAST || r = ThresoAST) && p = [t1] && taut_protected i tl) tl in
   let rec process_trivial_aux (acc : certif) (c : certif) (cog : certif) (weakened_ids : id list) : certif =
     match c with
     (* Match if c1 is trivial *)
-    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1) ->
+    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1)
+                                    && not (taut_protected t1 tl) ->
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
         let ids = find_res tl t1 in (* IDs of all resolutions that use t1 as a premise, ie, all t3s *)
@@ -5182,52 +5255,67 @@ let process_trivial (c : certif) : certif =
               | None -> (*Printf.printf ("Weakening step to itself:\n%s\n") (string_of_step s);*)
                 [s] (* Trivial clause is being resolved to generate another trivial clause *))
           | None -> raise (Debug ("| process_trivial_aux.replace_res: can't find step from id "^t3^" while removing trivial clause at id "^t1i^" |")) in
-        (* Go through tl and replace all derivations of any id from ids, with replace_res(id),
-           where ids are IDs of all resolution steps that use i as a premise;
-           c1, x, notx are the pivot clause and literals of the trivial clause currently being eliminated
-              (t1's own, or - in the recursive "trivial produces trivial" case - t3's own);
-           t1i is the ID of the corresponding step with the trivial clause t1;
-           res is the residual clause and pids the residual premise IDs that must be added to t3 in case of recursive trivial clause;
-           weakened_ids stores the IDs of clauses that have already been processed by process_trivial so that when an ID is
-              reached via multiple paths, it is processed only once *)
+        (* Go through `tl` and replace all derivations of any id from `ids`, with `replace_res(id)`,
+           where `ids` are IDs of all resolution steps that use `i` - the current step - as a premise;
+           `stack` is a tuple `(acc, c1, x, notx, t1i, ids, res, pids)` where
+            - `c1`, `x`, `notx` are the pivot clause and literals of the trivial clause currently 
+              being eliminated (`t1`'s own, or - in the recursive "trivial produces trivial" case - `t3`'s own);
+            - `t1i` is the ID of the corresponding step with the trivial clause `t1`;
+            - `res` is the residual clause and `pids` the residual premise IDs that must 
+               be added to `t3` in case of recursive trivial clause;
+           `weakened_ids` stores the IDs of clauses that have already been processed by 
+           process_trivial so that when an ID is reached via multiple paths, it is processed 
+           only once *)
         (* `ids` is the fixed (never-growing) set of step ids we're looking for at this
            elimination level; once every one of them has been found and passed, we return
            it untouched. *)
-        let rec process_tl (acc : certif) (c1 : clause) (x : term) (notx : term) (tl : certif) (t1i : id) (ids : id list) (res : clause) (pids : id list) (weakened_ids : id list) : (certif * id list) =
-          match ids with
-          | [] -> (List.rev_append acc tl, weakened_ids)
-          | _ ->
-          (match tl with
-          | (i, r, c, p, a) :: t ->
-              let ids_rem = remove i ids in
-              (* If a step was already replaced before through another path down the proof, don't do it again. *)
-              if (not (List.exists ((=) i) weakened_ids)) && (List.exists ((=) i) ids) then
-                let weakened_ids' = i :: weakened_ids in
-                let replaced = (*Printf.printf ("My weakened ids are %s, Weakening %s since it calls %s\n") (List.fold_left (^) "" weakened_ids) i t1i; *)replace_res c1 x notx t1i i res pids in
-                if List.length replaced = 1 then
-                (* Found a recursive trivial clause *)
-                  match replaced with
-                  | [(t3, r3, c3, p3, a3)] ->
-                    (* Printf.printf ("recursive trivial clause at %s! recursive to %s when accessing it from %s\n") t3 t1i i; *)
-                    let ids' = find_res t t3 in
-                    (* t3 is trivial; its own pivot literals x3/notx3 must be used (not t1's) when eliminating
-                       it below, and its non-trivial part (new_res) is carried forward *)
-                    let x3, notx3, new_res = try find_triv_lits c3 with
-                                        | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
-                    let new_pids = [] in
-                    (* Two recursive calls: one because this clause generates another trivial clause (fully
-                       resolved over `t` independently, with a fresh accumulator, before we can continue), and
-                       another (a genuine tail call) to keep looking for t1i's remaining ids within the result *)
-                    let t', weakened_ids'' = process_tl [] c3 x3 notx3 t t3 ids' new_res new_pids weakened_ids' in
-                    process_tl (List.rev_append replaced acc) c1 x notx t' t1i ids_rem res pids weakened_ids''
-                  | _ -> raise (Debug ("| process_tl: replace_res returns a singleton list but matching a non-singleton case at id "^i^" |"))
-                else
-                  process_tl (List.rev_append replaced acc) c1 x notx t t1i ids_rem res pids weakened_ids'
-              else
-                process_tl ((i, r, c, p, a) :: acc) c1 x notx t t1i ids_rem res pids weakened_ids
-          | [] -> List.rev acc, weakened_ids) in
-        let tl', weakened_ids' = process_tl [] c1 x notx tl t1 ids [] [] weakened_ids in
-        process_trivial_aux acc tl' cog weakened_ids'
+        let rec process_tl_iter (tl : certif) (weakened_ids : id list)
+            (stack : (certif * clause * term * term * id * id list * clause * id list) list)
+            : (certif * id list) =
+          match stack with
+          | [] -> (tl, weakened_ids)
+          | (acc, c1, x, notx, t1i, ids, res, pids) :: rest_stack ->
+            if ids = [] || tl = [] then
+              (* Current (innermost) task is done: splice its accumulated prefix onto whatever of
+                 the certificate remains untouched, and resume whichever task was paused below it
+                 (if any) from exactly that point - matching process_tl's old `ids = []`/`tl = []`
+                 return, now just handed to the next stack frame instead of a caller. *)
+              let spliced = List.rev_append acc tl in
+              (match rest_stack with
+               | [] -> (spliced, weakened_ids)
+               | _ -> process_tl_iter spliced weakened_ids rest_stack)
+            else
+              (match tl with
+               | (i, r, c, p, a) :: t ->
+                   let ids_rem = remove i ids in
+                   (* If a step was already replaced before through another path down the proof, don't do it again. *)
+                   if (not (List.exists ((=) i) weakened_ids)) && (List.exists ((=) i) ids) then
+                     let weakened_ids' = i :: weakened_ids in
+                     let replaced = replace_res c1 x notx t1i i res pids in
+                     if List.length replaced = 1 then
+                       (* Found a recursive trivial clause: push a fresh task for t3 (using its own
+                          pivot literals x3/notx3, not t1's) on top of the current one (paused with
+                          ids_rem, i already accounted for) rather than recursing. *)
+                       (match replaced with
+                        | [(t3, r3, c3, p3, a3)] ->
+                            let ids' = find_res t t3 in
+                            let x3, notx3, new_res = try find_triv_lits c3 with
+                                                | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
+                            let new_pids = [] in
+                            process_tl_iter t weakened_ids'
+                              (([], c3, x3, notx3, t3, ids', new_res, new_pids) ::
+                               (acc, c1, x, notx, t1i, ids_rem, res, pids) :: rest_stack)
+                        | _ -> raise (Debug ("| process_tl: replace_res returns a singleton list but matching a non-singleton case at id "^i^" |")))
+                     else
+                       process_tl_iter t weakened_ids'
+                         ((List.rev_append replaced acc, c1, x, notx, t1i, ids_rem, res, pids) :: rest_stack)
+                   else
+                     process_tl_iter t weakened_ids
+                       (((i, r, c, p, a) :: acc, c1, x, notx, t1i, ids_rem, res, pids) :: rest_stack)
+               | [] -> (List.rev acc, weakened_ids) (* unreachable: guarded by tl = [] above *))
+        in
+        let tl', weakened_ids' = process_tl_iter tl weakened_ids [([], c1, x, notx, t1, ids, [], [])] in
+        process_trivial_aux acc tl' cog []
     | (i, SubproofAST subcl, cl, p, a) :: tl ->
         let subcl' = process_trivial_aux [] subcl cog weakened_ids in
         process_trivial_aux ((i, SubproofAST subcl', cl, p, a) :: acc) tl cog weakened_ids

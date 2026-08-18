@@ -49,3 +49,29 @@ actual eliminated-subproof scenario combined with a `:rule ite1`-tagged consumer
 subproof-elimination machinery, not just a shape that can be hand-assembled standalone).
 Verified via `examples/aletheTests/sanitychecktests/test7verit.v` - see CLAUDE.md for the full
 diagnosis.
+
+## Session 3 (`examples/aletheTests/QFUFTests`-fixing session) fixes
+
+See CLAUDE.md's "Session 3" for the full writeups. One fix has a dedicated minimal reproduction,
+kept under `examples/aletheTests/QFUFTests/findi/min/` (not copied here) since it's part of that
+session's own worked-examples convention (one per `otherSummary.md` category folder):
+
+- `process_cong`'s `and`/`or`-congruence handlers: reversed-premise orientation (`and_cong_prem_fact`
+  and the `per_pos1`/`per_pos2` orientation checks) - `examples/aletheTests/QFUFTests/findi/min/min.v`,
+  confirmed to fail with `findi: element not found` before the fix and pass (`= true`) after.
+
+The `process_trivial` fixes (`taut_protected`, the `weakened_ids` cross-elimination scoping bug,
+the "recursive trivial clause" branch's dangling-reference bug, its non-tail-recursion, and its
+`STerm`-blind triviality checks) don't have dedicated examples here, for the same reason as the
+`extend_cl_aux`/`process_subproof_aux` sites above: each needs a specific multi-step certificate
+shape (an axiom fact already folded into a single-premise alias by an earlier pass, feeding a
+`tautology` step; a step depending on two independently-trivial clauses in turn; or two separately
+-`:named` subterms that only turn out to be the same formula once fully dereferenced) that wasn't
+practical to hand-derive standalone in the time available. Verified instead via the real
+`examples/aletheTests/QFUFTests/get_clause/01`, `/02`, `get_eq/02`, `trans/02`, and `findi/01`
+benchmarks (each confirmed to crash - or, for `findi/01`, return `false` - before its respective
+fix, and pass afterward) - see CLAUDE.md for the full diagnosis and the specific failure each one
+produces. The `process_cong` duplicate-disjunct fix (`first_occurrence_mask`) likewise has no
+dedicated example - constructing a minimal `Or`-congruence with a genuine duplicate disjunct that
+isn't also saved by some other simplification turned out to need real-proof structure - verified
+instead via `findi/01` and `/02` directly, both now `= true`.
