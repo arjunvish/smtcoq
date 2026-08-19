@@ -1241,7 +1241,7 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                      in f fxas_isfrms fyas_isfrms p_ids_eqs
    | _ -> raise (Debug ("| cong_find_implicit_args: expecting head of clause to be an equality at id "^i^" |"))
 
-(* For each element of `l`, whether it's the first occurrence of that value in the list. 
+(* For each element of `l`, whether it's the first occurrence of that value in the list.
    Used by `process_cong`'s `Or`-congruence case to detect a duplicate disjunct *)
 let first_occurrence_mask (l : term list) : bool list =
   let seen = ref [] in
@@ -1249,6 +1249,16 @@ let first_occurrence_mask (l : term list) : bool list =
     let te = get_expr t in
     if List.mem te !seen then false
     else (seen := te :: !seen; true)) l
+
+(* Takes a list of (premise id, equality) pairs, e.g. from cong_find_implicit_args.
+   Returns the premise ids, keeping only the first one for each distinct equality value.
+   Prevents unsound resolutions when steps are elaborated *)
+let dedup_prem_ids (ptuples : (id * term) list) : id list =
+  List.rev (fst (List.fold_left
+    (fun (acc, seen) (pid, peq) ->
+      if List.exists (eq_mod_dneg_symm peq) seen then (acc, seen)
+      else (pid :: acc, peq :: seen))
+    ([], []) ptuples))
 
 (* Given a cong step that derives
       a_1 = b_1   ...   a_n = b_n
@@ -1573,21 +1583,25 @@ let process_cong (c : certif) : certif =
                      --------------------------------------------------------------res
                                            f(x,y) = f(a,b)   
                   *)
-                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with 
+                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with
                                      | Debug s -> raise (Debug ("| process_cong: in eq case, can't find premise(s) to congr at id "^i^" |"^s)) in
                   let pids, peqs = List.split ptuples in
                   let prem_negs = List.map (fun x -> Not x) peqs in
                   let eqci = generate_id () in
-                    process_cong_aux ((((i, ResoAST, cl, eqci :: pids, a)) :: ((((eqci, EqcoAST, (prem_negs @ cl), [], [])) :: ((List.rev_append imp (acc))))))) t cog
+                  (* Deduplicate premises to remove unsound resolutions *)
+                  let pids_uniq = dedup_prem_ids ptuples in
+                    process_cong_aux ((((i, ResoAST, cl, eqci :: pids_uniq, a)) :: ((((eqci, EqcoAST, (prem_negs @ cl), [], [])) :: ((List.rev_append imp (acc))))))) t cog
                 (* 3. Congruence over predicates *)
                 (* ASSUMPTION: we're assuming that x = a is the first premise and y = b 
                           the second premise to congruence *)
                 else if is_iff l then
-                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with 
+                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with
                                      | Debug s -> raise (Debug ("| process_cong: in iff case, can't find premise(s) to congr at id "^i^" |"^s)) in
                   let pids, peqs = List.split ptuples in
                   let prem_negs = List.map (fun x -> Not x) peqs in
-                  let eq = (try (List.hd cl) with | Failure _ -> 
+                  (* Deduplicate premises to remove unsound resolutions *)
+                  let pids = dedup_prem_ids ptuples in
+                  let eq = (try (List.hd cl) with | Failure _ ->
                             raise (Debug ("| process_cong: clause produced by cong is empty at id "^i^" |"))) in
                      (match (get_expr eq) with
                      (* and predicate
@@ -1634,9 +1648,17 @@ let process_cong (c : certif) : certif =
                               (i) generate ~(x = y), x, ~y by eqp1
                               (ii) resolve it with x = y, to get ~y, x
                               (iii) generate ~(y1 ^ ... ^ ym), y by andp
-                              (iv) resolve (ii) and (iii) to get ~(y1 ^ ... ^ ym), x *)
+                              (iv) resolve (ii) and (iii) to get ~(y1 ^ ... ^ ym), x
+                           Each position's own fact consumes its own xk = List.nth xs idx
+                           positively out of andni1's shared unfold accumulator (`[And xs; Not
+                           x1; ...; Not xn]`) - so a genuine duplicate value in xs needs the same
+                           first-occurrence-only treatment as per_pos1/per_pos2 use for `or`
+                           (see their own comment for why): the accumulator is a set, only the
+                           first position sharing a value has anything left to consume. *)
+                        let xs_first = first_occurrence_mask xs in
                         let resi1s, res1s = List.fold_left
-                          (fun (ris, rs) (pid, peq) ->
+                          (fun (ris, rs) (idx, (pid, peq)) ->
+                            if not (List.nth xs_first idx) then (ris, rs) else
                             let x, y = (match (get_expr peq) with
                                         | Eq (x', y') -> (x', y')
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" instead I have "^(head_term (get_expr peq))^" |"))) in
@@ -1648,7 +1670,7 @@ let process_cong (c : certif) : certif =
                             else
                               let resi2, steps = and_cong_prem_fact i ys pid peq x y in
                               (resi2 :: ris, steps @ rs))
-                          ([], []) ptuples in
+                          ([], []) (List.mapi (fun idx pt -> (idx, pt)) ptuples) in
                         (* 3. resolve all clauses form 1. and 2. to get ~(y1 ^ ... ^ ym), x1 ^ ... ^ xn *)
                         let resi1 = generate_id () in
                         (* 4. generate x1 ^ ... ^ xn = y1 ^ ... ^ ym, x1 ^ ... ^ xn, y1 ^ ... ^ ym by eqn2 *)
@@ -1662,9 +1684,15 @@ let process_cong (c : certif) : certif =
                               (i) generate ~(x = y), ~x, y by eqp2
                               (ii) resolve it with x = y, to get y, ~x
                               (iii) generate ~(x1 ^ ... ^ xn), x by andp
-                              (iv) resolve (ii) and (iii) to get ~(x1 ^ ... ^ xn), y *)
+                              (iv) resolve (ii) and (iii) to get ~(x1 ^ ... ^ xn), y
+                           Symmetric to resi1s above: each position consumes its own
+                           yk = List.nth ys idx out of andni2's shared unfold accumulator, so a
+                           duplicate value in ys needs the same first-occurrence-only treatment,
+                           keyed on ys instead of xs. *)
+                        let ys_first = first_occurrence_mask ys in
                         let resi2s, res2s = List.fold_left
-                          (fun (ris, rs) (pid, peq) ->
+                          (fun (ris, rs) (idx, (pid, peq)) ->
+                            if not (List.nth ys_first idx) then (ris, rs) else
                             let x, y = (match (get_expr peq) with
                                         | Eq (x', y') -> (x', y')
                                         | _ -> raise (Debug ("| process_cong: expecting premise of cong to be equality at id "^i^" |"))) in
@@ -1676,7 +1704,7 @@ let process_cong (c : certif) : certif =
                             else
                               let resi2, steps = and_cong_prem_fact i xs pid peq x y in
                               (resi2 :: ris, steps @ rs))
-                          ([], []) ptuples in
+                          ([], []) (List.mapi (fun idx pt -> (idx, pt)) ptuples) in
                         (* 8. resolve all clauses form 6. and 7. to get ~(x1 ^ ... ^ xn), y1 ^ ... ^ ym *)
                         let resi3 = generate_id () in
                         (* 9. generate x1 ^ ... ^ xn = y1 ^ ... ^ ym, ~(x1 ^ ... ^ xn), ~(y1 ^ ... ^ ym) by eqn1 *)

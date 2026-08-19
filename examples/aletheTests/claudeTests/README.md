@@ -71,7 +71,9 @@ practical to hand-derive standalone in the time available. Verified instead via 
 `examples/aletheTests/QFUFTests/get_clause/01`, `/02`, `get_eq/02`, `trans/02`, and `findi/01`
 benchmarks (each confirmed to crash - or, for `findi/01`, return `false` - before its respective
 fix, and pass afterward) - see CLAUDE.md for the full diagnosis and the specific failure each one
-produces. The `process_cong` duplicate-disjunct fix (`first_occurrence_mask`) likewise has no
-dedicated example - constructing a minimal `Or`-congruence with a genuine duplicate disjunct that
-isn't also saved by some other simplification turned out to need real-proof structure - verified
-instead via `findi/01` and `/02` directly, both now `= true`.
+produces. The `process_cong` duplicate-value fixes (`first_occurrence_mask`, used for both
+`Or`-congruence's `per_pos1`/`per_pos2` and `And`-congruence's `resi1s`/`resi2s`; and the separate
+`dedup_prem_ids`, for the generic congruence-over-functions/predicates case) likewise have no
+dedicated examples - constructing a minimal congruence with a genuine duplicate value that isn't
+also saved by some other simplification turned out to need real-proof structure every time -
+verified instead via `findi/01`, `/02`, and `subproof/02` directly, all now `= true`.

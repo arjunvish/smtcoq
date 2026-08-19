@@ -1042,14 +1042,56 @@ behavior under the same budget - see below for why it still doesn't finish in th
 zero regressions against the full 439-file `examples/regress` suite (re-run after this fix,
 439/439) plus all 8 sanity tests.
 
-### `subproof`, `cong`, `trans`: no additional fixes needed / found, and a note on sheer file size
+### 4. `process_cong`'s congruence handlers folding the same underlying value more than once
 
-`subproof/01` and `/02` (the two representative benchmarks) already ran to completion without
-crashing on the unmodified baseline, before any of this session's fixes — re-verified directly via
-a scoped `git show HEAD:... > file` swap (not a raw `git stash`, which - found out the hard way -
-also stashes any other uncommitted work, like this very file's own in-progress edits). Whatever
-originally caused their entries in the wider corpus's `process_subproof: failed` count, it isn't
-reproduced by either of the two files picked to represent it here.
+**Bug (`subproof/01`):** already fixed as an incidental side effect of an earlier fix in this
+session (most likely the `STerm`-dereferencing fix in `neg_mod_dneg_symm`/`eq_mod_dneg_symm`,
+given `process_trivial` is on the path everything else feeds through) - confirmed by re-running it
+directly (`= true`) with no further change needed. Not independently diagnosed further, since it
+was already passing by the time this category was investigated.
+
+**Bug (`subproof/02`):** returned `false`. Traced (via the same `Verit_Checker_Trace`
+diverge-finder methodology, with a fix to the parsing script itself - a `WARNING: assuming the
+following hypothesis` message can get interleaved mid-line with the trace's own output when both
+land on the same file descriptor, breaking a naive line-based regex) to *two* separate instances
+of the same underlying problem, both in `process_cong`, both variants of a pattern already fixed
+once this session for `Or`-congruence's duplicate disjuncts (see `findi`'s write-up above) but not
+yet applied to these other two call sites:
+
+- **Same premise id, cited twice.** `process_cong`'s generic (non-`and`/`or`) congruence case -
+  used for a `cong` step over an arbitrary function or predicate, building one `EqcoAST`/`EqcpAST`
+  axiom fact plus a flat `Res` over all the premises - assumed every explicit premise contributes
+  a genuinely distinct pivot. veriT/cvc5 don't guarantee this: found via a real `cong` step whose
+  raw premise list was literally `(t51 t51)` - the *same* premise id, used for two different
+  argument positions of a binary operator, because both positions happen to share the same
+  underlying equality fact (e.g. proving `f(x, x) = f(a, a)` from a single `x = a`). The axiom
+  fact's own declared clause can harmlessly list `Not peq` twice (SmtCoq dedups it to one literal
+  once interned), but folding the *same premise's clause* into the outer `Res` twice is not
+  harmless - the second fold finds nothing left in the accumulator to cancel against (the first
+  fold already consumed it), tainting the result with `C._true` and discarding the real
+  conclusion - the same failure mode documented repeatedly throughout this file.
+- **Different premise ids, same underlying value.** The *And*-congruence handler
+  (`resi1s`/`resi2s`, built via the `and_cong_prem_fact` helper) has the exact same vulnerability
+  as `Or`-congruence's `per_pos1`/`per_pos2` (each position consumes its own `xk`/`yk` positively
+  out of a shared `andn`-unfold accumulator - a set, not a multiset) but never received the
+  `first_occurrence_mask`-based fix applied there earlier this session. Found via a real 25-ary
+  `and`-congruence where several distinct premises (different ids, several separate `hole`-
+  admitted `TRUST_THEORY_REWRITE` facts) each independently proved a different repeated subterm
+  equal to `true` - four of the twenty-five positions ended up asserting the *same* value.
+
+**Fix:** a new `dedup_prem_ids` helper (keeps only the first premise id for each distinct equality
+value, comparing via the already-`get_expr`-dereferencing `eq_mod_dneg_symm`) replaces the flat
+premise list in the generic congruence case. `resi1s`/`resi2s` gained the same
+`first_occurrence_mask`-based skip already used by `per_pos1`/`per_pos2`, keyed on `xs`/`ys`
+respectively (matching which side each one's own accumulator unfolds). Both fixes are narrowly
+scoped to the flat, non-positional premise lists (`pids`, `resi1s`, `resi2s`) - `ptuples` itself is
+left untouched everywhere, since `per_pos1`/`per_pos2`'s own indexing into it positionally would
+break if it were shortened.
+
+**Impact:** `subproof/02` now returns `= true`. Verified against the full 439-file suite plus all
+8 sanity tests, zero regressions.
+
+### `cong`, `trans`: a note on sheer file size
 
 `cong/01` (a ~10k-line proof) no longer crashes with this session's fixes applied. `cong/02` and
 `trans/01` (~75k and ~84k lines respectively) are large enough that `coqc` takes many minutes;
@@ -1074,17 +1116,18 @@ Five general `process_trivial` bugs fixed (`taut_protected`; the `weakened_ids` 
 scoping bug; the "recursive trivial clause" branch's dangling-reference bug; that same branch's
 non-tail-recursion, rewritten as `process_tl_iter`'s explicit task stack; and its `STerm`-blind
 triviality checks, fixed by making `neg_mod_dneg_symm`/`eq_mod_dneg_symm` dereference their own
-arguments via `get_expr`) plus two
-`process_cong` bugs (reversed-premise orientation in `and`/`or`-congruence, via
-`and_cong_prem_fact` and the `per_pos1`/`per_pos2` orientation checks; and duplicate disjuncts
-within a single `Or`-congruence, via `first_occurrence_mask`) — all seven verified against the
-full suite with zero regressions. Every one of the `get_clause`, `get_eq`, and `findi` category's
-crashes is fixed for its representative benchmarks, and `findi`'s two representative benchmarks
-now fully pass (`= true`); several benchmarks in the other categories (and the untouched
-`cong`/`trans`/`subproof` categories' large files) have separate, deeper,
-documented-but-unfixed `false`-result or sheer-file-size performance limitations that a future
-session can pick up using the same `Verit_Checker_Trace`
-diverge-finder methodology used throughout this document.
+arguments via `get_expr`) plus four `process_cong` bugs (reversed-premise orientation in
+`and`/`or`-congruence, via `and_cong_prem_fact` and the `per_pos1`/`per_pos2` orientation checks;
+duplicate disjuncts within a single `Or`-congruence, via `first_occurrence_mask`; the same
+duplicate-value vulnerability in `And`-congruence's `resi1s`/`resi2s`, via the same helper; and a
+premise id cited twice in the generic congruence-over-functions/predicates case, via the new
+`dedup_prem_ids`) — all nine verified against the full suite with zero regressions. Every one of
+the `get_clause`, `get_eq`, `findi`, and `subproof` categories' crashes is fixed for its
+representative benchmarks, and `findi` and `subproof`'s representative benchmarks now fully pass
+(`= true`); several benchmarks in the other categories (and the untouched `cong`/`trans`
+categories' large files) have separate, deeper, documented-but-unfixed `false`-result or
+sheer-file-size performance limitations that a future session can pick up using the same
+`Verit_Checker_Trace` diverge-finder methodology used throughout this document.
 
 **Per-file status, `examples/aletheTests/QFUFTests`:**
 
@@ -1098,8 +1141,8 @@ diverge-finder methodology used throughout this document.
 | `get_eq/01` | Still crashes | Crash moved further in (`weakened_ids` fix helped) but hits a deeper gap: a step needs the trivial-clause cascade twice, and the second time `replace_res`'s "no partner found" branch wrongly assumes the consumer is itself trivial and crashes when it isn't |
 | `get_eq/02` | Runs, `= false` | Crash fixed (`weakened_ids` scoping fix). Remaining: same vacuous-premise `th_resolution` family as `get_clause` |
 | `get_eq/03` | Runs, `= false` | Identical file to `/02` — same status |
-| `subproof/01` | Runs, `= false` | Never crashed, even on baseline before this session — not something fixed or fully diagnosed this session |
-| `subproof/02` | Runs, `= false` | Same — pre-existing, undiagnosed |
+| `subproof/01` | Passes (`= true`) | Fixed incidentally by an earlier session fix (likely `neg_mod_dneg_symm`'s `STerm`-dereferencing) |
+| `subproof/02` | Passes (`= true`) | Fixed: two `process_cong` duplicate-value bugs (`dedup_prem_ids`, and `first_occurrence_mask` applied to `And`-congruence) |
 | `cong/01` | Runs, `= false` | No longer crashes (benefits from the same `process_trivial`/`process_cong` fixes). Root cause of the `false` not diagnosed — ran out of time |
 | `cong/02` | Not fully checked | ~75k-line proof; times out (400s+) on *both* fixed and baseline code — pre-existing slowness, not a regression, but never ran to completion this session |
 | `trans/01` | Not actually tested | Never run to a real conclusion this session — a stray leftover process for it turned up mid-session and was killed without knowing its outcome |
