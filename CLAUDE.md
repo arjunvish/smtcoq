@@ -599,6 +599,25 @@ possible `(x=y)=(y=x)`, a genuine-non-tautology control case confirmed to still 
 and a `(x=y)=((x-y)=0)` case) before touching the real tests, then against `test7cvc5`/`test8cvc5`
 themselves, then against the full 433-file `examples/regress` suite (zero regressions).
 
+**Superseded (a later session):** the fix above works, but it never sat quite right - `lia.ml`
+itself carried a comment admitting the manual expansion's own necessity wasn't fully understood,
+just that it fixed the tests. Revisited later: `IFF` is a genuine, first-class `GFormula`
+constructor in Coq's own `Tauto.v` (`IFF : GFormula k -> GFormula k -> GFormula k`), with its own
+dedicated CNF conversion (`rxcnf_iff`) - not something `build_hform` is *forced* to hand-simulate
+via `AND`/`OR`, unlike `Fxor`, for which `GFormula` genuinely has no native counterpart at all.
+`Fimp` already uses native `IMPL` on both `lia.ml` and `build_hform`'s sides, and that pairing
+works - so "the same native Micromega connective, consistently, on both the build and check
+sides" already the pattern every connective but `Fiff` and `Fxor` follows. Made `Fiff` consistent
+with it too: `lia.ml`'s `Fapp (Fiff, l)` case now builds `IFF (IsProp, f1, f2)` directly (no more
+manual expansion, no more uneasy comment), and `build_hform`'s `Fiff` case now returns
+`IFF f1' f2'` instead of manually expanding to `AND (OR ...) (OR ...)`. This is a genuinely
+*different* code path from the fix above, not just a renaming - `rxcnf_iff` is its own,
+polarity-specialized CNF construction (recursing into each side with several different polarity
+combinations), not "expand to `AND`/`OR` then run the ordinary path" - so it needed its own fresh
+verification rather than inheriting the original fix's. Verified against `test7cvc5`/`test8cvc5`
+specifically (the tests that caught the original bug) plus the full 439-file `examples/regress`
+suite and all 8 sanity tests, zero regressions.
+
 ### `src/verit/veritAst.ml`, `extend_cl_aux`: `Nequ2AST` axiom polarity
 
 **Bug:** the `Nequ2AST, Not (Eq (x, y))` case of `extend_cl_aux` (used when a subproof-discharge

@@ -255,7 +255,7 @@ Section certif.
                 | Some (vm2, f2) =>
                   let f1' := if Lit.is_pos a then f1 else NOT f1 in
                   let f2' := if Lit.is_pos b then f2 else NOT f2 in
-                  Some (vm2, AND (OR f1' (NOT f2')) (OR (NOT f1') f2'))
+                  Some (vm2, IFF f1' f2')
                 | None => None
               end
             | None => None
