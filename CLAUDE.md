@@ -844,8 +844,9 @@ complement before the other side's list runs out, silently *discards* it rather 
 content gets dropped once it's folded against `t9`/`t13`'s vacuous ones, and the step ends up
 proving only `True` instead of its declared conclusion. This is a real mismatch between veriT's
 own (apparently more tolerant of redundant premises) `th_resolution` semantics and SmtCoq's strict
-fold, and reappeared independently in the `get_eq` investigation below (see `get_eq/01`'s
-limitation) — a general fix would mean changing how `mk_clause` compiles `Reso`/`Threso`
+fold, and reappeared independently in the `get_eq` investigation below (`get_eq/01`, `/02`, and
+`/03` all hit the same thing, once the separate `process_trivial` bugs documented in fix 5 below
+stop masking it) — a general fix would mean changing how `mk_clause` compiles `Reso`/`Threso`
 (`src/verit/veritSyntax.ml`, shared by every proof rule) and needs a soundly-designed strategy for
 recognizing and skipping vacuous premises without silently dropping genuinely-needed ones; left
 for a future session rather than attempted under this session's time budget.
@@ -888,24 +889,57 @@ case (dropping a step a `tautology` step still needs) — the two fixes' scopes 
 (`taut_protected` prevents the *outer* elimination from starting when it would need this, so this
 cascade-drop path is only ever reached for genuinely-safe-to-drop cases).
 
-**Known remaining limitation (`get_eq/01`, not fixed):** even with both bugs above fixed,
-`get_eq/01` hits a *further*, deeper gap in the same area: `replace_res`'s "no partner found"
-(`None`) branch assumes — via the "recursive trivial clause" heuristic above — that the consumer
-step must itself be independently trivial, and unconditionally calls `find_triv_lits` on its own
-declared clause to proceed with the cascade. In this file, a step ends up needing this same
-cascade *twice in a row* (depending on two separate trivial clauses, like the fixed case above),
-but the *second* time, the consumer's remaining premises (after the first patch) genuinely don't
-contain a complementary pair on their own — `find_triv_lits` correctly fails, which the code
-re-raises as a crash (`find_triv_lits_aux: clause doesn't have trivial literals`) rather than
-falling back to some other, sound handling. The trivial clause causing this (`x92` in the traced
-run) has a non-empty residual (a real, non-pivot literal beyond its own complementary pair), so
-the "just drop it, it was always vacuous" reasoning that motivated fix 2's approach doesn't
-directly apply either — a real fix needs either a wider partner search (not limited to the
-consumer's own direct sibling premises) or a way to re-derive the residual from scratch, both
-non-trivial; left for a future session. `get_eq/02` and `/03` (a duplicate of `/02`) don't hit
-this — `/02` just has the same, separately-documented vacuous-premise `th_resolution` limitation
-from fix 1 above (confirmed via the same trace methodology: a `t63 = ResoAST [t1,t62,t34]`-shaped
-step where the useful premise's content gets discarded the same way).
+### 5. `process_trivial`'s "recursive trivial clause" cascade could crash or dangle
+
+Two more bugs in the same area, both hit by `get_eq/01` (which used to crash outright).
+
+**Bug A: forcing an elimination that isn't really there.** When a step `i` uses an eliminated
+clause `p, ~p` but none of `i`'s *other* premises mention `p` or `~p` either, the code assumes
+`p`/`~p` must have survived, uncancelled, into `i`'s own result - so `i`'s own clause should, in
+turn, contain some complementary pair of its own, and can be cascade-eliminated the same way:
+
+```
+    p, ~p           i's other premises (none with p or ~p)
+    -----------------------------------------------------res
+                             i : y
+```
+```
+    q, ~q, z           i's own consumers...
+    ---------------------------------------res
+                  (whatever used i)
+```
+
+That assumption isn't always true - `y` can genuinely have no complementary pair, even though
+nothing else in `i`'s premises directly cancelled `p`/`~p`. The old code called `find_triv_lits`
+on `y` regardless and crashed when it found nothing.
+
+**Fix:** when this happens, give up on eliminating `p, ~p` entirely and leave it (and everything
+that depends on it) in the certificate unchanged. This is always safe: `p, ~p` was a valid step
+before process_trivial ever touched it, so leaving it alone just skips an optimization rather
+than breaking anything.
+
+**Bug B: picking a partner that's also about to disappear.** When `i` *does* have another
+premise sharing `p` or `~p`, that premise (call it `t2`) becomes the replacement's own new
+premise:
+
+```
+    p, ~p         q, ~q, ~p           (t2, itself trivial: has both q and ~q)
+    -----------------------------res
+               i : q, ~q
+```
+
+If `t2` happens to be trivial in its own right, it gets eliminated too, by a separate step of
+this same pass - but nothing stopped it from being picked as a partner first, so the new step
+built to replace `i` ends up citing an id that's about to be dropped.
+
+**Fix:** exclude any candidate partner that is itself trivial (and not otherwise protected) from
+the partner search.
+
+**Impact:** with both fixes, `get_eq/01` no longer crashes. It still returns `false`, but for a
+different reason - the same vacuous-premise `th_resolution` issue documented in fix 1 above,
+shared with `get_clause/01`, `/02`, and `get_eq/02`/`/03` (a duplicate of `/02`) - not something
+process_trivial itself is responsible for. Verified against the full 439-file suite plus all 8
+sanity tests, zero regressions.
 
 ### `findi`: reversed-premise orientation in `process_cong`'s `and`/`or`-congruence handlers
 
@@ -1112,22 +1146,25 @@ examples/regress:                       439 total, 439 True/OK, 0 False, 0 Error
 examples/aletheTests/sanitychecktests:  test1-8 (cvc5 + veriT where applicable) all = true
 ```
 
-Five general `process_trivial` bugs fixed (`taut_protected`; the `weakened_ids` cross-elimination
+Seven general `process_trivial` bugs fixed (`taut_protected`; the `weakened_ids` cross-elimination
 scoping bug; the "recursive trivial clause" branch's dangling-reference bug; that same branch's
-non-tail-recursion, rewritten as `process_tl_iter`'s explicit task stack; and its `STerm`-blind
+non-tail-recursion, rewritten as `process_tl_iter`'s explicit task stack; its `STerm`-blind
 triviality checks, fixed by making `neg_mod_dneg_symm`/`eq_mod_dneg_symm` dereference their own
-arguments via `get_expr`) plus four `process_cong` bugs (reversed-premise orientation in
-`and`/`or`-congruence, via `and_cong_prem_fact` and the `per_pos1`/`per_pos2` orientation checks;
-duplicate disjuncts within a single `Or`-congruence, via `first_occurrence_mask`; the same
-duplicate-value vulnerability in `And`-congruence's `resi1s`/`resi2s`, via the same helper; and a
-premise id cited twice in the generic congruence-over-functions/predicates case, via the new
-`dedup_prem_ids`) — all nine verified against the full suite with zero regressions. Every one of
-the `get_clause`, `get_eq`, `findi`, and `subproof` categories' crashes is fixed for its
-representative benchmarks, and `findi` and `subproof`'s representative benchmarks now fully pass
-(`= true`); several benchmarks in the other categories (and the untouched `cong`/`trans`
-categories' large files) have separate, deeper, documented-but-unfixed `false`-result or
-sheer-file-size performance limitations that a future session can pick up using the same
-`Verit_Checker_Trace` diverge-finder methodology used throughout this document.
+arguments via `get_expr`; the same cascade forcing an elimination onto a step that genuinely
+isn't trivial, now given up on instead of crashed on; and `replace_res`'s partner search being
+able to pick a partner that's itself about to be eliminated) plus four `process_cong` bugs
+(reversed-premise orientation in `and`/`or`-congruence, via `and_cong_prem_fact` and the
+`per_pos1`/`per_pos2` orientation checks; duplicate disjuncts within a single `Or`-congruence, via
+`first_occurrence_mask`; the same duplicate-value vulnerability in `And`-congruence's
+`resi1s`/`resi2s`, via the same helper; and a premise id cited twice in the generic
+congruence-over-functions/predicates case, via the new `dedup_prem_ids`) — all eleven verified
+against the full suite with zero regressions. Every one of the `get_clause`, `get_eq`, `findi`,
+and `subproof` categories' crashes is fixed for its representative benchmarks, and `findi` and
+`subproof`'s representative benchmarks now fully pass (`= true`); several benchmarks in the other
+categories (and the untouched `cong`/`trans` categories' large files) have separate, deeper,
+documented-but-unfixed `false`-result or sheer-file-size performance limitations that a future
+session can pick up using the same `Verit_Checker_Trace` diverge-finder methodology used
+throughout this document.
 
 **Per-file status, `examples/aletheTests/QFUFTests`:**
 
@@ -1138,7 +1175,7 @@ sheer-file-size performance limitations that a future session can pick up using 
 | `findi/02` | Passes (`= true`) | Fixed by the same three fixes as `/01` |
 | `get_clause/01` | Runs, `= false` | Crash fixed (`taut_protected`). Remaining: `th_resolution` folding one useful premise with vacuous `not_simplify`/`tautology` ones that share no pivot — `C.resolve`'s strict fold silently discards the useful content |
 | `get_clause/02` | Runs, `= false` | Same fix, same remaining issue as `/01` (confirmed via trace — identical shape) |
-| `get_eq/01` | Still crashes | Crash moved further in (`weakened_ids` fix helped) but hits a deeper gap: a step needs the trivial-clause cascade twice, and the second time `replace_res`'s "no partner found" branch wrongly assumes the consumer is itself trivial and crashes when it isn't |
+| `get_eq/01` | Runs, `= false` | Crash fixed (fix 5: give up gracefully instead of forcing an elimination, and don't pick a partner that's itself about to be eliminated). Remaining: same vacuous-premise `th_resolution` family as `get_clause` |
 | `get_eq/02` | Runs, `= false` | Crash fixed (`weakened_ids` scoping fix). Remaining: same vacuous-premise `th_resolution` family as `get_clause` |
 | `get_eq/03` | Runs, `= false` | Identical file to `/02` — same status |
 | `subproof/01` | Passes (`= true`) | Fixed incidentally by an earlier session fix (likely `neg_mod_dneg_symm`'s `STerm`-dereferencing) |

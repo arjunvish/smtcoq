@@ -5240,10 +5240,26 @@ let process_trivial (c : certif) : certif =
   let rec taut_protected (t1 : id) (tl : certif) : bool =
     used_as_taut_premise t1 tl ||
     List.exists (fun (i, r, _, p, _) -> (r = ResoAST || r = ThresoAST) && p = [t1] && taut_protected i tl) tl in
+  (* Whether id `p`'s own, original clause is trivial and will actually be eliminated by
+     process_trivial - checked against the whole, original certificate. 
+     Used by replace_res below to keep it from
+     picking a "partner" clause that is itself about to be eliminated:
+                    ----------t2
+       p, ~p         q, ~q, ~p 
+       -----------------------------res
+                  i : q, ~q
+     If t2 is picked as the partner for eliminating `p, ~p`, the new step built to replace `i`
+     ends up citing t2 directly. But t2 is trivial too, and gets dropped by its own, separate
+     elimination - leaving the new step pointing at an id that no longer exists. *)
+  let cog_is_trivial (p : id) : bool =
+    match get_cl_cog p with
+    | Some cl -> (List.exists (fun x -> List.exists (fun y -> neg_mod_dneg_symm y x) cl) cl)
+                 && not (taut_protected p c)
+    | None -> false in
   let rec process_trivial_aux (acc : certif) (c : certif) (cog : certif) (weakened_ids : id list) : certif =
     match c with
     (* Match if c1 is trivial *)
-    | (t1, _, c1, _, _) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1)
+    | (t1, r1, c1, p1, a1) :: tl when (List.exists (fun x -> (List.exists (fun y -> neg_mod_dneg_symm y x) c1)) c1)
                                     && not (taut_protected t1 tl) ->
         let x, notx, _ = try find_triv_lits c1 with
                          | Debug s -> raise (Debug ("| process_trivial_aux: at id "^t1^" |"^s)) in
@@ -5260,8 +5276,9 @@ let process_trivial (c : certif) : certif =
         let replace_res (c1 : clause) (x : term) (notx : term) (t1i : id) (t3: id) (res : clause) (pids : id list) : certif =
           match get_step t3 tl with
           | Some ((t3, r3, c3, p3, a3) as s) ->
-              (* Find t2 from p3, the first id (that isn't t1) whose clause c2 has either x or ~x *)
-              (match (List.find_opt (fun p -> if p = t1i then false else match get_cl_cog p with
+              (* Find t2 from p3, the first id (that isn't t1, and won't itself be eliminated as
+                 trivial - see cog_is_trivial's own comment) whose clause c2 has either x or ~x *)
+              (match (List.find_opt (fun p -> if p = t1i || cog_is_trivial p then false else match get_cl_cog p with
                                              | Some c2 -> (List.exists (eq_mod_dneg_symm x) c2) || (List.exists (eq_mod_dneg_symm notx) c2)
                                              | None -> false (* If we did the following, this exception would be raised when some resolution `t2` has premises
                                                                 p and q both of which are trivial:
@@ -5297,11 +5314,14 @@ let process_trivial (c : certif) : certif =
         (* `ids` is the fixed (never-growing) set of step ids we're looking for at this
            elimination level; once every one of them has been found and passed, we return
            it untouched. *)
+        (* Returns `None` if the elimination can't be carried out soundly;
+           causes `process_trivial` to give up on eliminating this clause 
+           entirely*)
         let rec process_tl_iter (tl : certif) (weakened_ids : id list)
             (stack : (certif * clause * term * term * id * id list * clause * id list) list)
-            : (certif * id list) =
+            : (certif * id list) option =
           match stack with
-          | [] -> (tl, weakened_ids)
+          | [] -> Some (tl, weakened_ids)
           | (acc, c1, x, notx, t1i, ids, res, pids) :: rest_stack ->
             if ids = [] || tl = [] then
               (* Current (innermost) task is done: splice its accumulated prefix onto whatever of
@@ -5310,7 +5330,7 @@ let process_trivial (c : certif) : certif =
                  return, now just handed to the next stack frame instead of a caller. *)
               let spliced = List.rev_append acc tl in
               (match rest_stack with
-               | [] -> (spliced, weakened_ids)
+               | [] -> Some (spliced, weakened_ids)
                | _ -> process_tl_iter spliced weakened_ids rest_stack)
             else
               (match tl with
@@ -5321,18 +5341,29 @@ let process_trivial (c : certif) : certif =
                      let weakened_ids' = i :: weakened_ids in
                      let replaced = replace_res c1 x notx t1i i res pids in
                      if List.length replaced = 1 then
-                       (* Found a recursive trivial clause: push a fresh task for t3 (using its own
-                          pivot literals x3/notx3, not t1's) on top of the current one (paused with
-                          ids_rem, i already accounted for) rather than recursing. *)
+                       (* i used the eliminated clause `p, ~p` but no other premise of i has p
+                          or ~p to patch it with:
+
+                            p, ~p           i's other premises (none with p or ~p)
+                            -----------------------------------------------------res
+                                                     i : y
+                          We assume y must in turn contain some complementary pair q, ~q of its
+                          own (since p/~p had nothing to cancel against, they should still be
+                          sitting in y), and cascade the same elimination onto i:
+                            q, ~q, z           i's own consumers...
+                            ---------------------------------------res
+                                          (whatever used i)
+                          if y has no complementary pair, give up on eliminating clause. *)
                        (match replaced with
                         | [(t3, r3, c3, p3, a3)] ->
                             let ids' = find_res t t3 in
-                            let x3, notx3, new_res = try find_triv_lits c3 with
-                                                | Debug s -> raise (Debug ("| process_tl: at id "^t3^" |"^s)) in
-                            let new_pids = [] in
-                            process_tl_iter t weakened_ids'
-                              (([], c3, x3, notx3, t3, ids', new_res, new_pids) ::
-                               (acc, c1, x, notx, t1i, ids_rem, res, pids) :: rest_stack)
+                            (match (try Some (find_triv_lits c3) with Debug _ -> None) with
+                             | None -> None
+                             | Some (x3, notx3, new_res) ->
+                               let new_pids = [] in
+                               process_tl_iter t weakened_ids'
+                                 (([], c3, x3, notx3, t3, ids', new_res, new_pids) ::
+                                  (acc, c1, x, notx, t1i, ids_rem, res, pids) :: rest_stack))
                         | _ -> raise (Debug ("| process_tl: replace_res returns a singleton list but matching a non-singleton case at id "^i^" |")))
                      else
                        process_tl_iter t weakened_ids'
@@ -5340,10 +5371,11 @@ let process_trivial (c : certif) : certif =
                    else
                      process_tl_iter t weakened_ids
                        (((i, r, c, p, a) :: acc, c1, x, notx, t1i, ids_rem, res, pids) :: rest_stack)
-               | [] -> (List.rev acc, weakened_ids) (* unreachable: guarded by tl = [] above *))
+               | [] -> Some (List.rev acc, weakened_ids) (* unreachable: guarded by tl = [] above *))
         in
-        let tl', weakened_ids' = process_tl_iter tl weakened_ids [([], c1, x, notx, t1, ids, [], [])] in
-        process_trivial_aux acc tl' cog []
+        (match process_tl_iter tl weakened_ids [([], c1, x, notx, t1, ids, [], [])] with
+         | Some (tl', weakened_ids') -> process_trivial_aux acc tl' cog []
+         | None -> process_trivial_aux ((t1, r1, c1, p1, a1) :: acc) tl cog weakened_ids)
     | (i, SubproofAST subcl, cl, p, a) :: tl ->
         let subcl' = process_trivial_aux [] subcl cog weakened_ids in
         process_trivial_aux ((i, SubproofAST subcl', cl, p, a) :: acc) tl cog weakened_ids
