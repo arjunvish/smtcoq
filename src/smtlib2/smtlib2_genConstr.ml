@@ -90,6 +90,19 @@ let string_of_identifier = function
 let string_of_qualidentifier id = string_of_identifier (identifier_of_qualidentifier id)
 
 
+(* SMT-LIB's simple-symbol syntax allows characters (e.g. '.', '$', '-') that aren't valid 
+   in a Coq identifier. Escape every character outside [A-Za-z0-9] as "_x<hex>_", including 
+   a literal '_' in the original name. *)
+let sanitize_ident s =
+  let buf = Buffer.create (String.length s) in
+  String.iter (fun c ->
+      match c with
+      | 'a'..'z' | 'A'..'Z' | '0'..'9' -> Buffer.add_char buf c
+      | c -> Buffer.add_string buf (Printf.sprintf "_x%02x_" (Char.code c))
+    ) s;
+  Buffer.contents buf
+
+
 let rec sort_of_sort = function
   | SortIdentifier (_,id) -> sort_of_string (string_of_identifier id) []
   | SortIdSortMulti (_,id,(_,l)) ->
@@ -97,10 +110,11 @@ let rec sort_of_sort = function
 
 
 let declare_sort_from_name rt s =
-  let cons_t = CoqInterface.declare_new_type (CoqInterface.mkId ("Smt_sort_"^s)) in
+  let safe_s = sanitize_ident s in
+  let cons_t = CoqInterface.declare_new_type (CoqInterface.mkId ("Smt_sort_"^safe_s)) in
   let compdec_type = mklApp cCompDec [| cons_t |] in
   let compdec_var =
-    CoqInterface.declare_new_variable (CoqInterface.mkId ("CompDec_"^s)) compdec_type in
+    CoqInterface.declare_new_variable (CoqInterface.mkId ("CompDec_"^safe_s)) compdec_type in
   let res = SmtBtype.of_coq_compdec rt cons_t compdec_var in
   SmtMaps.add_btype s res;
   res
@@ -112,7 +126,7 @@ let declare_fun_from_name rt ro s tyl ty =
   let coqTy = List.fold_right (fun typ c ->
       CoqInterface.mkArrow (interp_to_coq rt typ) c)
       tyl (interp_to_coq rt ty) in
-  let cons_v = CoqInterface.declare_new_variable (CoqInterface.mkId ("Smt_var_"^s)) coqTy in
+  let cons_v = CoqInterface.declare_new_variable (CoqInterface.mkId ("Smt_var_"^(sanitize_ident s))) coqTy in
   let op = Op.declare ro cons_v (Array.of_list tyl) ty None in
   SmtMaps.add_fun s op;
   op
