@@ -1208,3 +1208,244 @@ Caveats: the "presumed same family" call for `get_eq/03` is inferred from file s
 independently traced the way `get_clause`'s two files were (`findi/02` no longer needs this
 caveat - it was independently re-run and confirmed `= true` after the `findi` fixes above) - and
 `trans/01` genuinely wasn't verified at all.
+
+---
+
+## Session 4: the full QF_UF_Full experiment, resource-safety hardening, identifier fixes, and the `ite` type gap
+
+Follow-on session, run against the *entire* real-world QF_UF benchmark suite (`examples/aletheTests/
+QFUFTests/QF_UF_Full/`, 7503 `.smt2` files, 58GB with proofs) rather than curated samples - a much
+larger and more representative corpus than anything used in prior sessions. New tooling
+(`examples/aletheTests/QFUFTests/run_experiment.py`) was built to drive this: generate proofs,
+generate SMTCoq `.v` checker files, run `coqc`, classify every failure down to its exact root
+cause, and summarize. Two genuine `src/` bugs were found and fixed (a symbol-sanitization gap and
+a filename-sanitization gap); a third, much larger one was found, root-caused, and documented but
+deliberately left unfixed (a real feature gap, not a quick patch).
+
+**Incident, fixed first:** an early, unbounded-parallelism run of this experiment (6 concurrent
+cvc5/veriT/coqc processes, no memory ceiling) hung the machine badly enough to force a hard
+reboot - a single veriT process had already been observed reaching 4.9GB RSS on one input file
+before the crash. `run_experiment.py` now has three independent safety layers before doing
+anything else: a hard per-process virtual-memory cap (`RLIMIT_AS`, `--mem-limit-mb`, default
+3072/2048MB depending on invocation) via `preexec_fn` on every cvc5/veriT/coqc subprocess; a
+background watchdog thread that kills the single highest-RSS such process if system-wide
+available memory drops below a threshold (`--min-available-mb`); and a startup guard that refuses
+to run at all if there isn't enough headroom for the configured `--workers`/`--mem-limit-mb`
+combination. Default `--workers` was also dropped from 6 to 3. The watchdog was confirmed firing
+correctly (and harmlessly) multiple times across real runs after this was added - killing one
+runaway process each time rather than the whole system stalling.
+
+### `run_experiment.py`: the experiment pipeline
+
+For each `.smt2` file under a root directory: filters to `:status unsat` (only these have a
+refutation to check), generates a cvc5 proof (`--dump-proofs --proof-format=alethe`) and a veriT
+proof (`--proof-prune --proof-merge --proof-with-sharing --cnf-definitional --disable-ackermann
+--input=smtlib2`) within a timeout, drops the benchmark if either solver fails/times out, writes
+one `Verit_Checker`-invoking `.v` file per (benchmark, solver) pair, runs `coqc` on each with its
+own timeout and memory cap, and classifies the result. Resumable: proof generation reuses any
+already-present, non-empty `.pf` pair rather than regenerating, so an interrupted multi-hour run
+(this happened twice - once from the memory incident above, once from ordinary session teardown)
+picks back up instead of redoing completed work. Two output files: `Results.md` (aggregate counts
+plus a root-cause-classified error breakdown) and `Individual_Results.md` (the full per-file
+table, split out on request so a large run's raw per-file detail doesn't crowd out the summary).
+
+**Per Instructions.md's "Run the Checker" step** ("Store all outputs in a textfile"), every
+`coqc` invocation's full raw output is now saved to a `.log` file next to its `.v` file,
+regardless of verdict - this is what made it possible to re-derive the fine-grained
+classification below, and re-investigate the `ite` bug further down, without re-running `coqc`
+across the whole corpus a second time.
+
+### Fine-grained error classification (`classify_error`, `extract_pf_token`)
+
+A first pass at this experiment showed the checker failing on the overwhelming majority of the
+corpus (e.g. cvc5: 7/4179 `true`, 4172 `error`) - but a bare `ERROR` count says nothing about
+*why*. `classify_error` (in `run_experiment.py`) turns each failure's raw `coqc` output into a
+`(category, suggested_fix)` pair:
+
+- **`VeritParser.Error`** (unsupported Alethe syntax) gets broken down to the *exact token* that
+  failed to parse, not just "a parse error happened somewhere," via `extract_pf_token`. This
+  needed an empirically-verified (not assumed) fact about what the reported position actually
+  means: ocamllex/menhir read a token *before* the parser gets a chance to reject it, so by the
+  time the exception is caught and printed, the lexer's cursor already sits one character *past*
+  the end of the offending token - not at its start. Confirmed by hand-decoding a real failure:
+  ```
+  (step t2 (cl @p_5) :rule hole :args ("untranslated rewrite"))
+                                       ^                     ^^
+                                    col 38                 col 59 (reported position)
+  ```
+  The grammar's `argument` rule only accepts a single-word quoted `SYMBOL` (`DQUOTE SYMBOL
+  DQUOTE`), so cvc5's own two-word `"untranslated rewrite"` justification string breaks it - the
+  *second* word ("rewrite") is the unexpected token, and by the time that's detected the lexer has
+  already consumed it, landing on the closing `"` right after. So `extract_pf_token` scans
+  *backward* from `position - 1` to find where the token starts, not forward from `position`.
+  This one empirical correction is what makes every `VeritParser.Error` category below
+  attributable to a specific, fixable token instead of one undifferentiated bucket.
+- **`Invalid character 'X' in identifier "..."`** is broken down per exact character `X` (taken
+  directly from Coq's own error message).
+- **`Stack overflow`**, **`VeritSyntax.Debug: <message>`** (digits normalized out so the same
+  underlying bug's many instances collapse into one category), and a generic **`Other Coq error:
+  <message>`** fallback round out the classification, so nothing vanishes into an undifferentiated
+  "other."
+
+### `QF_UF_Representative/`: curated 2-example-per-category benchmarks
+
+Before spending effort on fixes, `QF_UF_Representative/` was populated with 2 small, verified,
+real benchmarks per failure category (mirroring the pre-existing `get_clause`/`findi`/`get_eq`/
+`subproof`/`cong`/`trans` layout from Session 3, which predates this session's fine-grained
+classification and was independently re-verified rather than assumed still accurate - `findi` and
+`subproof` turned out to be fully fixed already, `get_clause`/`get_eq` still `false` on an
+unrelated open bug). All pre-existing `.v` wrapper files had a real, previously-unnoticed bug
+fixed along the way: an off-by-one `Add Rec LoadPath` (one `../` short), meaning none of them had
+actually been running - every representative example in the whole directory needed this fix
+before it could even be used to verify anything.
+
+New categories added, each mined from the corpus's saved `.log` files (no `coqc` re-runs needed)
+and independently re-verified to reproduce their exact claimed category: `rewrite/` (cvc5's
+`"untranslated rewrite"` string, 3827 files), `distinct/` (94 files), `and_intro/` (20 files, a
+cvc5 rule this project hadn't previously catalogued), `let/` (veriT, 3909 files). The old
+`parserError/` folder was retired - it turned out (once actually run, post-LoadPath-fix) to
+already be exactly one `distinct` case and one `let` case of the same underlying file, predating
+the token-level naming; its content wasn't reused for the new folders since a much smaller (416KB
+vs. 75MB) genuine repro of the same `let` gap was available elsewhere in the corpus. Two
+categories (stack overflow, 3 real instances; an OOM case, 1 instance) were root-caused and
+documented in `otherSummary.md` with their exact corpus paths but deliberately *not* checked into
+the repository - every real instance is 25MB-230MB, which would have been a new order of
+magnitude for this directory's size (previous largest: ~8MB) for marginal benefit over
+documenting the path. The OOM case was confirmed to be an artifact of this session's own
+`--mem-limit-mb` safety cap, not a checker bug.
+
+### Identifier fixes: two unrelated bugs behind the same error shape
+
+`otherSummary.md`'s original table had three "Invalid character" rows (`.`, `-`, `$`) that looked
+like one problem. They weren't. Checked directly against every real corpus instance (which
+identifier each error names):
+
+```
+Invalid character 'X' in identifier "..."
+                                      |
+              +----------------------+----------------------+
+              |                                              |
+   starts with Smt_sort_/Smt_var_/CompDec_          otherwise (bare name)
+              |                                              |
+   genuine SMT-LIB symbol content                 the .v file's own Coq MODULE
+   (e.g. "utt$8") concatenated into               name, derived by coqc straight
+   a Coq identifier in                            from the .v file's basename -
+   smtlib2_genConstr.ml                           nothing to do with any symbol
+              |                                              |
+        '$' only (76 files:                       '.' (368) and '-' (18):
+        38 cvc5 + 38 veriT) -                      these particular benchmark
+        0 '.'/'-' instances                        files just happen to have
+        were ever this kind                        '.'/'-' in their own names
+```
+
+**Fix 1 (`src/smtlib2/smtlib2_genConstr.ml`):** a new `sanitize_ident`, applied at all three
+places a raw SMT-LIB symbol gets concatenated into a Coq identifier (`declare_sort_from_name`'s
+`Smt_sort_`/`CompDec_`, `declare_fun_from_name`'s `Smt_var_`). Every character outside
+`[A-Za-z0-9]` - including a literal `_` already in the name - is escaped as `_x<hex>_`. Escaping
+a pre-existing `_` too (not just the "special" characters) is what makes the mapping injective:
+without it, `foo.bar` and a hypothetical literal symbol `foo_x2e_bar` could collide (the latter,
+containing only letters/digits/underscores, would pass through unescaped and land on the exact
+same output as the former's escaped form). `SmtMaps.add_btype`/`add_fun`'s own lookup keys are
+left as the original, unsanitized symbol - only the string passed to `CoqInterface.mkId` changes,
+since the map keys need to keep matching how the rest of the pipeline refers to the symbol.
+Fixes the `$` category completely (verified: `QF_UF_Representative/invalid$/01` and `/02` both
+now produce a genuine checker verdict instead of an error). Zero regressions across the full
+439-file `examples/regress` suite and all 8 sanity tests.
+
+**Fix 2 (`examples/aletheTests/QFUFTests/run_experiment.py`):** does *not* touch `.`/`-`, since
+they're the unrelated module-name bug. First confirmed empirically (not assumed) that there's no
+`coqc` flag to decouple a file's module name from its own filename: `-top`/`-topfile` don't
+affect this specific check, and `-o`'s output basename is required to literally match the input's
+- Coq really does derive the identifier straight from the physical file's own basename, with no
+override. So the `.v` file itself has to be renamed. A new `sanitize_module_name` (`write_v_file`
+now names the `.v` file through it) does the same "characters outside `[A-Za-z0-9_]` become `_`"
+substitution - but *without* needing injectivity this time: each `.v` file defines exactly one
+module used only by itself, so unlike the symbol-sanitizer above there's no shared namespace two
+different names could collide inside, and a plain substitution is enough. Only the `.v` file's
+own name changes; the `.smt2`/`.pf` files it references keep their original names (those are just
+string arguments to `Verit_Checker`, not Coq identifiers, so they're unaffected by any of this).
+`QF_UF_Representative/invalid./01`-`/02` and `invalid-/01`-`/02` had their `.v` files renamed to
+match and re-verified: all four now get past the module-naming stage entirely.
+
+**A new, different, previously-hidden bug surfaced once both identifier bugs stopped masking it**:
+all four of `invalid.`/`invalid-`'s renamed examples now hit the same `Anomaly: Uncaught exception
+Smtcoq_plugin.SmtForm.Make(Atom).NotWellTyped(_)` - see below. Not fixed, not part of what either
+identifier fix was scoped to address, but too consistent (all four, same family) to be coincidence
+- this is what led to the investigation in the next section once the user asked about it directly.
+
+**Impact of both fixes together, on the real 7503-file corpus** (re-run end to end after both
+fixes, `examples/aletheTests/QFUFTests/Results.md`): both "Invalid Coq identifier character"
+categories disappeared from the classification entirely. `true` counts rose (cvc5: 7 -> 9; veriT:
+34 -> 133) as files that used to error out on their own identifiers now get far enough to be
+checked for real - some land on `true`, most land on some other, still-open category (see below).
+
+### The `ite` type gap (`NotWellTyped` anomaly, 122 cvc5 + 122 veriT files, not fixed)
+
+Investigated on request after both identifier fixes were in. The obvious first guess - that this
+was somehow connected to the proof-file `distinct` parsing gap discussed above, since the sample
+files' debug output named a variable that also appeared near a `distinct` assertion - turned out
+to be a red herring, caught only by testing it directly rather than trusting the surface
+resemblance. Two things proved it wrong: an isolated one-line reproduction of `(assume a0 (!
+(distinct a b c) :named @p_1))` genuinely does fail with `VeritParser.Error` as expected, yet the
+*real* failing file did not - and swapping in a **completely empty** `.pf` file for one of the
+real failures reproduced the exact same `NotWellTyped` anomaly anyway. That last test is decisive:
+if the proof file's own content is irrelevant to whether the crash happens, the bug cannot be in
+proof-file parsing at all - it has to be in parsing the `.smt2` file itself, which runs first and,
+here, apparently never even reaches the proof.
+
+Bisected the real 798-line `.smt2` file by truncation (binary search: keep the first N lines plus
+a trailing `(check-sat)`, see whether `coqc` still crashes) down to the exact line that introduces
+the failure:
+```
+(assert (= y$s$205_op (ite y$s$204_op y$n1s7 y$n64s7)))
+```
+`y$n1s7`/`y$n64s7` are declared `utt$7` - an uninterpreted enum sort, not `Bool`. Root cause, in
+`src/smtlib2/smtlib2_genConstr.ml`:
+```ocaml
+| "ite", _ -> Form (Form.get rf (Fapp (Fite, Array.of_list (List.map make_root l))))
+```
+This unconditionally builds `ite` as a *Boolean formula connective* (`Fite`, which requires all
+three arguments to themselves be formulas), regardless of what type the branches actually are.
+That's correct only when both branches are Boolean (e.g. `(ite c (= x y) (= a b))`) - here they're
+enum-sorted terms, so the branch gets coerced into `Fatom` on a non-`Bool` atom, and the checker's
+own `SmtForm.check` (correctly) rejects it: `Fatom ha -> if not (Atom.is_bool_type ha) then raise
+NotWellTyped`. Confirmed the same shape independently in a second, unrelated file from the same
+`2018-Goel-hwbench` family (`QF_UF_itc99_b13_ab_cti_max.smt2`, `(ite y$s$86_op y$n0s10 y$94)`,
+`y$n0s10 : utt$10`) - not a one-off.
+
+**Why this isn't a quick fix, and was deliberately left undone:** `src/trace/smtAtom.ml` has *no
+term-level `ite` constructor at all* - no `mk_ite` alongside the existing `mk_bvextr`/`mk_select`/
+`mk_store` (which handle other typed, non-Boolean term operations). This isn't a one-line dispatch
+fix; SmtCoq's atom representation genuinely cannot express "if-then-else returning a non-Boolean
+value" yet. A real fix would need: a new atom constructor in `smtAtom.ml` (returning the branches'
+own type, mirroring how the existing typed constructors work); Coq-side checker support for
+verifying that new atom kind; `smtlib2_genConstr.ml`'s `ite` dispatch changed to choose between
+Boolean `Fite` and the new term-level constructor based on the branches' actual sort; and likely a
+matching update to how `veritAst.ml`/`veritParser.mly` handle `ite` on the proof-file side, so
+both sides of the pipeline stay consistent with each other. A genuine feature extension to the
+checker's core term representation, not a sanitization-style mechanical fix like the two above -
+scoped out but not attempted this session.
+
+### Final state (session 4)
+
+```
+QF_UF_Full (examples/aletheTests/QFUFTests/Results.md), 7503 total .smt2 files, 4179 kept:
+  cvc5:  TRUE 9    FALSE 0   ERROR 4170   TIMEOUT 0
+  veriT: TRUE 133  FALSE 0   ERROR 4045   TIMEOUT 1
+
+Error categories (post both identifier fixes):
+  cvc5:  rewrite 3842, distinct 186, Anomaly (ite gap) 122, and_intro 20
+  veriT: let 3909, Anomaly (ite gap) 122, distinct 7, bfun_elim 3,
+         stack overflow 3, unclassified (OOM artifact) 1
+```
+
+Two genuine `src/` bugs fixed this session (`smtlib2_genConstr.ml`'s `sanitize_ident` for the `$`
+identifier category; `run_experiment.py`'s `sanitize_module_name` for the `.`/`-` module-naming
+category), both verified against the full 439-file `examples/regress` suite, all 8 sanity tests,
+and the relevant `QF_UF_Representative` folders, zero regressions. One substantial gap (`ite` over
+non-Boolean branches) root-caused, reproduced independently in two files, and documented in both
+this file and `otherSummary.md`, but deliberately left unfixed pending a scoping decision - it
+needs a new atom constructor and Coq-side checker support, not a mechanical patch. The remaining
+`VeritParser.Error`-token categories (`rewrite`, `let`, `distinct`, `and_intro`, `bfun_elim`) and
+the vacuous-premise `th_resolution` family from Session 3 remain open too, with suggested fixes
+recorded per-category in `otherSummary.md`.
