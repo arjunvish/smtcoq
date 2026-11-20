@@ -1449,3 +1449,305 @@ needs a new atom constructor and Coq-side checker support, not a mechanical patc
 `VeritParser.Error`-token categories (`rewrite`, `let`, `distinct`, `and_intro`, `bfun_elim`) and
 the vacuous-premise `th_resolution` family from Session 3 remain open too, with suggested fixes
 recorded per-category in `otherSummary.md`.
+
+---
+
+## Session 5: closing out most of `Results.md`'s error categories, in order of simplicity
+
+Follow-on session, after the QF_UF corpus (`examples/aletheTests/QFUFTests/QF_UF_Full/`) was
+physically moved into this checkout. Worked through `Results.md`'s error-category table roughly
+in order of simplicity, implementing and verifying a fix for each before moving to the next.
+**Net result:** `and_intro` and `distinct` (two of the largest cvc5-side categories, plus
+`distinct`'s small veriT-side count) are fixed and verified; `bfun_elim`/`ite_intro` gained
+real grammar/semantics support but the specific files behind them turned out to need the same
+deeper fix as the `ite`-type-gap Anomaly category (still open); the stack-overflow category is
+fixed outright (five more non-tail-recursive functions found, none previously touched by any
+prior session's tail-recursion sweep); `let` and the `ite` type gap remain open, unattempted this
+session beyond the new evidence tying `bfun_elim` to the latter. Two incidental, general
+correctness bugs (unrelated to any specific category) were found and fixed along the way, plus a
+non-determinism-adjacent Coq-identifier-collision bug. Every fix below was verified against the
+full 439-file `examples/regress` suite and all 8 `sanitychecktests` (`= true` for cvc5 + veriT
+where applicable) with zero regressions, in addition to its own category's representative
+benchmark(s).
+
+### `and_intro` (cvc5, 20 files) - fixed
+
+**Bug:** cvc5's `and_intro` rule (`(cl (and p1 ... pn))` from n premises `(cl p1) ... (cl pn)`,
+premise `k` proving conjunct `k`) had no grammar/semantic support at all - not even a lexer
+keyword - so any proof using it failed with `VeritParser.Error`.
+
+**Fix:** added the `and_intro` keyword (`ANDINTRO` token) and a new `process_and_intro` pass
+(`veritAst.ml`, wired into `preprocess_certif` right after `process_notnot`, before anything else
+needs to treat the certificate's rules generically). This rule turns out to be exactly the `andn`
+axiom - `(and p1..pn) \/ not p1 \/ ... \/ not pn`, a tautology - with each `not pi` cancelled in
+turn against premise `i`'s own singleton clause `[pi]`: the same axiom-plus-`Res`-fold idiom
+`process_cong` already uses dozens of times in this file, just for a rule whose own conclusion
+already *is* the axiom's head literal rather than being reached via a congruence step. The pass
+dereferences the declared conclusion via `get_expr` (to see through a `:named`/`STerm` reference)
+to recover the `And ps` shape, builds one `AndnAST` fact `And ps :: List.map (fun x -> Not x) ps`,
+and resolves it against the (already-existing) premise ids directly.
+
+**Impact:** verified against `QF_UF_Representative/and_intro/01` and `/02`, both `= true`
+(previously `VeritParser.Error`).
+
+### `distinct` (cvc5 186 + veriT 7 = 193 files) - fixed
+
+**Bug:** `(distinct a b c ...)` had no grammar support (`LPAREN DIST terms=term* RPAREN` was
+commented out in `veritParser.mly`, and the `term` AST type had no corresponding constructor at
+all) - any occurrence, whether inside an `assume`d formula or a `cong` step, failed with
+`VeritParser.Error`.
+
+**Fix, and why it's not just a desugaring:** the obvious-looking fix - desugar `(distinct a b
+c)` to `And [Not (Eq a b); Not (Eq a c); Not (Eq b c); ...]` at parse time, the same way n-ary
+`+`/`-`/`*` are left-folded - is unsound here. SmtCoq already has a **native**, first-class
+`distinct` representation used by the `.smt2`-file side (`smtlib2_genConstr.ml`'s `"distinct"`
+case calls `Atom.mk_distinct`, an `NO_distinct` atom constructor - see `smtAtom.ml`) and an
+existing checker step (`DistElim`, wired to the already-supported `distinct_elim` Alethe rule) that
+depends on that native representation. Desugaring on the proof-file side to a hand-built `And`
+tree would produce a *different*, non-hash-consing-identical term than whatever the `.smt2`-file
+parser built for the same assertion, breaking `assume`-step term matching (the exact "checks out
+step-by-step, wrong final answer" failure class documented throughout this file) rather than any
+outright crash.
+
+**Fix, actually applied:** a genuine `Dist of term list` constructor added to `term` (in both
+`veritAst.ml` and `veritAst.mli`), parsed via the now-uncommented `LPAREN DIST ts=term* RPAREN
+{ Dist ts }` grammar rule, and converted in `process_term_aux` via `Atom.mk_distinct` directly -
+the exact same function the `.smt2`-side parser uses - so both sides converge on the identical
+interned atom regardless of which one built it first. `-warn-error +a-3` (this project's build
+flags) made the compiler enumerate every other place a `term` is matched exhaustively; each
+needed a `Dist` case: `get_args_isfrms` (congruence argument listing, treated like `Ite`/`App` -
+each argument checked for is-a-formula the same generic way, not hardcoded non-Boolean like
+`Plus`/`Minus`/`Mult`, since `distinct` over a Boolean sort is legal SMT-LIB even if rare),
+`string_of_term`, `head_term` (debug-only), and `store_shared_terms_t` (pass-through, mirroring
+`App`'s own case in each).
+
+**Two general, unrelated bugs found and fixed along the way** (both surfaced only because
+`distinct`'s parser fix let real proofs reach much further into `process_cong` than before -
+same "fixing one thing exposes the next" arc as every previous session in this document):
+
+1. **`cong_find_implicit_args`'s premise equality lookup wasn't dereferencing `STerm`/`NTerm`.**
+   Two separate sites (the "no implicit equalities" branch and the "at least one implicit
+   equality" branch, both in `cong_find_implicit_args`) located a premise's equality literal via
+   `List.find (fun y -> match get_expr y with Eq _ -> true | _ -> false) clause` - using
+   `get_expr y` only for the *check*, but then binding/returning the raw, non-dereferenced `y`
+   itself. Downstream code in the same function (`f`'s pattern match, `(pid, Eq (px, py)) ::
+   p_ids_eqs_t`) requires the stored value to *literally* be an `Eq` node at the top level -
+   whenever the premise's own clause literal happened to be wrapped in a `:named` reference
+   (`NTerm`/`STerm`, extremely common - nearly every subterm in a real cvc5 proof gets one), the
+   pattern silently failed to match anything, falling through to `cong_find_implicit_args.f:
+   number of arguments don't match with premises` with no useful diagnostic. Root-caused by
+   adding a temporary instrumented print at the failing wildcard case, dumping the actual
+   `fxas`/`fyas`/`p_ids_eqs` shapes, and discovering `p_ids_eqs`'s stored term was a raw `NTerm`
+   never dereferenced - not (as a first, incorrect hypothesis suggested) an argument-order bug in
+   the `f` matching logic itself, which turned out to be correct all along. **Fix:** wrap the
+   `List.find` result in `get_expr` before storing it, at both sites.
+   - A *third*, structurally identical instance of the same bug (same file, same STerm-blindness
+     pattern, different call site) was found immediately afterward while stress-testing
+     `distinct/02`: the `Eq (Eq _, Eq _)` congruence-over-equality case's own single-implicit-
+     premise lookup (`match get_cl p' cog with | Some (Eq (x, a) :: _) -> ... | _ -> raise (Debug
+     "expecting premise of cong to be an equality")`) had the identical un-dereferenced-match
+     defect. Fixed the same way: dereference the clause's head literal via `get_expr` before
+     matching it against `Eq (x, a)`.
+2. **`smtTrace.ml`'s `Hole`/`Forall_inst`/`Qf_lemma` Coq-identifier naming collided on repeated
+   content.** Both mint a fresh Coq identifier as `"ass" ^ string_of_int (Hashtbl.hash concl)` (or
+   `"app" ^ ...`) with no uniqueness handling at all - whenever two *different* admitted-hypothesis
+   steps happen to admit the exact same clause/conclusion content (not even a hash collision -
+   literally the same value hashes the same way every time), Coq rejects the second declaration
+   with `ass<N> already exists`. Surfaced on `distinct/01` (a `SEQ`-family combinatorial benchmark
+   with many structurally repeated `hole` facts) once the two dereferencing
+   fixes above let it run far enough to reach this. **Fix:** a new module-level `fresh_ass_ctr`/
+   `fresh_ass_suffix` monotonic counter (`smtTrace.ml`), appended to both names, guaranteeing
+   uniqueness regardless of content collisions - deliberately a separate counter from `next_id`
+   (which numbers certificate steps) to keep the two unrelated numbering schemes from being
+   confused with each other.
+
+**Impact:** `QF_UF_Representative/distinct/01` (`SEQ011_size3`, ~4.7k-line proof) now `= true`
+end-to-end (previously `VeritParser.Error`, then successively `cong_find_implicit_args.f: number
+of arguments don't match`, then `ass<N> already exists`, as each layer was fixed in turn - the
+same "errors -> deeper errors -> wrong answers" arc as every prior session). `distinct/02`
+(`SEQ009_size7`, ~84k-line proof, one of the largest files in this repo's test corpus) now gets
+past every one of these bugs too, but doesn't finish within a 900-second budget either before or
+after the fixes here - a pre-existing, undiagnosed performance characteristic of this specific
+huge file (matching this document's own prior notes on `cong/02`/`trans/01`'s similar sheer-size
+slowness), not a correctness issue and not something this session's fixes were expected to
+address.
+
+### `bfun_elim` / `ite_intro` (veriT, 3 + up to 64 files) - grammar fixed, but entangled with the open `ite`-type-gap Anomaly
+
+**Fix applied:** both are veriT-internal preprocessing-elaboration rules (`bfun_elim`:
+Boolean-function-argument elimination, rewriting `f(...,b,...)` to `ite(b, f(...,true,...),
+f(...,false,...))`; `ite_intro`: `ite`-lifting) with no prior grammar support at all. Added
+lexer keywords (`BFUNELIM`, `ITEINTRO`) and rule variants (`BfunElimAST`, `IteIntroAST`), both
+compiled to `Hole` in `process_rule` - i.e. trusted, unverified admitted facts, exactly the same
+established convention already used for `rare_rewrite`/`all_simplify` elsewhere in this file
+(their own clause content already parses fine with existing grammar - `ite`, function
+application, and equality were all already supported - so no new term-level machinery was
+needed, unlike `distinct`).
+
+**Why this doesn't close the category:** getting past `bfun_elim`'s own grammar gap on a real
+corpus file (`2018-Goel-hwbench/QF_UF_h_b04_ab_reg_max_verit`) surfaced a second, unsupported
+`ite_intro` step immediately afterward (fixed the same way) - and getting past *that* surfaced a
+third, genuinely different failure: `process_term_aux`'s `App` case asserts every function
+argument is first-order (`Form.Atom`)-typed, but this benchmark family (bit-vectors modeled as
+tuples of individual-bit-Booleans plus opaque "word" sorts, per the `2018-Goel-hwbench` naming)
+declares plain uninterpreted functions like `Concat_32_1_31 : Bool -> UTT31 -> UTT32` that take a
+genuine Boolean-sorted argument directly - something the App case's assertion has never supported.
+This is the *same* underlying architecture gap Session 4 already root-caused and left open for the
+`ite`-over-non-Boolean-branches Anomaly: SmtCoq's Atom/Form split has no representation for "a
+Boolean value used where a term is expected," in either direction (a term-typed `ite` branch, or a
+term-position function argument). Rather than force a shallow patch onto one call site of a
+gap that's already correctly scoped as a real feature addition, this file's remaining failure was
+folded into the existing open `ite`-type-gap item rather than treated as newly fixed or newly
+broken.
+
+**Impact:** the grammar/`Hole`-trust additions are unconditionally kept (verified against the full
+regression suite, zero regressions) since they're correct and get every *other*, non-entangled use
+of these two rules further regardless of this one family's deeper issue; no representative folder
+added for this pairing, since the only real corpus file tried is entangled with the open Anomaly
+item and wouldn't demonstrate a clean pass either before or after.
+
+### Stack overflow (veriT, documented as 3 large files in `otherSummary.md`) - fixed
+
+**Bug:** five more non-tail-recursive functions, none previously touched by any prior session's
+tail-recursion sweep (Session 1 fixed a first batch; Session 3 added `process_tl_iter`'s explicit
+task stack for `process_trivial`'s cascade) - found by root-causing the known large-file repro
+(`QF_UF_Full/non-incremental/QF_UF/eq_diamond/eq_diamond16_verit.pf`, 25MB, ~98.7k proof steps,
+already documented as unresolved from Session 4) rather than by inspection alone, since a
+~98.7k-step *flat* certificate (no subproofs at all) ruled out most previously-fixed call sites by
+construction. Two diagnostic techniques made this tractable:
+- **Running under a drastically reduced OS stack** (`ulimit -s 1024`, i.e. 1MB instead of the
+  default 8MB) turns a slow-but-eventually-crashing repro into a fast one, since the *number of
+  steps needed to exhaust the stack* shrinks proportionally - this took the full-file repro from
+  "doesn't finish in 900+ seconds either way" (as documented in Session 4) down to crashing in
+  well under a minute, making iteration practical.
+- **Bracketing `preprocess_certif`'s own pipeline with a `Printf.eprintf` before each of its ~14
+  stages** (temporary instrumentation, removed once the fix was confirmed) pinpointed which named
+  pass was mid-execution when the crash hit, turning "some pass in this 5000-line file is
+  non-tail-recursive" into a one-shot lookup rather than a repeat-the-whole-bisection-per-function
+  hunt.
+
+Found and fixed, **in the order the crash moved through them** as each was fixed in turn (every
+one independently confirmed via the tiny-stack repro before moving to the next):
+
+1. **`process_unused` (`veritAst.ml`)** - its inner `aux` was the classic
+   `let (tlc, b) = aux tl in ... h :: tlc` shape (recurse first, cons after) - one stack frame per
+   certificate step. Converted to a left-to-right, accumulator-based tail-recursive walk. One
+   subtlety required care: the original had a `h :: [] -> (c, false)` base case that
+   unconditionally *keeps* the certificate's own last/final step regardless of whether
+   `step_used` would (correctly, but wrongly-consequentially) call it unused - nothing ever
+   references the true final conclusion step, since nothing comes after it. The rewrite
+   special-cases this exact situation (`h :: [] -> ...` in the new accumulator-based `aux` too)
+   to preserve it - an easy invariant to lose sight of when "just" converting a fold to use an
+   accumulator, since it's a small hard-coded exception rather than part of the fold's general
+   shape.
+2. **`hoist_nested_subproofs` (`veritAst.ml`, added in Session 1's `process_subproof`
+   nested-subproof correctness fix, and evidently never covered by that session's own
+   tail-recursion sweep since it postdates it)** - its final case was the equally classic
+   `h :: hoist_nested_subproofs tl` shape. Converted to an accumulator-based walk; getting the
+   final ordering right (hoisted-out nested subproofs must still precede their own former parent
+   step, exactly as before) needed working out the right `List.rev_append`/cons composition by
+   hand (documented inline) rather than a mechanical substitution, since the original's ordering
+   came from `nested @ (parent :: recurse tl)` - a `@` on the *hoisted* list, not just a single
+   cons.
+3. **`process_certif` (`veritAst.ml`)** - the final AST-to-checker-step compilation pass, calling
+   `mk_clause` for each step then `SmtTrace.link`ing it to its successor; originally
+   `let t' = process_certif t in ... SmtTrace.link ...; res :: t'`, non-tail for the same reason
+   as the others. Split into two tail-recursive passes: first, a forward accumulator walk calling
+   `mk_clause` in the same left-to-right order the original's recursive descent produced (`
+   mk_clause`'s side effects on `VeritSyntax`'s global tables are order-sensitive - a later
+   step's `mk_clause` call can depend on an earlier one's - so this ordering had to be preserved
+   exactly, unlike the *linking*); second, a separate pass linking each consecutive pair of
+   results - safe to do in any order between *different* pairs (confirmed by reading `SmtTrace.
+   link`'s own definition: `c1.next <- Some c2; c2.prev <- Some c1`, a purely local mutation on
+   the two clauses given, no shared/global state), so this second pass's own direction/order
+   doesn't need to match the original's unwind order at all.
+4. **`SmtTrace.occur` (`smtTrace.ml`)** - not a flat-list walk like the previous three, but a DAG
+   dependency walk (a `Res` step's `rc1`/`rc2`/`rtail` premises, or a `Same` step's target),
+   whose native recursion depth follows the *dependency chain* length rather than simply the
+   certificate's own length - for a long, mostly-linear resolution chain (this file's actual
+   shape) those are effectively the same thing, and just as unboundedly deep. Rewritten as an
+   explicit-worklist iterative walk using polymorphic-variant `` `Visit ``/`` `Finalize ``
+   markers on a heap-allocated stack (a list) instead of the native call stack - the `` `Finalize
+   ``  marker is what lets the "increment `used` only after every child has been visited" ordering
+   survive the conversion to an explicit stack. Preserving `Same`'s own original semantics
+   exactly - it recurses into its target *unconditionally*, with no `used`-based guard, unlike
+   the `Res`/`Other` cases - needed explicit care to avoid silently changing behavior while
+   converting.
+5. **`CoqInterface.mkTrace` (`coqInterface.ml`)** - not walking SMTCoq's own certificate structure
+   at all, but building the final Coq term (a `list step`, i.e. nested nested `cons` applications)
+   handed to the kernel; `mkApp (ccons, [|step; st; mkTrace (s+1)|])` needs its own recursive call
+   fully evaluated *before* `mkApp` can run (arguments evaluate before application), so this was
+   non-tail for the same underlying reason as the OCaml-side passes despite looking different
+   syntactically. Split into a tail-recursive `collect` pass (walking forward, advancing the
+   mutable `r` ref and calling `step_to_coq` in that same forward order - preserving the original's
+   side-effect ordering exactly, the one thing that had to survive the rewrite) that accumulates
+   results in *reverse*, followed by `List.fold_left` (itself genuinely tail-recursive, unlike
+   `List.fold_right`) over that reversed list to rebuild the exact same right-nested Coq term the
+   original produced.
+
+**A genuinely different, no-longer-fixable-in-`src/`-alone layer below all five of these:** even
+after all five fixes, the full 98.7k-step file still overflowed the *default* 8MB OS stack - but
+succeeded outright (`= true`, a genuine positive verification, not just "didn't crash") under `ulimit
+-s unlimited`. This confirms the remaining depth lives entirely in **Coq's own kernel/VM**
+(`cbv_vm`, called on the final, legitimately large-but-finite proof term) reducing/typechecking a
+term whose own nesting depth is unavoidably proportional to the certificate's length, given the
+representation choices SmtCoq's checker infrastructure already uses (a `cons`-list, not some
+balanced/chunked structure) - not a bug in any of this project's own OCaml code, and not something
+fixable by further tail-recursion conversions here. The standard, already-accepted mitigation for
+this specific "genuinely deep but finite, not runaway" class of failure - already used elsewhere in
+this project's own history for `trans/02` (Session 3) - is exactly what resolved it: run `coqc`
+with a larger OS stack (`ulimit -s unlimited`, or another sufficiently large explicit value) than
+the shell default.
+
+**Impact:** verified end-to-end against the real, previously-fully-unresolved
+`eq_diamond16_verit.pf` repro (25MB, ~98.7k steps): the certificate now checks successfully
+(`= true`) under `ulimit -s unlimited`, and gets past every one of this session's own OCaml-side
+fixes (confirmed individually, one crash-site at a time, via the tiny-stack diagnostic) even under
+the *default* 8MB stack - only Coq's own kernel reduction needs the larger limit. Verified against
+the full 439-file `examples/regress` suite and all 8 sanity tests throughout, zero regressions at
+every step.
+
+### Still open
+
+- **`let` (veriT, 3909 files)** - not attempted this session. Needs real local-scope-binding
+  semantics reusing the existing `STerm`/`NTerm` sharing machinery (`store_shared_terms`) rather
+  than eager substitution, to avoid exponential blowup, plus correct shadowing behavior. The
+  single largest remaining category by file count.
+- **`ite` type gap / Anomaly (cvc5 + veriT, 122 each = 244 files, plus now also entangling
+  `bfun_elim`/`ite_intro`'s own family - see above)** - not attempted this session. Root-caused in
+  Session 4: SmtCoq's `smtAtom.ml` has no term-level (non-Boolean-returning) `ite` constructor,
+  and (per this session's `bfun_elim` investigation) the same gap manifests symmetrically as
+  "a function application can't take a Boolean-sorted argument" via `process_term_aux`'s `App`
+  case. A real fix needs a new atom constructor mirroring the existing typed constructors
+  (`mk_bvextr`/`mk_select`/`mk_store`), Coq-side checker support for verifying it, and consistent
+  updates to `smtlib2_genConstr.ml`'s dispatch and `veritAst.ml`/`veritParser.mly`'s `ite`/`App`
+  handling - a genuine core-representation feature addition, not a mechanical patch, same
+  assessment as Session 4's.
+- **Vacuous-premise `th_resolution` family (Session 3)** - still open, undisturbed this session.
+- **"Unclassified error" (veriT, 1 file)** - not a checker bug: matches `otherSummary.md`'s
+  already-documented `Fatal error: out of memory` case on `eq_diamond19_verit.pf` (230MB), an
+  artifact of the experiment harness's own `--mem-limit-mb` safety cap, not something to fix in
+  `src/`.
+
+### Final state (session 5)
+
+```
+examples/regress:                       439 total, 439 True/OK, 0 False, 0 Error, 0 Timeout
+examples/aletheTests/sanitychecktests:  test1-8 (cvc5 + veriT where applicable) all = true
+QF_UF_Representative (spot-checked, all previously-passing folders re-verified, zero regressions):
+  and_intro/01, and_intro/02:   = true (new this session)
+  distinct/01:                  = true (new this session)
+  distinct/02:                  gets past every bug fixed this session; still exceeds a 900s
+                                 budget on sheer file size (~84k lines) alone, pre-existing and
+                                 undiagnosed further, same class as cong/02 and trans/01
+  findi/01, findi/02, subproof/01, subproof/02: still = true (unaffected, spot-checked)
+```
+
+Five `src/` fixes this session: `process_and_intro`
+(`and_intro`), the `Dist` term constructor plus its `Atom.mk_distinct` wiring (`distinct`),
+two `cong_find_implicit_args`/`get_cl`-site `STerm`-dereferencing fixes (found via `distinct`, but
+general), `smtTrace.ml`'s `fresh_ass_ctr` identifier-collision fix (found via `distinct`, but
+general), and five tail-recursion conversions across `veritAst.ml`/`smtTrace.ml`/`coqInterface.ml`
+(the stack-overflow category) - plus `bfun_elim`/`ite_intro`'s grammar support, kept even though it
+doesn't close its own category outright. `let` and the `ite` type gap remain the two substantial
+open items, both already correctly scoped as real feature work rather than mechanical fixes.

@@ -103,16 +103,20 @@ let max_array_size : int = 4194302
 
 (* Traces *)
 (* WARNING: side effect on r! *)
+(* Tail-recursive, split into two passes *)
 let mkTrace step_to_coq next _ clist cnil ccons cpair size step def_step r =
-  let rec mkTrace s =
-    if s = size then
-      mkApp (Lazy.force cnil, [|step|])
-    else (
+  let rec collect s acc_rev =
+    if s = size then acc_rev
+    else begin
       r := next !r;
       let st = step_to_coq !r in
-      mkApp (Lazy.force ccons, [|step; st; mkTrace (s+1)|])
-    ) in
-  mkApp (Lazy.force cpair, [|mkApp (Lazy.force clist, [|step|]); step; mkTrace 0; def_step|])
+      collect (s + 1) (st :: acc_rev)
+    end in
+  let sts_rev = collect 0 [] in
+  let base = mkApp (Lazy.force cnil, [|step|]) in
+  let full_trace = List.fold_left (fun acc st -> mkApp (Lazy.force ccons, [|step; st; acc|]))
+                      base sts_rev in
+  mkApp (Lazy.force cpair, [|mkApp (Lazy.force clist, [|step|]); step; full_trace; def_step|])
 
 
 (* Micromega *)

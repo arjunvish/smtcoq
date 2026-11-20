@@ -76,7 +76,7 @@
 %token LAGE LIAGE LATA LADE DIVSIMP PRODSIMP LAMULP LAMULN
 %token UMINUSSIMP MINUSSIMP SUMSIMP COMPSIMP LARWEQ
 %token FINS BIND QCNF SUBPROOF
-%token SYMM NSYMM REORDR FACTR ALLSIMP RARE
+%token SYMM NSYMM REORDR FACTR ALLSIMP RARE BFUNELIM ITEINTRO ANDINTRO
 (*%token BBVA BBCONST BBEQ BBDIS BBOP BBNOT BBNEG BBADD
 %token BBMUL BBULT BBSLT BBCONC BBEXTR BBZEXT BBSEXT
 %token BBSHL BBSHR BVAND BVOR BVXOR BVADD BVMUL BVULT 
@@ -232,8 +232,8 @@ term:
     { List.fold_left (fun acc t -> Minus (acc, t)) (Minus (x, y)) ys }
   | LPAREN MULT x=term y=term ys=term* RPAREN
     { List.fold_left (fun acc t -> Mult (acc, t)) (Mult (x, y)) ys }
-  (*| LPAREN DIST terms=term* RPAREN        {}
-  | LPAREN BVNOT t=term RPAREN              {}
+  | LPAREN DIST ts=term* RPAREN             { Dist ts }
+  (*| LPAREN BVNOT t=term RPAREN              {}
   | LPAREN BVAND t1=term t2=term RPAREN     {}
   | LPAREN BVOR t1=term t2=term RPAREN      {}
   | LPAREN BVXOR t1=term t2=term RPAREN     {}
@@ -354,11 +354,15 @@ rulename:
   | FINS                                    { FinsAST }
   | QCNF                                    { QcnfAST }
   | SYMM                                    { SameAST }
+  | ANDINTRO                                { AndintroAST } (* cvc5's n-ary and-introduction; elaborated in veritAst.ml's process_and_intro *)
   | NSYMM                                    { SameAST }
   | REORDR                                  { SameAST }
   | FACTR                                   { SameAST }
   | ALLSIMP                                 { AllsimpAST }
   | RARE                                    { RarerewriteAST }
+  (* BFUNELIM and ITEINTRO are currently trusted - converted to holes *)
+  | BFUNELIM                                { BfunElimAST }
+  | ITEINTRO                                { IteIntroAST }
 (*function_def:
   | SYMBOL LPAREN sorted_var* RPAREN sort term { "" }
 ;

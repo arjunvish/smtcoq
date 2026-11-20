@@ -14,6 +14,7 @@ type term =
   | Ite of term list
   | Forall of (string * typ) list * term
   | Eq of term * term
+  | Dist of term list
   | App of string * (term list)
   | Var of string
   | STerm of string (* Shared term *)
@@ -44,6 +45,7 @@ type rule =
   | ReflAST
   | TransAST
   | CongAST
+  | AndintroAST
   | EqreAST
   | EqtrAST
   | EqcoAST
@@ -118,6 +120,8 @@ type rule =
   | AnchorAST
   | AllsimpAST
   | RarerewriteAST
+  | BfunElimAST
+  | IteIntroAST
   | SameAST
   | ContAST
   | HoleAST

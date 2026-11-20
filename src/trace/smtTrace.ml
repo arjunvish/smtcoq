@@ -15,6 +15,12 @@ open CoqTerms
 open SmtCertif
 
 
+(* A monotonic counter, distinct from `next_id` below (which numbers certificate steps),
+   used only to disambiguate the Coq identifiers minted for `Hole`/`Forall_inst`/`Qf_lemma`
+   admitted-hypothesis names further down in this file *)
+let fresh_ass_ctr = ref 0
+let fresh_ass_suffix () = incr fresh_ass_ctr; string_of_int !fresh_ass_ctr
+
 (** Steps identifiers **)
 
 let notUsed = 0
@@ -257,21 +263,30 @@ let select c =
     r := p
   done
 
-(* Compute the number of occurence of each clause so that <alloc> works 
-properly *)
-let rec occur c =
-  match c.kind with
-  | Root -> c.used <- c.used + 1
-  | Res res ->
-      if c.used == notUsed then
-	begin occur res.rc1; occur res.rc2; List.iter occur res.rtail end;
-      c.used <- c.used + 1
-  | Other res ->
-     if c.used == notUsed then List.iter occur (used_clauses res);
-     c.used <- c.used + 1;
-  | Same c' ->
-    occur c';
-    c.used <- c.used + 1
+(* Compute the number of occurence of each clause so that <alloc> works
+properly (tail-recursive) *)
+let occur c0 =
+  let rec run stack =
+    match stack with
+    | [] -> ()
+    | `Finalize c :: rest -> c.used <- c.used + 1; run rest
+    | `Visit c :: rest ->
+      (match c.kind with
+       | Root -> run (`Finalize c :: rest)
+       | Res res ->
+         if c.used == notUsed then
+           run (`Visit res.rc1 :: `Visit res.rc2 ::
+                ((List.map (fun x -> `Visit x) res.rtail) @ (`Finalize c :: rest)))
+         else
+           run (`Finalize c :: rest)
+       | Other res ->
+         if c.used == notUsed then
+           run ((List.map (fun x -> `Visit x) (used_clauses res)) @ (`Finalize c :: rest))
+         else
+           run (`Finalize c :: rest)
+       | Same c' ->
+         run (`Visit c' :: `Finalize c :: rest))
+  in run [`Visit c0]
 
 (* Allocate clauses *)
 let alloc c =
@@ -471,7 +486,7 @@ let to_coq to_lit interp (cstep,
               | Ext (res) -> mklApp cExt [|out_c c; out_f res|]
               | Hole (prem_id, concl) ->
                 let prem = List.map (fun cl -> match cl.value with Some l -> l | None -> assert false) prem_id in
-                let ass_name = CoqInterface.mkId ("ass"^(string_of_int (Hashtbl.hash concl))) in
+                let ass_name = CoqInterface.mkId ("ass"^(string_of_int (Hashtbl.hash concl))^"_"^(fresh_ass_suffix ())) in
                 let ass_ty = interp (prem, concl) in
                 cuts := (ass_name, ass_ty)::!cuts;
                 let ass_var = CoqInterface.mkVar ass_name in
@@ -484,7 +499,7 @@ let to_coq to_lit interp (cstep,
                                       | Some find -> find cl
                                       | None -> assert false in
                 let concl' = out_cl [concl] in
-                let app_name = CoqInterface.mkId ("app" ^ (string_of_int (Hashtbl.hash concl))) in
+                let app_name = CoqInterface.mkId ("app" ^ (string_of_int (Hashtbl.hash concl)) ^ "_" ^ (fresh_ass_suffix ())) in
                 let app_var = CoqInterface.mkVar app_name in
                 let app_ty = CoqInterface.mkArrow clemma (interp ([], [concl])) in
                 cuts := (app_name, app_ty)::!cuts;

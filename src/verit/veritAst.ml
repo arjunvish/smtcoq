@@ -23,6 +23,7 @@ type term =
   | Ite of term list
   | Forall of (string * typ) list * term
   | Eq of term * term
+  | Dist of term list
   | App of string * (term list)
   | Var of string
   | STerm of string (* Shared term *)
@@ -53,6 +54,7 @@ type rule =
   | ReflAST
   | TransAST
   | CongAST
+  | AndintroAST
   | EqreAST
   | EqtrAST
   | EqcoAST
@@ -127,6 +129,8 @@ type rule =
   | AnchorAST
   | AllsimpAST
   | RarerewriteAST
+  | BfunElimAST
+  | IteIntroAST
   | SameAST
   | ContAST
   | HoleAST
@@ -282,8 +286,15 @@ and process_term_aux (t : term) : bool * SmtAtom.Form.atom_form_lit (* option *)
                decl1 && decl2, Form.Form (Fapp (Fiff, 
                                     [|Form.lit_of_atom_form_lit rf (decl1, t1); 
                                       Form.lit_of_atom_form_lit rf (decl2, t2)|])))
+  | Dist ts -> let ts' = List.map process_term_aux ts in
+               let args = List.map (fun x -> match x with
+                           | decl, Form.Atom h -> (decl, h)
+                           | _ -> assert false) ts' in
+               let dl, l = list_dec args in
+               let arr = Array.of_list l in
+               dl, Form.Atom (Atom.mk_distinct ra ~declare:dl (Atom.type_of arr.(0)) arr)
   | App (f, ts) -> let ts' = List.map process_term_aux ts in
-                   let args = List.map (fun x -> match x with 
+                   let args = List.map (fun x -> match x with
                                | decl, Form.Atom h -> (decl, h)
                                | _ -> assert false) ts' in
       (match find_opt_qvar f with
@@ -350,6 +361,7 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | ReflAST -> Refl
   | TransAST -> raise (Debug ("| process_rule: trans should be eliminated|"))
   | CongAST -> raise (Debug ("| process_rule: cong should be eliminated|"))
+  | AndintroAST -> raise (Debug ("| process_rule: and_intro should be eliminated|"))
   | EqreAST -> Eqre
   | EqtrAST -> Eqtr
   | EqcoAST -> Eqco
@@ -423,6 +435,8 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | QcnfAST -> Qcnf
   | AllsimpAST -> Allsimp
   | RarerewriteAST -> Allsimp
+  | BfunElimAST -> Hole
+  | IteIntroAST -> Hole
   | SameAST -> Same
   | ContAST -> Same
   | HoleAST -> Hole
@@ -634,6 +648,7 @@ and string_of_rule (r : rule) : string =
   | ReflAST -> "ReflAST"
   | TransAST -> "TransAST"
   | CongAST -> "CongAST"
+  | AndintroAST -> "AndintroAST"
   | EqreAST -> "EqreAST"
   | EqtrAST -> "EqtrAST"
   | EqcoAST -> "EqcoAST"
@@ -707,6 +722,8 @@ and string_of_rule (r : rule) : string =
   | QcnfAST -> "QcnfAST"
   | AllsimpAST -> "AllsimpAST"
   | RarerewriteAST -> "RarerewriteAST"
+  | BfunElimAST -> "BfunElimAST"
+  | IteIntroAST -> "IteIntroAST"
   | SameAST -> "SameAST"
   | ContAST -> "ContAST"
   | HoleAST -> "HoleAST"
@@ -739,6 +756,8 @@ and string_of_term (t : term) : string =
   | Forall (xs, t) -> let args = List.fold_left concat_sp "" (List.map (fun (s,t) -> "(s : "^(string_of_typ t)^")") xs) in
       "(forall "^args^", "^(string_of_term t)^")"
   | Eq (t1, t2) -> "("^(string_of_term t1)^" = "^(string_of_term t2)^")"
+  | Dist ts -> let args = List.fold_left concat_sp "" (List.map string_of_term ts) in
+      "(distinct "^args^")"
   | App (f, ts) -> let args = List.fold_left concat_sp "" (List.map string_of_term ts) in
                                 "("^f^" ("^args^"))"
   | Var v -> v
@@ -772,6 +791,7 @@ let head_term (t : term) : string =
   | Ite _ -> "Ite _"
   | Forall _ -> "Forall _"
   | Eq _ -> "Eq of _"
+  | Dist _ -> "Dist _"
   | App _ -> "App _"
   | Var _ -> "Var _"
   | STerm _ -> "STerm _"
@@ -805,6 +825,7 @@ let rec store_shared_terms_t (t : term) : term =
   | Ite ts -> Ite (List.map store_shared_terms_t ts)
   | Forall (xs, t') -> Forall (xs, (store_shared_terms_t t'))
   | Eq (t1, t2) -> Eq ((store_shared_terms_t t1), (store_shared_terms_t t2))
+  | Dist ts -> Dist (List.map store_shared_terms_t ts)
   | App (f, ts) -> App (f, (List.map store_shared_terms_t ts))
   | Var s -> Var s
   | STerm s -> STerm s
@@ -919,6 +940,40 @@ let rec process_notnot (c : certif) : certif =
     | (i, NotnotAST, cl, p, a) :: tl -> aux acc (remove_res_trans_premise i tl)
     | (i, SubproofAST subcl, cl, p, a) :: tl ->
         aux ((i, SubproofAST (process_notnot subcl), cl, p, a) :: acc) tl
+    | h :: tl -> aux (h :: acc) tl
+    | [] -> List.rev acc
+  in aux [] c
+
+
+(* => Transformation Step: elaborate `and_intro` rule occurrences into an explicit,
+   checker-verified derivation.
+   and_intro asserts its conclusion directly from its premises, with nothing in between for 
+   the checker to verify:
+     p1   p2   ...   pn
+    --------------------and_intro
+         (p1 ^ ... ^ pn)
+   can be replaced by:
+    ----------------------------------andn
+     (p1 ^ ... ^ pn) v ~p1 v ... v ~pn      p1   p2   ...   pn
+    -----------------------------------------------------------reso
+                        (p1 ^ ... ^ pn)
+*)
+let rec process_and_intro (c : certif) : certif =
+  let rec aux (acc : certif) (c : certif) : certif =
+    match c with
+    | (i, AndintroAST, cl, p, a) :: tl ->
+      (match cl with
+       | [conj] ->
+         (match get_expr conj with
+          | And ps ->
+            let andni = generate_id () in
+            let andncl = And ps :: List.map (fun x -> Not x) ps in
+            aux ((((i, ResoAST, cl, andni :: p, [])) ::
+                  (((andni, AndnAST, andncl, [], [])) :: acc))) tl
+          | _ -> raise (Debug ("| process_and_intro: expecting the conclusion of and_intro to be an `and` at id "^i^" |")))
+       | _ -> raise (Debug ("| process_and_intro: expecting a singleton clause at id "^i^" |")))
+    | (i, SubproofAST subcl, cl, p, a) :: tl ->
+      aux ((i, SubproofAST (process_and_intro subcl), cl, p, a) :: acc) tl
     | h :: tl -> aux (h :: acc) tl
     | [] -> List.rev acc
   in aux [] c
@@ -1057,8 +1112,8 @@ let rec get_args_isfrms (t : term) : (term * bool) list =
    | Eq (x, y) -> List.map (fun x -> (x, (match snd (process_term_aux x) with 
                                          | Form.Atom _ -> false 
                                          | _ -> true))) [x; y]
-   | Ite xs | App (_, xs) -> List.map (fun x -> (x, (match snd (process_term_aux x) with 
-                                                | Form.Atom _ -> false 
+   | Ite xs | App (_, xs) | Dist xs -> List.map (fun x -> (x, (match snd (process_term_aux x) with
+                                                | Form.Atom _ -> false
                                                 | _ -> true))) xs
    | NTerm (_, t) -> get_args_isfrms t
    | STerm s -> try get_args_isfrms (get_sterm s) with
@@ -1164,10 +1219,10 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                                               but it could have been modified, in which case we return the first equality in the clause
                                               that we find. If clauses are modified to add more equalities before the equality that
                                               we care about, then this would fetch the wrong equality *)
-                                           | Some z -> (x, try (List.find (fun y -> match (get_expr y) with
+                                           | Some z -> (x, get_expr (try (List.find (fun y -> match (get_expr y) with
                                                                        | Eq _ -> true
                                                                        | _ -> false) z) with
-                                                           | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |")))
+                                                           | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |"))))
                                            | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (no implicit equalities case) at id "^i^" |")))) p in
                      ([], ptuples)
                    (* at least 1 implicit equality *)
@@ -1185,10 +1240,10 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                                         | Debug s -> raise (Debug ("| cong_find_implicit_args: getting args of second function app, can't get args to app at id "^i^" |"^s))) in
                      (* get all equalities from params *)
                      let p_ids_eqs = List.map (fun x -> (match (get_cl x cog) with
-                                             | Some c -> let eq = try (List.find (fun y -> match (get_expr y) with
+                                             | Some c -> let eq = get_expr (try (List.find (fun y -> match (get_expr y) with
                                                                             | Eq _ -> true
                                                                             | _ -> false) c) with
-                                                                  | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |")) in
+                                                                  | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |"))) in
                                                          (x, eq)
                                              | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (implicit equalities case) at id "^i^" |")))) p in
                      (* function that checks pairwise equality of arguments *)
@@ -1343,9 +1398,12 @@ let process_cong (c : certif) : certif =
                     let imp, pids, prem_negs =
                     (match p with
                     | [p'] -> 
-                       let p1, p2 = 
+                       let p1, p2 =
                           match get_cl p' cog with
-                          | Some (Eq (x, a) :: _) -> (x, a)
+                          | Some (lit :: _) ->
+                             (match get_expr lit with
+                              | Eq (x, a) -> (x, a)
+                              | _ -> raise (Debug ("| process_cong: expecting premise of cong to be an equality at id "^i^" |")))
                           | _ -> raise (Debug ("| process_cong: expecting premise of cong to be an equality at id "^i^" |")) in
                        let impi = generate_id () in
                        (* find implicit premise modulo symmetry *)
@@ -2761,14 +2819,16 @@ let process_subproof_aux (andn_id : id) (new_h_ids : id list) (g_id : id) (pi2 :
 (* ASSUMPTION: subproofs don't access any steps from outside the subproof. If they did, then this 
    would break our code *)
 let rec hoist_nested_subproofs (c : certif) : certif =
-  match c with
-  | (i, SubproofAST cert, cl, p, a) :: tl ->
-      let cert' = hoist_nested_subproofs cert in
-      let nested, flat = List.partition (fun (_, r, _, _, _) ->
-        match r with SubproofAST _ -> true | _ -> false) cert' in
-      nested @ ((i, SubproofAST flat, cl, p, a) :: hoist_nested_subproofs tl)
-  | h :: tl -> h :: hoist_nested_subproofs tl
-  | [] -> []
+  let rec aux (acc : certif) (c : certif) : certif =
+    match c with
+    | (i, SubproofAST cert, cl, p, a) :: tl ->
+        let cert' = hoist_nested_subproofs cert in
+        let nested, flat = List.partition (fun (_, r, _, _, _) ->
+          match r with SubproofAST _ -> true | _ -> false) cert' in
+        aux ((i, SubproofAST flat, cl, p, a) :: (List.rev_append nested acc)) tl
+    | h :: tl -> aux (h :: acc) tl
+    | [] -> List.rev acc
+  in aux [] c
 
 let rec process_subproof (c : certif) : certif =
   let rec aux (acc : certif) (c : certif) : certif =
@@ -5394,24 +5454,25 @@ let step_used (i : id) (c : certif) : bool =
                List.exists (fun p -> p = i) ps) c
 
 let rec process_unused (c : certif) : certif =
-  (* aux will remove all unused steps in c; it will return a tuple containing 
-     1.the modified certif 2. a bool flag that is true if at least one step has been removed *)
-  let rec aux (c : certif) : certif * bool =
+  (* aux removes all unused steps in c and returns a tuple containing
+     1. the modified certif 
+     2. a bool flag that is true if at least one step has been removed. *)
+  let rec aux (acc : certif) (removed : bool) (c : certif) : certif * bool =
     match c with
-    | h :: [] -> (c, false)
+    (* The last step is never subject to removal *)
+    | h :: [] -> (List.rev (h :: acc), removed)
     | h :: tl ->
         let i = get_id h in
-        let (tlc, b) = aux tl in
         if not (step_used i tl) then
           (* Remove h and set flag *)
-          (tlc, true)
+          aux acc true tl
         else
-          (* Keep h and use flag from recursive call *)
-          (h :: tlc, b)
-    | [] -> (c, false)
+          (* Keep h and carry the flag forward *)
+          aux (h :: acc) removed tl
+    | [] -> (List.rev acc, removed)
   in
   (* Keep applying process_unused until no steps are removed *)
-  match (aux c) with
+  match (aux [] false c) with
   (* | c', _ -> c' *)
   | (c', true) -> process_unused c'
   | (c', false) -> c'
@@ -5437,57 +5498,55 @@ let preprocess_certif (c: certif) : certif =
   (* Printf.printf ("Certif before preprocessing: \n%s\n") (string_of_certif c); *)
   try
   (let c1 = store_shared_terms c in
-  (* Printf.printf ("Certif after store_shared_terms: \n%s\n") (string_of_certif c1); *)
   let c2 = process_fins c1 in
-  (* Printf.printf ("Certif after process_fins: \n%s\n") (string_of_certif c2); *)
   let c3 = process_hole c2 in
-  (* Printf.printf ("Certif after process_hole: \n%s\n") (string_of_certif c3); *)
   let c4 = process_notnot c3 in
-  (* Printf.printf ("Certif after process_notnot: \n%s\n") (string_of_certif c4); *)
-  let c5 = process_same c4 in
-  (* Printf.printf ("Certif after process_same: \n%s\n") (string_of_certif c5); *)
+  let c4' = process_and_intro c4 in
+  let c5 = process_same c4' in
   let c6 = process_cong c5 in
-  (* Printf.printf ("Certif after process_cong: \n%s\n") (string_of_certif c6); *)
   let c7 = process_trans c6 in
-  (* Printf.printf ("Certif after process_trans: \n%s\n") (string_of_certif c7); *)
   let c8 = process_simplify c7 in
-  (* Printf.printf ("Certif after process_simplify: \n%s\n") (string_of_certif c8); *)
   let c9 = process_proj c8 in
-  (* Printf.printf ("Certif after process_proj: \n%s\n") (string_of_certif c9); *)
   let c9' = hoist_nested_subproofs c9 in
-  (* Printf.printf ("Certif after hoist_nested_subproofs: \n%s\n") (string_of_certif c9'); *)
   let c10 = process_subproof c9' in
-  (* Printf.printf ("Certif after process_subproof: \n%s\n") (string_of_certif c10); *)
   let c11 = process_trivial c10 in
-  (* Printf.printf ("Certif after process_trivial: \n%s\n") (string_of_certif c11); *)
   let c12 = process_unused c11 in
-  (* Printf.printf ("Certif after process_unused: \n%s\n") (string_of_certif c12); *)
   c12) with
   | Debug s -> raise (Debug ("| VeritAst.preprocess_certif: failed to preprocess |"^s))
 
-let rec process_certif (c : certif) : VeritSyntax.id list =
-  match c with
-  | (i, r, c, p, a) :: t ->
-      let i' = VeritSyntax.id_of_string i in
-      let r' = try process_rule r with
-               | Debug s -> raise (Debug 
-                  ("| VeritAst.process_certif: can't process clause at id "
-                  ^i^"|"^s)) in
-      let c' = try process_cl c with
-               | Form.NotWellTyped p -> raise (Debug ("VeritAst.process_certif: formula "^
-                            (Form.pform_to_string p)^" is not well-typed at id "^i))
-               | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "
-                            ^i^" |"^s)) in
-      let p' = List.map (VeritSyntax.id_of_string) p in
-      let a' = List.map (VeritSyntax.id_of_string) a in
-      (* Must do this in this order to avoid side effects *)
-      let res = mk_clause (i', r', c', p', a') in
-      (* Process next step for linking *)
-      let t' = process_certif t in
-      if List.length t' > 0 then (
-        let x = (try (List.hd t') with | Failure _ -> raise (Debug ("| FOUND IT |"))) in
-        try SmtTrace.link (get_clause res) (get_clause x) with
-        | Debug s -> raise (Debug ("| VeritAst.process_certif: linking clauses |"^s))
-        ) else ();
-      res :: t'
-  | [] -> []
+let process_certif (c : certif) : VeritSyntax.id list =
+  (* Tail-recursive and split into two passes: 
+     1. mk_clause runs left-to-right, in original certificate order; 
+     2. each step is linked to its immediate successor *)
+  let rec build (acc : VeritSyntax.id list) (c : certif) : VeritSyntax.id list =
+    match c with
+    | (i, r, cl, p, a) :: t ->
+        let i' = VeritSyntax.id_of_string i in
+        let r' = try process_rule r with
+                 | Debug s -> raise (Debug
+                    ("| VeritAst.process_certif: can't process clause at id "
+                    ^i^"|"^s)) in
+        let cl' = try process_cl cl with
+                 | Form.NotWellTyped p -> raise (Debug ("VeritAst.process_certif: formula "^
+                              (Form.pform_to_string p)^" is not well-typed at id "^i))
+                 | Debug s -> raise (Debug ("| VeritAst.process_certif: can't process clause at id "
+                              ^i^" |"^s)) in
+        let p' = List.map (VeritSyntax.id_of_string) p in
+        let a' = List.map (VeritSyntax.id_of_string) a in
+        let res = mk_clause (i', r', cl', p', a') in
+        build (res :: acc) t
+    | [] -> acc
+  in
+  let results_rev = build [] c in
+  (* results_rev is in reverse (last step first); for consecutive `x :: y :: _`, `y` immediately
+     precedes `x` in original order, so link `y` (earlier) to `x` (later). *)
+  let rec link_pairs (l : VeritSyntax.id list) : unit =
+    match l with
+    | x :: (y :: _ as rest) ->
+        (try SmtTrace.link (get_clause y) (get_clause x) with
+        | Debug s -> raise (Debug ("| VeritAst.process_certif: linking clauses |"^s)));
+        link_pairs rest
+    | _ -> ()
+  in
+  link_pairs results_rev;
+  List.rev results_rev

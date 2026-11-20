@@ -94,11 +94,14 @@
 
       (* cvc5 rules *)
         "symm", SYMM;
+        "and_intro", ANDINTRO;
         "not_symm", NSYMM;
         "reordering", REORDR;
         "factoring", FACTR;
         "all_simplify", ALLSIMP;
         "rare_rewrite", RARE;
+        "bfun_elim", BFUNELIM;
+        "ite_intro", ITEINTRO;
 
       (* Simplifications on Boolean operators rules *)
         "connective_def", CONNDEF;
