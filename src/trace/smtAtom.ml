@@ -77,6 +77,7 @@ type bop =
 
 type top =
   | TO_store of SmtBtype.btype * SmtBtype.btype
+  | TO_ite of SmtBtype.btype
 
 
 type nop =
@@ -169,6 +170,7 @@ module Op =
     let eq_tbl = HashBtype.create 17
     let select_tbl = HashBtypePair.create 17
     let store_tbl = HashBtypePair.create 17
+    let ite_tbl = HashBtype.create 17
     let diffarray_tbl = HashBtypePair.create 17
 
     let eq_to_coq t =
@@ -190,6 +192,13 @@ module Op =
       with Not_found ->
         let op = mklApp cTO_store [|SmtBtype.to_coq ti; SmtBtype.to_coq te|] in
         HashBtypePair.add store_tbl (ti, te) op;
+        op
+
+    let ite_to_coq t =
+      try HashBtype.find ite_tbl t
+      with Not_found ->
+        let op = mklApp cTO_ite [|SmtBtype.to_coq t|] in
+        HashBtype.add ite_tbl t op;
         op
 
     let diffarray_to_coq ti te =
@@ -285,6 +294,9 @@ module Op =
           SmtBtype.dec_interp t_i ti; SmtBtype.ord_interp t_i ti; SmtBtype.comp_interp t_i ti;
           SmtBtype.ord_interp t_i te; SmtBtype.comp_interp t_i te; SmtBtype.inh_interp t_i te |]
 
+    let interp_ite t_i t =
+      mklApp cite_ [|t_i; SmtBtype.to_coq t|]
+
 
     let interp_eq t_i = function
       | SmtBtype.TZ -> Lazy.force ceqbZ
@@ -323,15 +335,19 @@ module Op =
 
     let t_to_coq = function
       | TO_store (ti, te) -> store_to_coq ti te
+      | TO_ite t -> ite_to_coq t
 
     let t_type_of = function
       | TO_store (ti, te) -> SmtBtype.TFArray (ti, te)
+      | TO_ite t -> t
 
     let t_type_args = function
       | TO_store (ti, te) -> SmtBtype.TFArray (ti, te), ti, te
+      | TO_ite t -> SmtBtype.Tbool, t, t
 
     let interp_top t_i = function
       | TO_store (ti, te) -> interp_store t_i ti te
+      | TO_ite t -> interp_ite t_i t
 
 
     let n_to_coq = function
@@ -477,9 +493,12 @@ module Op =
       match op1,op2 with
         | TO_store (ti1, te1), TO_store (ti2, te2) ->
           SmtBtype.HashedBtype.equal ti1 ti2 && SmtBtype.HashedBtype.equal te1 te2
+        | TO_ite t1, TO_ite t2 -> SmtBtype.HashedBtype.equal t1 t2
+        | (TO_store _ | TO_ite _), _ -> false
 
     let t_hash = function
       | TO_store (ti, te) -> HashedBtypePair.hash (ti, te)
+      | TO_ite t -> (SmtBtype.HashedBtype.hash t) lxor 21
 
     let n_equal op1 op2 =
       match op1,op2 with
@@ -530,6 +549,7 @@ module Op =
     let logic_of_top = function
       | TO_store (ti, te) ->
         SL.add LArrays (SL.union (SmtBtype.logic ti) (SmtBtype.logic te))
+      | TO_ite t -> SmtBtype.logic t
 
     let logic_of_nop = function
       | NO_distinct ty -> SmtBtype.logic ty
@@ -794,6 +814,7 @@ module Atom =
       and to_smt_top op h1 h2 h3=
         let s = match op with
             | TO_store _ -> "store"
+            | TO_ite _ -> "ite"
         in
         Format.fprintf fmt "(%s %a %a %a)" s to_smt h1 to_smt h2 to_smt h3
 
@@ -846,6 +867,7 @@ module Atom =
       | Abop (BO_select _, a1, a2) -> "BV"
       | Abop (BO_diffarray _, a1, a2) -> "BV"
       | Atop (TO_store _, _, _, _) -> "Array"
+      | Atop (TO_ite _, _, _, _) -> "Ite"
       | Anop _ -> "Anop"
       | Aapp ((Index i, _), a_arr) -> let a_list = Array.to_list a_arr in
                                       let str = (match a_list with
@@ -1598,6 +1620,7 @@ module Atom =
     let mk_select reify ?declare:(decl=true) ti te = mk_binop ~declare:decl (BO_select (ti, te)) reify
     let mk_diffarray reify ?declare:(decl=true) ti te = mk_binop ~declare:decl (BO_diffarray (ti, te)) reify
     let mk_store reify ?declare:(decl=true) ti te = mk_terop ~declare:decl (TO_store (ti, te)) reify
+    let mk_ite reify ?declare:(decl=true) t = mk_terop ~declare:decl (TO_ite t) reify
     let mk_bvextr reify ?declare:(decl=true) ~i ~n ~s = mk_unop ~declare:decl (UO_BVextr (i, n, s)) reify
     let mk_bvzextn reify ?declare:(decl=true) ~s ~n = mk_unop ~declare:decl (UO_BVzextn (s, n)) reify
     let mk_bvsextn reify ?declare:(decl=true) ~s ~n = mk_unop ~declare:decl (UO_BVsextn (s, n)) reify

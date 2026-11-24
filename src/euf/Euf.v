@@ -114,6 +114,10 @@ Section certif.
         if Atom.uop_eqb o1 o2 then
            build_congr eqs (a::nil) (b::nil) (Lit.lit xeq :: nil)
         else C._true
+      | Atom.Atop o1 a1 a2 a3, Atom.Atop o2 b1 b2 b3 =>
+        if Atom.top_eqb o1 o2 then
+           build_congr eqs (a1::a2::a3::nil) (b1::b2::b3::nil) (Lit.lit xeq :: nil)
+        else C._true
       | Atom.Aapp f1 args1, Atom.Aapp f2 args2 =>
         if f1 =? f2 then build_congr eqs args1 args2 (Lit.lit xeq :: nil)
         else C._true
@@ -135,6 +139,15 @@ Section certif.
          if Atom.uop_eqb o1 o2 then
           build_congr eqs
           (a::nil) (b::nil) (Lit.nlit xPA :: Lit.lit xPB :: nil)
+        else C._true
+      | Atom.Atop o1 a1 a2 a3, Atom.Atop o2 b1 b2 b3 =>
+         if Atom.top_eqb o1 o2 then
+          build_congr eqs
+          (a1::a2::a3::nil) (b1::b2::b3::nil) (Lit.nlit xPA :: Lit.lit xPB :: nil)
+        else C._true
+      | Atom.Anop o1 a, Atom.Anop o2 b =>
+         if Atom.nop_eqb o1 o2 then
+          build_congr eqs a b (Lit.nlit xPA :: Lit.lit xPB :: nil)
         else C._true
       | Atom.Aapp p a, Atom.Aapp p' b =>
         if p =? p' then
@@ -448,6 +461,28 @@ Section certif.
       rewrite H9.
       apply Typ.i_eqb_refl.
       intros x y;destruct (Typ.reflect_eqb x y);auto with smtcoq_euf smtcoq_core.
+      (* top *)
+      match goal with |- context [Atom.top_eqb ?o1 ?o2] => destruct (Atom.reflect_top_eqb o1 o2) end;[subst | auto with smtcoq_euf smtcoq_core].
+      apply build_congr_correct;intros.
+      simpl;rewrite Lit.interp_lit, orb_false_r;unfold Var.interp.
+      rewrite H1.
+      generalize (Atom.check_aux_interp_hatom _ t_func _ wf_t_atom a), (Atom.check_aux_interp_hatom _ t_func _ wf_t_atom b). rewrite Typ.eqb_spec in H2. rewrite Typ.eqb_spec in H3. unfold Atom.get_type in H2, H3. rewrite H2,H3. intros [va HHa] [vb HHb].
+      unfold Atom.apply_terop;unfold Atom.interp_hatom;simpl.
+      rewrite HHb, HHa;simpl.
+      rewrite Atom.t_interp_wf in HHa; auto with smtcoq_euf smtcoq_core. rewrite H4 in HHa. simpl in HHa.
+      rewrite Atom.t_interp_wf in HHb; auto with smtcoq_euf smtcoq_core. rewrite H5 in HHb. simpl in HHb.
+      rewrite Typ.cast_refl;simpl.
+      assert (Atom.Bval t_i t va = Atom.Bval t_i t vb) as HBval.
+       repeat match goal with
+       | H : Forall2 _ _ _ _ _ |- _ => inversion H;clear H;subst
+       end.
+       unfold Atom.interp_hatom in H10, H8, H9.
+       rewrite <- HHa, <- HHb, H10, H8, H9;trivial with smtcoq_euf smtcoq_core.
+      inversion HBval.
+      apply Eqdep_dec.inj_pair2_eq_dec in H8;trivial with smtcoq_euf smtcoq_core.
+      rewrite H8.
+      apply Typ.i_eqb_refl.
+      intros x y;destruct (Typ.reflect_eqb x y);auto with smtcoq_euf smtcoq_core.
       (* op *)
       destruct (Misc.reflect_eqb i i0);[subst | auto with smtcoq_euf smtcoq_core].
       apply build_congr_correct;intros.
@@ -522,6 +557,65 @@ Section certif.
       inversion H3;clear H3;subst.
       inversion H11;clear H11;subst.
       apply f_equal; apply f_equal2;trivial with smtcoq_euf smtcoq_core.
+
+      (* top *)
+      match goal with |- context [Atom.top_eqb ?o1 ?o2] => destruct (Atom.reflect_top_eqb o1 o2) end;[subst | auto with smtcoq_euf smtcoq_core].
+      apply build_congr_correct;simpl;intros.
+      rewrite orb_false_r, Lit.interp_lit, Lit.interp_nlit;unfold Var.interp.
+      replace (rho (Lit.blit lpb)) with (rho (Lit.blit lpa)).
+       destruct (rho (Lit.blit lpa));reflexivity.
+      rewrite !wf_interp_form, H, H0;simpl.
+      generalize wt_t_atom;unfold Atom.wt;unfold is_true;
+       rewrite Misc.aforallbi_spec;intros.
+      assert (i <? length t_atom).
+        apply PArray.get_not_default_lt.
+        rewrite H1, def_t_atom;discriminate.
+      assert (i0 <? length t_atom).
+        apply PArray.get_not_default_lt.
+        rewrite H2, def_t_atom;discriminate.
+      apply H4 in H5;apply H4 in H6;clear H4.
+      unfold Atom.interp_form_hatom, Atom.interp_hatom;simpl.
+      rewrite !Atom.t_interp_wf, H1, H2;simpl;trivial with smtcoq_euf smtcoq_core.
+      repeat match goal with
+      | H : Forall2 _ _ _ _ _ |- _ => inversion H;clear H;subst
+      end.
+      apply f_equal.
+      match goal with
+      | Ha : interp_hatom _ = interp_hatom _,
+        Hb : interp_hatom _ = interp_hatom _,
+        Hc : interp_hatom _ = interp_hatom _ |- _ =>
+        unfold Atom.interp_hatom in Ha, Hb, Hc;
+        rewrite Ha, Hb, Hc;trivial with smtcoq_euf smtcoq_core
+      end.
+
+      (* nop (distinct) *)
+      match goal with |- context [Atom.nop_eqb ?o1 ?o2] => destruct (Atom.reflect_nop_eqb o1 o2) end;[subst | auto with smtcoq_euf smtcoq_core].
+      apply build_congr_correct;simpl;intros.
+      rewrite orb_false_r, Lit.interp_lit, Lit.interp_nlit;unfold Var.interp.
+      replace (rho (Lit.blit lpb)) with (rho (Lit.blit lpa)).
+       destruct (rho (Lit.blit lpa));reflexivity.
+      rewrite !wf_interp_form, H, H0;simpl.
+      generalize wt_t_atom;unfold Atom.wt;unfold is_true;
+       rewrite Misc.aforallbi_spec;intros.
+      assert (i <? length t_atom).
+        apply PArray.get_not_default_lt.
+        rewrite H1, def_t_atom;discriminate.
+      assert (i0 <? length t_atom).
+        apply PArray.get_not_default_lt.
+        rewrite H2, def_t_atom;discriminate.
+      apply H4 in H5;apply H4 in H6;clear H4.
+      unfold Atom.interp_form_hatom, Atom.interp_hatom;simpl.
+      rewrite !Atom.t_interp_wf, H1, H2;simpl;trivial with smtcoq_euf smtcoq_core.
+      destruct n as [A].
+      assert (forall accx, Atom.compute_interp t_i (get (Atom.t_interp t_i t_func t_atom)) A accx l0
+                            = Atom.compute_interp t_i (get (Atom.t_interp t_i t_func t_atom)) A accx l) as Hci.
+      { clear H H0 H1 H2 H5 H6.
+        induction H3;simpl;intro accx;trivial.
+        unfold Atom.interp_hatom in H.
+        rewrite H.
+        destruct (Atom.t_interp t_i t_func t_atom .[ b]) as [ta va].
+        destruct (Typ.cast ta A); [apply IHForall2 | reflexivity]. }
+      rewrite Hci;trivial with smtcoq_euf smtcoq_core.
 
       (* op *)
       destruct (Misc.reflect_eqb i2 i1);[subst | auto with smtcoq_euf smtcoq_core].

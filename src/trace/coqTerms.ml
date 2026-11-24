@@ -236,6 +236,8 @@ let cBO_select = terms_gc "Atom.BO_select"
 let cBO_diffarray = terms_gc "Atom.BO_diffarray"
 
 let cTO_store = terms_gc "Atom.TO_store"
+let cTO_ite = terms_gc "Atom.TO_ite"
+let cite_ = terms_gc "Atom.ite_"
 
 let cNO_distinct = terms_gc "Atom.NO_distinct"
 

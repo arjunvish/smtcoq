@@ -269,6 +269,27 @@ and process_term_aux (t : term) : bool * SmtAtom.Form.atom_form_lit (* option *)
               (list_dec (List.map process ts))
   | Xor ts -> apply_dec (fun x -> Form.Form (Fapp (Fxor, Array.of_list x)))
               (list_dec (List.map process ts))
+  | Ite [c;a;b] ->
+      (* a non-Boolean ite (over an array/enum/uninterpreted value) has no Fite (Boolean 
+         formula connective) representation,it needs the term-level Atom.mk_ite instead.
+         Anything else falls back to the pre-existing Fite path unchanged. *)
+      let (dc, ac) = process_term_aux c in
+      let (da, aa) = process_term_aux a in
+      let (db, ab) = process_term_aux b in
+      let fite_fallback () =
+        dc && da && db,
+        Form.Form (Fapp (Fite, [|process_term (dc, ac); process_term (da, aa);
+                                  process_term (db, ab)|])) in
+      (match aa, ab with
+       | Form.Atom ha, Form.Atom hb
+         when (match Atom.type_of ha with SmtBtype.Tbool -> false | _ -> true)
+              && SmtBtype.HashedBtype.equal (Atom.type_of ha) (Atom.type_of hb) ->
+         (match ac with
+          | Form.Atom hc ->
+            let decl = dc && da && db in
+            decl, Form.Atom (Atom.mk_ite ra ~declare:decl (Atom.type_of ha) hc ha hb)
+          | _ -> fite_fallback ())
+       | _, _ -> fite_fallback ())
   | Ite ts -> apply_dec (fun x -> Form.Form (Fapp (Fite, Array.of_list x)))
               (list_dec (List.map process ts))
   | Forall (vs, t) -> let vs' = process_vars vs in
@@ -1187,7 +1208,16 @@ let rec fold_nary_arith_prem (i : id) (fx : term) (fy : term) (p : id list) (cog
          (ii) ordered list of (prem_id, prem_eq) pairs representing the id of the premise and
               the equality it proves (this includes implicit and explicit premises)
 *)
-let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (step list * ((id * term) list)) =
+(* Whether t's own value is Boolean-typed (a term-level atom of SmtBtype Tbool, or a
+   compound formula). Used below, in cong_find_implicit_args, to pick which fact an implicit
+   (unchanged) congruence argument needs: Equn1AST/Equn2AST (the iff derivation) when t is
+   Boolean, plain ReflAST (term equality) otherwise. *)
+let is_bool_valued (t : term) : bool =
+  match snd (process_term_aux t) with
+  | Form.Atom h -> (match Atom.type_of h with SmtBtype.Tbool -> true | _ -> false)
+  | _ -> true
+
+let cong_find_implicit_args ~(allow_none : bool) (i: id) (ft : term) (p : params) (cog : certif) : (step list * ((id option * term) list)) =
    match get_expr ft with
    | Eq (fx, fy) when (List.length p > 2) &&
                       (match get_expr fx, get_expr fy with
@@ -1209,7 +1239,7 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                      | _ -> raise (Debug ("| cong_find_implicit_args: expecting exactly one remaining premise at id "^i^" |"))) in
        let (steps1, id1, eq1) = fold_nary_arith_prem i fx1 fy1 p_left cog in
        let eq2 = get_prem_eq p_last i cog in
-       (steps1, [(id1, eq1); (p_last, eq2)])
+       (steps1, [(Some id1, eq1); (Some p_last, eq2)])
    | Eq (fx, fy) -> let n = List.length (try get_args_isfrms fx with
                                         | Debug s -> raise (Debug ("| cong_find_implicit_args: checking for implicit args, can't get args to app at id "^i^" |"^s))) in
                    (* no implicit equalities *)
@@ -1224,7 +1254,7 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                                                                        | _ -> false) z) with
                                                            | Not_found -> raise (Debug ("| cong_find_implicit_args: premise "^x^" to cong has no equalities at id "^i^" |"))))
                                            | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (no implicit equalities case) at id "^i^" |")))) p in
-                     ([], ptuples)
+                     ([], List.map (fun (x, eq) -> (Some x, eq)) ptuples)
                    (* at least 1 implicit equality *)
                    else
                      (* Congruence over equality is a special case. Since we have to check modulo symmetry
@@ -1247,7 +1277,21 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                                                          (x, eq)
                                              | None -> raise (Debug ("| cong_find_implicit_args: can't fetch premises to congr (implicit equalities case) at id "^i^" |")))) p in
                      (* function that checks pairwise equality of arguments *)
-                     let rec f (fxas_isfrms : (term * bool) list) (fyas_isfrms : (term * bool) list) (p_ids_eqs : (id * term) list) : (step list * ((id * term) list)) =
+                     (* For a Boolean-typed (fx_isfrm) unchanged position, when `allow_none` (only
+                        for the top-level "congruence over functions" caller, never for "congruence
+                        over predicates" - see its own comment there), no synthesized premise is
+                        built here at all - unlike the non-Boolean case (which synthesizes a genuine
+                        term-level ReflAST fact, a sound Abop(BO_eq,x,x) atom that get_eq et al.
+                        already handle fine), `Eq(fxa',fxa')` for a Boolean term always compiles (via
+                        process_term_aux's own Eq case) to an Fiff form, never an Abop(BO_eq,_,_)
+                        atom - so no derivation of it would be usable as a congruence premise by
+                        veritSyntax.ml's get_eq-based machinery. Instead this position is tagged
+                        `None`, consumed by veritSyntax.ml's process_congr, which (as a fallback only
+                        reached when no explicit/synthesized premise matches - never changing
+                        behavior for the existing, working non-Boolean case) accepts a `None` entry
+                        for a position whose two arguments are already the same atom - exactly what
+                        the checker's own check_congr/build_congr already supports natively. *)
+                     let rec f (fxas_isfrms : (term * bool) list) (fyas_isfrms : (term * bool) list) (p_ids_eqs : (id * term) list) : (step list * ((id option * term) list)) =
                         match fxas_isfrms, fyas_isfrms, p_ids_eqs with
                         | (fxa, fx_isfrm) :: fxat, (fya, fy_isfrm) :: fyat, (pid, Eq (px, py)) :: p_ids_eqs_t ->
                            let fxa' = get_expr fxa in
@@ -1257,20 +1301,23 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                            (* no implicit equality *)
                            if ((fxa' = px' && fya' = py') || (fxa' = py' && fya' = px')) then
                               let (imp, ptuples) = f fxat fyat p_ids_eqs_t in
-                              (imp, (pid, (Eq (px', py'))) :: ptuples)
+                              (imp, (Some pid, (Eq (px', py'))) :: ptuples)
                            (* implicit equality found *)
                            else if (fxa' = fya') then
                               let (imp, ptuples) = f fxat fyat ((pid, Eq (px', py')) :: p_ids_eqs_t) in
-                              let impi = generate_id () in
-                              let cert = (if fx_isfrm then
-                                           let eqn1i = generate_id () in
-                                           let eqn2i = generate_id () in
-                                           (eqn1i, Equn1AST, [Eq (fxa', fya'); fxa'], [], []) ::
-                                           (eqn2i, Equn2AST, [Eq (fxa', fya'); Not fxa'], [], []) ::
-                                           (impi, ResoAST, [Eq (fxa', fya')], [eqn1i; eqn2i], []) :: imp
-                                         else
-                                           (impi, ReflAST, [Eq (fxa', fya')], [], []) :: imp) in
-                              (cert, (impi, Eq (fxa', fya')) :: ptuples)
+                              if is_bool_valued fxa' && allow_none then
+                                (imp, (None, Eq (fxa', fya')) :: ptuples)
+                              else
+                                let impi = generate_id () in
+                                let cert = (if is_bool_valued fxa' then
+                                             let eqn1i = generate_id () in
+                                             let eqn2i = generate_id () in
+                                             (eqn1i, Equn1AST, [Eq (fxa', fya'); fxa'], [], []) ::
+                                             (eqn2i, Equn2AST, [Eq (fxa', fya'); Not fxa'], [], []) ::
+                                             (impi, ResoAST, [Eq (fxa', fya')], [eqn1i; eqn2i], []) :: imp
+                                           else
+                                             (impi, ReflAST, [Eq (fxa', fya')], [], []) :: imp) in
+                                (cert, (Some impi, Eq (fxa', fya')) :: ptuples)
                            else
                               raise (Debug ("| cong_find_implicit_args.f: can't find implicit premise to congr at id "^i^" |"))
                         (* implicit equalities at the end *)
@@ -1279,16 +1326,19 @@ let cong_find_implicit_args (i: id) (ft : term) (p : params) (cog : certif) : (s
                            let fya' = get_expr fya in
                            if (fxa' = fya') then
                               let (imp, ptuples) = f fxat fyat [] in
-                              let impi = generate_id () in
-                              let cert = (if fx_isfrm then
-                                           let eqn1i = generate_id () in
-                                           let eqn2i = generate_id () in
-                                           (eqn1i, Equn1AST, [Eq (fxa', fya'); fxa'], [], []) ::
-                                           (eqn2i, Equn2AST, [Eq (fxa', fya'); Not fxa'], [], []) ::
-                                           (impi, ResoAST, [Eq (fxa', fya')], [eqn1i; eqn2i], []) :: imp
-                                         else
-                                           (impi, ReflAST, [Eq (fxa', fya')], [], []) :: imp) in
-                              (cert, (impi, Eq (fxa', fya')) :: ptuples)
+                              if is_bool_valued fxa' && allow_none then
+                                (imp, (None, Eq (fxa', fya')) :: ptuples)
+                              else
+                                let impi = generate_id () in
+                                let cert = (if is_bool_valued fxa' then
+                                             let eqn1i = generate_id () in
+                                             let eqn2i = generate_id () in
+                                             (eqn1i, Equn1AST, [Eq (fxa', fya'); fxa'], [], []) ::
+                                             (eqn2i, Equn2AST, [Eq (fxa', fya'); Not fxa'], [], []) ::
+                                             (impi, ResoAST, [Eq (fxa', fya')], [eqn1i; eqn2i], []) :: imp
+                                           else
+                                             (impi, ReflAST, [Eq (fxa', fya')], [], []) :: imp) in
+                                (cert, (Some impi, Eq (fxa', fya')) :: ptuples)
                            else
                               raise (Debug ("| cong_find_implicit_args.f: can't find implicit premise to congr at id "^i^" |"))
                         | [], [] ,[] -> ([], [])
@@ -1641,20 +1691,33 @@ let process_cong (c : certif) : certif =
                      --------------------------------------------------------------res
                                            f(x,y) = f(a,b)   
                   *)
-                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with
+                  let imp, ptuples = try (cong_find_implicit_args ~allow_none:true i conc p cog) with
                                      | Debug s -> raise (Debug ("| process_cong: in eq case, can't find premise(s) to congr at id "^i^" |"^s)) in
-                  let pids, peqs = List.split ptuples in
+                  (* Positions tagged `None` need no premise at all: the checker's own
+                     process_congr/build_congr already accepts an unmatched position directly
+                     when its two arguments are the same atom, so such a position is simply
+                     dropped from the EqcoAST fact's own premises/clause entirely. *)
+                  let ptuples_some = List.filter_map (fun (pido, eq) -> match pido with
+                                      | Some pid -> Some (pid, eq) | None -> None) ptuples in
+                  let pids, peqs = List.split ptuples_some in
                   let prem_negs = List.map (fun x -> Not x) peqs in
                   let eqci = generate_id () in
                   (* Deduplicate premises to remove unsound resolutions *)
-                  let pids_uniq = dedup_prem_ids ptuples in
+                  let pids_uniq = dedup_prem_ids ptuples_some in
                     process_cong_aux ((((i, ResoAST, cl, eqci :: pids_uniq, a)) :: ((((eqci, EqcoAST, (prem_negs @ cl), [], [])) :: ((List.rev_append imp (acc))))))) t cog
                 (* 3. Congruence over predicates *)
                 (* ASSUMPTION: we're assuming that x = a is the first premise and y = b 
                           the second premise to congruence *)
                 else if is_iff l then
-                  let imp, ptuples = try (cong_find_implicit_args i conc p cog) with
+                  let imp, ptuples = try (cong_find_implicit_args ~allow_none:false i conc p cog) with
                                      | Debug s -> raise (Debug ("| process_cong: in iff case, can't find premise(s) to congr at id "^i^" |"^s)) in
+                  (* allow_none:false above means this is always fully Some-tagged (kept as
+                     (id option * term) only so both callers of cong_find_implicit_args share the
+                     one return type) - unwrapping (shadowing `ptuples` itself, so every use of
+                     it below, throughout this And/Or/Imp/Xor/predicate match, needs no further
+                     change) is therefore a no-op, not a behavior change. *)
+                  let ptuples = List.filter_map (fun (pido, eq) -> match pido with
+                                | Some pid -> Some (pid, eq) | None -> None) ptuples in
                   let pids, peqs = List.split ptuples in
                   let prem_negs = List.map (fun x -> Not x) peqs in
                   (* Deduplicate premises to remove unsound resolutions *)

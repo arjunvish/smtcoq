@@ -192,6 +192,8 @@ val cBO_select : coqTerm
 val cBO_diffarray : coqTerm
 
 val cTO_store : coqTerm
+val cTO_ite : coqTerm
+val cite_ : coqTerm
 
 val cNO_distinct : coqTerm
 

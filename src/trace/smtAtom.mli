@@ -56,6 +56,7 @@ type bop =
 
 type top =
    | TO_store of btype * btype
+   | TO_ite of btype
 
 type nop =
   | NO_distinct of btype
@@ -193,6 +194,8 @@ module Atom :
       val mk_diffarray : reify_tbl -> ?declare:bool -> btype -> btype -> t -> t -> t
       val mk_store :
         reify_tbl -> ?declare:bool -> btype -> btype -> t -> t -> t -> t
+      val mk_ite :
+        reify_tbl -> ?declare:bool -> btype -> t -> t -> t -> t
 
     end
 

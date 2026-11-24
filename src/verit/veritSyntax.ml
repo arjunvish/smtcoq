@@ -219,21 +219,22 @@ let rec process_trans a b prem res =
 let rec process_congr a_args b_args prem res =
   match a_args,b_args with
   | a::a_args,b::b_args ->
-     (* if a = b *)
-     (* then process_congr a_args b_args prem (None::res) *)
-     (* else *)
-     let (l,(a',b')) = try List.find (fun (l,(a',b')) -> ((Atom.equal a a') && (Atom.equal b b'))||
-                                                      ((Atom.equal a b') && (Atom.equal b a'))) prem with
-                        | Not_found -> raise (Debug ("| VeritSyntax.process_congr : can't find equality within congruence |")) in
-     process_congr a_args b_args prem ((Some l)::res)
+     (try
+        let (l,_) = List.find (fun (l,(a',b')) -> ((Atom.equal a a') && (Atom.equal b b'))||
+                                                      ((Atom.equal a b') && (Atom.equal b a'))) prem in
+        process_congr a_args b_args prem ((Some l)::res)
+      with Not_found ->
+        (* No premise matches this position at all - sound (and the only option) when the two
+           arguments are already the same atom *)
+        if Atom.equal a b then process_congr a_args b_args prem (None::res)
+        else raise (Debug ("| VeritSyntax.process_congr : can't find equality within congruence |")))
   | [],[] -> List.rev res
   | _ -> raise (Debug "| VeritSyntax.process_congr: wrong no. of args to function application |")
 
-let mkCongr_aux c prem = 
+let mkCongr_aux c prem =
   let a,b = try get_eq c with
             | Debug s -> raise (Debug ("| mkCongr_aux: can't fetch conclusion |"^s)) in
-  let prem_val = try List.map (fun l -> (l,get_eq l)) prem with
-                    | Debug s -> raise (Debug ("| mkCongr_aux: can't fetch premise |"^s)) in
+  let prem_val = List.filter_map (fun l -> try Some (l, get_eq l) with Debug _ -> None) prem in
     (match Atom.atom a, Atom.atom b with
      | Abop(aop,a1,a2), Abop(bop,b1,b2) when (aop = bop) ->
         let a_args = [a1;a2] in
@@ -243,6 +244,11 @@ let mkCongr_aux c prem =
      | Auop (aop,a), Auop (bop,b) when (aop = bop) ->
         let a_args = [a] in
         let b_args = [b] in
+        let cert = process_congr a_args b_args prem_val [] in
+        Other (EqCgr (c,cert))
+     | Atop (aop,a1,a2,a3), Atop (bop,b1,b2,b3) when (aop = bop) ->
+        let a_args = [a1;a2;a3] in
+        let b_args = [b1;b2;b3] in
         let cert = process_congr a_args b_args prem_val [] in
         Other (EqCgr (c,cert))
      | Aapp (a_f,a_args), Aapp (b_f,b_args) ->
@@ -296,7 +302,9 @@ let mkCongrPred p =
   |[c] ->
     (match prem_P with
      |[p_p] ->
-       let prem_val = List.map (fun l -> (l,get_eq l)) prem in
+       (* a premise get_eq can't parse can never match anything in process_congr's 
+          value-based search anyway, so dropping it here is sound. *)
+       let prem_val = List.filter_map (fun l -> try Some (l, get_eq l) with Debug _ -> None) prem in
        (match Atom.atom (get_at c), Atom.atom (get_at p_p) with
        | Abop(BO_eq _,a1,a2), Abop(BO_eq _,b1,b2) ->
            let a_args = [a1;a2] in
@@ -307,6 +315,14 @@ let mkCongrPred p =
            let a_args = [a1;a2] in
            let b_args = [b1;b2] in
            let cert = process_congr a_args b_args prem_val [] in
+           Other (EqCgrP (p_p,c,cert))
+        | Atop(aop,a1,a2,a3), Atop(bop,b1,b2,b3) when (aop = bop) ->
+           let a_args = [a1;a2;a3] in
+           let b_args = [b1;b2;b3] in
+           let cert = process_congr a_args b_args prem_val [] in
+           Other (EqCgrP (p_p,c,cert))
+        | Anop (aop,a_args), Anop (bop,b_args) when (aop = bop) ->
+           let cert = process_congr (Array.to_list a_args) (Array.to_list b_args) prem_val [] in
            Other (EqCgrP (p_p,c,cert))
         | Aapp (a_f,a_args), Aapp (b_f,b_args) ->
            if indexed_op_index a_f = indexed_op_index b_f then

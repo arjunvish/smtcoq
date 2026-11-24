@@ -379,6 +379,20 @@ let make_root ra rf t =
         Form (Form.get rf (Fapp (Fxor, Array.of_list (List.map make_root l))))
       | "=>", _ ->
         Form (Form.get rf (Fapp (Fimp, Array.of_list (List.map make_root l))))
+      | "ite", [c;a;b] ->
+        (* `ite` over a non-Boolean sort (e.g. an array/enum/uninterpreted value) has no
+           representation as a Boolean formula connective (Fite requires Boolean branches) - it
+           needs the term-level Atom.mk_ite instead. *)
+        (match make_root_term a, make_root_term b with
+         | Atom a', Atom b'
+           when not (HashedBtype.equal (Atom.type_of a') Tbool)
+                && HashedBtype.equal (Atom.type_of a') (Atom.type_of b') ->
+           (match make_root_term c with
+            | Atom c' -> Atom (Atom.mk_ite ra (Atom.type_of a') c' a' b')
+            | Form _ ->
+              Form (Form.get rf (Fapp (Fite, Array.of_list (List.map make_root l)))))
+         | _, _ ->
+           Form (Form.get rf (Fapp (Fite, Array.of_list (List.map make_root l)))))
       | "ite", _ ->
         Form (Form.get rf (Fapp (Fite, Array.of_list (List.map make_root l))))
       | "not", [a] -> Form (Form.neg (make_root a))

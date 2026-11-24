@@ -1751,3 +1751,216 @@ general), and five tail-recursion conversions across `veritAst.ml`/`smtTrace.ml`
 (the stack-overflow category) - plus `bfun_elim`/`ite_intro`'s grammar support, kept even though it
 doesn't close its own category outright. `let` and the `ite` type gap remain the two substantial
 open items, both already correctly scoped as real feature work rather than mechanical fixes.
+
+---
+
+## Session 6: solver version update, re-running the full corpus, and closing the `ite` type gap
+
+Follow-on session. Solvers were updated to their then-latest releases (`cvc5 1.4.1`, `veriT
+2026.05`, both newer than Session 5's), and `run_experiment.py` gained a `--cvc5-granularity`
+flag so proofs could be regenerated with `--proof-granularity=dsl-rewrite` (matching the
+project's own `Instructions.md`, which had already been updated to use it) instead of cvc5's
+default `macro` granularity.
+
+### Full `QF_UF_Full` re-run: `aci_simp`/`evaluate` replace `rewrite`, and the `rewrite` fix is reverted
+
+Regenerating all 7503 benchmarks' proofs under `dsl-rewrite` changed cvc5's error profile
+substantially: the old dominant category, `rewrite`/`"untranslated rewrite"` (fixed in Session 5),
+disappeared entirely - cvc5 simply doesn't emit that coarse, macro-granularity shape anymore -
+but was replaced by two **new** unsupported-token categories of comparable or larger size:
+`'aci_simp'` (~3800 files) and `'evaluate'` (50-90 files, varying by run). Neither is parsed by
+`veritParser.mly` yet. Since Session 5's `STRING`/`qstring` lexer fix (for the now-extinct
+`"untranslated rewrite"` shape) was confirmed, by grepping the regenerated corpus, to no longer be
+exercised by a single file, it was reverted (`veritLexer.mll`/`veritParser.mly`) rather than kept
+as dead code - `and_intro`, `distinct`, `bfun_elim`/`ite_intro`, and the other Session 5 fixes were
+all independently confirmed to still be needed and were kept.
+
+veriT's own error profile was essentially unchanged by the solver/granularity update - `'let'`
+still dominates (~3900 files), consistent with veriT's proof shape being independent of cvc5's
+granularity flag.
+
+### The `ite` type gap: closed
+
+This is the "genuine core-representation feature addition" Session 4 root-caused and explicitly
+left unattempted (`smtAtom.ml` has no term-level, non-Boolean-returning `ite` - only `smtForm.ml`'s
+Boolean connective `Fite`), reproduced on `(ite p a b)` for a declared uninterpreted sort/array
+element type. Closing it took four layered fixes, each found by testing against the real
+`QF_UF_blocks.3.prop1_ab_reg_max` repro file (and a hand-built minimal one) directly rather than
+reasoning in the abstract - every one of the first three errors below was hit, fixed, and only
+*then* did the next one surface, the same "errors -> deeper errors" arc as every prior session.
+
+**1. The representation itself.** Added a new `TO_ite` constructor to `terop` (the family
+`TO_store` already belongs to) in `src/SMT_terms.v`'s `Module Atom`, with **four new, independently
+Coq-checked proofs** (none could be skipped - `terop` going from one constructor to two breaks
+every exhaustiveness-dependent proof about it): `reflect_top_eqb` (needed a 2-branch disjunctive
+intro pattern instead of the old single-constructor one), a `check_aux_dec` case (decidability of
+typing), a `check_aux_interp_aux_aux` case (well-typed implies the interpretation succeeds with a
+value of the claimed type) and a `check_aux_interp_aux_contr_aux` case (ill-typed implies the
+interpretation is the checker's own safe-default sentinel) - each one found and closed by compiling
+against the real Coq error messages and hypothesis names (via a temporary `coqtop -l <partial-file>
+Show.` harness - the fastest way to see *exactly* what names/shapes a half-written tactic script is
+actually working with, rather than guessing blind) rather than reasoning about Coq's own
+auto-generated naming in the abstract. Threaded through the OCaml side: `smtAtom.ml`/`.mli`
+(hashing, equality, typing, reification, debug printing - about 10 call sites), `coqTerms.ml`/`.mli`
+(the `Atom.TO_ite` registration), and matching `"ite"` dispatch added to both
+`smtlib2_genConstr.ml` (the `.smt2`-file side) and `veritAst.ml` (the proof-file side) - each only
+takes the new term-level path when both branches are already non-Boolean atoms of the same type and
+the condition is itself a plain atom (true for every real occurrence found in the corpus - a
+compound-formula condition on a non-Boolean `ite` is a rarer, still-open gap, same family as
+`bfun_elim`'s). `src/array/Array_checker.v` needed three unrelated proof-script fixes (caught by
+the compiler, not guessed) because `top` going from one constructor to two broke existing
+exhaustiveness assumptions in `valid_check_roweq`'s and two `store_of_me`-adjacent proofs' own
+`intros`/`case_eq` patterns.
+
+**2. Congruence over `ite` itself - the Boolean-condition premise gap.** Getting past the
+`NotWellTyped` crash exposed a new `VeritSyntax.Debug` failure: `mkCongr_aux: can't fetch premise
+|| get_eq: atomic equality expected`. Root cause: `cong_find_implicit_args` (`veritAst.ml`), when
+it finds an *implicit* (unchanged, no explicit premise given) congruence argument that's
+Boolean-typed - exactly `ite`'s own condition, when unchanged across the congruence - synthesizes a
+premise fact proving `Eq(p,p)` via the `Equn1AST`/`Equn2AST` (iff-style) derivation already used
+elsewhere in the file for Boolean implicit arguments. That fact is sound, but `Eq(p,p)` for a
+Boolean `p` always compiles (via `process_term_aux`'s own `Eq` case) to an `Fiff` form, never an
+`Abop(BO_eq,_,_)` atom - so `veritSyntax.ml`'s `get_eq`-based congruence machinery, which requires
+exactly that atom shape, could never consume it, regardless of how the fact was derived. (A first,
+incorrect diagnosis assumed `get_args_isfrms`'s own "is this a formula" tag would catch this -
+it doesn't: a *declared* Boolean symbol like `ite`'s condition comes back tagged "not a formula"
+from `get_args_isfrms`, per `process_term_aux`'s own `Var` case, even though its `SmtBtype` is
+genuinely `Tbool` - the real check needed is `Atom.type_of`, not that tag.) **Fix:** a new
+`is_bool_valued` helper (checking `Atom.type_of` directly, mirroring `process_term_aux`'s own `Eq`
+case's distinction) replaces the unreliable tag for this one decision; when the implicit argument
+is genuinely Boolean-valued, `cong_find_implicit_args` (now taking a `~allow_none` flag, `true`
+only for its "congruence over functions" caller, `false` - preserving the exact old behavior,
+needed by `And`/`Or`-congruence's own sibling consumers of the same function's output - for
+"congruence over predicates") tags the position `None` instead of synthesizing an unusable premise.
+`None` is already natively supported by the Coq-side checker (`build_congr` in `Euf.v`: a `None`
+position is accepted directly whenever the two arguments are already the same atom, no premise
+needed at all) - `process_congr` (`veritSyntax.ml`) gained a matching fallback, reached only when no
+explicit or synthesized premise is found (so it changes nothing for any pre-existing, working case),
+that checks exactly this and emits `None` itself. `mkCongr_aux`/`mkCongrPred` also now *drop* (via
+`List.filter_map`) rather than crash on any premise `get_eq` can't parse, since such a premise could
+never have matched anything in `process_congr`'s own value-based search anyway - dropping it is
+equivalent to it simply not being found, the same already-handled fallback case.
+
+**3. `mkCongr_aux`/`mkCongrPred` had no `Atop` case at all.** A second, independent gap (not about
+the Boolean-condition premise - about the top-level dispatch itself): both functions' pattern match
+on the congruence's own atom shape covered `Abop`/`Auop`/`Aapp` but never `Atop` - any congruence
+whose *own* result is `ite`/`store`-shaped (as opposed to one of `ite`'s *arguments* being
+irrelevant here) hit `"...: not pred app"`/`"...: atoms aren't applications"`. Added the missing
+case to both (mirroring the existing `Abop` case's shape, generalized to three arguments), plus a
+matching `Atop` case in the Coq-side `check_congr`/`check_congr_pred` (`Euf.v`) - each with its own
+new proof, following the file's own existing `uop`/`bop`/`op` case templates (the `top` case's own
+proof needed `Atom.reflect_top_eqb`, not yet used anywhere in this file).
+
+**4. `mkCongrPred` also had no `Anop` (`distinct`) case.** A *third*, unrelated gap the same real
+file happened to exercise (a `cong` step over `distinct`, going through the generic
+"congruence over predicates" path, `distinct`'s own result always being Boolean): `mkCongrPred`'s
+match covered `Abop`/`Auop`/`Atop`/`Aapp` but never `Anop`. Added the missing case (OCaml, mirroring
+`Aapp`'s variable-length-list handling) plus a matching Coq-side `check_congr_pred` case and its own
+new proof, reasoning about `Atom.compute_interp`'s own recursive structure directly (an
+accumulator-generalized induction on the `Forall2` hypothesis, closed by rewriting with the
+induction hypothesis once the two sides' `let`-bound `t_interp` lookups are aligned) rather than via
+any existing template in the file (nothing else in `Euf.v` interprets a variable-length-list
+operator via anything other than plain function application).
+
+**5. The model-printer's own universe mismatch.** Even with the checker itself fully sound, running
+`Verit_Checker` still failed - this time with a Coq kernel universe error - while building the
+*root interpretation* term (`Atom.interp_to_coq`/`smtCommands.ml`'s `interp_uf`, used to state the
+SMT problem's own assertions as a concrete Coq proposition; unrelated to the checker's soundness
+proof, but still required for `Verit_Checker` to run at all). First attempt: a plain
+`Definition ite_ (A:Type) (b:bool) (x y:A):A := if b then x else y.`, applied via raw OCaml
+`mkApp` to `SmtBtype.interp t_i t` for a declared sort - failed, because a plain (non-section,
+non-`Polymorphic`) `Definition`'s own `Type`-quantified parameter gets a *fixed* universe level the
+moment the file defining it finishes compiling, with no established relationship to whatever
+higher, unrelated universe (e.g. one bundled inside a `typ_compdec` record) a later raw-OCaml-side
+application might need. `Polymorphic Definition` was tried next and also failed - differently,
+immediately, with "globalization of polymorphic reference would forget universes" - OCaml-side
+`Register`/`Coqlib.lib_ref` lookup has no mechanism for supplying a fresh universe instance per use,
+so a polymorphic constant can't be referenced this way at all. A `bool_rect`-based
+hand-built term (reusing `bool`'s own eliminator, reasoning that an inductive type's own
+eliminator is "generic over any sort" as a basic kernel property, no separate polymorphic
+declaration needed) got further but hit the *exact same class* of error again - `bool_rect` itself,
+once compiled into the standard library's own `.vo`, is just as fixed-universe as any other
+`Definition`. **The actual fix:** define `Atom.ite_` *inside* `SMT_terms.v`'s own `Interp_Aux`
+section (where `t_i` is already an ambient section variable, same scope `interp_top` itself uses),
+taking `t` as a plain `Typ.type` value (not a `Type`) and computing `Typ.interp t_i t` *internally*
+- exactly mirroring `interp_top`'s own `TO_ite` case's inline anonymous function, which Coq's
+ordinary elaborator already type-checks successfully in place. The OCaml side now passes `t_i` and
+`SmtBtype.to_coq t` (a plain, low-universe `Typ.type` *value*, not a precomputed `Type`) and lets
+`ite_`'s own body - elaborated once, normally, by Coq itself when `SMT_terms.v` compiles - handle
+the dependent result type, the same pattern every other `t_i`-dependent checker function already
+relies on when called from OCaml (e.g. `Atom.check_aux` itself).
+
+**Impact:** `examples/regress` (439/439) and all 8 sanity tests verified with zero regressions
+after every fix above. The original repro, `QF_UF_blocks.3.prop1_ab_reg_max` - investigated,
+root-caused, and explicitly left open across Sessions 4 and 5 - now returns `= true` on cvc5
+end-to-end.
+
+### Re-running the full corpus to measure the fix: three infrastructure problems found along the way
+
+Re-running the full `QF_UF_Full` checker pass (4178 kept files) to get real before/after numbers
+hit three unrelated infrastructure problems, each diagnosed and fixed/worked around before the
+numbers could be trusted:
+
+- **A stale `opam`-installed copy of SmtCoq** (dated Sep 7, predating this entire session's work)
+  was shadowing the local build for a large fraction of files, causing ~1300 files to fail with
+  `Compiled library ... makes inconsistent assumptions`. Fixed via `make install` (the project's
+  own sanctioned sync step) - not a code bug, an environment artifact.
+- **One pathologically oversized proof**: `NEQ046_size6`'s veriT proof is **3.1GB** (vs. 5.2MB for
+  the same benchmark's cvc5 proof) - large enough to take down the whole `ProcessPoolExecutor`
+  outright (not a graceful per-file timeout/OOM-classified failure) regardless of worker count.
+  Excluded via `run_experiment.py --exclude`, matching this project's existing precedent for
+  sheer-size outliers (`cong/02`, `trans/01`, `eq_diamond19`).
+- `run_experiment.py` gained a `--cvc5-granularity` flag (see above).
+
+### Two further, separate gaps the fix let the corpus reach (neither caused by this session's fix)
+
+Of the original 245 `NotWellTyped` files (122 cvc5 + 123 veriT), 245 no longer hit that crash.
+Where the remainder landed:
+
+- **2 files, both solvers** (`QF_UF_Heap_ab_br_max`, `QF_UF_itc99_b12_ab_br_max`): now hit
+  `smtlib2_genConstr.ml`'s generic application case's `assert false` (`Form _ -> assert false`,
+  line ~445) - a declared function applied to a genuine Boolean-sorted argument. This is the exact
+  same "Boolean value used where a term is expected" gap Session 4 root-caused for the `ite` type
+  gap itself and Session 5 found symmetrically via `bfun_elim` - already correctly scoped as a real
+  core-representation feature addition, not something this session's fix was expected to reach.
+- **~8 files, veriT only**: a genuine SIGSEGV/SIGILL crash inside Coq's kernel VM, confirmed via
+  `gdb` (`coq_pc=0x0` inside `coq_interprete`, called from `Vnorm.cbv_vm` via
+  `SmtCommands.checker` - a malformed-bytecode-jump crash, not a stack-size issue: survives
+  `ulimit -s unlimited` unchanged). cvc5's own proof for the same underlying problems passes fine,
+  so this is specific to veriT's own proof shape - likely a further, undiagnosed congruence gap
+  this session's fixes don't yet cover. Not investigated further this session.
+- **51 files, veriT only** (a separate finding, not part of the original 245): the *exact same*
+  class of universe error fixed for `Atom.ite_` above (`PArray.make` applied to `typ_compdec`,
+  `Type@{...typ_compdec...}` not coercible to `Type@{PArray.make.u0}`), but at a different call
+  site - `make_t_i`/`SmtBtype.interp_tbl` itself, triggered when a `Hole`-admitted fact's own
+  declared type (built via `declare_new_variable`) involves an `ite`-shaped term. Confirmed, via a
+  hand-built minimal reproduction, that a `Hole` admitting a *plain* Tindex equality (no `ite`)
+  does not trigger it - this is specific to `ite`. Same root cause as the `Atom.ite_` fix, same
+  fix shape would likely apply, but a different file/call site - not fixed this session.
+
+### Final state (session 6)
+
+```
+examples/regress:                       439 total, 439 True/OK, 0 False, 0 Error, 0 Timeout
+examples/aletheTests/sanitychecktests:  test1-8 (cvc5 + veriT where applicable) all = true
+QF_UF_Full (examples/aletheTests/QFUFTests/Results.md), 7502 total .smt2 files (1 excluded,
+see above), 4178 kept:
+  cvc5:  TRUE 184  FALSE 4  ERROR 3946  TIMEOUT 44
+  verit: TRUE 195  FALSE 0  ERROR 3980  TIMEOUT 3
+
+NotWellTyped Anomaly (the ite type gap): 245 -> 0. Two of those 245 now hit the already-documented
+bfun_elim-family gap; ~8 (veriT only) hit a new, undiagnosed VM crash; the rest pass or land in
+unrelated, already-tracked categories (aci_simp/evaluate/let).
+```
+
+Eleven `src/`/Coq changes this session: the `TO_ite`/`Atom.ite_` representation (`SMT_terms.v`,
+4 new proofs), the OCaml-side `ite` plumbing (`smtAtom.ml`/`.mli`, `coqTerms.ml`/`.mli`,
+`smtlib2_genConstr.ml`, `veritAst.ml`), 3 `Array_checker.v` exhaustiveness-proof fixes, the
+`cong_find_implicit_args`/`is_bool_valued`/`process_congr` Boolean-implicit-argument fix, the
+`Atop` case added to `mkCongr_aux`/`mkCongrPred` plus `Euf.v`'s matching `check_congr`/
+`check_congr_pred` cases and 2 new proofs, and the `Anop`/`distinct` case added to `mkCongrPred`
+plus its own `Euf.v` case and proof - all verified against the full 439-file `examples/regress`
+suite and all 8 sanity tests, zero regressions, in addition to the real-world repro itself. The
+`bfun_elim`-family Boolean-argument gap and the `let` category remain open from prior sessions;
+two new gaps (the veriT-only VM crash, the `make_t_i`-side universe error for `ite`-in-`Hole`) are
+documented but not fixed.

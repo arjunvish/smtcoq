@@ -210,9 +210,9 @@ Section certif.
       case_eq (t_atom .[ a1]); try (intros; now apply C.interp_true).
       intros [ | | | | | | | |N|N|N|N|N|N|N|N| | | | ] b1 b2 Heq4; try (intros; now apply C.interp_true).
       case_eq (t_atom .[ b1]); try (intros; now apply C.interp_true).
-      intros [ ] c1 c2 c3 Heq5.
+      intros [ | t4] c1 c2 c3 Heq5; try (now apply C.interp_true).
       (* roweq *)
-      - case_eq (Typ.eqb t0 t2 && Typ.eqb t t1 && 
+      - case_eq (Typ.eqb t0 t2 && Typ.eqb t t1 &&
              Typ.eqb t t3 && (b2 =? c2) && (a2 =? c3)); simpl; intros Heq6; try (now apply C.interp_true).
 
         unfold C.valid. simpl. rewrite orb_false_r.
@@ -593,7 +593,8 @@ Section certif.
         - unfold store_of_me.
           intro HT1. clear HT1.
           case_eq (t_atom .[ d1]); try discriminate.
-          intros [ t5 t6 ] e1 e2 e3 Heq10 [[ti3 te3] i1].
+          intros [ t5 t6 | t7 ] e1 e2 e3 Heq10; try discriminate.
+          intros [[ti3 te3] i1].
           case_eq (e1 =? c1); try discriminate. intros Heq11c.
           intro HT.
           injection HT. intros. subst i1 te3 ti3. clear HT.
@@ -749,7 +750,8 @@ Section certif.
 
         - unfold store_of_me.
           case_eq (t_atom .[ c1]); try discriminate.
-          intros [ t5 t6 ] e1 e2 e3 Heq10 [[ti3 te3] i1].
+          intros [ t5 t6 | t7 ] e1 e2 e3 Heq10; try discriminate.
+          intros [[ti3 te3] i1].
           case_eq (e1 =? d1); try discriminate. intros Heq11d.
           intro HT.
           injection HT. intros E2 T6 T5 [ ]. subst i1 te3 ti3. clear HT.
