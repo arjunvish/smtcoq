@@ -104,7 +104,7 @@ type rule =
   | ImpsimpAST
   | EqsimpAST
   | BoolsimpAST
-  | AcsimpAST
+  | AcisimpAST
   | ItesimpAST
   | EqualsimpAST
   | DistelimAST
@@ -432,7 +432,7 @@ let process_rule (r: rule) : VeritSyntax.typ =
   | ImpsimpAST -> raise (Debug ("| process_rule: implies_simplify should be eliminated|"))
   | EqsimpAST -> raise (Debug ("| process_rule: equiv_simplify should be eliminated|"))
   | BoolsimpAST -> raise (Debug ("| process_rule: bool_simplify should be eliminated|"))
-  | AcsimpAST -> Flatten
+  | AcisimpAST -> raise (Debug ("| process_rule: aci_simp should be eliminated|"))
   | ItesimpAST -> raise (Debug ("| process_rule: ite_simplify should be eliminated|"))
   | EqualsimpAST -> raise (Debug ("| process_rule: equal_simplify should be eliminated|"))
   | DistelimAST -> Distelim
@@ -719,7 +719,7 @@ and string_of_rule (r : rule) : string =
   | ImpsimpAST -> "ImpsimpAST"
   | EqsimpAST -> "EqsimpAST"
   | BoolsimpAST -> "BoolsimpAST"
-  | AcsimpAST -> "AcsimpAST"
+  | AcisimpAST -> "AcisimpAST"
   | ItesimpAST -> "ItesimpAST"
   | EqualsimpAST -> "EqualsimpAST"
   | DistelimAST -> "DistelimAST"
@@ -830,7 +830,7 @@ let head_term (t : term) : string =
   
   
   
-  (* Preprocessing steps/transformations over certificate *)
+(* Preprocessing steps/transformations over certificate *)
 
 
 (* => Transformation Step: Replace named terms by their aliases, and store the alias-term 
@@ -2932,10 +2932,6 @@ let rec process_subproof (c : certif) : certif =
 (* Each rule has multiple variants, all taking the form
    a <-> b
    To prove a <-> b:
-   1. Prove ~a v b via subproof discharge
-   2. Prove ~b v a via subproof discharge
-   3. Prove a <-> b v ~a v ~b via equiv_neg1
-   4. Prove a <-> b by resolving 3,2,1
    ---------------eqn1    -----subp      -------------eqn2  ------subp
    a <-> b, ~a, ~b        ~a, b          a <-> b, a, b      a, ~b
    --------------------------------res   ------------------------res
@@ -5101,18 +5097,18 @@ let process_simplify (c : certif) : certif =
        process_simplify_aux (List.rev_append (simplify_to_subproof i a2bi b2ai lhs rhs a2b b2a) acc) tl
        | _ -> raise (Debug ("| process_simplify: expecting argument of eq_simplify to be an equivalence at id "^i^" |"))
       )
-  (* ac_simp: x <-> y, where 
-       - x contains arbitrarily nested `and`s and `or`s of literals
-       - all `and`s and `or`s from `x` are flattened in `y`
-       - all duplicates are removed in `y` (after flattening)
+  (* aci_simp: x <-> y, where x and y are equivalent modulo associativity, commutativity,
+     and idempotancy and have an identity element.
+     - applies to all ACI, AC, or A operators 
+       (and, or, bvor, bvand, bvadd, bvmul, concat, binary -, +, *
   
-  | (i, AcsimpAST, cl, p, a) :: tl ->
+  | (i, AcisimpAST, cl, p, a) :: tl ->
       (match (get_expr_cl cl) with
       | [Eq (x, y)] ->
         let a2bi = generate_id () in
         let b2ai = generate_id () in
-        let a2b = [(generate_id (), AcsimpAST, [y], [a2bi], [])] in
-        let b2a = [(generate_id (), AcsimpAST, [x], [b2ai], [])] in
+        let a2b = [(generate_id (), AcisimpAST, [y], [a2bi], [])] in
+        let b2a = [(generate_id (), AcisimpAST, [x], [b2ai], [])] in
          process_simplify_aux (List.rev_append (simplify_to_subproof i a2bi b2ai x y a2b b2a) acc) tl
       | _ -> raise (Debug ("| process_simplify: expecting argument of ac_simp to be an equivalence at id "^i^" |"))
       )*)
@@ -5507,9 +5503,8 @@ let process_trivial (c : certif) : certif =
   in process_trivial_aux [] c c []
 
 
-
-(* Remove any steps that are unused. Doing this might make other steps in the certificate unused. 
-   So this procedure must be applied to a fixpoint. *)
+(* => Transformation Step: Remove any steps that are unused. Doing this might make other 
+  steps in the certificate unused. So this procedure must be applied to a fixpoint. *)
 
 (* Is step i used in certificate c? *)
 let step_used (i : id) (c : certif) : bool =

@@ -71,7 +71,7 @@
 %token EQUP1 EQUP2 EQUN1 EQUN2
 %token ITE1 ITE2 ITEP1 ITEP2 ITEN1 ITEN2 NITE1 NITE2
 %token CONNDEF ANDSIMP ORSIMP NOTSIMP IMPSIMP
-%token EQSIMP BOOLSIMP ACSIMP ITESIMP EQUALSIMP DISTELIM
+%token EQSIMP BOOLSIMP ACISIMP ITESIMP EQUALSIMP DISTELIM
 %token EQ LT LEQ GT GEQ PLUS MINUS MULT
 %token LAGE LIAGE LATA LADE DIVSIMP PRODSIMP LAMULP LAMULN
 %token UMINUSSIMP MINUSSIMP SUMSIMP COMPSIMP LARWEQ
@@ -168,13 +168,14 @@ discharge:
 
 (* TODO: Rules with args need to be parsed properly *)
 argument:
-  | s=SYMBOL                                { s }
   | LPAREN s=SYMBOL RPAREN                  { s } (* Negative ints are parameterized *)
   | DQUOTE s=SYMBOL DQUOTE                  { s } (* "evaluate" for rare_rewrite from cvc5 *)
+  (* Bare SYMBOL/INT are deliberately not given their own alternatives here - they're
+     already reachable via term (ident/INT), and a separate alternative for the same
+     token would be a reduce/reduce conflict with that term path. *)
   | t=term                                  { string_of_term t }
   | LPAREN MINUS i=INT RPAREN               { string_of_int (-i) }
-  | i=INT                                   { string_of_int i }
-  | LPAREN COLEQ sv=sorted_var s=SYMBOL RPAREN 
+  | LPAREN COLEQ sv=sorted_var s=SYMBOL RPAREN
     { s } (* Need to process these properly *)
   | LPAREN COLEQ s1=SYMBOL s2=SYMBOL RPAREN { s1 }
 ;
@@ -333,7 +334,7 @@ rulename:
   | IMPSIMP                                 { ImpsimpAST }
   | EQSIMP                                  { EqsimpAST }
   | BOOLSIMP                                { BoolsimpAST }
-  | ACSIMP                                  { AcsimpAST }
+  | ACISIMP                                 { AcisimpAST }
   | ITESIMP                                 { ItesimpAST }
   | EQUALSIMP                               { EqualsimpAST }
   | DISTELIM                                { DistelimAST }

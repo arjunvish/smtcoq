@@ -111,7 +111,7 @@
         "implies_simplify", IMPSIMP;
         "equiv_simplify", EQSIMP;
         "bool_simplify", BOOLSIMP;
-        "ac_simp", ACSIMP;
+        "aci_simp", ACISIMP;
         "distinct_elim", DISTELIM;
 
       (* Simplifications on ITE operators rules *)

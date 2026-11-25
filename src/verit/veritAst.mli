@@ -95,7 +95,7 @@ type rule =
   | ImpsimpAST
   | EqsimpAST
   | BoolsimpAST
-  | AcsimpAST
+  | AcisimpAST
   | ItesimpAST
   | EqualsimpAST
   | DistelimAST
