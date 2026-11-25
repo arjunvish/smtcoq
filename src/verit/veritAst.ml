@@ -792,6 +792,7 @@ and string_of_term (t : term) : string =
   | Leq (t1, t2) -> "("^(string_of_term t1)^" <= "^(string_of_term t2)^")"
   | Gt (t1, t2) -> "("^(string_of_term t1)^" > "^(string_of_term t2)^")"
   | Geq (t1, t2) -> "("^(string_of_term t1)^" >= "^(string_of_term t2)^")"
+  | UMinus (Int i) -> string_of_int (-i)
   | UMinus t -> "("^"-"^(string_of_term t)^")"
   | Plus (t1, t2) -> "("^(string_of_term t1)^" + "^(string_of_term t2)^")"
   | Minus (t1, t2) -> "("^(string_of_term t1)^" - "^(string_of_term t2)^")"

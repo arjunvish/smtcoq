@@ -170,11 +170,7 @@ discharge:
 argument:
   | LPAREN s=SYMBOL RPAREN                  { s } (* Negative ints are parameterized *)
   | DQUOTE s=SYMBOL DQUOTE                  { s } (* "evaluate" for rare_rewrite from cvc5 *)
-  (* Bare SYMBOL/INT are deliberately not given their own alternatives here - they're
-     already reachable via term (ident/INT), and a separate alternative for the same
-     token would be a reduce/reduce conflict with that term path. *)
   | t=term                                  { string_of_term t }
-  | LPAREN MINUS i=INT RPAREN               { string_of_int (-i) }
   | LPAREN COLEQ sv=sorted_var s=SYMBOL RPAREN
     { s } (* Need to process these properly *)
   | LPAREN COLEQ s1=SYMBOL s2=SYMBOL RPAREN { s1 }
